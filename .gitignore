@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+datasets/**/*.csv
+datasets/**/*.parquet
+
 # C extensions
 *.so
 

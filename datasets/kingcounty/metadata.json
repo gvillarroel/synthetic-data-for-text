@@ -1,0 +1,8 @@
+{
+    "name": "kingcounty",
+    "COLUMNAS_ID": ["id"],
+    "COLUMNAS_FECHA": ["_date"],
+    "COLUMNAS_LOCACION": ["lat", "long"],
+    "COLUMNAS_CATEGORICAS": ["condition", "floors", "grade", "view", "waterfront", "yr_built", "yr_renovated", "zipcode"],
+    "COLUMNAS_CONTINUAS": ["bathrooms", "bedrooms", "price", "sqft_above", "sqft_basement", "sqft_living", "sqft_living15", "sqft_lot", "sqft_lot15"]
+}
