@@ -34,3 +34,13 @@ def gen_sdv_to_parquet(model, n, outputpath):
         pass
     else:
         model.sample(n).to_parquet(outputpath)
+
+from sdmetrics import load_demo
+from sdmetrics.reports.single_table import QualityReport
+
+def compare_sdv(df_real, df_fake, metadatapath):
+    with open(metadatapath) as fmetadata:
+        metadata = json.load(fmetadata)
+        report = QualityReport()
+        report.generate(df_real.loc[:,df_fake.columns], df_fake, metadata)
+        return report

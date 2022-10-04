@@ -110,6 +110,21 @@ python3 -c 'from syntheticml.gen.sdv import gen_sdv_from_csv, gen_sdv_to_parquet
 ### Comparación
 #### GaussianCopula
 ##### Metrics
+```bash
+python3 -c 'import pandas as pd;from syntheticml.gen.sdv import compare_sdv;report = compare_sdv(pd.read_csv("datasets/kingcounty/raw/kc_house_data.csv"), pd.read_parquet("datasets/kingcounty/synthetics/sdv_gaussian_copula.parquet"), "datasets/kingcounty/metadata.json");print(report.get_score());print(report.get_details("Column Pair Trends").head(12).to_markdown())'
 ```
-python3 -c 'from syntheticml.gen.sdv import compare_sdv;compare_sdv(model, 21613, "datasets/kingcounty/synthetics/sdv_gaussian_copula.parquet")'
-```
+Score: 0.732659592466842
+|    | Column 1      | Column 2      | Metric                |   Quality Score |   Real Correlation |   Synthetic Correlation |
+|---:|:--------------|:--------------|:----------------------|----------------:|-------------------:|------------------------:|
+|  0 | price         | sqft_living   | CorrelationSimilarity |        0.997785 |          0.702035  |               0.697606  |
+|  1 | price         | sqft_lot      | CorrelationSimilarity |        0.979823 |          0.0896609 |               0.130015  |
+|  2 | price         | sqft_above    | CorrelationSimilarity |        0.998681 |          0.605567  |               0.602929  |
+|  3 | price         | sqft_basement | CorrelationSimilarity |        0.952589 |          0.323816  |               0.228994  |
+|  4 | lat           | price         | CorrelationSimilarity |        0.999252 |          0.307003  |               0.305508  |
+|  5 | long          | price         | CorrelationSimilarity |        0.993977 |          0.0216262 |               0.0336718 |
+|  6 | price         | sqft_living15 | CorrelationSimilarity |        0.991904 |          0.585379  |               0.601571  |
+|  7 | price         | sqft_lot15    | CorrelationSimilarity |        0.983611 |          0.0824472 |               0.115225  |
+|  8 | sqft_living   | sqft_lot      | CorrelationSimilarity |        0.947717 |          0.172826  |               0.277392  |
+|  9 | sqft_above    | sqft_living   | CorrelationSimilarity |        0.998711 |          0.876597  |               0.874019  |
+| 10 | sqft_basement | sqft_living   | CorrelationSimilarity |        0.921735 |          0.435043  |               0.278512  |
+| 11 | lat           | sqft_living   | CorrelationSimilarity |        0.993247 |          0.0525295 |               0.0390234 |
