@@ -1,0 +1,4 @@
+outs:
+- md5: 81262d96849289ecd12c0ec357cd5617
+  size: 30084248
+  path: CopulaGAN.pkl

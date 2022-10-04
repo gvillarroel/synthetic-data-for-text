@@ -1,0 +1,4 @@
+outs:
+- md5: 421c43bcaa02a1aa3e9b69a200ad6f87
+  size: 28322126
+  path: CTGAN.pkl

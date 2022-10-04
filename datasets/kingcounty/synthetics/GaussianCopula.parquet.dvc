@@ -1,0 +1,4 @@
+outs:
+- md5: 3f37d7e229878e603962bbf8faee8a50
+  size: 914012
+  path: GaussianCopula.parquet

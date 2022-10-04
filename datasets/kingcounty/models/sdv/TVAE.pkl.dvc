@@ -1,0 +1,4 @@
+outs:
+- md5: d1d145f7a4bf80992a4d7b0c467485ba
+  size: 270555
+  path: TVAE.pkl
