@@ -14,8 +14,8 @@
     - [Generaciones](#generaciones)
       - [GaussianCopula](#gaussiancopula)
     - [Comparación](#comparación)
-      - [GaussianCopula](#gaussiancopula-1)
-        - [Metrics](#metrics)
+      - [Metrics](#metrics)
+      - [Scores](#scores)
 
 
 ## Como utilizar
@@ -105,15 +105,30 @@ python3 -c 'from syntheticml.syntools.extractor import stats_csv_cat_con;a,b = s
 #### GaussianCopula
 ```bash
 python3 -c 'from syntheticml.gen.sdv import gen_sdv_from_csv, gen_sdv_to_parquet;model = gen_sdv_from_csv("datasets/kingcounty/raw/kc_house_data.csv", "datasets/kingcounty/metadata.json", "datasets/kingcounty/models/sdv/gaussiancopula.pkl");gen_sdv_to_parquet(model, 21613, "datasets/kingcounty/synthetics/sdv_gaussian_copula.parquet")'
+
+
+
+python3 -c 'import pandas as pd;from syntheticml.gen.sdv import gen_all, gen_sdv_to_parquet;models = gen_all(pd.read_csv("datasets/kingcounty/raw/kc_house_data.csv"), "datasets/kingcounty/metadata.json", "datasets/kingcounty/models/sdv", "datasets/kingcounty/synthetics",  21613)'
+
+
 ```
 
 ### Comparación
-#### GaussianCopula
-##### Metrics
+#### Metrics
 ```bash
-python3 -c 'import pandas as pd;from syntheticml.gen.sdv import compare_sdv;report = compare_sdv(pd.read_csv("datasets/kingcounty/raw/kc_house_data.csv"), pd.read_parquet("datasets/kingcounty/synthetics/sdv_gaussian_copula.parquet"), "datasets/kingcounty/metadata.json");print(report.get_score());print(report.get_details("Column Pair Trends").head(12).to_markdown())'
+python3 -c 'import pandas as pd;from syntheticml.gen.sdv import compare_all;scores, reports = compare_all(pd.read_csv("datasets/kingcounty/raw/kc_house_data.csv"), "datasets/kingcounty/synthetics", "datasets/kingcounty/metadata.json");print(scores);'
 ```
-Score: 0.732659592466842
+#### Scores
+Average of error over real correlation between variables and synthetic correlation
+|             name  |    score |
+|---:|---:|
+| GaussianCopula | 0.732066 |
+|           TVAE | 0.885710 |
+|          CTGAN | 0.821013 |
+|      CopulaGAN | 0.811962 |
+
+
+
 |    | Column 1      | Column 2      | Metric                |   Quality Score |   Real Correlation |   Synthetic Correlation |
 |---:|:--------------|:--------------|:----------------------|----------------:|-------------------:|------------------------:|
 |  0 | price         | sqft_living   | CorrelationSimilarity |        0.997785 |          0.702035  |               0.697606  |
