@@ -1,0 +1,4 @@
+outs:
+- md5: 84878182c597f78c71325503c5ccceda
+  size: 914476
+  path: sdv_gaussian_copula.parquet

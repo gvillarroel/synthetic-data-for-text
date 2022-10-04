@@ -1,0 +1,29 @@
+@startuml
+
+title "Generación Data Sintetica"
+
+left to right direction
+
+rectangle "Pipeline" {
+    circle inicio
+    database "Original Dataset" as odataset    
+    card "(1) Extraer Estadisticos" as extraer
+    card "(2) Entrenar DP-GAN" as dpgan
+    card "(3) Generar Dataset" as dataset
+    card "(4) Estadisticos del nuevo Dataset" as sdataset
+    card "(5) Reporte comparativo" as report
+    card "(6) Reporte de casos de ejemplo" as examples
+
+    database "Dataset Sintetico" as sydataset    
+    inicio  -l-> extraer
+    extraer -l-> dpgan
+    dpgan   -l-> dataset
+    dataset -l-> sdataset
+    sdataset -l-> report
+    report  -l-> examples
+
+    odataset --> extraer
+    sydataset <-- dataset
+}
+
+@enduml

@@ -2,6 +2,22 @@
 # Data Sintética Privada, Generación Vía Modelo Deep Learning
 [Link](https://docs.google.com/document/d/1Y4JAyeCSBADCZPokOMzrGdkT5LfFzUcAx6ybxM0UyXc/edit)
 
+- [Data Sintética Privada, Generación Vía Modelo Deep Learning](#data-sintética-privada-generación-vía-modelo-deep-learning)
+  - [Como utilizar](#como-utilizar)
+  - [Datasets](#datasets)
+    - [KingCounty](#kingcounty)
+      - [Descripción](#descripción)
+    - [Metadata](#metadata)
+    - [Estadisticos](#estadisticos)
+      - [Variables Continuas](#variables-continuas)
+      - [Categoricas](#categoricas)
+    - [Generaciones](#generaciones)
+      - [GaussianCopula](#gaussiancopula)
+    - [Comparación](#comparación)
+      - [GaussianCopula](#gaussiancopula-1)
+        - [Metrics](#metrics)
+
+
 ## Como utilizar
 Instalaciones
 ```
@@ -26,8 +42,9 @@ python3 -c "import pandas as pd;df = pd.read_csv('datasets/kingcounty/raw/kc_hou
 | 1623049145 | 20140925T000000 |  210000 |          2 |           1 |           880 |       9750 |      1   |            0 |      0 |           5 |       6 |          880 |               0 |       1938 |              0 |     98168 | 47.4885 | -122.298 |            1220 |         9406 |
 
 ### Metadata
-```
-(cd datasets/kingcounty/diagrams && plantuml metadata.puml -tsvg -o ../images/diagrams/)
+```bash
+python3 -c 'from syntheticml.gen.sdv import gen_sdv_metadata_from_csv;gen_sdv_metadata_from_csv("datasets/kingcounty/raw/kc_house_data.csv", "id", {"_date", "bathrooms", "bedrooms", "condition", "floors", "grade", "lat", "long", "price", "sqft_above", "sqft_basement", "sqft_living", "sqft_living15", "sqft_lot", "sqft_lot15", "view", "waterfront", "yr_built", "yr_renovated", "zipcode"}, {"condition", "floors", "grade", "view", "waterfront", "yr_built", "yr_renovated", "zipcode", "bathrooms", "bedrooms",}, "datasets/kingcounty/metadata.json")'
+(cd datasets/kingcounty/diagrams && plantuml metadata.puml -tsvg -o ../images/diagrams/);
 ```
 ![img](datasets/kingcounty/images/diagrams/metadata.svg) 
 
@@ -35,6 +52,7 @@ python3 -c "import pandas as pd;df = pd.read_csv('datasets/kingcounty/raw/kc_hou
 ```bash
 python3 -c 'from syntheticml.syntools.extractor import stats_csv_cat_con;a,b = stats_csv_cat_con("datasets/kingcounty/raw/kc_house_data.csv", "datasets/kingcounty/metadata.json");print(a.to_markdown());print(b.to_markdown())'
 ```
+#### Variables Continuas
 |                  | bathrooms                                                                                                 | bedrooms                                                                                                | price                                                                                                            | sqft_above                                                                                                    | sqft_basement                                                                                               | sqft_living                                                                                                      | sqft_living15                                                                                                  | sqft_lot                                                                                                      | sqft_lot15                                                                                                     |
 |:-----------------|:----------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------------------------------------|
 | nobs             | 21613.0                                                                                                   | 21613.0                                                                                                 | 21613.0                                                                                                          | 21613.0                                                                                                       | 21613.0                                                                                                     | 21613.0                                                                                                          | 21613.0                                                                                                        | 21613.0                                                                                                       | 21613.0                                                                                                        |
@@ -82,5 +100,16 @@ python3 -c 'from syntheticml.syntools.extractor import stats_csv_cat_con;a,b = s
 | top5_freq | (14031, 5679, 1701, 172, 30)                                                                                | (10680, 8241, 1910, 613, 161)                                                                             | (8981, 6068, 2615, 2038, 1134)                                                                           | (19489, 963, 510, 332, 319)                                                                                 | (21450, 163)                               | (559, 454, 450, 433, 422)                                                                                  | (20699, 91, 37, 36, 35)                                                                                         | (602, 590, 583, 574, 553)                                                                                    |
 | top5_prob | (0.6491926155554527, 0.26275852496182855, 0.07870263267477907, 0.007958173321611993, 0.0013880534863276732) | (0.4941470411326516, 0.38129829269421184, 0.08837273862952852, 0.02836255957062879, 0.007449220376625179) | (0.41553694535696106, 0.280756951834544, 0.12099199555822884, 0.09429510017119326, 0.052468421783186045) | (0.9017258131680007, 0.04455651691111831, 0.023596909267570444, 0.015361125248692917, 0.014759635404617591) | (0.9924582427242863, 0.007541757275713691) | (0.025864063295238975, 0.02100587609309212, 0.0208208022949151, 0.02003423865266275, 0.019525285707675935) | (0.9577106371165502, 0.0042104289085272755, 0.0017119326331374635, 0.0016656641835932078, 0.001619395734048952) | (0.027853606625641975, 0.027298385231110906, 0.026974506084301113, 0.02655809003840281, 0.02558645259797344) |
 
+### Generaciones
+
+#### GaussianCopula
+```bash
+python3 -c 'from syntheticml.gen.sdv import gen_sdv_from_csv, gen_sdv_to_parquet;model = gen_sdv_from_csv("datasets/kingcounty/raw/kc_house_data.csv", "datasets/kingcounty/metadata.json", "datasets/kingcounty/models/sdv/gaussiancopula.pkl");gen_sdv_to_parquet(model, 21613, "datasets/kingcounty/synthetics/sdv_gaussian_copula.parquet")'
+```
 
 ### Comparación
+#### GaussianCopula
+##### Metrics
+```
+python3 -c 'from syntheticml.gen.sdv import compare_sdv;compare_sdv(model, 21613, "datasets/kingcounty/synthetics/sdv_gaussian_copula.parquet")'
+```

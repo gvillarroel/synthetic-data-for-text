@@ -1,0 +1,4 @@
+outs:
+- md5: 0f5d04f1ffef5cddd5038451b1cc9bd4
+  size: 28940
+  path: gaussiancopula.pkl
