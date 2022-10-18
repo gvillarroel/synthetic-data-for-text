@@ -57,14 +57,12 @@ def get_all_stats(df, columns):
 
   return descripcion
 
-
-def stats_csv_cat_con(datapath, metadatapath):
+def stats_cat_con(df, metadatapath):
     with open(metadatapath) as fmetadata:
-        df = pd.read_csv(datapath)
         metadata = json.load(fmetadata)
-        COLUMNAS_CONTINUAS = tuple(metadata["COLUMNAS_CONTINUAS"])
-        COLUMNAS_CATEGORICAS = tuple(metadata["COLUMNAS_CATEGORICAS"])
+        COLUMNAS_CONTINUAS = tuple([ k for k,v in metadata["fields"].items() if v["type"] == "numerical" ])
+        COLUMNAS_CATEGORICAS = tuple([ k for k,v in metadata["fields"].items() if v["type"] == "categorical" ])
         return get_all_stats(df, COLUMNAS_CONTINUAS), get_cat_stats(df, COLUMNAS_CATEGORICAS)
 
-def stats_csv(datapath, metadatapath):
-    return pd.concat(list(stats_csv_cat_con(datapath, metadatapath)), axis=1)
+def stats_df(df, metadatapath):
+    return pd.concat(list(stats_cat_con(df, metadatapath)), axis=1)

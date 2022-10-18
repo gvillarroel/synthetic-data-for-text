@@ -1,0 +1,4 @@
+outs:
+- md5: d9f0b421819f67c85129748165448f72
+  size: 771620
+  path: tvae.ckp

@@ -50,7 +50,8 @@ def gen_all(data, metadatapath, checkpoint_folder, syndata_folder=None, n=0):
                 model.save(checkpoint)
             if syndata_folder:
                 syndata_path = f"{syndata_folder}/{model.__class__.__name__}.parquet"
-                model.sample(n).to_parquet(syndata_path)
+                if not os.path.exists(syndata_path):
+                    model.sample(n).to_parquet(syndata_path)
         return models            
 
 
@@ -93,3 +94,11 @@ def compare_sdv(df_real, df_fake, metadatapath):
         report = QualityReport()
         report.generate(df_real.loc[:,df_fake.columns], df_fake, metadata)
         return report
+
+def create_diagrams(df_real, df_fake, metadatapath):
+    with open(metadatapath) as fmetadata:
+        metadata = json.load(fmetadata)
+        for field, data in metadata["fields"].items():
+            if data["type"] == "categorical":
+                print(field)
+                print(data)

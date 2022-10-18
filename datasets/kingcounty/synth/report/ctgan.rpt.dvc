@@ -1,0 +1,4 @@
+outs:
+- md5: 9e760cd7f57f13fbf20e7f512a9500a0
+  size: 8888
+  path: ctgan.rpt

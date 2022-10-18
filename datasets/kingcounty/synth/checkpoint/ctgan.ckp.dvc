@@ -1,0 +1,4 @@
+outs:
+- md5: ae9d3cb5631c2f221865b12a7bf79c2a
+  size: 227555568
+  path: ctgan.ckp

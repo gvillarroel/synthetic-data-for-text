@@ -1,0 +1,105 @@
+{
+    "fields": {
+        "id": {
+            "type": "id",
+            "subtype": "integer",
+            "transformer": "FloatFormatter"
+        },
+        "date": {
+            "type": "categorical",
+            "transformer": "OneHotEncoder"
+        },
+        "price": {
+            "type": "numerical",
+            "subtype": "float",
+            "transformer": "FloatFormatter"
+        },
+        "bedrooms": {
+            "type": "categorical",
+            "transformer": "LabelEncoder"
+        },
+        "bathrooms": {
+            "type": "categorical",
+            "transformer": "LabelEncoder"
+        },
+        "sqft_living": {
+            "type": "numerical",
+            "subtype": "integer",
+            "transformer": "FloatFormatter"
+        },
+        "sqft_lot": {
+            "type": "numerical",
+            "subtype": "integer",
+            "transformer": "FloatFormatter"
+        },
+        "floors": {
+            "type": "categorical",
+            "transformer": "LabelEncoder"
+        },
+        "waterfront": {
+            "type": "categorical",
+            "transformer": "LabelEncoder"
+        },
+        "view": {
+            "type": "categorical",
+            "transformer": "LabelEncoder"
+        },
+        "condition": {
+            "type": "categorical",
+            "transformer": "LabelEncoder"
+        },
+        "grade": {
+            "type": "categorical",
+            "transformer": "LabelEncoder"
+        },
+        "sqft_above": {
+            "type": "numerical",
+            "subtype": "integer",
+            "transformer": "FloatFormatter"
+        },
+        "sqft_basement": {
+            "type": "numerical",
+            "subtype": "integer",
+            "transformer": "FloatFormatter"
+        },
+        "yr_built": {
+            "type": "categorical",
+            "transformer": "LabelEncoder"
+        },
+        "yr_renovated": {
+            "type": "categorical",
+            "transformer": "LabelEncoder"
+        },
+        "zipcode": {
+            "type": "categorical",
+            "transformer": "LabelEncoder"
+        },
+        "lat": {
+            "type": "numerical",
+            "subtype": "float",
+            "transformer": "FloatFormatter"
+        },
+        "long": {
+            "type": "numerical",
+            "subtype": "float",
+            "transformer": "FloatFormatter"
+        },
+        "sqft_living15": {
+            "type": "numerical",
+            "subtype": "integer",
+            "transformer": "FloatFormatter"
+        },
+        "sqft_lot15": {
+            "type": "numerical",
+            "subtype": "integer",
+            "transformer": "FloatFormatter"
+        }
+    },
+    "constraints": [],
+    "model_kwargs": {},
+    "name": null,
+    "primary_key": "id",
+    "sequence_index": null,
+    "entity_columns": [],
+    "context_columns": []
+}

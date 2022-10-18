@@ -1,0 +1,4 @@
+outs:
+- md5: 95ee203f9034f502c7f4f8300e40168a
+  size: 8888
+  path: gaussiancopula.rpt

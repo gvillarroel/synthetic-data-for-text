@@ -1,0 +1,4 @@
+outs:
+- md5: 27d996621f8ea9df5c6df170abccc177
+  size: 864954
+  path: ctgan_21613.parquet

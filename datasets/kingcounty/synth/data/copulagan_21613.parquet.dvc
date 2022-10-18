@@ -1,0 +1,4 @@
+outs:
+- md5: e4e6d2f3b9fccd0c626aeacc4dbfbb1b
+  size: 881020
+  path: copulagan_21613.parquet
