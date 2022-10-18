@@ -1,3 +1,4 @@
+from turtle import width
 import pandas as pd
 import plotly.graph_objects as go
 import numpy as np
@@ -54,7 +55,7 @@ class Charts:
     
     def pair_corr(self, df_real : pd.DataFrame, df_fake: pd.DataFrame, exclude_columns: set[str]=set()) -> list[go.Figure]:
         columns = list((set(df_real.columns) & set(df_fake.columns)) - exclude_columns)
-        fig = make_subplots(rows=1, cols=2, column_titles=['Real', 'Synthetic'], horizontal_spacing= 0.09, vertical_spacing=0)
+        fig = make_subplots(rows=1, cols=2, column_titles=['Real', 'Synthetic'], horizontal_spacing= 0.16, vertical_spacing=0, column_widths=[1000, 1000])
         ix = df_real[columns].corr(numeric_only=True).abs().sort_values('price', ascending=True).index
 
         fig.add_trace(
@@ -65,4 +66,5 @@ class Charts:
             px.imshow(df_fake.loc[:, ix].corr(numeric_only=True).abs()).data[0],
             row=1, col=2
         )
+        fig.update_layout(dict(width=1000))
         return fig
