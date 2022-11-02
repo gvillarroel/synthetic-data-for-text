@@ -1,0 +1,4 @@
+outs:
+- md5: bbe9a068cec2d6e30816607f925761a8
+  size: 8888
+  path: ctgan_wfixed_columns.rpt

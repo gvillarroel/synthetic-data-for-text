@@ -1,0 +1,4 @@
+outs:
+- md5: 2bcdafddac8529ed3adfb5b926292ee4
+  size: 580385
+  path: gaussiancopula.ckp

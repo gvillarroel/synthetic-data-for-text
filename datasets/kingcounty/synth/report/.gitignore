@@ -2,3 +2,11 @@
 /ctgan.rpt
 /gaussiancopula.rpt
 /tvae.rpt
+/copulagan_wfixed_columns.rpt
+/copulagan_wremain.rpt
+/ctgan_wfixed_columns.rpt
+/ctgan_wremain.rpt
+/gaussiancopula_wfixed_columns.rpt
+/gaussiancopula_wremain.rpt
+/tvae_wfixed_columns.rpt
+/tvae_wremain.rpt

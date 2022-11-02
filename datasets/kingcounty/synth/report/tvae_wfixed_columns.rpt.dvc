@@ -1,0 +1,4 @@
+outs:
+- md5: 76173f5530e161e649ef498b4b3c5e0b
+  size: 8888
+  path: tvae_wfixed_columns.rpt

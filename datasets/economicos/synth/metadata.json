@@ -1,0 +1,61 @@
+{
+    "fields": {
+        "url": {
+            "type": "id",
+            "transformer": "OneHotEncoder",
+            "subtype": "string"
+        },
+        "property_type": {
+            "type": "categorical",
+            "transformer": "LabelEncoder"
+        },
+        "transaction_type": {
+            "type": "categorical",
+            "transformer": "LabelEncoder"
+        },
+        "state": {
+            "type": "categorical",
+            "transformer": "LabelEncoder"
+        },
+        "county": {
+            "type": "categorical",
+            "transformer": "LabelEncoder"
+        },
+        "publication_date": {
+            "type": "datetime",
+            "transformer": "UnixTimestampEncoder"
+        },
+        "rooms": {
+            "type": "categorical",
+            "transformer": "LabelEncoder"
+        },
+        "bathrooms": {
+            "type": "categorical",
+            "transformer": "LabelEncoder"
+        },
+        "m_built": {
+            "type": "categorical",
+            "transformer": "LabelEncoder"
+        },
+        "m_size": {
+            "type": "categorical",
+            "transformer": "LabelEncoder"
+        },
+        "source": {
+            "type": "categorical",
+            "transformer": "LabelEncoder"
+        },
+        "_price": {
+            "type": "numerical",
+            "subtype": "float",
+            "transformer": "FloatFormatter"
+        }
+    },
+    "constraints": [],
+    "model_kwargs": {},
+    "name": null,
+    "primary_key": "url",
+    "sequence_index": null,
+    "entity_columns": [],
+    "context_columns": []
+}

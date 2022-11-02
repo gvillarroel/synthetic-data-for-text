@@ -1,0 +1,4 @@
+outs:
+- md5: 042c4b048c2b1fba61c39da7ffeda8e7
+  size: 8888
+  path: ctgan_wremain.rpt

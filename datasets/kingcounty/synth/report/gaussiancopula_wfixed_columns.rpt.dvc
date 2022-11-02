@@ -1,0 +1,4 @@
+outs:
+- md5: 62309990bc7ea160353c1bbb1f3e377e
+  size: 8888
+  path: gaussiancopula_wfixed_columns.rpt

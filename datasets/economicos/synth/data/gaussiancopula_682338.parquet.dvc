@@ -1,0 +1,4 @@
+outs:
+- md5: b124b67672a3ee292723f94fab185071
+  size: 19562878
+  path: gaussiancopula_682338.parquet

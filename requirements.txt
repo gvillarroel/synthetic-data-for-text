@@ -5,3 +5,6 @@ statsmodels
 sdv
 sdmetrics
 iplantuml
+pyarrow
+nbformat
+imblearn

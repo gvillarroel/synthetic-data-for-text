@@ -21,9 +21,11 @@ class Charts:
     def get_serie_title(self, serie) -> str:
         return serie.name
 
-    def chart_categorical(self, serie_real : pd.Series, serie_fake : pd.Series) -> go.Figure:
-        x, y = np.unique( serie_real, return_counts=True)
-        x2, y2 = np.unique( serie_fake, return_counts=True)
+    def chart_categorical(self, serie_real : pd.Series, serie_fake : pd.Series, max_categories=10) -> go.Figure:
+        #x, y = np.unique( serie_real, return_counts=True)
+        x, y = zip(*list(serie_real.astype(str).value_counts().to_frame().head(max_categories).to_dict()[serie_real.name].items()))
+        x2, y2 = np.unique( serie_fake[serie_fake.astype(str).isin(x)].astype(str), return_counts=True)
+                                
         fig = go.Figure(data=[
             go.Bar(name='Real', x=x, y=y, marker_color=self.color_real),
             go.Bar(name='Synthetic', x=x2, y=y2, marker_color=self.color_synthetic)
@@ -41,7 +43,7 @@ class Charts:
         return fig
     
 
-    def chart(self, serie_real: pd.Series, serie_fake: pd.Series) -> go.Figure:
+    def chart(self, serie_real: pd.Series, serie_fake: pd.Series, categorical_min=0) -> go.Figure:
         if self.is_categorical(serie_real):
             return self.chart_categorical(serie_real, serie_fake)
         elif self.is_id(serie_real):
@@ -53,10 +55,13 @@ class Charts:
         columns = tuple((set(df_real.columns) & set(df_fake.columns)) - exclude_columns)
         return [self.chart(df_real[column], df_fake[column]) for column in columns]
     
-    def pair_corr(self, df_real : pd.DataFrame, df_fake: pd.DataFrame, exclude_columns: set[str]=set()) -> list[go.Figure]:
+    def pair_corr(self, df_real : pd.DataFrame, df_fake: pd.DataFrame, exclude_columns: set[str]=set(), sort_column: str=None) -> list[go.Figure]:
         columns = list((set(df_real.columns) & set(df_fake.columns)) - exclude_columns)
         fig = make_subplots(rows=1, cols=2, column_titles=['Real', 'Synthetic'], horizontal_spacing= 0.16, vertical_spacing=0, column_widths=[1000, 1000])
-        ix = df_real[columns].corr(numeric_only=True).abs().sort_values('price', ascending=True).index
+        if sort_column:
+            ix = df_real[columns].corr(numeric_only=True).abs().sort_values(sort_column, ascending=True).index
+        else:
+            ix = df_real[columns].corr(numeric_only=True).abs().index
 
         fig.add_trace(
             px.imshow(df_real.loc[:, ix].corr(numeric_only=True).abs()).data[0],
