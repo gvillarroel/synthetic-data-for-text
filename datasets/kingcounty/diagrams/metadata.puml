@@ -1,8 +1,0 @@
-@startuml "metadata"
-!$metadata = %loadJSON("../metadata.json")
-rectangle metadata [
-    {{json
-        $metadata
-    }}
-]
-@enduml

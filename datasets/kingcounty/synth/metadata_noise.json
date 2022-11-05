@@ -5,6 +5,10 @@
             "subtype": "integer",
             "transformer": "FloatFormatter"
         },
+        "date": {
+            "type": "categorical",
+            "transformer": "OneHotEncoder"
+        },
         "price": {
             "type": "numerical",
             "subtype": "float",
@@ -12,11 +16,11 @@
         },
         "bedrooms": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder_noised"
         },
         "bathrooms": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder_noised"
         },
         "sqft_living": {
             "type": "numerical",
@@ -30,23 +34,23 @@
         },
         "floors": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder_noised"
         },
         "waterfront": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder_noised"
         },
         "view": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder_noised"
         },
         "condition": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder_noised"
         },
         "grade": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder_noised"
         },
         "sqft_above": {
             "type": "numerical",
@@ -59,16 +63,18 @@
             "transformer": "FloatFormatter"
         },
         "yr_built": {
-            "type": "categorical",
-            "transformer": "LabelEncoder"
+            "type": "numerical",
+            "subtype": "integer",
+            "transformer": "FloatFormatter"
         },
         "yr_renovated": {
-            "type": "categorical",
-            "transformer": "LabelEncoder"
+            "type": "numerical",
+            "subtype": "integer",
+            "transformer": "FloatFormatter"
         },
         "zipcode": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder_noised"
         },
         "lat": {
             "type": "numerical",

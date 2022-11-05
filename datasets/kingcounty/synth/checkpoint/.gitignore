@@ -1,5 +1,8 @@
 /copulagan.ckp
+/copulagan_noise.ckp
 /ctgan.ckp
+/ctgan_noise.ckp
 /gaussiancopula.ckp
-/tvae.bk.ckp
+/gaussiancopula_noise.ckp
 /tvae.ckp
+/tvae_noise.ckp

@@ -16,11 +16,11 @@
         },
         "bedrooms": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder"
         },
         "bathrooms": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder"
         },
         "sqft_living": {
             "type": "numerical",
@@ -34,23 +34,23 @@
         },
         "floors": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder"
         },
         "waterfront": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder"
         },
         "view": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder"
         },
         "condition": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder"
         },
         "grade": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder"
         },
         "sqft_above": {
             "type": "numerical",
@@ -63,16 +63,18 @@
             "transformer": "FloatFormatter"
         },
         "yr_built": {
-            "type": "categorical",
-            "transformer": "LabelEncoder"
+            "type": "numerical",
+            "subtype": "integer",
+            "transformer": "FloatFormatter"
         },
         "yr_renovated": {
-            "type": "categorical",
-            "transformer": "LabelEncoder"
+            "type": "numerical",
+            "subtype": "integer",
+            "transformer": "FloatFormatter"
         },
         "zipcode": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder"
         },
         "lat": {
             "type": "numerical",

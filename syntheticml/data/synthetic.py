@@ -17,6 +17,7 @@ from functools import partial
 
 from .metrics import Metrics
 from .charts import Charts
+from ..models.base.model_base import ModelInterface
 
 
 MODELS = {
@@ -26,24 +27,32 @@ MODELS = {
     "ctgan": CTGAN
 }
 
-def parallel_work(model_item: tuple, checkpoint_folder: str, df: pd.DataFrame, syntheticdata_folder: str, n_sample: int, remaining_columns: tuple, additiona_suffix: str):
+def parallel_train(model_item: tuple[str, ModelInterface], checkpoint_folder: str, df: pd.DataFrame) -> ModelInterface:
     model_name, model =  model_item
     checkpoint = f"{checkpoint_folder}/{model_name}.ckp"
-    if os.path.exists(checkpoint):
-        model = model.load(checkpoint)
-    else:
+    if not os.path.exists(checkpoint):
         model.fit(df)
         model.save(checkpoint)
-    syndata_path = f"{syntheticdata_folder}/{model_name}{additiona_suffix}_{n_sample}.parquet"
+    return (model_name, (checkpoint, model))
+
+def parallel_syn(params: tuple[str, str], df: pd.DataFrame, syntheticdata_folder: str, n_sample: int, remaining_columns: tuple[str] = tuple()) -> pd.DataFrame:
+    file_name, (model_checkpoint, model) = params
+    model = model.load(model_checkpoint)
+    syndata_path = f"{syntheticdata_folder}/{file_name}.parquet"
     if not os.path.exists(syndata_path):
         if remaining_columns:
-            model.sample_remaining_columns(df.loc[:, remaining_columns]).to_parquet(syndata_path)
+            model.sample_remaining_columns(df.loc[:, remaining_columns], output_file_path=f"{syndata_path}.tmp").to_parquet(syndata_path)
         else:
-            model.sample(n_sample).to_parquet(syndata_path)
-    return pd.read_parquet(syndata_path)
+            model.sample(n_sample, output_file_path=f"{syndata_path}.tmp").to_parquet(syndata_path)
+    return (file_name, pd.read_parquet(syndata_path))
+
 
 class Synthetic:
-    def __init__(self, df : pd.DataFrame, category_columns : tuple[str], id : str, synthetic_folder: str, text_columns : tuple[str] = (), models : tuple[str] = [], n_sample: int = 0, exclude_columns: tuple[str]=tuple()) -> None:
+    def __init__(self, df : pd.DataFrame, category_columns : tuple[str], id : str,
+    synthetic_folder: str, text_columns : tuple[str] = (),
+    models : tuple[str] = [], n_sample: int = 0, exclude_columns: tuple[str]=tuple(),
+    default_encoder = "FrequencyEncoder",
+    max_cpu_pool=None) -> None:
         self.df = df
         self.category_columns = category_columns
         self.id = id
@@ -51,17 +60,20 @@ class Synthetic:
         self.text_columns = text_columns
         self.exclude_columns = exclude_columns
         self.synthetic_folder = synthetic_folder
+        ###########################################################
+        # Machine Info
         self.cuda = torch.cuda.is_available()
+        self.max_cpu_pool = max_cpu_pool or mp.cpu_count()
+        ###########################################################
         self.metadata_path = f"{self.synthetic_folder}/metadata.json"
+        self.metadata_noise_path = f"{self.synthetic_folder}/metadata_noise.json"
         self.make_folders()
-        self.metadata = self._gen_metadata()
-        self.models = self._gen_models(models)
+        self.metadata, self.metadata_noised = self._gen_metadata(default_encoder)
         self.metric = Metrics(self.df, self.metadata)
         self.charts = Charts(self.metadata)
+        self.model_names = models
         self.fake_data = {}
-        
-        
-
+   
     def make_folders(self)  -> dict:
         self.syntheticdata_folder = f"{self.synthetic_folder}/data"
         self.checkpoint_folder = f"{self.synthetic_folder}/checkpoint"
@@ -72,37 +84,70 @@ class Synthetic:
             if not os.path.exists(f):
                 os.makedirs(f, exist_ok=True)
 
-    def _gen_metadata(self) -> dict:
+    def _gen_metadata(self, default_encoder) -> dict:
         if not os.path.exists(self.metadata_path):
-            meta = table.Table(primary_key=self.id, field_names=set(self.df.columns.to_list()) - set(self.text_columns), field_transformers={k:'LabelEncoder' for k in self.category_columns})
+            meta = table.Table(primary_key=self.id, field_names=set(self.df.columns.to_list()) - set(self.text_columns), 
+            field_transformers={k:f'{default_encoder}' for k in self.category_columns})
             meta.fit(self.df.astype({ k:"category" for k in self.category_columns }))
             meta.to_json(self.metadata_path)
-        return json.load(open(self.metadata_path, "r"))
+        if not os.path.exists(self.metadata_noise_path):
+            meta_noise = table.Table(primary_key=self.id, field_names=set(self.df.columns.to_list()) - set(self.text_columns), 
+            field_transformers={k:f'{default_encoder}_noised' for k in self.category_columns})
+            meta_noise.fit(self.df.astype({ k:"category" for k in self.category_columns }))
+            meta_noise.to_json(self.metadata_noise_path)
+        return json.load(open(self.metadata_path, "r")), json.load(open(self.metadata_noise_path, "r"))
     
-    def _define_params(self, model):
+    def _define_params(self, model, **kwargs):
         params = {"table_metadata":self.metadata}
+        params.update(kwargs)
         if "cuda" in model.__init__.__code__.co_varnames:
             params["cuda"] = self.cuda
         return params
 
 
-    def _gen_models(self, models: list[str]) -> dict:
+    def fit_models(self, models: list[str]) -> dict:
         getter = op.itemgetter(*models)
-        return { k: model(**self._define_params(model)) for k, model in zip(models,getter(MODELS))}
-
-    def _gen_synthetic(self, remaining_columns=None) -> dict:
-        data_gen = {}
-        additiona_suffix = ""
-        if remaining_columns:
-            additiona_suffix = "_wfixed_columns"       
-
-        pw = partial(parallel_work, checkpoint_folder=self.checkpoint_folder, df = self.df, syntheticdata_folder=self.syntheticdata_folder, n_sample=self.n_sample, remaining_columns=remaining_columns, additiona_suffix = additiona_suffix )
+        models = dict(
+            **{ model_name: model(**self._define_params(model)) for model_name, model in zip(models,getter(MODELS))},
+            **{ f"{model_name}_noise": model(**self._define_params(model, table_metadata=self.metadata_noised)) 
+            for model_name, model in zip(models,getter(MODELS))}
+        )
+        
+        #################################################
+        ## Train Models
+        #################################################
         try:
             torch.multiprocessing.set_start_method('spawn')
         except:
             pass
-        with mp.Pool(mp.cpu_count()) as p:
-            data_gen = dict(zip([f"{model_name}_wremain" if remaining_columns else f"{model_name}" for model_name in self.models.keys()], p.map(pw, list(self.models.items()))))
+        pt = partial(parallel_train, checkpoint_folder=self.checkpoint_folder, df = self.df)
+        with mp.Pool(self.max_cpu_pool) as p:
+            fitted_models = dict(list(p.map(pt, list(models.items()))))
+        #################################################
+        return fitted_models
+
+    def _gen_synthetic(self, remaining_columns=None) -> dict:
+        data_gen = {}
+        models = self.fit_models(self.model_names)
+        try:
+            torch.multiprocessing.set_start_method('spawn')
+        except:
+            pass
+        #################################################
+        ## Generate
+        #################################################
+        # require tuple(file_name, fitted_model)
+        pw = partial(parallel_syn, df = self.df, syntheticdata_folder=self.syntheticdata_folder, n_sample=self.n_sample )
+        with mp.Pool(self.max_cpu_pool) as p:
+            data_gen = dict(p.map(pw, [(f"{model_name}_{self.n_sample}", model) for model_name, model in models.items()]))
+        #################################################
+        ## Generate with fixed columns
+        #################################################
+        if(remaining_columns):
+            pwr = partial(parallel_syn, df = self.df, syntheticdata_folder=self.syntheticdata_folder, n_sample=self.n_sample, remaining_columns=remaining_columns )
+            with mp.Pool(self.max_cpu_pool) as p:
+                data_gen = dict(**data_gen, **dict(p.map(pwr, [(f"{model_name}_{self.n_sample}_wfixed_columns", model) for model_name, model in models.items()])))
+
         return data_gen
     
     def _selectable_columns(self) -> list:
