@@ -8,3 +8,5 @@ iplantuml
 pyarrow
 nbformat
 imblearn
+cython
+virtualdatalab

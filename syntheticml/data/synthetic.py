@@ -9,7 +9,7 @@ import operator as op
 import plotly.graph_objects as go
 import torch
 
-from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import GridSearchCV, train_test_split
 import multiprocessing as mp
 from functools import partial
 
@@ -18,6 +18,7 @@ from functools import partial
 from .metrics import Metrics
 from .charts import Charts
 from ..models.base.model_base import ModelInterface
+
 
 
 MODELS = {
@@ -48,15 +49,23 @@ def parallel_syn(params: tuple[str, str], df: pd.DataFrame, syntheticdata_folder
 
 
 class Synthetic:
-    def __init__(self, df : pd.DataFrame, category_columns : tuple[str], id : str,
-    synthetic_folder: str, text_columns : tuple[str] = (),
-    models : tuple[str] = [], n_sample: int = 0, exclude_columns: tuple[str]=tuple(),
+    def __init__(self, 
+    df : pd.DataFrame, 
+    category_columns : tuple[str], 
+    id : str,
+    synthetic_folder: str, 
+    text_columns : tuple[str] = (),
+    models : tuple[str] = [], 
+    n_sample: int = 0, exclude_columns: tuple[str]=tuple(),
     default_encoder = "FrequencyEncoder",
+    random_state=42,
     max_cpu_pool=None) -> None:
         self.df = df
+        self.random_state = random_state
+        self.train, self.hold = train_test_split(df, test_size=0.2, random_state=random_state)
         self.category_columns = category_columns
         self.id = id
-        self.n_sample = n_sample
+        self.n_sample = n_sample or df.shape[0]
         self.text_columns = text_columns
         self.exclude_columns = exclude_columns
         self.synthetic_folder = synthetic_folder
@@ -69,31 +78,41 @@ class Synthetic:
         self.metadata_noise_path = f"{self.synthetic_folder}/metadata_noise.json"
         self.make_folders()
         self.metadata, self.metadata_noised = self._gen_metadata(default_encoder)
-        self.metric = Metrics(self.df, self.metadata)
+        self.metric = Metrics(self.df, self.train, self.hold, self.metadata)
         self.charts = Charts(self.metadata)
         self.model_names = models
         self.fake_data = {}
+        self.save_hold()
    
-    def make_folders(self)  -> dict:
+    def save_hold(self) -> None:
+        train_path = f"{self.split}/train.parquet"
+        hold_path = f"{self.split}/hold.parquet"
+        if not os.path.exists(train_path):
+            self.train.to_parquet(train_path)
+        if not os.path.exists(hold_path):
+            self.hold.to_parquet(hold_path)
+
+    def make_folders(self)  -> None:
         self.syntheticdata_folder = f"{self.synthetic_folder}/data"
         self.checkpoint_folder = f"{self.synthetic_folder}/checkpoint"
         self.report_folder = f"{self.synthetic_folder}/report"
+        self.split = f"{self.synthetic_folder}/split"
         
-        folders = [self.syntheticdata_folder, self.checkpoint_folder, self.report_folder]
+        folders = [self.syntheticdata_folder, self.checkpoint_folder, self.report_folder, self.split]
         for f in folders:
             if not os.path.exists(f):
                 os.makedirs(f, exist_ok=True)
 
     def _gen_metadata(self, default_encoder) -> dict:
         if not os.path.exists(self.metadata_path):
-            meta = table.Table(primary_key=self.id, field_names=set(self.df.columns.to_list()) - set(self.text_columns), 
+            meta = table.Table(primary_key=self.id, field_names=set(self.train.columns.to_list()) - set(self.text_columns), 
             field_transformers={k:f'{default_encoder}' for k in self.category_columns})
-            meta.fit(self.df.astype({ k:"category" for k in self.category_columns }))
+            meta.fit(self.train.astype({ k:"category" for k in self.category_columns }))
             meta.to_json(self.metadata_path)
         if not os.path.exists(self.metadata_noise_path):
-            meta_noise = table.Table(primary_key=self.id, field_names=set(self.df.columns.to_list()) - set(self.text_columns), 
+            meta_noise = table.Table(primary_key=self.id, field_names=set(self.train.columns.to_list()) - set(self.text_columns), 
             field_transformers={k:f'{default_encoder}_noised' for k in self.category_columns})
-            meta_noise.fit(self.df.astype({ k:"category" for k in self.category_columns }))
+            meta_noise.fit(self.train.astype({ k:"category" for k in self.category_columns }))
             meta_noise.to_json(self.metadata_noise_path)
         return json.load(open(self.metadata_path, "r")), json.load(open(self.metadata_noise_path, "r"))
     
@@ -120,7 +139,7 @@ class Synthetic:
             torch.multiprocessing.set_start_method('spawn')
         except:
             pass
-        pt = partial(parallel_train, checkpoint_folder=self.checkpoint_folder, df = self.df)
+        pt = partial(parallel_train, checkpoint_folder=self.checkpoint_folder, df = self.train)
         with mp.Pool(self.max_cpu_pool) as p:
             fitted_models = dict(list(p.map(pt, list(models.items()))))
         #################################################
@@ -137,6 +156,7 @@ class Synthetic:
         ## Generate
         #################################################
         # require tuple(file_name, fitted_model)
+        # Here df is used instead of train since df is the whole set of elements
         pw = partial(parallel_syn, df = self.df, syntheticdata_folder=self.syntheticdata_folder, n_sample=self.n_sample )
         with mp.Pool(self.max_cpu_pool) as p:
             data_gen = dict(p.map(pw, [(f"{model_name}_{self.n_sample}", model) for model_name, model in models.items()]))
@@ -144,6 +164,7 @@ class Synthetic:
         ## Generate with fixed columns
         #################################################
         if(remaining_columns):
+            # Here df is used instead of train since df is the whole set of elements
             pwr = partial(parallel_syn, df = self.df, syntheticdata_folder=self.syntheticdata_folder, n_sample=self.n_sample, remaining_columns=remaining_columns )
             with mp.Pool(self.max_cpu_pool) as p:
                 data_gen = dict(**data_gen, **dict(p.map(pwr, [(f"{model_name}_{self.n_sample}_wfixed_columns", model) for model_name, model in models.items()])))
@@ -151,7 +172,7 @@ class Synthetic:
         return data_gen
     
     def _selectable_columns(self) -> list:
-        return list(set(self.df.columns) - {self.id,} - set(self.text_columns) - set(self.exclude_columns))
+        return list(set(self.train.columns) - {self.id,} - set(self.text_columns) - set(self.exclude_columns))
         
     def process(self, remaining_columns=None) -> None:
         self.fake_data = dict(**self.fake_data, **self._gen_synthetic(remaining_columns))
@@ -161,9 +182,10 @@ class Synthetic:
     
     def process_scores(self):
         self.scores, self.reports = self.metric.get_scores(self.fake_data, self.report_folder)
+        _, self.privacy_metrics = self.metric.calculate_privacy(self.fake_data, self.report_folder)
 
     def current_metrics(self) -> pd.DataFrame:
-        return self.metric.get_metrics(self.df.loc[:, self._selectable_columns()])
+        return self.metric.get_metrics(self.train.loc[:, self._selectable_columns()])
     
     def get_metric(self, method:  str, replace_rule: dict=None) -> pd.DataFrame:
         if replace_rule:
@@ -178,6 +200,11 @@ class Synthetic:
         }
     
     def get_charts(self, model_key : str, exclude_columns: set[str] = set()) -> list[go.Figure]:
+        
+        serie_real = self.privacy_metrics.loc[model_key,:]["DCR TH"]
+        serie_fake = self.privacy_metrics.loc[model_key,:]["DCR SH"]
+        privacy_chart = self.charts.privacy(serie_real, serie_fake)
+
         if not exclude_columns:
             exclude_columns = set(self.text_columns) & set(self.exclude_columns)
-        return self.charts.charts(self.df, self.fake_data[model_key], exclude_columns)
+        return [privacy_chart] + self.charts.charts(self.train, self.fake_data[model_key], exclude_columns)

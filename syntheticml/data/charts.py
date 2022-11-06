@@ -73,3 +73,10 @@ class Charts:
         )
         fig.update_layout(dict(width=1000))
         return fig
+
+    def privacy(self, dist_real: np.array, dist_syn: np.array):
+        fig = go.Figure(data=[
+            go.Histogram(x=dist_real, name="Real", marker_color=self.color_real),
+            go.Histogram(x=dist_syn, name="Synthetic", marker_color=self.color_synthetic),
+        ], layout=dict(title="Privacy", barmode='overlay'))
+        return fig
