@@ -1,0 +1,4 @@
+outs:
+- md5: 338b7ca3022d3bf9702149d3d9e82796
+  size: 34712
+  path: privacy_ctgan_noise_21613_SH.npy

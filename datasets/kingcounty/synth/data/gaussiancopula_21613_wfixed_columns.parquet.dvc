@@ -1,0 +1,4 @@
+outs:
+- md5: cff14dc00cd19bef4e0a473f3d575e88
+  size: 1036860
+  path: gaussiancopula_21613_wfixed_columns.parquet

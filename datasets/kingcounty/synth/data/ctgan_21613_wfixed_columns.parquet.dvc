@@ -1,0 +1,4 @@
+outs:
+- md5: 2e0907ebf3ba3f64e6dc4bad2978ed81
+  size: 956127
+  path: ctgan_21613_wfixed_columns.parquet

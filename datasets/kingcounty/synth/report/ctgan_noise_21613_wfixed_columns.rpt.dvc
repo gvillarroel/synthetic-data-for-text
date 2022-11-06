@@ -1,0 +1,4 @@
+outs:
+- md5: bfa22fff8d096e66f7ee4fd3bb6647c8
+  size: 9725
+  path: ctgan_noise_21613_wfixed_columns.rpt

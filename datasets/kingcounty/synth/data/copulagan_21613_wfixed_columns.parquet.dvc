@@ -1,0 +1,4 @@
+outs:
+- md5: fd199ba5dfb89f4fdeca012ee56a3664
+  size: 990151
+  path: copulagan_21613_wfixed_columns.parquet

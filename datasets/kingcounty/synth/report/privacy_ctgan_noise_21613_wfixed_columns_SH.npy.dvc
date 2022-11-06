@@ -1,0 +1,4 @@
+outs:
+- md5: 896d7d64198b58956c0c33f571b8473d
+  size: 34712
+  path: privacy_ctgan_noise_21613_wfixed_columns_SH.npy

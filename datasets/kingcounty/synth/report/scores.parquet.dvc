@@ -1,0 +1,4 @@
+outs:
+- md5: 41a499118dd5853bc153531a2429a19a
+  size: 3420
+  path: scores.parquet

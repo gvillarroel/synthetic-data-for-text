@@ -1,0 +1,4 @@
+outs:
+- md5: f1cb890e6270422d1604563f524cfee1
+  size: 138448
+  path: privacy_ctgan_21613_ST.npy

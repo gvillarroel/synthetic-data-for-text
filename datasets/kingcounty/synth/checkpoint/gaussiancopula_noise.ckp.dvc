@@ -1,0 +1,4 @@
+outs:
+- md5: 6dc81983f6fecc1e24a5ed2039dc034b
+  size: 1366313
+  path: gaussiancopula_noise.ckp
