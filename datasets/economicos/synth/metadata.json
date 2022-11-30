@@ -7,19 +7,19 @@
         },
         "property_type": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder"
         },
         "transaction_type": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder"
         },
         "state": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder"
         },
         "county": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder"
         },
         "publication_date": {
             "type": "datetime",
@@ -27,23 +27,23 @@
         },
         "rooms": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder"
         },
         "bathrooms": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder"
         },
         "m_built": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder"
         },
         "m_size": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder"
         },
         "source": {
             "type": "categorical",
-            "transformer": "LabelEncoder"
+            "transformer": "FrequencyEncoder"
         },
         "_price": {
             "type": "numerical",

@@ -10,22 +10,33 @@ import copy
 
 
 class SDVSMOTE(ModelInterface):
-    def __init__(self, table_metadata: dict, target_column: str, k_neighbours:int=5, exclude_columns:set[str]=set(), seed=42) -> None:
+    def __init__(self, table_metadata: dict, target_column: str, exclude_columns:set[str]=set(), seed=42, df:pd.DataFrame=None) -> None:
         super().__init__()
         self.metadata = table_metadata
         self.column_id = [col for col, col_type in table_metadata["fields"].items() if col_type["type"] == "id" and col != target_column and col not in exclude_columns][0]
         self.cat_columns = [col for col, col_type in table_metadata["fields"].items() if col_type["type"] == "categorical" and col != target_column and col not in exclude_columns]
         self.num_columns = [col for col, col_type in table_metadata["fields"].items() if col_type["type"] == "numerical" and col != target_column and col not in exclude_columns]
-        self.k_neighbours = k_neighbours
         self.target_column = target_column
         self.is_regression = table_metadata["fields"][target_column]["type"] != "categorical"
-        self.seed = seed    
+        self.seed = seed
+        self._make_ohe_scaler(df)
+
+    def _make_ohe_scaler(self, df: pd.DataFrame):
+        self.n_num_features = len(self.num_columns)
+        n_cat_features = len(self.cat_columns)
+
+        if self.is_regression:
+            X_train = df.loc[:, self.num_columns + [self.target_column]]
+            self.y_train = np.where( df.loc[:, self.target_column] > np.median(df.loc[:, self.target_column]), 1, 0)
+        else:
+            X_train = df.drop(columns=[self.target_column])
+            self.y_train = df.loc[:, self.target_column]
+        
+        self.cat_features = list(range(self.n_num_features, self.n_num_features+n_cat_features))
+        self.scaler = MinMaxScaler().fit(X_train)
 
     def fit(self, train: pd.DataFrame):
         self.train = train
-
-        self.n_num_features = len(self.num_columns)
-        n_cat_features = len(self.cat_columns)
 
         if self.is_regression:
             X_train = train.loc[:, self.num_columns + [self.target_column]]
@@ -34,8 +45,6 @@ class SDVSMOTE(ModelInterface):
             X_train = train.drop(columns=[self.target_column])
             self.y_train = train.loc[:, self.target_column]
         
-        self.cat_features = list(range(self.n_num_features, self.n_num_features+n_cat_features))
-        self.scaler = MinMaxScaler().fit(X_train)
         X_train_scaled = self.scaler.transform(X_train).astype(object)
         self.X_train_scaled_cat = np.concatenate( [X_train_scaled, train.loc[:, self.cat_columns].to_numpy()] , axis=1, dtype=object)
         self.sorted_columns = self.num_columns + [self.target_column] + self.cat_columns
@@ -45,16 +54,16 @@ class SDVSMOTE(ModelInterface):
         with open(filepath, 'wb') as f:
             pickle.dump(self, f)
 
-    def load(self, filepath: str):
+    @staticmethod
+    def load(filepath: str):
         with open(filepath, 'rb') as f:
             return pickle.load(f)
 
     def sample_remaining_columns(self, df: pd.DataFrame, output_file_path: str):
         return pd.DataFrame([], columns=[self.column_id] + self.sorted_columns)
 
-    def sample(self, n_sample: int, output_file_path: str):
+    def sample(self, n_sample: int, output_file_path: str, frac_lam_del: float = 0.0, k_neighbours:int=5):
         frac_samples = (self.train.shape[0] + n_sample) / self.train.shape[0]
-        frac_lam_del = 0.0
         lam1 = 0.0 + frac_lam_del / 2
         lam2 = 1.0 - frac_lam_del / 2
 
@@ -66,7 +75,7 @@ class SDVSMOTE(ModelInterface):
                 lam1=lam1,
                 lam2=lam2,
                 random_state=self.seed,
-                k_neighbors=self.k_neighbours,
+                k_neighbors=k_neighbours,
                 categorical_features=self.cat_features,
                 sampling_strategy=strat
             )
@@ -75,7 +84,7 @@ class SDVSMOTE(ModelInterface):
                     lam1=lam1,
                     lam2=lam2,
                     random_state=self.seed,
-                    k_neighbors=self.k_neighbours,
+                    k_neighbors=k_neighbours,
             )
         X_res, y_res = sm.fit_resample(self.X_train_scaled_cat, self.y_train)
         outsample = X_res[self.X_train_scaled_cat.shape[0]:]
