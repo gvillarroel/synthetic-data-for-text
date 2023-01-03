@@ -1,0 +1,22 @@
+@startuml
+!include ../tema/uchile.puml
+
+skinparam Padding 4
+skinparam Margin 0
+'skinparam PageMargin 0
+scale 500 width
+
+
+card text [
+    = Text
+    <$GRAYDARK,$GRAYDARK>|<color:$WHITE>Paper |<color:$WHITE> Fecha <&arrow-bottom> |<color:$WHITE> Codigo |
+    <$WHITE>| MVP | 2022-12-19 |<color:$GREEN> <&check> |
+    <$WHITE>| FLAN-T5 | 2022-12-06 |<color:$GREEN> <&check> |
+    <$WHITE>| PaLM | 2022-10-05 |<color:$GREEN> <&check> |
+    <$WHITE>| T5 | 2020-06-28 |<color:$GREEN> <&check> |
+    <$WHITE>| GTP-3 | 2020-06-11 |<color:$RED> <&x> |
+    <$WHITE>| BERT2BERT | 2020-06-01 |<color:$GREEN> <&check> |
+    <$WHITE>| BART | 2019-10-29 |<color:$GREEN> <&check> |
+    <$WHITE>| GTP-2 | 2019-02-14 |<color:$GREEN> <&check> |
+]
+@enduml

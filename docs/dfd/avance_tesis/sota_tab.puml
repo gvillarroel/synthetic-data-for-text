@@ -1,0 +1,43 @@
+@startuml
+!include ../tema/uchile.puml
+
+skinparam Padding 4
+'skinparam PageMargin 0
+scale 2500 width
+
+
+card tabular [
+    = Tabular
+    <$GRAYDARK,$GRAYDARK>|<color:$WHITE>Paper |<color:$WHITE> Fecha <&arrow-bottom> |<color:$WHITE> Codigo |
+    <$WHITE>| PreFair | 2022-12-20 |<color:$RED> <&x> |
+    <$WHITE>| GenSyn | 2022-12-08 |<color:$GREEN> <&check> |
+    <$WHITE>| TABDDPM | 2022-10-30 |<color:$GREEN> <&check> |
+    <$WHITE>| CTABGAN+ | 2022-04-01 |<color:$GREEN> <&check> |
+    <$WHITE>| CTABGAN  | 2021-05-31 |<color:$GREEN> <&check> |
+    <$WHITE>| TVAE | 2019-10-28 |<color:$GREEN> <&check> |
+    <$WHITE>| SMOTE | 2002-06-02 |<color:$GREEN> <&check> |
+]
+
+card fecha [
+    = Fecha 2022-10
+    <$GRAYDARK,$GRAYDARK>|<color:$WHITE>Paper |<color:$WHITE> Fecha <&arrow-bottom> |<color:$WHITE> Codigo |
+    <$WHITE>| TABDDPM | 2022-10-30 |<color:$GREEN> <&check> |
+    <$WHITE>| CTABGAN+ | 2022-04-01 |<color:$GREEN> <&check> |
+    <$WHITE>| CTABGAN  | 2021-05-31 |<color:$GREEN> <&check> |
+    <$WHITE>| TVAE | 2019-10-28 |<color:$GREEN> <&check> |
+    <$WHITE>| SMOTE | 2002-06-02 |<color:$GREEN> <&check> |
+]
+
+card best [
+    = Mejores Resultados
+    <$GRAYDARK,$GRAYDARK>|<color:$WHITE>Paper |<color:$WHITE> Fecha <&arrow-bottom> |<color:$WHITE> Codigo |
+    <$WHITE>| TABDDPM | 2022-10-30 |<color:$GREEN> <&check> |
+    <$WHITE>| SMOTE | 2002-06-02 |<color:$GREEN> <&check> |
+]
+
+tabular => fecha
+fecha => best
+
+'remove fecha
+'remove best
+@enduml

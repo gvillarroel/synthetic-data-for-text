@@ -1,0 +1,35 @@
+@startuml
+'clock clk with period 1
+scale 2000
+<Style>
+concise {
+    BackgroundColor: Red
+    FontColor: White
+    BorderThickness: 1
+    NodeBorderColor: Red
+    BoundaryBorderColor: Red
+    ObjectBorderColor: Red
+    RectangleBorderColor: Red
+    BorderColor
+}
+</Style>
+
+
+concise "Presentación" as db
+
+@0 as :start
+@5 as :en_high 
+@10 as :en_low
+@:en_high-2 as :en_highMinus2
+
+@:start
+db is "Motivación"
+
+@:en_highMinus2
+db is "Objetivo"
+
+@:en_high+6
+db is "Avance"
+
+
+@enduml
