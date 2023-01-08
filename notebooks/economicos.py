@@ -10,9 +10,9 @@ import os
 def test_train(args):
     lrc, ntc, sts, btsc, rtdlc, syn, df = args
     #notebooks/economicos_good/2e-06_10_100000_5000_1024-512-256
-    checkpoint = "economicos_good/" +  "_".join(
+    checkpoint = "economicos_good2/" +  "_".join(
             map(str, [lrc, ntc, sts, btsc, "-".join(map(str, rtdlc))]))
-    checkpoint = "economicos_good/con_fechas"
+    checkpoint = "economicos_good2/con_fechas"
     if os.path.exists(f"{checkpoint}/final_model.pt") or os.path.exists(f"{checkpoint}/exit"):
         return (checkpoint, 1)    
     model = SDV_MLP(syn.metadata, 
@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
     category_columns=("property_type", "transaction_type", "state", "county", "rooms", "bathrooms", "m_built", "m_size", "source", )
     # TODO: Estudiar implicancia de valores nulos en categorias y numeros
-    df_converted = df.replace(to_replace="None", value=np.nan).replace(to_replace=-1, value=np.nan).dropna().astype({k: 'str' for k in ("description", "price", "title", "address", "owner",)})
+    df_converted = df.dropna().astype({k: 'str' for k in ("description", "price", "title", "address", "owner",)})
     syn = Synthetic(df_converted, 
             id="url", 
             category_columns=category_columns,
@@ -57,7 +57,7 @@ if __name__ == '__main__':
     lrs = [2e-6]#np.linspace(2e-6, 2e-3, 5)
     num_timesteps = [10] #np.linspace(10, 1000, 3, dtype=int)
     batch_size = [5000] #np.linspace(2500, 5000, 3, dtype=int)
-    steps = [10000000]#np.linspace(150000, 500000, 5, dtype=int)
+    steps = [1000]#[10000000]#np.linspace(150000, 500000, 5, dtype=int)
     rtdl_params = [
         [1024, 512, 256],
         #[512, 256],

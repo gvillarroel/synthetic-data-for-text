@@ -78,7 +78,6 @@ class MySMOTENC(SMOTENC):
         steps = step_size * random_state.uniform(low=self.lam1, high=self.lam2, size=n_samples)[:, np.newaxis]
         rows = np.floor_divide(samples_indices, nn_num.shape[1])
         cols = np.mod(samples_indices, nn_num.shape[1])
-
         X_new = self._generate_samples(X, nn_data, nn_num, rows, cols, steps)
         y_new = np.full(n_samples, fill_value=y_type, dtype=y_dtype)
         return X_new, y_new

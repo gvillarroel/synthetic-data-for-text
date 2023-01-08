@@ -52,7 +52,7 @@ class Metrics:
             X_target = np.concatenate([X_target, X_cat_fake.todense()], axis=1)
 
         #dist_rf = pairwise_distances(X_fake, Y=X_real, metric='l2', n_jobs=-1)
-        dist_rf = pairwise_distances(X_base, Y=X_target, metric='minkowski', n_jobs=-1)
+        dist_rf = pairwise_distances(X_base[:min(50000, X_base.shape[0])], Y=X_target[:min(50000, X_base.shape[0])], metric='minkowski', n_jobs=-1)
         
         smallest_two_indexes_rf = [dist_rf[i].argsort()[:2] for i in range(len(dist_rf))]
         smallest_two_rf = [dist_rf[i][smallest_two_indexes_rf[i]] for i in range(len(dist_rf))]   
@@ -65,13 +65,15 @@ class Metrics:
         privacy_path = f"{report_folder}/privacy.npy"
         frame = []
         dists = []
+        columns_to_compare = list(set(self.train_data.columns) & set(self.includes) & set(self.hold_data.columns))
         if os.path.exists(privacy_path):
             dist_TH = np.load(privacy_path)
         else:
-            dist_TH = self.privacy(self.train_data, df_target=self.hold_data)
+            dist_TH = self.privacy(self.train_data.loc[:, columns_to_compare], df_target=self.hold_data.loc[:, columns_to_compare])
             np.save(privacy_path, dist_TH)
         #dist_HT = self.privacy(self.hold_data, self.train_data)
         for model_name, df_fake in fake_data.items():
+            columns_to_compare = list(set(self.train_data.columns) & set(self.includes) & set(df_fake.columns))
             privacy_path_model_ST = f"{report_folder}/privacy_{model_name}_ST.npy"
             privacy_path_model_SH = f"{report_folder}/privacy_{model_name}_SH.npy"
             if os.path.exists(privacy_path_model_ST):
@@ -118,7 +120,10 @@ class Metrics:
             if os.path.exists(report_path):
                 report = report.load(report_path)
             else:
-                report.generate(self.real_data.loc[:,df_fake.columns], df_fake, self.metadata)
+                columns_to_compare = list(set(self.train_data.columns) & set(self.includes) & set(df_fake.columns))
+                metadata = self.metadata.copy()
+                metadata["fields"] = {k:v for k,v in metadata["fields"].items() if k in columns_to_compare}
+                report.generate(self.real_data.loc[:,columns_to_compare], df_fake.loc[:,columns_to_compare], metadata)
                 report.save(report_path)
             scores.append( dict(
                 name = model_name,
@@ -142,6 +147,8 @@ class Metrics:
     
     def is_categorical(self, serie: pd.Series) -> bool:
         return self.metadata["fields"][serie.name]["type"] == "categorical"
+    def is_datetime(self, serie: pd.Series) -> bool:
+        return self.metadata["fields"][serie.name]["type"] == "datetime"
 
     def get_probs_from_serie(self, serie: pd.Series) -> pd.DataFrame:
         values, counts = np.unique(serie, return_counts=True)
@@ -153,8 +160,14 @@ class Metrics:
 
     def get_metrics_from_serie(self, serie: pd.Series) -> dict:
         probs = self.get_probs_from_serie(serie)
-        if self.is_categorical(serie):
-            desc = describe(serie, stats=["nobs", "missing"])[serie.name] 
+        if self.is_categorical(serie) or self.is_datetime(serie):
+            try:
+                desc = describe(serie.astype('category'), stats=["nobs", "missing"])[serie.name] 
+            except KeyError:
+                desc = {
+                    "nobs": serie.shape[0],
+                    "missing": serie.isna().count()
+                }
         else:
             desc = describe(serie, 
             stats=["nobs", "missing", "mean", "std_err", "ci", "ci", "std", "iqr", "iqr_normal", "mad", "mad_normal", "coef_var", "range", "max", "min", "skew", "kurtosis", "jarque_bera", "mode", "freq", "median", "percentiles", "distinct"],

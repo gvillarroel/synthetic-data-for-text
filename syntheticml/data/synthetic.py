@@ -72,7 +72,10 @@ def parallel_syn(params: tuple[str, str, tuple[str, str]], df: pd.DataFrame, syn
                 if pp in f.__code__.co_varnames:
                     p[pp] = additional_parameters[model_name][pp]
         # return (model_name, p)
-        f(**p).to_parquet(syndata_path)
+        new_data = f(**p)
+        print(new_data.head(1))
+        if len(new_data.columns) > 2:
+            new_data.to_parquet(syndata_path, compression='snappy', engine='pyarrow', version='2.6')
     return (file_name, pd.read_parquet(syndata_path))
 
 
@@ -110,7 +113,7 @@ class Synthetic:
         self.make_folders()
         self.metadata, self.metadata_noised = self._gen_metadata(
             default_encoder)
-        self.metric = Metrics(self.df, self.train, self.hold, self.metadata)
+        self.metric = Metrics(self.df, self.train, self.hold, self.metadata, includes=list(set(self.df.columns) - set(self.exclude_columns) - set(self.df.select_dtypes(include=np.datetime64).columns)))
         self.charts = Charts(self.metadata)
         self.model_names = models
         self.fake_data = {}
@@ -222,10 +225,13 @@ class Synthetic:
         pw = partial(parallel_syn, df=self.df, syntheticdata_folder=self.syntheticdata_folder,
                      n_sample=self.n_sample, remaining_columns=remaining_columns, additional_parameters=additional_parameters)
 
-        with mp.Pool(self.max_cpu_pool) as p:
-            data_gen = dict(p.map(pw, [(fn_model_name(
-                model_name), model_name, model,) for model_name, model in models.items()]))
-            # print(data_gen)
+        if self.max_cpu_pool > 1:
+            with mp.Pool(self.max_cpu_pool) as p:
+                data_gen = dict(p.map(pw, [(fn_model_name(
+                    model_name), model_name, model,) for model_name, model in models.items()]))
+        else:
+            data_gen = dict(list(map(pw, [(fn_model_name(
+                    model_name), model_name, model,) for model_name, model in models.items()])))
 
         return data_gen
 

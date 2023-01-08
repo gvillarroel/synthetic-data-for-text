@@ -11,7 +11,7 @@ if __name__ == '__main__':
 
     df = pd.read_parquet('../datasets/economicos/raw/full_dedup_economicos_step0.parquet')
 
-    category_columns=("property_type", "transaction_type", "state", "county", "rooms", "bathrooms", "m_built", "m_size", "source",  )
+    category_columns=("property_type", "transaction_type", "state", "county", "rooms", "bathrooms", "m_built", "m_size", "source", )
     # TODO: Estudiar implicancia de valores nulos en categorias y numeros
     df_converted = df.fillna(dict(
             property_type = "None",
@@ -29,16 +29,20 @@ if __name__ == '__main__':
             id="url", 
             category_columns=category_columns,
             text_columns=("description", "price", "title", "address", "owner",),
-            exclude_columns=("publication_date", ),
+            exclude_columns=tuple(),
             synthetic_folder = "../datasets/economicos/synth",
             models=['copulagan', 'tvae', 'gaussiancopula', 'ctgan', 'smote-enc', 'tddpm_mlp'],
-            n_sample = df.shape[0],
+            n_sample = df_converted.shape[0],
             target_column="_price",
             max_cpu_pool=1
     )
     syn.process()
     syn.process_scores()
+    print(syn._selectable_columns())
+    print(syn.train.loc[:, syn._selectable_columns()])
+    
     print(syn.current_metrics())
+    
     
 
     # remaining_columns=('view','condition','waterfront'),

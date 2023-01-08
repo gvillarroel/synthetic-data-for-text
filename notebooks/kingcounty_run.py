@@ -17,7 +17,7 @@ if __name__ == '__main__':
                     category_columns=("condition", "floors", "grade", "view",
                                       "waterfront", "zipcode", "bathrooms", "bedrooms",),
                     synthetic_folder="../datasets/kingcounty/synth",
-                    models=['tddpm_mlp', 'smote-enc'],
+                    models=MODELS.keys(),
                     n_sample=21613,
                     max_cpu_pool=1,
                     target_column="price"
