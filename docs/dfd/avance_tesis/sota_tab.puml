@@ -3,7 +3,7 @@
 
 skinparam Padding 4
 'skinparam PageMargin 0
-scale 2500 width
+scale 5000 width
 
 
 card tabular [

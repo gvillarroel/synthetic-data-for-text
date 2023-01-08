@@ -1,4 +1,0 @@
-outs:
-- md5: 7acf63af8e5666eb07a341e525fe52be
-  size: 872412
-  path: ctgan_noise_21613.parquet

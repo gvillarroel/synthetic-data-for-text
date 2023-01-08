@@ -4,19 +4,39 @@
 skinparam Padding 4
 skinparam Margin 0
 'skinparam PageMargin 0
-scale 500 width
+scale 5000 width
 
 
 card text [
     = Text
-    <$GRAYDARK,$GRAYDARK>|<color:$WHITE>Paper |<color:$WHITE> Fecha <&arrow-bottom> |<color:$WHITE> Codigo |
-    <$WHITE>| MVP | 2022-12-19 |<color:$GREEN> <&check> |
-    <$WHITE>| FLAN-T5 | 2022-12-06 |<color:$GREEN> <&check> |
-    <$WHITE>| PaLM | 2022-10-05 |<color:$GREEN> <&check> |
-    <$WHITE>| T5 | 2020-06-28 |<color:$GREEN> <&check> |
-    <$WHITE>| GTP-3 | 2020-06-11 |<color:$RED> <&x> |
-    <$WHITE>| BERT2BERT | 2020-06-01 |<color:$GREEN> <&check> |
-    <$WHITE>| BART | 2019-10-29 |<color:$GREEN> <&check> |
-    <$WHITE>| GTP-2 | 2019-02-14 |<color:$GREEN> <&check> |
+    <$GRAYDARK,$GRAYDARK>|<color:$WHITE>Paper |<color:$WHITE> Fecha <&arrow-bottom> |<color:$WHITE> Codigo |<color:$WHITE> <24G |
+    <$WHITE>| MVP | 2022-12-19 |<color:$GREEN> <&check> |<color:$RED> <&x> |
+    <$WHITE>| FLAN-T5 | 2022-12-06 |<color:$GREEN> <&check> |<color:$GREEN> <&check> |
+    <$WHITE>| PaLM | 2022-10-05 |<color:$GREEN> <&check> |<color:$RED> <&x> |
+    <$WHITE>| T5 | 2020-06-28 |<color:$GREEN> <&check> |<color:$GREEN> <&check> |
+    <$WHITE>| GTP-3 | 2020-06-11 |<color:$RED> <&x> |<color:$RED> <&x> |
+    <$WHITE>| BERT2BERT | 2020-06-01 |<color:$GREEN> <&check> |<color:$GREEN> <&check> |
+    <$WHITE>| BART | 2019-10-29 |<color:$GREEN> <&check> |<color:$GREEN> <&check> |
+    <$WHITE>| GTP-2 | 2019-02-14 |<color:$GREEN> <&check> |<color:$GREEN> <&check> |
 ]
+
+card text5 [
+    = Focus Flant-T5
+    <$GRAYDARK,$GRAYDARK>|<color:$WHITE>Paper |<color:$WHITE> Fecha <&arrow-bottom> |
+    <$WHITE>| FLAN-T5 | 2022-12-06 |
+]
+
+card ft5 [
+    = Tamaños
+    <$GRAYDARK,$GRAYDARK>|<color:$WHITE>Paper |<color:$WHITE> Fecha <&arrow-bottom> |<color:$WHITE> <24G |
+    <$WHITE>| T5-XXL | 2022-12-06 |<color:$RED> <&x> |
+    <$WHITE>| T5-XL | 2022-12-06 |<color:$RED> <&x> |
+    <$WHITE>| T5-L | 2022-12-06 |<color:$GREEN> <&check> |
+    <$WHITE>| T5-base | 2022-12-06 |<color:$GREEN> <&check> |
+    <$WHITE>| T5-Small | 2022-12-06 |<color:$GREEN> <&check> |
+]
+
+text => text5
+text5 => ft5
+
 @enduml

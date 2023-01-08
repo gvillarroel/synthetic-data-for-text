@@ -1,0 +1,52 @@
+
+@startuml
+!include ../tema/uchile.puml
+left to right direction
+
+skinparam Padding 4
+skinparam Margin 0
+'skinparam PageMargin 0
+scale 5000 width
+
+
+card ori [
+    = Original
+    <$GRAYDARK,$GRAYDARK>|<color:$WHITE>Campo |<color:$WHITE> Ejemplo |
+    <$WHITE>| fecha | 2022-07-21 |
+    <$WHITE>| precio | 22.000 UF |
+    <$WHITE>| tipo | Casa |
+    <$WHITE>| transacción | Venta |
+    <$WHITE>| región | Araucanía |
+    <$WHITE>| comuna | Temuco |
+    <$WHITE>| dormitorios | 5.0 |
+    <$WHITE>| baños | 5.0 |
+    <$WHITE>| constuidos | 360.0 |
+    <$WHITE>| terreno | 5000.0 |
+    <$WHITE>| precio_real | 22000.0 |
+    <$YELLOW>| Descripción | Casa... |
+    <$YELLOW>| Titulo | Casa... |
+]
+
+rectangle "Training" as T {
+    card input [
+        = Input
+        <$YELLOW>| Describe |<$WHITE> <SEP> |<$WHITE> <color:$BLUE>fecha<color:$RED> 2022-07-21 <color:$BLUE>precio<color:$RED> 22.000 UF |
+    ]
+    card target [
+        Se vende casa en Lomas Del Carmen, Temuco.
+        Se vende casa 360m2 construidos,
+        5000m2 terreno en exclusivo Condominio
+        Lomas del Carmen en Temuco.
+        Propiedad estilo chilena con influencia
+        colonia alemana rural. 2 niveles más un
+        altillo para uso recreacional, 5 dormitorios,
+        5 baños, más casa de huéspedes de 82 m2.
+        Lujosa, amplia y cómoda casa para disfrutar
+        en familia. Condominio con seguridad las
+        24hrs del día.
+    ]
+    input -u> target
+}
+
+ori -[hidden]- target
+@enduml

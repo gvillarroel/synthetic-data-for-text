@@ -1,4 +1,0 @@
-outs:
-- md5: 7cc2708c1467d6ae980c20bf2c608f15
-  size: 950970
-  path: gaussiancopula_noise_21613.parquet

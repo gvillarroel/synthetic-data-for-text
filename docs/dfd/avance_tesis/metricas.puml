@@ -1,0 +1,95 @@
+@startuml
+!include ../tema/uchile.puml
+left to right direction
+
+skinparam Padding 4
+skinparam Margin 0
+'skinparam PageMargin 0
+scale 5000 width
+
+rectangle "Modelos" as modelos {
+    card tab [
+        = Tabular
+        |<$GREEN><color:$WHITE> TabDDPM |
+        |<$GREEN><color:$WHITE> SMOTE |
+    ]
+
+    card text [
+        = Texto
+        |<$GREEN><color:$WHITE> Flan-T5/S |
+        |<$GREEN><color:$WHITE> Flan-T5/M |
+        |<$GREEN><color:$WHITE> Flan-T5/L |
+    ]
+}
+
+rectangle "Metricas" as metricas {
+    card num [
+        = Numérico
+        |<$GREEN><color:$WHITE> Media  |<$GREEN><color:$WHITE> Mediana |
+        |<$GREEN><color:$WHITE> Moda |<$GREEN><color:$WHITE> Mínimo |
+        |<$GREEN><color:$WHITE> Máximo |<$GREEN><color:$WHITE> Percentiles [25,75]|
+        |<$GREEN><color:$WHITE> Media\n<color:$WHITE> Truncada|<$GREEN><color:$WHITE> Desviación\n<color:$WHITE> Truncada |
+        |<$GREEN><color:$WHITE> Varianza |<$GREEN><color:$WHITE> Desviación\n<color:$WHITE> estándar |
+        |<$GREEN><color:$WHITE> Desviación\n<color:$WHITE> absoluta media |<$GREEN><color:$WHITE> Rango |
+        |<$GREEN><color:$WHITE> Top N |<$GREEN><color:$WHITE> Frecuencias |
+    ]
+    card cat [
+        = Categóricas
+        |<$GREEN><color:$WHITE> Moda |
+        |<$GREEN><color:$WHITE> Top N |
+        |<$GREEN><color:$WHITE> Frecuencias |
+        |<$GREEN><color:$WHITE> Probabilidad |
+    ]
+    card textos [
+        = Textos
+        <$WHITE>| coseno de tf-idf |
+        <$WHITE>| Ranking PMRA |
+    ]
+
+    card multi [
+        = Multivariable
+        <$WHITE>|<$GREEN><color:$WHITE>(1) Tabla\n<color:$WHITE> de contingencia |<$GREEN><color:$WHITE> Cobertura de\n<color:$WHITE> soporte |
+        <$WHITE>|<$GREEN><color:$WHITE>(1) Correlación | Comparación de\n modelos predictivos\n multivariable |
+        <$WHITE>| Distinguibilidad | Kullback-Leibler |
+        <$WHITE>| Log-cluster |<$YELLOW> cross-classification |
+        <$WHITE>|<$GREEN><color:$WHITE> DCR |<$BLUE><color:$WHITE> (1) KS-Kolmogorov-Smirnov |
+        |<$BLUE><color:$WHITE> (1) Total Variation Distance |
+    ]
+}
+
+rectangle "Datasets" as ds {
+    card dss [
+        = Tabular
+        <$WHITE>|<$GREEN><color:$WHITE> KingCounty |
+        = Tabular & Texto
+        <$WHITE>|<$GREEN><color:$WHITE> Economicos |
+    ]
+}
+
+rectangle "Documento" as doc {
+    card tesis [
+        = Tesis
+        <$YELLOW>| Introducción |
+        <$YELLOW>| Materiales\n y Metodos |
+        <$YELLOW>| Resultados |
+        <$YELLOW>| Discusiones |
+        <$YELLOW>| Conclusiones |
+        <$YELLOW>| Bibliografía |
+    ]
+}
+
+card prog [
+    = Leyenda
+    <$WHITE,$GRAYDARK>| |<color:$GRAYDARK> No iniciada |
+    <$WHITE>|<$YELLOW> |<color:$GRAYDARK> Importante |
+    <$WHITE>|<$GREEN> |<color:$GRAYDARK> Completa |
+    <$WHITE>|<$BLUE> |<color:$GRAYDARK> Nuevo/Completo |
+    (1) Incluida 
+    en SDMetric Score
+]
+modelos -[hidden]- metricas
+modelos -[hidden] prog
+metricas -[hidden]-- doc
+ds -[hidden] doc
+
+@enduml

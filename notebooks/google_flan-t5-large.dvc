@@ -1,0 +1,5 @@
+outs:
+- md5: 27bb6f1eb019043ea4909dee35a7971e.dir
+  size: 10235281920
+  nfiles: 6
+  path: google_flan-t5-large

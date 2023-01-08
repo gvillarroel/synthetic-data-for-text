@@ -1,0 +1,35 @@
+@startuml
+!include ../tema/uchile.puml
+
+skinparam Padding 4
+skinparam Margin 0
+'skinparam PageMargin 0
+scale 5000 width
+
+
+card text [
+    = Ejemplos
+    <$GRAYDARK,$GRAYDARK>|<color:$WHITE>Ambiente |<color:$WHITE> Descripción |
+    <$WHITE>|<b><color:$RED> NPE | Data QA |
+    <$WHITE>|<b><color:$RED> NPE | Detección de \n Clasificación de datos |
+    <$WHITE>|<b><color:$RED> NPE | Creación de Atributos |
+    <$WHITE>|<b><color:$RED> NPE | Resolución de Entidades |
+    <$WHITE>|<b><color:$RED> NPE | Relación de Entidades |
+] 
+
+
+rectangle "Resolución de Entidades" as ER {
+    card data [
+        <$GRAYDARK,$GRAYDARK>|<color:$WHITE> Personaje |<color:$WHITE> Dirección |<color:$YELLOW><b> Entidad |
+        <$WHITE>| Sher<color:$RED>lock</color> Holmes | 221B Baker St., Londres, <color:$RED>Inglaterra</color> | 1 |
+        <$WHITE>| Sher<color:$RED>ly</color> Holmes | 221B Baker St., London, <color:$RED>England</color> | 1 |
+        <$WHITE>| Luk<color:$RED>e</color> Skywalker | <color:$RED>Granja Lars, Planeta</color> Tatooine | 2 |
+        <$WHITE>| Luk<color:$RED>ie</color> Skywalker | <color:$RED>Lars Homestead,</color> Tatooine | 2 |
+        <$WHITE>| Ell<color:$RED>en</color> Ripley | <color:$RED>Nave comercial</color> Nostromo, <color:$RED>Sistema de</color> Zeta II Reticuli | 3 |
+        <$WHITE>| Ell<color:$RED>ie</color> Ripley | <color:$RED>Commerical spaceship</color> Nostromo, Zeta II Reticuli <color:$RED>system | 3 |
+    ]
+}
+
+text -[hidden] ER
+
+@enduml

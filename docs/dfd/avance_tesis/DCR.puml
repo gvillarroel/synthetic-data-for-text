@@ -1,0 +1,62 @@
+
+@startuml
+!include ../tema/uchile.puml
+top to bottom direction
+
+skinparam Padding 4
+skinparam Margin 0
+'skinparam PageMargin 0
+scale 5000 width
+<style>
+database {
+    BackgroundColor: $GRAY
+    FontColor: $GRAYDARK
+    BorderColor: $GRAYDARK
+}
+.azul {
+    BackgroundColor: $BLUE
+}
+.red {
+    BackgroundColor: $RED
+    BorderColor: $RED
+    BorderThickness: 1
+}
+
+
+</style>
+
+skinparam arrow {
+	Thickness 3
+	'Color $PRIMARY
+	Color $WHITE
+	FontColor $FGCOLOR
+}
+
+
+rectangle " " as A <<azul>> {
+    database AAS [
+        Train
+    ]
+
+    database AH [
+        Hold
+    ]
+    AAS -> AH
+}
+
+rectangle " " as R <<red>> {
+    database RS [
+        Synthetic
+    ]
+
+    database RH [
+        Hold
+    ]
+    RS -> RH
+}
+
+
+hide stereotype
+hide title
+
+@enduml

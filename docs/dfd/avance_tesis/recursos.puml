@@ -1,0 +1,28 @@
+@startuml
+!include ../tema/uchile.puml
+left to right direction
+
+skinparam Padding 4
+skinparam Margin 0
+'skinparam PageMargin 0
+scale 5000 width
+
+card people [
+    = Agradecimientos
+    <$WHITE>| Benjamín Obando | Data Scientist |
+    <$WHITE>| Felipe Avila | Data Scientist |
+    <$WHITE>| Nicolas Vega | Architect |
+    <$WHITE>| Danilo Bustos | Architect |
+]
+
+card r [
+    = Hardware
+    <$WHITE>| CPU | AMD RYZEN 9 7950X |
+    <$WHITE>| RAM | 128 GB |
+    <$WHITE>| GPU | 4090 24GB |
+]
+
+remove people
+
+
+@enduml
