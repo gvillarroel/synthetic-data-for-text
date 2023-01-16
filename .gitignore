@@ -6,6 +6,28 @@ notebooks/syntheticml
 datasets/**/*.csv
 datasets/**/*.parquet
 datasets/**/*.pkl
+docs/tesis/syn_data/memoria.pdf
+
+## Latex
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+.*.lb
+## Bibliography auxiliary files (bibtex/biblatex/biber):
+*.bbl
+*.bcf
+*.blg
+*-blx.aux
+*-blx.bib
+*.run.xml
 
 # C extensions
 *.so
