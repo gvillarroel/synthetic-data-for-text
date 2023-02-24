@@ -11,6 +11,7 @@ if __name__ == '__main__':
 
     df = pd.read_parquet('../datasets/economicos/raw/full_dedup_economicos_step0.parquet')
 
+
     category_columns=("property_type", "transaction_type", "state", "county", "rooms", "bathrooms", "m_built", "m_size", "source", )
     # TODO: Estudiar implicancia de valores nulos en categorias y numeros
     df_converted = df.fillna(dict(
@@ -23,12 +24,15 @@ if __name__ == '__main__':
             m_built = -1,
             m_size = -1,
             source = "None"
-    )).fillna(-1).astype({k: 'str' for k in ("description", "price", "title", "address", "owner",)}).astype({k: 'str' for k in category_columns})
+    )).fillna(-1).astype({k: 'str' for k in ("description", "price", "title", "address", "owner",)})
     df_converted = df.replace(to_replace="None", value=np.nan).replace(to_replace=-1, value=np.nan).dropna().astype({k: 'str' for k in ("description", "price", "title", "address", "owner",)})
+    basedate = pd.Timestamp('2017-12-01')
+    dtime = df_converted.pop("publication_date")
+    df_converted["publication_date"] = dtime.apply(lambda x: (x - basedate).days)
     syn = Synthetic(df_converted, 
             id="url", 
             category_columns=category_columns,
-            text_columns=("description", "price", "title", "address", "owner",),
+            text_columns=("description", "price", "title", "address", "owner", ),
             exclude_columns=tuple(),
             synthetic_folder = "../datasets/economicos/synth",
             models=['copulagan', 'tvae', 'gaussiancopula', 'ctgan', 'smote-enc', 'tddpm_mlp'],
@@ -36,6 +40,7 @@ if __name__ == '__main__':
             target_column="_price",
             max_cpu_pool=1
     )
+
     syn.process()
     syn.process_scores()
     print(syn._selectable_columns())

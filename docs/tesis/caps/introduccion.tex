@@ -1,0 +1,73 @@
+\chapter{Introducción}
+Cuando se revise esta tesis, estará desactualizada. Desde AlexNet \cite{krizhevsky_imagenet_2012} en 2012, el liderazgo en el problema de clasificación de imágenes ha cambiado al menos 15 veces \cite{noauthor_papers_nodate}. En el campo de texto a imágenes, modelos como DALL-E 2 \cite{noauthor_dalle_nodate}, Google Imagen \cite{noauthor_imagen_nodate} y Stable Diffusion \cite{noauthor_stable_nodate} fueron presentados en 2022, mientras que para el 2023 se pronostica el inicio de una carrera de inteligencia artificial en el campo de los chatbots entre Google y Microsoft \cite{milmo_google_2023, noauthor_microsoft_2023}. En definitiva, es un campo actualmente en crecimiento y que seguirá sorprendiendo con nuevas técnicas y productos, en variedad y calidad.
+
+En el contexto de \textbf{Equifax}, la empresa en la que se centra este esfuerzo, es fundamental avanzar de manera rápida y efectiva en el uso de su información para poder mantenerse a la vanguardia en el mercado y poder competir con otras empresas del sector.
+
+Según el libro \emph{Practical synthetic data generation: balancing privacy and the broad availability of data} \cite{el_emam_practical_2020} los datos sintéticos ofrecen dos beneficios principales:
+\begin{enumerate}
+    \item Mayor eficiencia en la disponibilidad de datos, y
+    \item Mejora en los análisis realizados.
+\end{enumerate}
+
+Para \textbf{Equifax}, ambos beneficios son valiosos, aunque inicialmente la eficiencia en la disponibilidad de datos tiene mayor peso. Como se verá posteriormente, la empresa ejerce un control total sobre el acceso a la información y los datos, ya que es necesario proteger su confidencialidad.
+
+El objetivo general de este trabajo es diseñar un mecanismo para generar conjuntos de datos sintéticos estructurados, que contengan textos, y compararlos con sus contrapartes originales utilizando deep learning.
+
+\section{Estructura del documento}
+En este documento se presenta un estudio detallado del desarrollo de un mecanismo para generar conjuntos de datos sintéticos estructurados que incluyen textos, y se comparan con sus contrapartes originales utilizando deep learning.
+
+En la \textbf{Introducción} se establecerá el contexto del desafío, se describirán los objetivos a cumplir y se presentará la estructura del documento.
+
+En el capítulo 2 se realizará una revisión de la literatura sobre técnicas de generación de datos sintéticos y deep learning.
+
+En el capítulo 3 se detallará el diseño y la implementación del mecanismo para generar los conjuntos de datos sintéticos y su comparación con los conjuntos de datos originales.
+
+En el capítulo 4 se presentarán los resultados de la evaluación comparativa entre los conjuntos de datos sintéticos y los originales.
+
+Finalmente, en el capítulo 5 se presentarán las conclusiones y las posibles áreas de mejora del trabajo.
+
+\newpage
+\section{Equifax: contexto y limitaciones}
+
+\textbf{Equifax} es un buró de crédito multinacional, que en conjunto a Transunion y Experian componen los tres más grandes a nivel mundial. La compañía posee equipos de desarrollo en Estados Unidos, India, Irlanda y Chile. Asimismo está operativa en más de 24 países. El negocio principal de Equifax es la información/conocimiento extraído de la data recolectada, la que incluye información crediticia, servicios básicos, autos, mercadotecnia, Twitter, revistas, informaciones demográficas entre otros. El principal desafío tecnológico de la compañía es resguardar la privacidad. El segundo, realizar toda clase de predicciones relevantes para el mercado con los datos acumulados. Los datos son uno de los mayores, si no el mayor activo de la compañía.
+
+\textbf{Keying and Linking} es el equipo de Equifax encargado de identificar entidades y relacionarlas dentro de los diferentes conjuntos de datos, esta labor debe ser aplicada a cada entidad dentro de la compañía y zonas geográficas. La tarea de la identificación de entidades, entity resolution, es el proceso de identificar que dos o más registros de información, que referencian a un único objeto en el mundo real, esto puede ser una persona, lugar o cosa. Por ejemplo, Bob Smith, Robert Smith, Robert S. podría referirse a la misma persona, lo mismo puede darse con una dirección. Es importante destacar que la información requerida para este equipo es de identificación personal (PII), categorizada y protegida con las mayores restricciones dentro de la compañía, de aquí el delicado uso que se dé a los registros y se prohíben el uso de datos reales en ambientes de desarrollo. 
+
+La propuesta actual se enmarca en la búsqueda de un método alternativo en la generación de data sintética utilizando inteligencia artificial. La data sintética es utilizada en las pruebas de nuevo software en ambientes no productivos en Equifax. Para el equipo de \textbf{Keying and Linking} y la compañía es importante la evaluación de los nuevos desarrollos, pero es aún más importante resguardar la privacidad y seguridad de los datos. Es por ello que la privacidad y calidad de estos datos es relevante.
+
+Los métodos actuales que posee Keying and linking para la generación de data sintética y así probar sus algoritmos son las siguientes, a) Anonimización de los registros, este método destruye piezas claves de los registros, para asegurar que no puede ser identificado el dueño de la información. b) Generación de data sintética en base de heurísticas, utilizando conocimiento sobre la estructura de los registros, por ejemplo, DOB (date of birth) establecen rangos de fechas, o formatos en el caso de SSN (Security Social Number) o Tarjetas de créditos. c) Reemplazo por revuelta de datos, se compone de registros reales, pero mezcla elementos con heurísticas para que no puedan ser identificados, por ejemplo, mezclando nombres, segmentos de SSN, fechas de nacimiento y así con todos los registros involucrados. El sistema de revuelta de datos es el método utilizado, pero debido a peligro de exponer datos reales, fue limitado a generar un único dataset. 
+
+Sobre la regulación y acceso directo a información personal legible, no enmascarada en Equifax. Esta se encuentra regulada y solo disponibles para proyectos categorizados como “Protected Data Zone” (PDZ). Estos proyectos están administrados por el equipo de Ignite, encargado de la seguridad y herramientas ofrecidas para dichos espacios de trabajo. Los permisos de acceso son supervisados y revisados cada 3 meses.
+
+Equifax como AI-First Company, está en una evolución en búsqueda de ser precursora en inteligencia artificial, utilizando los datos almacenados durante más de un siglo y su asociación con Google, principal proveedor de servicios en la nube. El objetivo del año 2022, es poseer capacidades de entrenar modelos de Deep Learning usando las plataformas analíticas actuales administradas por Ignite, el producto seleccionado y está en proceso de implementación es Vertex AI. Equifax está en proceso de evaluación de empresas que generen data sintética con las condiciones que la organización requiere. Uno de los evaluados es Tonic IA \url{https://www.tonic.ai/}. Esto deja ver la relevancia que los datos sintéticos en los objetivos de Equifax a mediano plazo.
+
+\newpage
+\section{Contexto Temporal/tecnológico}
+
+Usando ChatGPT en el febrero 2023 \cite{openai_chatgpt_2023}.
+\begin{prompt}
+    Introducción a la relevancia de la generación de datos sintéticos.
+\end{prompt}
+
+\begin{chatGPT}
+La generación de datos sintéticos se ha vuelto fundamental en diversos campos de investigación y aplicación, como el aprendizaje automático, la inteligencia artificial y la simulación. Debido a la creciente necesidad de entrenar modelos de aprendizaje automático con conjuntos de datos grandes y de alta calidad, se ha visto la generación de datos sintéticos como una forma de mejorar la calidad de los modelos y ampliar los conjuntos de datos disponibles.\\
+
+La generación de datos sintéticos también es de gran utilidad en situaciones donde la recopilación de datos reales es costosa o impracticable, como en la simulación de escenarios extremos o peligrosos. En estos casos, la generación de datos sintéticos puede proporcionar una alternativa segura y controlada para la experimentación.\\
+
+Además, la generación de datos sintéticos puede ayudar a proteger la privacidad y la confidencialidad de los datos personales. Los datos reales pueden ser sensibles o privados y no se pueden compartir fácilmente. Al generar datos sintéticos, se pueden mantener características importantes de los datos originales mientras se preserva la privacidad y la confidencialidad.\\
+
+En resumen, la generación de datos sintéticos es una técnica valiosa y cada vez más popular que puede mejorar la calidad de los modelos de aprendizaje automático, proporcionar alternativas seguras y controladas para la experimentación, y proteger la privacidad y la confidencialidad de los datos personales.
+
+\end{chatGPT}
+\newpage
+
+\section{Objetivo}
+\textbf{Objetivo General:}
+
+El objetivo general es definir un mecanismo para generar conjuntos de datos sintéticos estructurados, que incluyen textos y comparar, mediante modelos generativos y su contraparte original.
+
+\textbf{Objetivos Específicos:}
+\begin{enumerate}
+    \item Elaborar modelos generativos para sintetizar nuevos conjuntos de datos, a partir de los originales que incluyen textos.
+    \item Comparar los conjuntos de datos sintéticos y originales en 2 casos, propiedades estadísticas, distribuciones, privacidad y frecuencia de palabras para campos de textos.
+\end{enumerate}

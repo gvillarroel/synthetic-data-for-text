@@ -12,7 +12,7 @@ def test_train(args):
     #notebooks/economicos_good/2e-06_10_100000_5000_1024-512-256
     checkpoint = "economicos_good2/" +  "_".join(
             map(str, [lrc, ntc, sts, btsc, "-".join(map(str, rtdlc))]))
-    checkpoint = "economicos_good2/con_fechas"
+    checkpoint = "con_fechas"
     if os.path.exists(f"{checkpoint}/final_model.pt") or os.path.exists(f"{checkpoint}/exit"):
         return (checkpoint, 1)    
     model = SDV_MLP(syn.metadata, 
@@ -41,7 +41,10 @@ if __name__ == '__main__':
 
     category_columns=("property_type", "transaction_type", "state", "county", "rooms", "bathrooms", "m_built", "m_size", "source", )
     # TODO: Estudiar implicancia de valores nulos en categorias y numeros
-    df_converted = df.dropna().astype({k: 'str' for k in ("description", "price", "title", "address", "owner",)})
+    df_converted = df.astype({k: 'str' for k in ("description", "price", "title", "address", "owner",)})
+    basedate = pd.Timestamp('2017-12-01')
+    dtime = df_converted.pop("publication_date")
+    df_converted["publication_date"] = dtime.apply(lambda x: (x - basedate).days)
     syn = Synthetic(df_converted, 
             id="url", 
             category_columns=category_columns,

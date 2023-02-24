@@ -1,0 +1,124 @@
+\chapter{Revisión Bibliográfica}
+\section{Tipos de Datos}
+Los tipos de datos tienen varias implicancias en su generación, como su representación, almacenamiento y procesamiento. Los datos estructurados estan presentados en Tabla \ref{tabla-tipo-datos}. En el trabajo de 
+
+En el 2012 IDC estimó que para el 2020 más del 95\% sería data no estructurada \cite{gantz_digital_2012}. En seguimiento en el analisis de Kiran Adnan y Rehan Akbar \cite{adnan_analytical_2019} el texto es el tipo de dato no estructurado con mayor crecimiento en las publicaciones. seguidos en orden por imagen, video y finalmente el audio.
+
+\begin{table}[H]
+	\centering
+	\caption{\emph{Practical statistics for data scientists} \cite{bruce_practical_2020}: Tipos de datos estructurados}
+	\label{tabla-tipo-datos}
+    \begin{tabular}{|l|l|m{25em}|m{9em}|}
+    \hline
+    \rowcolor[gray]{0.8}
+    T & Sub tipo & Descripción & Ejemplos \\
+    \hline
+    \multicolumn{2}{|>{\columncolor[gray]{0.8}}c|}{Numérico} & Datos establecidos como números & \cellcolor[gray]{0.8} - \\
+    \hline
+    \cellcolor[gray]{0.8} & Continuo & Datos que pueden tomar cualquier valor en un intervalo & 3.14 metros, 1.618 litros \\
+    \hline
+    \cellcolor[gray]{0.8} & Discreto & Datos que solo pueden tomar valores enteros & 1 habitación, 73 años \\
+    \hline
+    \multicolumn{2}{|>{\columncolor[gray]{0.8}}c|}{Categórico} & Datos que pueden tomar solo un conjunto específico de valores que representan un conjunto de categorías posibles. & \cellcolor[gray]{0.8} - \\
+    \hline
+    \cellcolor[gray]{0.8} & Binario & Un caso especial de datos categóricos con solo dos categorías de valores & 0/1, verdadero/falso \\
+    \hline
+    \cellcolor[gray]{0.8} & Ordinal & Datos categóricos que tienen un ordenamiento explícito. & pequeña/ mediana/ grande \\
+    \hline
+    \end{tabular}
+\end{table}
+
+\newpage
+\section{Privacidad de Datos}
+
+La privacidad de datos es un tema crítico en la generación de datos sintéticos. Si los datos pertenecen a recetas o automóviles, entonces la privacidad no es relevante. Sin embargo, la síntesis de datos sobre individuos lo es \cite{bruce_practical_2020}. Es por ello que para Equifax es un tema relevante. Muchos de los conjuntos de datos tienen información personal.
+
+\subsection{Tipo de datos a ser protegidos}
+Para determinar qué campos de datos son relevantes en términos de privacidad, se puede utilizar la definición resumida en la Tabla \ref{data-relevante} de \emph{Data privacy: Definitions and techniques} \cite{de_capitani_di_vimercati_data_2012}.
+
+
+\begin{table}[H]
+	\centering
+	\caption{Niveles de revelación y ejemplos}
+	\label{data-relevante}
+    \begin{tabular}{|m{15em}|m{25em}|}
+    \hline
+    \rowcolor[gray]{0.8}
+    Tipo de revelación & Descripción \\
+    \hline
+    \textbf{Identificadores} 
+    & Atributos que identifican de manera única a individuos (por ejemplo, SSN, RUT, DNI). \\
+    \hline
+    \textbf{Cuasi-identificadores (QI)} 
+    & Atributos que, en combinación, pueden identificar a individuos, o reducir la incertidumbre sobre sus identidades (por ejemplo, fecha de nacimiento, género y código postal). \\
+    \hline
+    \textbf{Atributos confidenciales} 
+    & Atributos que representan información sensible (por ejemplo, enfermedad). \\
+    \hline
+    \textbf{Atributos no confidenciales} 
+    & Atributos que los encuestados no consideran sensibles y cuya divulgación es inofensiva (por ejemplo, color favorito). \\
+    \hline
+    \end{tabular}
+\end{table}
+
+\newpage
+\subsection{Tipos de riesgos de divulgación}
+Los tipos de divulgación definidos de \emph{Practical synthetic data generation} \cite{bruce_practical_2020} se resumen en la Tabla \ref{relevantes-definiciones}
+
+\begin{table}[H]
+	\centering
+	\caption{Tipos de Riesgos de Divulgación y sus Descripciones}
+	\label{relevantes-definiciones}
+    \begin{tabular}{|m{15em}|m{25em}|}
+    \hline
+    \rowcolor[gray]{0.8}
+    Tipo de revelación & Descripción \\
+    \hline
+    \textbf{Divulgación de identidad} 
+    & Este riesgo se refiere a la posibilidad de que un atacante pueda identificar la información de un individuo a partir de datos compartidos, utilizando técnicas de filtrado para llegar a una única opción.\\
+    \hline
+    \textbf{Divulgación de nueva información} 
+    & Este riesgo asume el riesgo de Divulgación de Identidad y, además, implica una ganancia de información adicional sobre el individuo a partir de los datos compartidos.\\
+    \hline
+    \textbf{Divulgación de Atributos} 
+    & Este riesgo se presenta cuando, a pesar de no poder identificar a un individuo, se puede identificar un atributo común en varios registros, lo que permite obtener información sensible sobre un grupo de individuos.\\
+    \hline
+    \textbf{Divulgación Inferencial} 
+    & Este riesgo se refiere a la posibilidad de inferir información sensible a partir de los datos compartidos, mediante la utilización de técnicas de análisis estadístico o de aprendizaje automático. Por ejemplo si filtrando todos los registros. 80\% de los registros con las mismas caracteristicas tienen cancer, se podría inferir que el individuo buscado puede tener cancer.\\
+    \hline
+    \end{tabular}
+\end{table}
+
+Adicionalmente se deben establecer dos conceptos relevantes ante el análisis de revelación de información:
+\begin{enumerate}
+    \item En términos prácticos, normalmente la data sintética busca tener cierta permeabilidad con respecto a la \textbf{Divulgación Inferencial}, ya que queremos que estadisticamente sea similar. adicionalmente se busca proteger la identidad de los individuos, pero no es la unica condición, tambien se busca proteger esos atributos que pueden ser sensibles, por ejemplo enfermedades. A todo este conjunto se le denomina \textbf{Revelación de indentidad significativa}. Particularmente riesgoso por discriminación en ciertos grupos que cumplan los atributos criterios.
+    \item Los mismos atributos pueden tener más relevancia para ciertos grupos de la población que para otro. El ejemplo que indica \cite{el_emam_practical_2020} es que debido a que el numero de hijo igual a 2, es menos frecuente en una etnia que otra, una 40\% y la segunda un 10\%, ese dato es más relevante en la segunda. Ya que es un factor que filtra de mejor manera y por ello puede conocerce mejor ese grupo especifico. Esto lo denomina \textbf{Definición de información ganada}
+\end{enumerate}
+\newpage
+\subsection{Regulación de datos sintéticos}
+Debido a que los datos sintéticos son basados en datos reales, pueden ser afectos a las regulaciones de sobre protección de datos \cite{bruce_practical_2020}. Los nuevos datos podrían ser afectos por:
+\begin{enumerate}
+    \item \href{https://dvbi.ru/Portals/0/DOCUMENTS_SHARE/RISK_MANAGEMENT/EBA/GDPR_eng_rus.pdf}{Regulation (EU) 2016/679 of the European Parliament and of the Council} \cite{regulation_regulation_2016}
+    \item \href{https://heinonline.org/HOL/LandingPage?handle=hein.journals/jtlp23&div=5&id=&page=}{The California consumer privacy act: Towards a European-style privacy regime in the United States} \cite{pardau_california_2018}
+    \item \href{http://www.eolusinc.com/pdf/hipaa.pdf}{Health insurance portability and accountability act of 1996} \cite{act_health_1996}
+\end{enumerate}
+
+\subsection{Protección de Privacidad}
+TBD
+
+\section{Generación de Datos Sintéticos}
+
+Los datos sintéticos, no son datos reales. Pero que este intenta conservar algunas propiedades de los datos reales. El grado que los datos sinteticos pueden servir como proxy de los datos reales es la medida de utilidad \cite{bruce_practical_2020}.
+Dependiendo del uso de datos reales, se pueden separar en 3 tipos. Los que usan datos reales, los que no y los híbridos.
+
+\textbf{Datos basados en datos reales}: Utilizan modelos que aprenden la distribución de los datos originales, para conformar nuevos puntos semejantes a los originales.
+
+\textbf{Datos no basados en datos reales}: Utilizan el conocimiento del mundo, por ejemplo un conjunto de un nombre al azar con un apellido al azar para formar un nombre completo.
+
+\textbf{Híbridos}: Estos combinas tecnicas de imitación de distribución con algunos campos que no provienen de la data real. Esto resulta particularmete util cuando se intenta desligar las distribuciones de datos que podrían ser sensibles o generar discriminación, por ejemplo información de etnia.
+
+Debido al objetivo, se detalla solo modelos que permitan aboradar la generación de datos tabulares y texto y basados en datos reales.
+
+\subsection{Generación de datos tabulares}
+
+\subsection{Generación de texto en base de datos tabulares}

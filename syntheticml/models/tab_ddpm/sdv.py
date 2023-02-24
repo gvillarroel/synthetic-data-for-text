@@ -51,6 +51,8 @@ class SDVTABDDPM(ModelInterface):
         self.column_id = [col for col, col_type in table_metadata["fields"].items() if col_type["type"] == "id" and col != target_column and col not in exclude_columns][0]
         self.cat_columns = [col for col, col_type in table_metadata["fields"].items() if col_type["type"] == "categorical" and col != target_column and col not in exclude_columns]
         self.num_columns = [col for col, col_type in table_metadata["fields"].items() if col_type["type"] == "numerical" and col != target_column and col not in exclude_columns]
+        self.date_columns = [col for col, col_type in table_metadata["fields"].items() if col_type["type"] == "datetime" and col != target_column and col not in exclude_columns]
+        self.num_columns = self.num_columns + self.date_columns
         self.target_column = target_column
         self.is_regression = table_metadata["fields"][target_column]["type"] != "categorical"
         self.seed = seed
