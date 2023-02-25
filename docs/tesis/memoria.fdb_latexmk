@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex memoria"] 1677332922 "memoria.aux" "memoria.bbl" "memoria" 1677332923
+["bibtex memoria"] 1677334509 "memoria.aux" "memoria.bbl" "memoria" 1677334523
   "/usr/share/texlive/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
   "bibliografia.bib" 1677282335 17684 e22aef0f93cff40ca079778b31e4cc1b ""
-  "memoria.aux" 1677332923 10268 d62094da51f7f380c3f54e20be89b58e "pdflatex"
+  "memoria.aux" 1677334522 10511 b856403a6e6a21753405da9840bd13d1 "pdflatex"
   (generated)
   "memoria.bbl"
   "memoria.blg"
-["pdflatex"] 1677332922 "/home/gvillarroel/dev/synthetic-data-for-text/docs/tesis/memoria.tex" "memoria.pdf" "memoria" 1677332923
+["pdflatex"] 1677334522 "/home/gvillarroel/dev/synthetic-data-for-text/docs/tesis/memoria.tex" "memoria.pdf" "memoria" 1677334523
   "/dev/null" 1676766618 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/etc/texmf/web2c/texmf.cnf" 1673824885 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/gvillarroel/dev/synthetic-data-for-text/docs/tesis/memoria.tex" 1677285322 1742 84af5d773dc1412b87558a408005c72d ""
@@ -219,20 +219,20 @@
   "caps/anexos.tex" 1674411336 129 6192f83764918f526fdc4238148e9ac3 ""
   "caps/conclusiones.tex" 1674411252 460 6e212f00bbed9d299766c3de62397251 ""
   "caps/dedicatoria.tex" 1673875814 179 72349584d5e9041b2886a7fd81d0346b ""
-  "caps/desarrollo.tex" 1674510173 382 64ea091501fc62fca079a714211ade6f ""
+  "caps/desarrollo.tex" 1677334522 2214 0f2d8dc5de92d2d6b628822713d57d87 ""
   "caps/discusion.tex" 1674410718 134 36daad7909db2ae6425ebb7ecbbf2730 ""
   "caps/introduccion.tex" 1677286534 9708 fde0e7ab9ec68b4644d464a2895356c0 ""
   "caps/marco.tex" 1677332921 16493 98e38a0afd537550382dbdcd9a0b3e61 ""
   "caps/resultados.tex" 1674410688 273 e09cb757cff0acd1937f4f50d2556c33 ""
   "imagenes/escudoU2014.pdf" 1634316032 43308 6bdf0b57311ff58ead5d8849e1baa122 ""
   "imagenes/fcfm.pdf" 1634316032 42972 66ef6fb93a08fe85e4df660bb11d5ade ""
-  "memoria.aux" 1677332923 10268 d62094da51f7f380c3f54e20be89b58e "pdflatex"
-  "memoria.bbl" 1677332922 5021 b9203811874082cffc53e2c3e2f0e47a "bibtex memoria"
-  "memoria.lof" 1677332923 278 e249ef8bb75e26ce15054d4d639a21b1 "pdflatex"
-  "memoria.lot" 1677332923 1024 337c6888a500dbc107822ca6a10bf2a4 "pdflatex"
-  "memoria.out" 1677332923 5226 34d2f93cc284c2d9da78402fc99ab043 "pdflatex"
+  "memoria.aux" 1677334522 10511 b856403a6e6a21753405da9840bd13d1 "pdflatex"
+  "memoria.bbl" 1677334509 5021 b9203811874082cffc53e2c3e2f0e47a "bibtex memoria"
+  "memoria.lof" 1677334522 278 4fe7bd50ebbd3452e41339bc552d5d33 "pdflatex"
+  "memoria.lot" 1677334522 1127 518b1278b79f905191207d1d2a918ecc "pdflatex"
+  "memoria.out" 1677334522 5287 bfde9eb0377f8b285e220af0c76012a3 "pdflatex"
   "memoria.tex" 1677285322 1742 84af5d773dc1412b87558a408005c72d ""
-  "memoria.toc" 1677332923 2914 cc1c35b10f7e578603761f43b59d61e0 "pdflatex"
+  "memoria.toc" 1677334522 2925 6a2a8147f61e9e13aec391dc83847e7b "pdflatex"
   "umemoria.cls" 1674414030 8901 53fa812ed06076de516f453f3311e771 ""
   (generated)
   "memoria.aux"

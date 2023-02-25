@@ -1,8 +1,34 @@
 \chapter{Desarrollo}
 \section{Recursos disponibles}
 \subsection{Datasets}
-\subsection{Computación}
-Para los experimentos se utilizó  
+\subsection{Computación y Software}
+
+Para llevar a cabo los experimentos, se utilizó un computador con las siguientes especificaciones técnicas, como se muestra en la \fullref{tabla-componentes-pc}. El procesador empleado fue un AMD Ryzen 9 7950X 16-Core Processor, con cuatro modulos de 32 GB para una memoria total de 128 GB DDR5. La tarjeta gráfica empleada fue una NVIDIA GeForce RTX 4090, y se contó con dos discos duros de 500 GB SSD. La utilización de un equipo con estas características permitió una ejecución eficiente de los modelos de generación de datos, asegurando la viabilidad de los experimentos. Es importante destacar que la elección de los componentes del computador fue cuidadosamente considerada para asegurar que los resultados obtenidos no se vieran limitados por un hardware insuficiente.
+
+En cuanto al software utilizado, se utilizó el sistema operativo Ubuntu 22.04.2 LTS. Los modelos de generación de datos fueron desarrollados utilizando el lenguaje de programación Python, haciendo uso principalmente de las bibliotecas SDV y PyTorch. Se detalla una lista en \fullref{tabla-freeze}. Cabe resaltar que se optó por el uso de estas herramientas debido a TabDDPM.
+
+\begin{table}[H]
+	\centering
+	\caption{Computador Usado}
+	\label{tabla-componentes-pc}
+    \begin{tabular}{|l|l|}
+        \hline
+        \rowcolor[gray]{0.8}
+        Componente & Descripción \\
+        \hline
+        Procesador & AMD Ryzen 9 7950X 16-Core Processor \\
+        \hline
+        Memoria RAM & 128 GB DDR5 \\
+        \hline
+        Tarjeta gráfica & NVIDIA GeForce RTX 4090 \\
+        \hline
+        Disco duro & 1 TB SSD \\
+        \hline
+      \end{tabular}        
+\end{table}  
+
+El código fuente de los modelos de generación de datos, así como los scripts de análisis y visualización de los resultados, se encuentra disponible en un repositorio público de Github.
+
 \section{Arquitectura de software}
 \section{Dependencias}
 \section{Modelos}
