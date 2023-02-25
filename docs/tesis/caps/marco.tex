@@ -1,12 +1,14 @@
 \chapter{Revisión Bibliográfica}
 \section{Tipos de Datos}
+\label{tipo-de-datos}
 Los tipos de datos tienen varias implicancias en su generación, como su representación, almacenamiento y procesamiento. Los datos estructurados estan presentados en Tabla \ref{tabla-tipo-datos}. En el trabajo de 
 
 En el 2012 IDC estimó que para el 2020 más del 95\% sería data no estructurada \cite{gantz_digital_2012}. En seguimiento en el analisis de Kiran Adnan y Rehan Akbar \cite{adnan_analytical_2019} el texto es el tipo de dato no estructurado con mayor crecimiento en las publicaciones. seguidos en orden por imagen, video y finalmente el audio.
 
+La \fullref{tabla-tipo-datos} se resume la lista que figura en \emph{Practical statistics for data scientists} \cite{bruce_practical_2020}.
 \begin{table}[H]
 	\centering
-	\caption{\emph{Practical statistics for data scientists} \cite{bruce_practical_2020}: Tipos de datos estructurados}
+	\caption{Tipos de datos estructurados}
 	\label{tabla-tipo-datos}
     \begin{tabular}{|l|l|m{25em}|m{9em}|}
     \hline
@@ -108,17 +110,135 @@ TBD
 
 \section{Generación de Datos Sintéticos}
 
-Los datos sintéticos, no son datos reales. Pero que este intenta conservar algunas propiedades de los datos reales. El grado que los datos sinteticos pueden servir como proxy de los datos reales es la medida de utilidad \cite{bruce_practical_2020}.
-Dependiendo del uso de datos reales, se pueden separar en 3 tipos. Los que usan datos reales, los que no y los híbridos.
+Los datos sintéticos no son datos reales, pero se intenta que conserven algunas propiedades de los datos reales. El grado en que los datos sintéticos pueden servir como proxy de los datos reales es la medida de su utilidad \cite{bruce_practical_2020}. Dependiendo del uso de los datos reales, se pueden separar en tres tipos: los que utilizan datos reales, los que no lo hacen y los híbridos.
 
-\textbf{Datos basados en datos reales}: Utilizan modelos que aprenden la distribución de los datos originales, para conformar nuevos puntos semejantes a los originales.
+\textbf{Datos basados en datos reales}: utilizan modelos que aprenden la distribución de los datos originales para conformar nuevos puntos semejantes.
 
-\textbf{Datos no basados en datos reales}: Utilizan el conocimiento del mundo, por ejemplo un conjunto de un nombre al azar con un apellido al azar para formar un nombre completo.
+\textbf{Datos no basados en datos reales}: utilizan el conocimiento del mundo. Por ejemplo, un conjunto de nombres al azar con un apellido al azar para formar un nombre completo.
 
-\textbf{Híbridos}: Estos combinas tecnicas de imitación de distribución con algunos campos que no provienen de la data real. Esto resulta particularmete util cuando se intenta desligar las distribuciones de datos que podrían ser sensibles o generar discriminación, por ejemplo información de etnia.
+\textbf{Híbridos}: estos combinan técnicas de imitación de distribución con algunos campos que no provienen de los datos reales. Esto resulta particularmente útil cuando se intenta desligar las distribuciones de datos que podrían ser sensibles o generar discriminación, como la información sobre la etnia.
 
-Debido al objetivo, se detalla solo modelos que permitan aboradar la generación de datos tabulares y texto y basados en datos reales.
+En la \fullref{tipo-de-datos}, se revisaron los datos estructurados. Si bien cada tipo puede tener muchas representaciones, por ejemplo, los datos continuos podrían considerarse como \emph{float}, \emph{datetime} o incluso intervalos personalizados, como de 0 a 1. Sobre estos datos estructurados, se pueden generar estructuras para unirlos.
+
+Entre las estructuras más comunes se encuentran las matrices bidimensionales (datos tabulares) y los arreglos, que permiten matrices de muchas dimensiones e incluso estructuras complejas que pueden mezclar todas las estructuras previas.
+
+Debido al objetivo, se detallan solo los modelos que permiten abordar la generación de datos tabulares y texto basados en datos reales.
 
 \subsection{Generación de datos tabulares}
+En la \fullref{tab-sota-tab}, se resumen las últimas publicaciones sobre generación de datos tabulares, indicando la fecha de publicación y si se puede acceder al código fuente o no, a febrero de 2023.
 
+\begin{table}[H]
+	\centering
+	\caption{Estado del arte en generación de datos tabulares}
+	\label{tab-sota-tab}
+    \begin{tabular}{|m{25em}|r|r|}
+    \hline
+    \rowcolor[gray]{0.8}
+    Nombre & Fecha $\downarrow$ & Código \\
+    \hline
+    REaLTabFormer: Generating Realistic Relational and Tabular Data using Transformers \cite{solatorio_realtabformer_2023}
+    & 2023-02-04 & \href{https://github.com/avsolatorio/REaLTabFormer}{Github} \\
+    \hline
+    PreFair: Privately Generating Justifiably Fair Synthetic Data \cite{pujol_prefair_2022}
+    & 2022-12-20 & \\
+    \hline
+    GenSyn: A Multi-stage Framework for Generating Synthetic Microdata using Macro Data Sources \cite{acharya_gensyn_2022}
+    & 2022-12-08 & \href{https://github.com/Angeela03/GenSyn}{Github} \\
+    \hline
+    TabDDPM: Modelling Tabular Data with Diffusion Models \cite{kotelnikov_tabddpm_2022}
+    & 2022-10-30 & \href{https://github.com/rotot0/tab-ddpm}{Github} \\
+    \hline
+    Language models are realistic tabular data generators \cite{borisov_language_2022}
+    & 2022-10-12 & \href{https://github.com/kathrinse/be_great}{Github} \\
+    \hline
+    Ctab-gan+: Enhancing tabular data synthesis \cite{zhao_ctab-gan_2022}
+    & 2022-04-01 & \href{https://github.com/Team-TUD/CTAB-GAN-Plus}{Github} \\
+    \hline
+    Ctab-gan: Effective table data synthesizing \cite{zhao_ctab-gan_2021}
+    & 2021-05-31 & \href{https://github.com/Team-TUD/CTAB-GAN}{Github} \\
+    \hline
+    Modeling Tabular data using Conditional GAN \cite{xu_modeling_2019}
+    & 2019-10-28 & \href{https://github.com/sdv-dev/SDV}{Github} \\
+    \hline
+    SMOTE: synthetic minority over-sampling technique \cite{chawla_smote_2002}
+    & 2002-06-02 & \href{https://github.com/scikit-learn-contrib/imbalanced-learn}{Github} \\
+    \hline
+    \end{tabular}
+\end{table}
+
+\newpage
 \subsection{Generación de texto en base de datos tabulares}
+
+En la \fullref{tab-sota-text}, se listan las publicaciones en la generación de texto a partir de datos estructurados.
+
+\begin{table}[H]
+	\centering
+	\caption{Estado del arte en generación de textos en base a datos}
+	\label{tab-sota-text}
+    \begin{tabular}{|m{20em}|r|r|}
+        \hline
+        \rowcolor[gray]{0.8}
+        Nombre & Fecha $\downarrow$ & Modelo Base \\
+        \hline
+        Table-To-Text generation and pre-training with TABT5 \cite{andrejczuk_table--text_2022}
+        & 2022-10-17
+        & T5 \\
+        \hline
+        Text-to-text pre-training for data-to-text tasks \cite{kale_text--text_2020}
+        & 2021-07-09
+        & T5 \\
+        \hline
+        TaPas: Weakly supervised table parsing via pre-training \cite{herzig_tapas_2020}
+        & 2020-04-21
+        & Bert \\
+        \hline
+    \end{tabular}
+\end{table}
+
+El estado del arte en la generación de texto a partir de datos tabulares es TabT5. Es importante notar que la tabla mezcla los enfoques de \emph{Table-To-Text} y \emph{Data-To-Text}. Aunque ninguna de las publicaciones incluye código asociado, no es necesario, ya que utilizan modelos abiertos como base (T5 y Bert). Lo más relevante en estos casos es el proceso de \emph{fine-tuning}. Para completar la tarea de generar nuevos textos a partir de información inicial, esta información debe ser codificada para poder ser procesada por el modelo utilizado.
+
+\newpage
+En los siguientes ejemplos, se utilizará la \fullref{tabla-ejemplo-inputs} para ilustrar cómo se puede utilizar para generar texto utilizando los modelos de \emph{fine-tuning} mencionados anteriormente. Esta tabla representa información sobre películas, incluyendo el nombre de la película, el director, el año de lanzamiento y el género, y se utilizará para generar preguntas y respuestas a partir de la información proporcionada.
+\begin{table}[H]
+	\centering
+	\caption{Ejemplo de tabla de entrada}
+	\label{tabla-ejemplo-inputs}
+    \begin{tabular}{|l|l|l|l|}
+        \hline
+        \rowcolor[gray]{0.8}
+        Nombre de la Película & Director & Año de Lanzamiento & Género \\
+        \hline
+        Star Wars: Una Nueva Esperanza & George Lucas & 1977 & Ciencia ficción \\
+        \hline
+    \end{tabular}
+        
+\end{table}
+
+Para los modelos TabT5 y TaPas, se utiliza el mismo preprocesamiento para convertir la tabla de entrada en una pregunta/tarea y respuesta \cite{andrejczuk_table--text_2022, herzig_tapas_2020}. En este ejemplo, la tabla representa información sobre películas, y se utiliza para generar una pregunta y respuesta sobre el director de la película "Star Wars: Una Nueva Esperanza". La pregunta se construye a partir de la información de la tabla, y la respuesta se espera que sea el nombre del director. Una vez que se ha generado la pregunta y la respuesta, se puede utilizar un modelo de \emph{fine-tuning} como TabT5 o TaPas para generar texto a partir de la información proporcionada. En resumen, el proceso de generación de texto a partir de datos tabulares implica la conversión de información tabular en preguntas y respuestas, y luego la utilización de modelos de \emph{fine-tuning} para generar texto a partir de estas preguntas y respuestas.
+\begin{tcolorbox}[colback=white,colframe=black!50!white,title=Input]
+Table: Películas
+Nombre de la Película     | Director                | Año de Lanzamiento | Género 
+Star Wars: Una Nueva Esperanza | George Lucas        | 1977              | Ciencia ficción 
+\end{tcolorbox}
+\begin{tcolorbox}[colback=white,colframe=black!50!white,title=Pregunta]
+¿Qué director dirigió la película Star Wars: Una Nueva Esperanza?
+\end{tcolorbox}
+\begin{tcolorbox}[colback=white,colframe=black!50!white,title=Respuesta esperada]
+George Lucas
+\end{tcolorbox}
+
+\newpage
+En cambio, el modelo \emph{Text-to-text pre-training for data-to-text tasks} utiliza una entrada diferente, que consiste en una serie de tuplas que representan las propiedades de la entidad y sus valores correspondientes. Se espera que el modelo identifique la tupla relevante y genere una pregunta y respuesta correspondientes. Una vez generada la pregunta y respuesta, se puede utilizar el modelo de fine-tuning correspondiente para generar texto a partir de ellas. En conclusión, la generación de texto a partir de datos tabulares implica una conversión adecuada de la información de entrada en un formato apropiado para cada modelo, la identificación de la pregunta o tarea relevante y la utilización del modelo correspondiente para generar el texto resultante.
+
+\begin{tcolorbox}[colback=white,colframe=black!50!white,title=Input]
+<Star Wars: Una Nueva Esperanza, Director, George Lucas>, \\
+<Star Wars: Una Nueva Esperanza, Año de Lanzamiento, 1977>, \\
+<Star Wars: Una Nueva Esperanza, Género, Ciencia ficción>
+\end{tcolorbox}
+\begin{tcolorbox}[colback=white,colframe=black!50!white,title=Pregunta]
+¿Qué director dirigió la película Star Wars: Una Nueva Esperanza?
+\end{tcolorbox}
+\begin{tcolorbox}[colback=white,colframe=black!50!white,title=Respuesta esperada]
+George Lucas
+\end{tcolorbox}
+    
