@@ -1,0 +1,100 @@
+@startuml
+!include ../tema/uchile.puml
+
+skinparam Padding 4
+'skinparam PageMargin 0
+scale 5000 width
+
+left to right direction
+
+rectangle "Process" as pr  {
+    card create_metadata [
+        <$WHITE,$RED>| <color:$RED>1</color>|
+        = Create
+        = Metadata
+    ]
+}
+
+rectangle Documents {
+    
+    file meta [
+        Table
+        Metadata
+    ]
+
+    database rds [
+        Real
+        Dataset
+    ]
+
+    database sds [
+        Synthetic
+        Dataset
+    ]
+
+    file metrics_file [
+        Metrics
+    ]
+    file DCR_file [
+        DCR
+    ]
+}
+
+rectangle "Synthetic Process" {
+    
+    card load [
+        <$WHITE,$RED>| <color:$RED>2</color>|
+        = Model
+    ]
+    card fit [
+        <$WHITE,$RED>| <color:$RED>3</color>|
+        = Fit
+    ]
+    card save [
+        <$WHITE,$RED>| <color:$RED>4</color>|
+        = Save
+    ]
+    card generate [
+        <$WHITE,$RED>| <color:$RED>5</color>|
+        = Generate
+    ]
+
+    card metrics [
+        <$WHITE,$RED>| <color:$RED>6</color>|
+        = Evaluation
+    ]
+}
+
+rectangle Cache {
+    card model_pickle [
+        = Model
+        = Pickle
+    ]
+}
+
+
+
+rds ..> create_metadata 
+create_metadata --> meta
+
+meta --> load
+
+load -l-> fit
+
+save <..> model_pickle
+
+rds ..> fit
+
+fit -l-> save
+
+save -l-> generate
+
+sds <-- generate
+
+generate -l-> metrics
+
+metrics_file <-- metrics
+
+DCR_file <-- metrics
+
+@enduml

@@ -1,0 +1,62 @@
+@startuml
+!include ../tema/uchile.puml
+
+skinparam Padding 4
+'skinparam PageMargin 0
+scale 5000 width
+
+left to right direction
+
+rectangle "Process" as pr  {
+    card create_metadata [
+        <$WHITE,$RED>| <color:$RED>1</color>|
+        = Create
+        = Metadata
+    ]
+}
+
+rectangle Documents {
+    database rds [
+        Real
+        Dataset
+    ]
+    file meta [
+        Table
+        Metadata
+    ]
+    database sds [
+        Synthetic
+        Dataset
+    ]
+}
+
+rectangle "Synthetic Process" {
+    card fit [
+        <$WHITE,$RED>| <color:$RED>3</color>|
+        = Fit
+    ]
+    card load [
+        <$WHITE,$RED>| <color:$RED>2</color>|
+        = Model
+    ]
+
+    card generate [
+        <$WHITE,$RED>| <color:$RED>4</color>|
+        = Generate
+    ]
+}
+
+rds ..> create_metadata 
+create_metadata --> meta
+
+meta --> load
+
+load -l-> fit
+
+rds ..> fit
+
+fit -l-> generate
+
+sds <-- generate
+
+@enduml

@@ -1,0 +1,70 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{pandas} \PYG{k}{as} \PYG{n+nn}{pd}
+\PYG{k+kn}{from} \PYG{n+nn}{syntheticml.data.synthetic} \PYG{k+kn}{import} \PYG{n}{Synthetic}\PYG{p}{,} \PYG{n}{MODELS}
+\PYG{k+kn}{from} \PYG{n+nn}{syntheticml.models.tab\PYGZus{}ddpm.sdv} \PYG{k+kn}{import} \PYG{n}{SDV\PYGZus{}MLP}
+\PYG{k+kn}{import} \PYG{n+nn}{torch}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{import} \PYG{n+nn}{itertools}
+\PYG{k+kn}{import} \PYG{n+nn}{multiprocessing} \PYG{k}{as} \PYG{n+nn}{mp}
+\PYG{k+kn}{import} \PYG{n+nn}{os}
+
+\PYG{k}{def} \PYG{n+nf}{test\PYGZus{}train}\PYG{p}{(}\PYG{n}{args}\PYG{p}{):}
+    \PYG{n}{lrc}\PYG{p}{,} \PYG{n}{ntc}\PYG{p}{,} \PYG{n}{sts}\PYG{p}{,} \PYG{n}{btsc}\PYG{p}{,} \PYG{n}{rtdlc}\PYG{p}{,} \PYG{n}{syn}\PYG{p}{,} \PYG{n}{df} \PYG{o}{=} \PYG{n}{args}
+    \PYG{c+c1}{\PYGZsh{}notebooks/economicos\PYGZus{}good/2e\PYGZhy{}06\PYGZus{}10\PYGZus{}100000\PYGZus{}5000\PYGZus{}1024\PYGZhy{}512\PYGZhy{}256}
+    \PYG{n}{checkpoint} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}economicos\PYGZus{}good2/\PYGZdq{}} \PYG{o}{+}  \PYG{l+s+s2}{\PYGZdq{}\PYGZus{}\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}
+            \PYG{n+nb}{map}\PYG{p}{(}\PYG{n+nb}{str}\PYG{p}{,} \PYG{p}{[}\PYG{n}{lrc}\PYG{p}{,} \PYG{n}{ntc}\PYG{p}{,} \PYG{n}{sts}\PYG{p}{,} \PYG{n}{btsc}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}\PYGZdq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n+nb}{map}\PYG{p}{(}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{rtdlc}\PYG{p}{))]))}
+    \PYG{n}{checkpoint} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}con\PYGZus{}fechas\PYGZdq{}}
+    \PYG{k}{if} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{exists}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{checkpoint}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/final\PYGZus{}model.pt\PYGZdq{}}\PYG{p}{)} \PYG{o+ow}{or} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{exists}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{checkpoint}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/exit\PYGZdq{}}\PYG{p}{):}
+        \PYG{k}{return} \PYG{p}{(}\PYG{n}{checkpoint}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)}    
+    \PYG{n}{model} \PYG{o}{=} \PYG{n}{SDV\PYGZus{}MLP}\PYG{p}{(}\PYG{n}{syn}\PYG{o}{.}\PYG{n}{metadata}\PYG{p}{,} 
+                    \PYG{l+s+s2}{\PYGZdq{}\PYGZus{}price\PYGZdq{}}\PYG{p}{,} 
+                    \PYG{n}{exclude\PYGZus{}columns}\PYG{o}{=}\PYG{n}{syn}\PYG{o}{.}\PYG{n}{exclude\PYGZus{}columns}\PYG{p}{,} 
+                    \PYG{n}{df}\PYG{o}{=}\PYG{n}{df}\PYG{p}{,} 
+                    \PYG{n}{batch\PYGZus{}size}\PYG{o}{=}\PYG{n}{btsc}\PYG{p}{,} 
+                    \PYG{n}{steps}\PYG{o}{=}\PYG{n}{sts}\PYG{p}{,} 
+                    \PYG{n}{checkpoint}\PYG{o}{=}\PYG{n}{checkpoint}\PYG{p}{,}
+                    \PYG{n}{num\PYGZus{}timesteps}\PYG{o}{=}\PYG{n}{ntc}\PYG{p}{,}
+                    \PYG{n}{weight\PYGZus{}decay}\PYG{o}{=}\PYG{l+m+mf}{0.0}\PYG{p}{,}
+                    \PYG{n}{lr}\PYG{o}{=}\PYG{n}{lrc}\PYG{p}{,}
+                    \PYG{n}{model\PYGZus{}params}\PYG{o}{=}\PYG{n+nb}{dict}\PYG{p}{(}\PYG{n}{rtdl\PYGZus{}params}\PYG{o}{=}\PYG{n+nb}{dict}\PYG{p}{(}
+                        \PYG{n}{dropout}\PYG{o}{=}\PYG{l+m+mf}{0.0}\PYG{p}{,}
+                        \PYG{n}{d\PYGZus{}layers}\PYG{o}{=}\PYG{n}{rtdlc}
+                    \PYG{p}{))}
+                    \PYG{p}{)}
+    \PYG{n}{model}\PYG{o}{.}\PYG{n}{fit}\PYG{p}{(}\PYG{n}{syn}\PYG{o}{.}\PYG{n}{train}\PYG{p}{)}
+    \PYG{n}{model}\PYG{o}{.}\PYG{n}{save}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{checkpoint}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/final\PYGZus{}model.pt\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{return} \PYG{p}{(}\PYG{n}{checkpoint}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{)}
+
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZsq{}}\PYG{p}{:}
+    \PYG{n}{df} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{read\PYGZus{}parquet}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}../datasets/economicos/synth/split/train.parquet\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{category\PYGZus{}columns}\PYG{o}{=}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}property\PYGZus{}type\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}transaction\PYGZus{}type\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}state\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}county\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}rooms\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}bathrooms\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}m\PYGZus{}built\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}m\PYGZus{}size\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}source\PYGZdq{}}\PYG{p}{,} \PYG{p}{)}
+    \PYG{c+c1}{\PYGZsh{} TODO: Estudiar implicancia de valores nulos en categorias y numeros}
+    \PYG{n}{df\PYGZus{}converted} \PYG{o}{=} \PYG{n}{df}\PYG{o}{.}\PYG{n}{astype}\PYG{p}{(\PYGZob{}}\PYG{n}{k}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}str\PYGZsq{}} \PYG{k}{for} \PYG{n}{k} \PYG{o+ow}{in} \PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}price\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}title\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}address\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}owner\PYGZdq{}}\PYG{p}{,)\PYGZcb{})}
+    \PYG{n}{basedate} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{Timestamp}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}2017\PYGZhy{}12\PYGZhy{}01\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{dtime} \PYG{o}{=} \PYG{n}{df\PYGZus{}converted}\PYG{o}{.}\PYG{n}{pop}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}publication\PYGZus{}date\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{df\PYGZus{}converted}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}publication\PYGZus{}date\PYGZdq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{dtime}\PYG{o}{.}\PYG{n}{apply}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{x}\PYG{p}{:} \PYG{p}{(}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{basedate}\PYG{p}{)}\PYG{o}{.}\PYG{n}{days}\PYG{p}{)}
+    \PYG{n}{syn} \PYG{o}{=} \PYG{n}{Synthetic}\PYG{p}{(}\PYG{n}{df\PYGZus{}converted}\PYG{p}{,} 
+            \PYG{n+nb}{id}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}url\PYGZdq{}}\PYG{p}{,} 
+            \PYG{n}{category\PYGZus{}columns}\PYG{o}{=}\PYG{n}{category\PYGZus{}columns}\PYG{p}{,}
+            \PYG{n}{text\PYGZus{}columns}\PYG{o}{=}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}price\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}title\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}address\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}owner\PYGZdq{}}\PYG{p}{,),}
+            \PYG{n}{exclude\PYGZus{}columns}\PYG{o}{=}\PYG{n+nb}{tuple}\PYG{p}{(),}
+            \PYG{n}{synthetic\PYGZus{}folder} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}../datasets/economicos/synth\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{models}\PYG{o}{=}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}copulagan\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}tvae\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}gaussiancopula\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}ctgan\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}smote\PYGZhy{}enc\PYGZsq{}}\PYG{p}{],}
+            \PYG{n}{n\PYGZus{}sample} \PYG{o}{=} \PYG{n}{df}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{],}
+            \PYG{n}{target\PYGZus{}column}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZus{}price\PYGZdq{}}
+    \PYG{p}{)}
+    
+    \PYG{n}{lrs} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{l+m+mf}{2e\PYGZhy{}6}\PYG{p}{,} \PYG{l+m+mf}{2e\PYGZhy{}3}\PYG{p}{,} \PYG{l+m+mi}{10}\PYG{p}{)}
+    \PYG{n}{num\PYGZus{}timesteps} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{1000}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{n}{dtype}\PYG{o}{=}\PYG{n+nb}{int}\PYG{p}{)}
+    \PYG{n}{batch\PYGZus{}size} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{l+m+mi}{2500}\PYG{p}{,} \PYG{l+m+mi}{5000}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{n}{dtype}\PYG{o}{=}\PYG{n+nb}{int}\PYG{p}{)}
+    \PYG{n}{steps} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{linspace}\PYG{p}{(}\PYG{l+m+mi}{150000}\PYG{p}{,} \PYG{l+m+mi}{500000}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{n}{dtype}\PYG{o}{=}\PYG{n+nb}{int}\PYG{p}{)}
+    \PYG{n}{rtdl\PYGZus{}params} \PYG{o}{=} \PYG{p}{[}
+        \PYG{p}{[}\PYG{l+m+mi}{1024}\PYG{p}{,} \PYG{l+m+mi}{512}\PYG{p}{,} \PYG{l+m+mi}{256}\PYG{p}{],} \PYG{p}{[}\PYG{l+m+mi}{512}\PYG{p}{,} \PYG{l+m+mi}{256}\PYG{p}{],} \PYG{p}{[}\PYG{l+m+mi}{256}\PYG{p}{,} \PYG{l+m+mi}{128}\PYG{p}{],} \PYG{p}{[}\PYG{l+m+mi}{256}\PYG{p}{,} \PYG{l+m+mi}{128}\PYG{p}{,} \PYG{l+m+mi}{128}\PYG{p}{],} \PYG{p}{[}\PYG{l+m+mi}{256}\PYG{p}{,} \PYG{l+m+mi}{128}\PYG{p}{,} \PYG{l+m+mi}{128}\PYG{p}{,} \PYG{l+m+mi}{128}\PYG{p}{]}        
+    \PYG{p}{]}
+    \PYG{k}{try}\PYG{p}{:}
+        \PYG{n}{torch}\PYG{o}{.}\PYG{n}{multiprocessing}\PYG{o}{.}\PYG{n}{set\PYGZus{}start\PYGZus{}method}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}spawn\PYGZsq{}}\PYG{p}{)}
+    \PYG{k}{except}\PYG{p}{:}
+        \PYG{k}{pass}
+    \PYG{k}{with} \PYG{n}{mp}\PYG{o}{.}\PYG{n}{Pool}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{k}{as} \PYG{n}{p}\PYG{p}{:}
+        \PYG{n}{fitted\PYGZus{}models} \PYG{o}{=} \PYG{n+nb}{dict}\PYG{p}{(}\PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{p}\PYG{o}{.}\PYG{n}{map}\PYG{p}{(}\PYG{n}{test\PYGZus{}train}\PYG{p}{,} \PYG{n}{itertools}\PYG{o}{.}\PYG{n}{product}\PYG{p}{(}\PYG{n}{lrs}\PYG{p}{,} \PYG{n}{num\PYGZus{}timesteps}\PYG{p}{,} \PYG{n}{steps}\PYG{p}{,} \PYG{n}{batch\PYGZus{}size}\PYG{p}{,} \PYG{n}{rtdl\PYGZus{}params}\PYG{p}{,} \PYG{p}{[}\PYG{n}{syn}\PYG{p}{],} \PYG{p}{[}\PYG{n}{df\PYGZus{}converted}\PYG{p}{]))))}
+\end{Verbatim}

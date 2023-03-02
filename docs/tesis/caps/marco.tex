@@ -197,6 +197,8 @@ En la \fullref{tab-sota-text}, se listan las publicaciones en la generación de 
 
 El estado del arte en la generación de texto a partir de datos tabulares es TabT5. Es importante notar que la tabla mezcla los enfoques de \emph{Table-To-Text} y \emph{Data-To-Text}. Aunque ninguna de las publicaciones incluye código asociado, no es necesario, ya que utilizan modelos abiertos como base (T5 y Bert). Lo más relevante en estos casos es el proceso de \emph{fine-tuning}. Para completar la tarea de generar nuevos textos a partir de información inicial, esta información debe ser codificada para poder ser procesada por el modelo utilizado.
 
+La diferencia entre \emph{Table-To-Text} y \emph{Data-To-Text} radica en el formato de información de entrada. en \emph{Table-To-Text} es una tabla con multiples filas y en \emph{Data-To-Text} corresponde a un solo objeto con sus propiedades. A continuación ejemplos de entradas de los modelos.
+
 \newpage
 En los siguientes ejemplos, se utilizará la \fullref{tabla-ejemplo-inputs} para ilustrar cómo se puede utilizar para generar texto utilizando los modelos de \emph{fine-tuning} mencionados anteriormente. Esta tabla representa información sobre películas, incluyendo el nombre de la película, el director, el año de lanzamiento y el género, y se utilizará para generar preguntas y respuestas a partir de la información proporcionada.
 \begin{table}[H]
@@ -228,7 +230,7 @@ George Lucas
 \end{tcolorbox}
 
 \newpage
-En cambio, el modelo \emph{Text-to-text pre-training for data-to-text tasks} utiliza una entrada diferente, que consiste en una serie de tuplas que representan las propiedades de la entidad y sus valores correspondientes. Se espera que el modelo identifique la tupla relevante y genere una pregunta y respuesta correspondientes. Una vez generada la pregunta y respuesta, se puede utilizar el modelo de fine-tuning correspondiente para generar texto a partir de ellas. En conclusión, la generación de texto a partir de datos tabulares implica una conversión adecuada de la información de entrada en un formato apropiado para cada modelo, la identificación de la pregunta o tarea relevante y la utilización del modelo correspondiente para generar el texto resultante.
+En cambio, el modelo \emph{Text-to-text pre-training for data-to-text tasks} \cite{kale_text--text_2020} utiliza una entrada diferente, que consiste en una serie de tuplas que representan las propiedades de la entidad y sus valores correspondientes. Se espera que el modelo identifique la tupla relevante y genere una pregunta y respuesta correspondientes. Una vez generada la pregunta y respuesta, se puede utilizar el modelo de fine-tuning correspondiente para generar texto a partir de ellas. En conclusión, la generación de texto a partir de datos tabulares implica una conversión adecuada de la información de entrada en un formato apropiado para cada modelo, la identificación de la pregunta o tarea relevante y la utilización del modelo correspondiente para generar el texto resultante.
 
 \begin{tcolorbox}[colback=white,colframe=black!50!white,title=Input]
 <Star Wars: Una Nueva Esperanza, Director, George Lucas>, \\

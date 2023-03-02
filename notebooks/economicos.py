@@ -34,11 +34,8 @@ def test_train(args):
     model.save(f"{checkpoint}/final_model.pt")
     return (checkpoint, 1)
 
-
 if __name__ == '__main__':
-
     df = pd.read_parquet('../datasets/economicos/synth/split/train.parquet')
-
     category_columns=("property_type", "transaction_type", "state", "county", "rooms", "bathrooms", "m_built", "m_size", "source", )
     # TODO: Estudiar implicancia de valores nulos en categorias y numeros
     df_converted = df.astype({k: 'str' for k in ("description", "price", "title", "address", "owner",)})

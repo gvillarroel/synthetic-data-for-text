@@ -4,7 +4,7 @@
 \makeatletter
 \g@addto@macro\titlepage{\pagenumbering{Alph}}
 \g@addto@macro\endtitlepage{\pagenumbering{roman}}
-\makeatother
+\makeatother 
 
 \depto{Departamento de Ciencias de la Computación}
 \author{Gerardo Jorge Villarroel González}
@@ -27,8 +27,26 @@
 \usepackage{mathptmx}
 \usepackage{svg}
 \usepackage{amsmath} 
+\usepackage{minted}
+\usepackage{color}
+
 
 \newcommand*{\fullref}[1]{\hyperref[{#1}]{\autoref*{#1} \nameref*{#1}}}
+\renewcommand\listoflistingscaption{Lista de códigos}
+\renewcommand\listingscaption{Código}
+
+
+
+\setminted{fontsize=\footnotesize, 
+rulecolor=gray,
+linenos=true,
+breaklines=true,xleftmargin=1.0cm,
+           frame=lines, 
+           framesep=2mm, 
+           baselinestretch=1.2}
+
+
+
 
 \newtcolorbox{prompt}{
     colback=gray!10!white,
@@ -53,7 +71,7 @@
 
 \input{caps/abstract.tex}
 
-
+ 
 \input{caps/dedicatoria.tex}
 
 
@@ -64,6 +82,8 @@
 \tableofcontents
 \listoftables % opcional
 \listoffigures % opcional
+\listoflistings
+6
 
 \mainmatter
 
@@ -82,8 +102,7 @@
 % opcional ...
 \begin{appendices}
 \input{caps/anexos.tex}
+
 \end{appendices}
 
-
-
-\end{document}
+\end{document} 

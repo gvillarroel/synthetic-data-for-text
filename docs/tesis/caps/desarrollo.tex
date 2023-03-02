@@ -1,11 +1,127 @@
 \chapter{Desarrollo}
 \section{Recursos disponibles}
-\subsection{Datasets}
+\subsection{Conjuntos de datos}
+A continuación se listan y detallan los conjuntos de datos utilizados en los experimentos.
+
+\subsubsection{King County}
+El conjunto de datos King County \cite{kaggle_house_2015} contiene información sobre precios de venta y características de 21,613 viviendas en Seattle y King County de los años 2014 y 2015. El conjunto de datos incluye información como el número de habitaciones, el número de baños, la superficie del terreno y la superficie construida, así como información sobre la ubicación de la propiedad, como la latitud y la longitud. Este conjunto de datos es comúnmente utilizado para tareas de regresión y predicción de precios de viviendas. Sus campos se listan en \fullref{data-county}.
+ 
+\begin{table}[H]
+	\centering
+	\caption{Conjunto de datos King County}
+	\label{data-county}
+    \begin{tabular}{|l|m{30em}|}
+        \hline
+        \rowcolor[gray]{0.8}
+        Variable & Descripción \\
+        \hline
+        id & Identificación \\
+        \hline
+        date & Fecha de venta \\
+        \hline
+        price & Precio de venta \\
+        \hline
+        bedrooms & Número de dormitorios \\
+        \hline
+        bathrooms & Número de baños \\
+        \hline
+        sqft\_liv & Tamaño del área habitable en pies cuadrados \\
+        \hline
+        sqft\_lot & Tamaño del terreno en pies cuadrados \\
+        \hline
+        floors & Número de pisos \\
+        \hline
+        waterfront & '1' si la propiedad tiene vista al mar, '0' si no \\
+        \hline
+        view & Índice del 0 al 4 de la calidad de la vista de la propiedad \\
+        \hline
+        condition & Condición de la casa, clasificada del 1 al 5 \\
+        \hline
+        grade & Clasificación por calidad de construcción que se refiere a los tipos de materiales utilizados y la calidad de la mano de obra. Los edificios de mejor calidad (grado más alto) cuestan más construir por unidad de medida y tienen un valor más alto. Información adicional en: KingCounty \\
+        \hline
+        sqft\_above & Pies cuadrados sobre el nivel del suelo \\
+        \hline
+        sqft\_basmt & Pies cuadrados debajo del nivel del suelo \\
+        \hline
+        yr\_built & Año de construcción \\
+        \hline
+        yr\_renov & Año de renovación. '0' si nunca se ha renovado \\
+        \hline
+        zipcode & Código postal de 5 dígitos \\
+        \hline
+        lat & Latitud \\
+        \hline
+        long & Longitud \\
+        \hline
+        sqft\_liv15 & Tamaño promedio del espacio habitable interior para las 15 casas más cercanas, en pies cuadrados \\
+        \hline
+        sqft\_lot15 & Tamaño promedio de los terrenos para las 15 casas más cercanas, en pies cuadrados \\
+        \hline
+        Shape\_leng & Longitud del polígono en metros \\
+        \hline
+        Shape\_Area & Área del polígono en metros \\
+        \hline
+    \end{tabular}
+\end{table}  
+
+
+\subsubsection{Economicos}
+Economicos.cl es un sitio web chileno que se dedica a la publicación de avisos clasificados en línea, principalmente en las categorías de bienes raíces, vehículos, empleos, servicios y productos diversos.
+El conjunto de datos corresponde a un \emph{Web Scraping} realizado en 2020, contiene 22.059 observaciones.
+
+\begin{table}[H]
+	\centering
+	\caption{Conjunto de datos Economicos.cl}
+	\label{data-economicos}
+    \begin{tabular}{|l|m{30em}|}
+        \hline
+        \rowcolor[gray]{0.8}
+        Variable & Descripción \\
+        \hline
+        url & URL de la publicación \\
+        \hline
+        Descripción & Descripción de la publicación \\
+        \hline
+        price & Precio de venta, en dolares, UF o pesos \\
+        \hline
+        property\_type & Tipo de propiedad: Casa, Departamento, ETC \\
+        \hline
+        transaction\_type & Tipo de transactión\: Arriendo, Venta \\
+        \hline
+        state & Región de la publicación \\
+        \hline
+        county & Comuna de la publicación \\
+        \hline
+        publication\_date & Día de la publicación \\
+        \hline
+        rooms & Número de dormitorios \\
+        \hline
+        bathrooms & Número de baños \\
+        \hline
+        m\_built & Tamaño del área habitable en metros cuadrados \\
+        \hline
+        m\_size & Tamaño del terreno en metros cuadrados \\
+        \hline
+        source & Diario de la publicación \\
+        \hline
+        title & Titulo de la publicación \\
+        \hline
+        address & Dirección de la publicación \\
+        \hline
+        owner & Publicante \\
+        \hline
+        \_price & Precio traspasado a UF \\
+        \hline
+    \end{tabular}
+\end{table}  
+
+
+
 \subsection{Computación y Software}
 
 Para llevar a cabo los experimentos, se utilizó un computador con las siguientes especificaciones técnicas, como se muestra en la \fullref{tabla-componentes-pc}. El procesador empleado fue un AMD Ryzen 9 7950X 16-Core Processor, con cuatro modulos de 32 GB para una memoria total de 128 GB DDR5. La tarjeta gráfica empleada fue una NVIDIA GeForce RTX 4090, y se contó con dos discos duros de 500 GB SSD. La utilización de un equipo con estas características permitió una ejecución eficiente de los modelos de generación de datos, asegurando la viabilidad de los experimentos. Es importante destacar que la elección de los componentes del computador fue cuidadosamente considerada para asegurar que los resultados obtenidos no se vieran limitados por un hardware insuficiente.
 
-En cuanto al software utilizado, se utilizó el sistema operativo Ubuntu 22.04.2 LTS. Los modelos de generación de datos fueron desarrollados utilizando el lenguaje de programación Python, haciendo uso principalmente de las bibliotecas SDV y PyTorch. Se detalla una lista en \fullref{tabla-freeze}. Cabe resaltar que se optó por el uso de estas herramientas debido a TabDDPM.
+En relación al software utilizado, se trabajó con el sistema operativo Ubuntu 20.04.2 LTS y se empleó el lenguaje de programación Python 3.9.5 para el desarrollo de los modelos de generación de datos. Se utilizaron diversas bibliotecas, incluyendo DVC, SDV y PyTorch, cuya lista completa se puede encontrar en el \href{https://github.com/gvillarroel/synthetic-data-for-text/blob/main/freeze.txt}{repositorio en Github}. La elección de estas herramientas se basó en la compatibilidad con el modelo TabDDPM, el cual fue utilizado en algunos de los experimentos.
 
 \begin{table}[H]
 	\centering
@@ -27,12 +143,175 @@ En cuanto al software utilizado, se utilizó el sistema operativo Ubuntu 22.04.2
       \end{tabular}        
 \end{table}  
 
-El código fuente de los modelos de generación de datos, así como los scripts de análisis y visualización de los resultados, se encuentra disponible en un repositorio público de Github.
+El código fuente de los modelos de generación de datos, así como los scripts de análisis y visualización de los resultados, se encuentra disponible en un repositorio público de Github:
+\href{https://github.com/gvillarroel/synthetic-data-for-text}{gvillarroel/synthetic-data-for-text}
 
-\section{Arquitectura de software}
-\section{Dependencias}
+\section{Desarrollo del flujo de procesamiento}
+A continuación se describe el flujo de procesamiento utilizado para generar nuevos datos sintéticos. Este flujo se basa en el propuesto por Synthetic Data Vault (SDV), con algunas modificaciones para guardar etapas intermedias.
+
+SDV es un ecosistema de bibliotecas de generación de datos sintéticos que permite a los usuarios aprender conjuntos de datos de una sola tabla, de múltiples tablas y de series de tiempo, y luego generar nuevos datos sintéticos con las mismas propiedades estadísticas y el mismo formato que los conjuntos de datos originales. Para ello, SDV utiliza diferentes técnicas, como modelos generativos y redes neuronales, para aprender la distribución subyacente de los datos y generar nuevos datos que sigan dicha distribución \cite{noauthor_overview_nodate, patki_synthetic_2016}.
+
+A continuación se describe el proceso de generación de datos sintéticos para una tabla única utilizando la biblioteca Synthetic Data Vault (SDV), seguido de las modificaciones realizadas para extender el proceso y agregar nuevos modelos.
+
+
+\newpage
+En la \fullref{process-sdv} se muestran los pasos necesarios para generar un conjunto de datos sintéticos utilizando SDV:
+
+\begin{figure}[H]
+	\centering
+	\includesvg[scale=.2,inkscapelatex=false]{../dfd/images/processor.svg}
+	\caption{Proceso para generar datos sintéticos con SDV}
+	\label{process-sdv}
+\end{figure}
+
+\begin{enumerate}
+    \item \textbf{Create Metadata}: Se crea un diccionario que define los campos del conjunto de datos y los tipos de datos que posee. Esto permite a SDV aprender la estructura del conjunto de datos original y utilizarla para generar nuevos datos sintéticos con la misma estructura.
+    \item \textbf{Create Model}: Se selecciona el modelo de generación de datos a utilizar. SDV ofrece varios modelos, incluyendo GaussianCopula, CTGAN, CopulaGAN y TVAE, que se adaptan a diferentes tipos de datos y distribuciones.
+    \item \textbf{Fit Model}: El modelo seleccionado se entrena con el conjunto de datos original para aprender sus distribuciones y patrones estadísticos.
+    \item \textbf{Generate Synthetic Dataset}: Con el modelo ya entrenado, se generan nuevos datos sintéticos con la misma estructura y características estadísticas que el conjunto original. Este nuevo conjunto de datos puede ser utilizado para diversas aplicaciones, como pruebas de software o análisis de datos sensibles.
+\end{enumerate}
+
+Es importante destacar que el proceso de generación de datos sintéticos con SDV es escalable y puede utilizarse con conjuntos de datos de una sola tabla, múltiples tablas y series de tiempo. Además, en este proyecto se realizaron algunas modificaciones al flujo para extender el proceso y permitir la inyección de nuevos modelos.
+    
+\newpage
+En el proceso de generación de datos sintéticos con SDV extendido, se incluyen dos nuevas etapas para poder guardar los modelos intermedios y los resultados de la evaluación. El proceso completo se muestra en la \fullref{process-sdv-2} y consta de los siguientes pasos:
+
+\begin{enumerate}
+    \item \textbf{Create Metadata}: Crea un diccionario que define los campos del conjunto de datos y los tipos de datos que posee.
+    \item \textbf{Create Model}: Se selecciona el modelo a utilizar. SDV permite GaussianCopula, CTGAN, CopulaGAN y TVAE.
+    \item \textbf{Fit Model}: El modelo seleccionado toma el conjunto original para entrenar el modelo y aprender sus distribuciones.
+    \item \textbf{Save Model}: El modelo entrenado se guarda en un archivo para su uso posterior.
+    \item \textbf{Generate Synthetic Dataset}: Genera un nuevo conjunto de datos usando el modelo entrenado.
+    \item \textbf{Evaluate \& Save Metrics}: Evalúa y guarda el conjunto de datos sintético generado mediante métricas como la correlación, el error absoluto medio y el error cuadrático medio.
+\end{enumerate}
+
+
+\begin{figure}[H]
+	\centering
+	\includesvg[scale=.15,inkscapelatex=false]{../dfd/images/processor_edited.svg}
+	\caption{Proceso para generar datos sintéticos completo}
+	\label{process-sdv-2}
+\end{figure}
+
+Con estas nuevas etapas, se pueden guardar los modelos intermedios y los resultados de la evaluación, lo que permite una mayor flexibilidad en el proceso y la capacidad de utilizar los modelos y los resultados en posteriores experimentos.
+
+
+
 \section{Modelos}
-\subsection{Datos tabulares}
-\subsection{Datos de texto}
-\lipsum[1-3]
-\begin{defn}[ver \cite{KAR00}] Definición definitiva $$\frac{d}{dx}\int_a^xf(y)dy=f(x).$$\end{defn}
+
+Los modelos de generación de datos tabulares utilizan como base la metodología propuesta por \emph{Synthetic Data Vault} (SDV), mientras que para los modelos de generación de texto se utiliza la biblioteca Hugging Face para cargar, realizar \emph{fine-tuning} con nuevas tareas y evaluar el modelo basado en mT5.
+
+\subsection{Modelos para datos tabulares}
+Para que un modelo pueda ser utilizado con el SDV, es necesario que implemente los siguientes métodos:
+\begin{enumerate}
+    \item \textbf{load}: Carga el modelo desde un archivo
+    \item \textbf{fit}: Entrena el modelo, utilizando un pandas dataframe como entrada
+    \item \textbf{save}: Guarda el modelo en un archivo
+    \item \textbf{sample}: Genera un conjunto de registros nuevos utilizando el modelo entrenado.
+\end{enumerate}
+
+Como consideración adicional, se recomienda ejecutar el proceso utilizando un script en lugar de un notebook, ya que se ha observado que el notebook puede fallar con algunos modelos debido a limitaciones de memoria. A continuación, se detallan los pasos a seguir para la ejecución del proceso:
+\begin{enumerate}
+\item Crear un archivo de configuración que contenga la información necesaria para la generación de datos sintéticos, como la ruta del conjunto de datos original y la configuración de los modelos a utilizar.
+\item Crear un script que cargue la configuración, ejecute el proceso de generación de datos sintéticos y guarde el conjunto de datos sintético resultante.
+\item Ejecutar el script creado en el paso anterior.
+\end{enumerate}
+De esta manera, se puede ejecutar el proceso de generación de datos sintéticos de forma automatizada y con una mayor capacidad de procesamiento, lo que puede mejorar el desempeño del proceso y reducir los tiempos de ejecución. Vea \nameref{a-2}
+
+La clase \emph{Synthetic} es una implementación que permite configurar los modelos a utilizar en el proceso de generación de datos sintéticos. Esta clase encapsula los métodos comunes de los modelos, como \emph{load}, \emph{fit}, \emph{save} y \emph{sample}, permitiendo así una configuración general de las entradas y la selección de modelos.
+
+En el ejemplo mostrado en el Código \fullref{code-economicos-synthetic}, se instancia la clase \emph{Synthetic} con un pandas dataframe previamente pre-procesado. Se especifican las columnas que se considerarán como categorías, las que se considerarán como texto y las que se excluirán del análisis. Además, se indica el directorio donde se guardarán los archivos temporales, se seleccionan los modelos a utilizar, se establece el número de registros sintéticos deseados y se define una columna objetivo para realizar pruebas con machine learning y estratificar los conjuntos parciales de datos que se utilizarán. De esta manera, se configura de manera flexible el proceso de generación de datos sintéticos según las necesidades específicas del usuario.
+\begin{listing}[H]
+\inputminted[
+    firstline=45, lastline=54
+    ]{python}{../../notebooks/economicos_train.py}
+\caption{Instanciando clase Synthetic}
+\label{code-economicos-synthetic}
+\end{listing}
+
+La \fullref{synthetic-input} presenta las opciones para la instancia de la clase \emph{Synthetic}:
+
+\begin{table}[H]
+\centering
+\caption{Variables de entrada para \emph{Synthetic}}
+\label{synthetic-input}
+\begin{tabular}{|l|m{25em}|}
+\hline
+\rowcolor[gray]{0.8}
+\textbf{Variable} & \textbf{Descripción} \\
+\hline
+df & Pandas DataFrame a utilizar \\
+\hline
+Id & Nombre de la columna a ser usada como identificadora \\
+\hline
+category\_columns & Listado de columnas categóricas \\
+\hline
+text\_columns & Listado de columnas de texto \\
+\hline
+exclude\_columns & Listado de columnas que deben ser excluidas \\
+\hline
+synthetic\_folder & Carpeta donde se guardarán los documentos intermedios y finales \\
+\hline
+models & Listado de modelos a utilizar \\
+\hline
+n\_sample & Número de registros a generar \\
+\hline
+target\_column & Columna a utilizar como objetivo para modelos de machine learning en las evaluaciones y separación cuando se deba estratificar los campos. \\
+\hline
+\end{tabular}
+\end{table}
+
+En la \fullref{modelos-tab-soportados} se detallan los modelos actualmente soportados en la clase \emph{Synthetic} y su origen.
+
+\begin{table}[H]
+	\centering
+	\caption{Modelos Tabulares Soportados}
+	\label{modelos-tab-soportados}
+    \begin{tabular}{|l|l|}
+        \hline
+        \rowcolor[gray]{0.8}
+        Nombre Modelo & Fuente \\
+        \hline
+        copulagan & SDV \cite{kotelnikov_overview_nodate} \\
+        \hline
+        tvae & SDV \cite{kotelnikov_overview_nodate} \\
+        \hline
+        gaussiancopula & SDV \cite{kotelnikov_overview_nodate} \\
+        \hline
+        ctgan & SDV \cite{kotelnikov_overview_nodate} \\
+        \hline
+        smote-enc & tabDDPM \cite{akim_tabddpm_2023} \\
+        \hline
+        tddpm\_mlp & tabDDPM \cite{akim_tabddpm_2023} \\
+        \hline
+      \end{tabular}        
+\end{table} 
+\newpage
+\subsection{Modelos para textos}
+Como se mencionó anteriormente, se utilizó el modelo \textbf{mT5} que se entrenó para una nueva tarea utilizando la estrategia presentada en el artículo \emph{Text-to-Text Pre-Training for Data-to-Text Tasks} \cite{kale_text--text_2020}. Para ilustrar el proceso, se presenta un ejemplo del texto pre-procesado, el segmento de la pregunta y la respuesta esperada para un registro del conjunto de datos \emph{economicos.cl}.
+
+\begin{tcolorbox}[colback=white,colframe=black!50!white,title=Input]
+<fecha, 2022-07-21>\\
+<precio, 10.800 UF>\\
+<tipo, Casa>\\
+<transacción, Venta>\\
+<región, Valparaíso>\\
+<comuna, Viña del Mar>\\
+<dormitorios, 5.0>\\
+<baños, 5.0>\\
+<construidos, 216.0>\\
+<terreno, 332.0>\\
+<precio\_real, 10800.0>\\
+<titulo, Casa en Venta en Viña del Mar>\\
+<dormitorios, 5>\\
+<baños, 4>\\
+<dirección, Miraflores Viña del Mar, Valparaíso>
+\end{tcolorbox}
+\begin{tcolorbox}[colback=white,colframe=black!50!white,title=Tarea]
+description of this data:
+\end{tcolorbox}
+\begin{tcolorbox}[colback=white,colframe=black!50!white,title=Respuesta esperada]
+Linda casa de 2 pisos con amplias habitaciones y gran estacionamiento para 4 autos. Primer piso.: Living con Chimenea Comedor aparte con salida a jardin Cocina con amplia Despensa Desayunador Pieza y ba\~no de servicio Sala de estar y 1 dormitorio Ba\~no completo. Estacionamiento 4 autos  Lavadero exterior cerrado  Bodega Segundo piso: 3 dormitorios 1 en suite amplio. Ba\~no completo Ventanas termopanel. - C\'odigo Propiedad: JX8162
+\end{tcolorbox}
+    
+
