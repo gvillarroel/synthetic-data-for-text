@@ -10,9 +10,8 @@ import os
 def test_train(args):
     lrc, ntc, sts, btsc, rtdlc, syn, df = args
     #notebooks/economicos_good/2e-06_10_100000_5000_1024-512-256
-    checkpoint = "economicos_good2/" +  "_".join(
-            map(str, [lrc, ntc, sts, btsc, "-".join(map(str, rtdlc))]))
-    checkpoint = "con_fechas"
+    
+    checkpoint = "con_fechas_600k"
     if os.path.exists(f"{checkpoint}/final_model.pt") or os.path.exists(f"{checkpoint}/exit"):
         return (checkpoint, 1)    
     model = SDV_MLP(syn.metadata, 
@@ -30,34 +29,45 @@ def test_train(args):
                         d_layers=rtdlc
                     ))
                     )
-    model.fit(syn.train)
+    model.fit(syn.train.sample(frac=1))
     model.save(f"{checkpoint}/final_model.pt")
     return (checkpoint, 1)
 
 if __name__ == '__main__':
-    df = pd.read_parquet('../datasets/economicos/synth/split/train.parquet')
+    df = pd.read_parquet('../datasets/economicos/raw/full_dedup_economicos_step0.parquet')
+
     category_columns=("property_type", "transaction_type", "state", "county", "rooms", "bathrooms", "m_built", "m_size", "source", )
-    # TODO: Estudiar implicancia de valores nulos en categorias y numeros
-    df_converted = df.astype({k: 'str' for k in ("description", "price", "title", "address", "owner",)})
+    df_converted = df.fillna(dict(
+            property_type = "None",
+            transaction_type = "None",
+            state = "None",
+            county = "None",
+            rooms = -1,
+            bathrooms = -1,
+            m_built = -1,
+            m_size = -1,
+            source = "None"
+    )).fillna(-1).astype({k: 'str' for k in ("description", "price", "title", "address", "owner",)})
+    print(df_converted.shape)
     basedate = pd.Timestamp('2017-12-01')
     dtime = df_converted.pop("publication_date")
     df_converted["publication_date"] = dtime.apply(lambda x: (x - basedate).days)
     syn = Synthetic(df_converted, 
             id="url", 
             category_columns=category_columns,
-            text_columns=("description", "price", "title", "address", "owner",),
+            text_columns=("description", "price", "title", "address", "owner", ),
             exclude_columns=tuple(),
-            synthetic_folder = "../datasets/economicos/synth",
-            models=['copulagan', 'tvae', 'gaussiancopula', 'ctgan', 'smote-enc'],
-            n_sample = df.shape[0],
-            target_column="_price"
+            synthetic_folder = "../datasets/economicos/synthb",
+            models=['copulagan', 'tvae', 'gaussiancopula', 'ctgan', 'smote-enc', 'tddpm_mlp'],
+            n_sample = df_converted.shape[0],
+            target_column="_price",
+            max_cpu_pool=1
     )
-    
     #lrs = np.linspace(2e-6, 2e-3, 10)
     lrs = [2e-6]#np.linspace(2e-6, 2e-3, 5)
     num_timesteps = [10] #np.linspace(10, 1000, 3, dtype=int)
     batch_size = [5000] #np.linspace(2500, 5000, 3, dtype=int)
-    steps = [1000]#[10000000]#np.linspace(150000, 500000, 5, dtype=int)
+    steps = [500]#[10000000]#np.linspace(150000, 500000, 5, dtype=int)
     rtdl_params = [
         [1024, 512, 256],
         #[512, 256],
@@ -72,25 +82,4 @@ if __name__ == '__main__':
     with mp.Pool(1) as p:
         fitted_models = dict(list(p.map(test_train, itertools.product(lrs, num_timesteps, steps, batch_size, rtdl_params, [syn], [df_converted]))))
 
-    # print(model.X_train[:1])
-    # print(model.y_train[:1])
-    #
-    #X_sample, Y_sample = model.diffusion.sample(10, y_count.float())
-#
-#
-    # print(X_sample[:1])
-    # print(Y_sample['y'])
-
-    # remaining_columns=('view','condition','waterfront'),
-    # syn.process()
-    #syn.process(additional_parameters={"smote-enc": {"frac_lam_del": 0.3}})
-    #syn.process(additional_parameters={"smote-enc": {"frac_lam_del": 0.5, "k_neighbours": 1}})
-    #syn.process(additional_parameters={"smote-enc": {"frac_lam_del": 0.1, "k_neighbours": 1}})
-    #syn.process(additional_parameters={"smote-enc": {"frac_lam_del": 1, "k_neighbours": 1}})
-    #syn.process(additional_parameters={"smote-enc": {"k_neighbours": 20}})
-    #syn.process(additional_parameters={"smote-enc": {"k_neighbours": 1}})
-    #syn.process(additional_parameters={"smote-enc": {"k_neighbours": 10}})
-
-    # syn.process_scores()
-    # print(syn.scores)
-    #print(syn.metric.get_scores(syn.fake_data, syn.report_folder))
+   

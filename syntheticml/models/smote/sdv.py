@@ -52,8 +52,8 @@ class SDVSMOTE(ModelInterface):
             self.sorted_columns = self.num_columns + self.cat_columns
     
     def get_scaled(self):
-        #train = self.train.sample(min(self.max_data, self.train.shape[0]))
-        train = self.train
+        train = self.train.sample(min(self.max_data, self.train.shape[0]))
+        #train = self.train
         if self.is_regression:
             X_train = train.loc[:, self.num_columns + [self.target_column]]
             y_train = np.where( train.loc[:, self.target_column] > np.median(train.loc[:, self.target_column]), 1, 0)
@@ -123,7 +123,6 @@ class SDVSMOTE(ModelInterface):
         while ns.shape[0] < n_sample:
             print(f"sampling smote left:{n_sample-ns.shape[0]}")
             ns = pd.concat([ns, self._sample(min(n_sample+1-ns.shape[0], self.batch_size), output_file_path, frac_lam_del, k_neighbours)]) 
-            
         
         ns = pd.concat([ ns.loc[:, self.date_columns].apply(self.to_datetime), ns.loc[:, list(set(ns.columns) - set(self.date_columns))]], axis=1)
         return ns.reset_index().rename(columns={"index":self.column_id})

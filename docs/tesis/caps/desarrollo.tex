@@ -149,7 +149,7 @@ El código fuente de los modelos de generación de datos, así como los scripts 
 \section{Desarrollo del flujo de procesamiento}
 A continuación se describe el flujo de procesamiento utilizado para generar nuevos datos sintéticos. Este flujo se basa en el propuesto por Synthetic Data Vault (SDV), con algunas modificaciones para guardar etapas intermedias.
 
-SDV es un ecosistema de bibliotecas de generación de datos sintéticos que permite a los usuarios aprender conjuntos de datos de una sola tabla, de múltiples tablas y de series de tiempo, y luego generar nuevos datos sintéticos con las mismas propiedades estadísticas y el mismo formato que los conjuntos de datos originales. Para ello, SDV utiliza diferentes técnicas, como modelos generativos y redes neuronales, para aprender la distribución subyacente de los datos y generar nuevos datos que sigan dicha distribución \cite{noauthor_overview_nodate, patki_synthetic_2016}.
+SDV es un ecosistema de bibliotecas de generación de datos sintéticos que permite a los usuarios aprender conjuntos de datos de una sola tabla, de múltiples tablas y de series de tiempo, y luego generar nuevos datos sintéticos con las mismas propiedades estadísticas y el mismo formato que los conjuntos de datos originales. Para ello, SDV utiliza diferentes técnicas, como modelos generativos y redes neuronales, para aprender la distribución subyacente de los datos y generar nuevos datos que sigan dicha distribución \cite{kotelnikov_overview_nodate, patki_synthetic_2016}.
 
 A continuación se describe el proceso de generación de datos sintéticos para una tabla única utilizando la biblioteca Synthetic Data Vault (SDV), seguido de las modificaciones realizadas para extender el proceso y agregar nuevos modelos.
 
@@ -286,32 +286,152 @@ En la \fullref{modelos-tab-soportados} se detallan los modelos actualmente sopor
         \hline
       \end{tabular}        
 \end{table} 
+
+Al ejecutar el script de generación de datos sintéticos, se crearán múltiples archivos en una carpeta. En la \fullref{synth-folders} se muestra un ejemplo de los archivos generados y su formato. El nombre del modelo utilizado se indica en el campo \textbf{<model>}, y en caso de haberse aplicado \emph{Differential Privacy} para generar una versión con ruido, se añade el sufijo \textbf{\_noise} al nombre del modelo. El campo \textbf{<n\_sample>} indica el número de registros sintéticos generados, y finalmente el campo \textbf{<type\_comparison>} especifica si se trata de una comparación entre los datos sintéticos y los datos de entrenamiento (\emph{Synthetic vs Train}, abreviado como ST) o entre los datos sintéticos y los datos de validación (\emph{Synthetic vs Hold}, abreviado como SH). Adicionalmente se encuentran los archivos de esquema (\emph{metadata.json} y \emph{metadata\_noise.json}) y una separación del dataset inicial en el conjunto de entrenamiento y test (hold).
+\begin{figure}[H]
+	\centering
+	\includesvg[scale=1,inkscapelatex=false]{../dfd/images/synth_tree.svg}
+	\caption{Carpetas y archivos esperados generados por \emph{Synthetic}}
+	\label{synth-folders}
+\end{figure}
+
 \newpage
 \subsection{Modelos para textos}
 Como se mencionó anteriormente, se utilizó el modelo \textbf{mT5} que se entrenó para una nueva tarea utilizando la estrategia presentada en el artículo \emph{Text-to-Text Pre-Training for Data-to-Text Tasks} \cite{kale_text--text_2020}. Para ilustrar el proceso, se presenta un ejemplo del texto pre-procesado, el segmento de la pregunta y la respuesta esperada para un registro del conjunto de datos \emph{economicos.cl}.
 
 \begin{tcolorbox}[colback=white,colframe=black!50!white,title=Input]
-<fecha, 2022-07-21>\\
-<precio, 10.800 UF>\\
-<tipo, Casa>\\
-<transacción, Venta>\\
-<región, Valparaíso>\\
-<comuna, Viña del Mar>\\
-<dormitorios, 5.0>\\
-<baños, 5.0>\\
-<construidos, 216.0>\\
-<terreno, 332.0>\\
-<precio\_real, 10800.0>\\
-<titulo, Casa en Venta en Viña del Mar>\\
-<dormitorios, 5>\\
-<baños, 4>\\
-<dirección, Miraflores Viña del Mar, Valparaíso>
+<fecha, 2022-01-01>\\
+<precio, \$ 105.000.000>\\
+<tipo, Departamento>\\
+<transacci\'on, Venta>\\
+<regi\'on, Metropolitana de Santiago>\\
+<comuna, Santiago>\\
+<dormitorios, 3.0>\\
+<ba\~nos, 3.0>\\
+<construidos, 47.0>\\
+<terreno, 47.0>\\
+<precio\_real, 3387.4540447373292>\\
+<titulo, Departamento en Venta en Santiago 3 dormitorios 1 ba\~no>\\
+<direcci\'on, DEPARTAMENTO EN EL CORAZON DE LO BARNECHEA Santiago, Metropolitana de Santiago>
 \end{tcolorbox}
 \begin{tcolorbox}[colback=white,colframe=black!50!white,title=Tarea]
-description of this data:
+descripci\'on de esta publicaci\'on
 \end{tcolorbox}
 \begin{tcolorbox}[colback=white,colframe=black!50!white,title=Respuesta esperada]
-Linda casa de 2 pisos con amplias habitaciones y gran estacionamiento para 4 autos. Primer piso.: Living con Chimenea Comedor aparte con salida a jardin Cocina con amplia Despensa Desayunador Pieza y ba\~no de servicio Sala de estar y 1 dormitorio Ba\~no completo. Estacionamiento 4 autos  Lavadero exterior cerrado  Bodega Segundo piso: 3 dormitorios 1 en suite amplio. Ba\~no completo Ventanas termopanel. - C\'odigo Propiedad: JX8162
+\footnotesize
+Kazona Propiedades Vende Departamento de 47m2, 3 dormitorios, 1 ba\~no, cocina, living comedor , Paredes con Cer\'amica y Tabiquer\'ia en techo con madera barnizada timbrada, ventanas nuevas de PVC y vidrio termolaminado, sistema el\'ectrico actualizado, departamento ubicado en el 3er nivel (sin ascensor) , bajo gasto com\'un. Excelentes conectividades y ubicaci\'on en Pleno Centro De Lo Barnechea, como colegios privados y p\'ublicos, supermercados, Mall Portal La Dehesa, locomoci\'on, entre otros.\\
+Podemos destacar de la propiedad:\\
+Pleno Centro Lo Barnechea\\
+100 metros de locomoci\'on a Escuela Militar , Bilbao, Stgo Centro, Mapocho\\
+200 metros colegios Montessori Nido de \'Aguila, San Rafael , otros\\
+200 metros Mall Portal La Dehesa\\
+200 metros Sta. Isabel\\
+300 metros carabineros\\
+Gastos comunes bajos  \$10.000\\
+Estacionamiento comunitario\\
+No paga contribuciones\\
+Contactanos al telefono Kazona 569 56031154
 \end{tcolorbox}
+
+\section{Obtención de Métricas}
+
+Se han automatizado la mayoría de las métricas para evaluar los conjuntos de datos sintéticos mediante el módulo \emph{metrics}. Estas métricas se aplican a los tres conjuntos de datos para su evaluación, lo que permite calcular estadísticas y comparativas para el conjunto de datos real utilizado para el entrenamiento (train dataset), el conjunto de datos reservado para la evaluación (hold) y el conjunto de datos sintético generado por los diferentes modelos (synthetic). Se pueden recolectar ejecutando el ejemplo de código proporcionado en Código \fullref{code-economicos-metrics}.
+
+\begin{listing}[H]
+\inputminted[
+    firstline=41, lastline=42
+    ]{python}{../../notebooks/economicos_run.py}
+\caption{Obtención de métricas}
+\label{code-economicos-metrics}
+\end{listing}
+
+En la \fullref{metricas-numericas} se muestra las metricas recolectadas para campos numericos.
+
+\begin{longtable}{|m{10em}|m{25em}|}
+    \caption{Metricas para campos numericos} 
+    \label{metricas-numericas} \\
+    \hline
+    \rowcolor[gray]{0.8}
+    Campo & Ejemplos \\
+    \hline
+    \endfirsthead
     
+    \hline
+    \rowcolor[gray]{0.8}
+    Campo & Ejemplos \\
+    \hline
+    \endhead
+    
+    \hline \multicolumn{2}{|r|}{{Continúa en la siguiente página}} \\ \hline
+    \endfoot
+    
+    \hline \hline
+    \endlastfoot
+    
+    \hline
+    Nombre del campo (name) & sqft\_living \\ \hline
+    Valores del Top 5 (top5) & [1400 1300 1720 1250 1540] \\ \hline
+    Frecuencia Top 5 (top5\_frec) & [109 107 106 106 105] \\ \hline
+    Probabilidades de Top 5 (top5\_prob) & [0.00630422 0.00618855 0.00613071 0.00613071 0.00607287] \\ \hline
+    Elementos observados (nobs) & 17290 \\ \hline
+    Nulos (missing) & 0 \\ \hline
+    Promedio (mean) & 2073.894910 \\ \hline
+    Desviación Estándar (std) & 907.297963 \\ \hline
+    Error estándar de la media (std\_err) & 6.900053 \\ \hline
+    Intervalo de confianza superior (upper\_ci) & 2087.418766 \\ \hline
+    Intervalo de confianza inferior (lower\_ci) & 2060.371055 \\ \hline
+    Rango intercuartílico (iqr) & 1110 \\ \hline
+    Rango intercuartílico normalizado (iqr\_normal) & 822.844231 \\ \hline
+    Desviación absoluta de la mediana (mad) & 693.180169 \\ \hline
+    Desviación absoluta de la mediana normalizada (mad\_normal) & 868.772506 \\ \hline
+    Coeficiente de variación (coef\_var) & 0.437485 \\ \hline
+    Rango (range) & 11760 \\ \hline
+    Valor máximo (max) & 12050 \\ \hline
+    Valor mínimo (min) & 290 \\ \hline
+    Sesgo (skew) & 1.370859 \\ \hline
+    Curtosis (kurtosis) & 7.166622 \\ \hline
+    Test de normalidad de Jarque-Bera (jarque\_bera) & 17922.347382 \\ \hline
+    Valor p del test de normalidad de Jarque-Bera (jarque\_bera\_pval) & 0 \\ \hline
+    Moda (mode) & 1400 \\ \hline
+    Frecuencia de la moda (mode\_freq) & 0.006304 \\ \hline
+    Mediana (median) & 1910 \\ \hline
+    Percentil 0.1\% & 522.890000 \\ \hline
+    Percentil 1\% & 720 \\ \hline
+    Percentil 5\% & 940 \\ \hline
+    Percentil 25\% & 1430 \\ \hline
+    Percentil 75\% & 2540 \\ \hline
+    Percentil 95\% & 3740 \\ \hline
+    Percentil 99\% & 4921.100000 \\ \hline
+    Percentil 99.9\% & 6965.550000 \\ \hline
+\end{longtable}
+
+\newpage
+En la \fullref{metricas-categoricas} se muestran los datos calculados para campos categóricos.
+
+\begin{table}[H]
+    \centering
+    \caption{Métricas para campos categóricos}
+    \label{metricas-categoricas}
+    \begin{tabular}{|m{10em}|m{25em}|}
+    \hline
+    \rowcolor[gray]{0.8}
+    Nombre del campo (name) & waterfront \\ \hline
+    Valores del Top 5 (top5) & [0 1] \\ \hline
+    Frecuencia Top 5 (top5\_freq) & [17166   124] \\ \hline
+    Probabilidades de Top 5 (top5\_prob) & [0.99282822 0.00717178] \\ \hline
+    Elementos observados (nobs) & 17290.0 \\ \hline
+    Nulos (missing) & 17290.0 \\ \hline
+\end{tabular}
+\end{table}
+
+Los Scores calculados corresponden a la Distancia al registro más cercano (DCR), para visualizar los resultados se muestra un código de ejemplo en la \fullref{codigo-show-score} y el resultado de ese código se muestra en la \fullref{tabla-ejemplo-score}.
+
+\begin{listing}[H]
+    \begin{minted}[linenos=true,frame=lines,framesep=2mm,baselinestretch=1.2]{python}
+avg = syn.scores[syn.scores["type"] == "avg"]
+avg.sort_values("score", ascending=False).loc[ ["tddpm_mlp_21613","smote-enc_21613","gaussiancopula_noise_21613","tvae_21613", "tvae_noise_21613","gaussiancopula_21613", "copulagan_noise_21613","copulagan_21613","ctgan_noise_21613","ctgan_21613"], ["score", "DCR ST 5th", "DCR SH 5th", "DCR TH 5th"]]
+    \end{minted}
+\caption{Mostrando Scores Promedios Calculados}
+\label{codigo-show-score}
+\end{listing}
 

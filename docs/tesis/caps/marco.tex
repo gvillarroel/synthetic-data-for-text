@@ -243,4 +243,88 @@ En cambio, el modelo \emph{Text-to-text pre-training for data-to-text tasks} \ci
 \begin{tcolorbox}[colback=white,colframe=black!50!white,title=Respuesta esperada]
 George Lucas
 \end{tcolorbox}
+
+\newpage
+\section{Metricas de evaluación}
+Es importante destacar que no todas estas métricas son aplicables a todos los tipos de datos y modelos, y que la selección de las métricas a utilizar debe ser cuidadosamente considerada en función de las necesidades y objetivos específicos de cada caso de estudio.
+A continuación presentan algunas de las posibles a considerar para medir la similitud, privacidad y utilidad en la evaluación de los conjuntos de datos sintéticos generados.
+
+\subsection{Conjuntos Estadísticos}
+
+\begin{longtable}{|m{7em}|m{30em}|}
+    \caption{Listado de conjunto estadísticos} 
+    \label{tab-stats} \\
+    \hline
+    \rowcolor[gray]{0.8}
+    Nombre & Descripción \\
+    \hline
+    \endfirsthead
     
+    \hline
+    \rowcolor[gray]{0.8}
+    Nombre & Descripción \\
+    \hline
+    \endhead
+    
+    \hline \multicolumn{2}{|r|}{{Continúa en la siguiente página}} \\ \hline
+    \endfoot
+    
+    \hline \hline
+    \endlastfoot
+    
+    \hline
+    Media (Mean) & La suma de todos los valores dividido por el número total de valores \\
+    \hline
+    Mediana (Median) & El valor que se encuentra en el centro de un conjunto de datos ordenados de menor a mayor. Es decir, la mitad de los valores son mayores que la mediana y la otra mitad son menores \\
+    \hline
+    Moda (Mode) & El valor que aparece con mayor frecuencia en un conjunto de datos \\
+    \hline
+    Mínimo (Min) & El valor más pequeño en un conjunto de datos \\
+    \hline
+    Máximo (Max) & El valor más grande en un conjunto de datos \\
+    \hline
+    Percentil (25, 75) (Percentile) & El valor tal que P (25 o 75) por ciento de los datos son menores que él, y el restante (100 - P) por ciento son mayores. Cuando P = 50, el percentil es la mediana \\
+    \hline
+    Media Truncada (Trimmed Mean) & El promedio de todos los valores, una vez que se han eliminado un porcentaje de los valores más bajos y un porcentaje de los valores más altos \\
+    \hline
+    Outlier & Un valor que se encuentra muy lejos de la mayoría de los valores en un conjunto de datos \\
+    \hline
+    Desviación (Deviation) & La diferencia entre un valor observado y la estimación de ese valor \\
+    \hline
+    Varianza (Variance) & La medida de cuán dispersos están los valores en un conjunto de datos. Es la suma de los cuadrados de las desviaciones desde la media dividido por n - 1, donde n es el número de valores \\
+    \hline
+    Desviación Estándar (SD) & La raíz cuadrada de la varianza \\
+    \hline
+    Desviación Absoluta Media (MAD) & La media de los valores absolutos de las desviaciones desde la media \\
+    \hline
+    Rango (Range) & La diferencia entre el valor más grande y el valor más pequeño en un conjunto de datos \\
+    \hline
+    Tablas de Frecuencia (Frequency Tables) & Un método para resumir los datos al contar cuántas veces ocurre cada valor en un conjunto de datos \\
+    \hline
+    Probabilidad (Probability) & La medida de la posibilidad de que un evento ocurra. Se establece como el número de ocurrencias de un valor dividido por el número total de ocurrencias \\
+    \hline
+    Tabla de Contingencia (Contingency Table) & Una tabla que muestra la distribución conjunta de dos o más variables categóricas \\
+    \hline
+    Correlación& Una medida estadística que indica cómo dos variables numéricas están relacionadas entre sí. Puede variar entre -1 y 1 \\
+    \hline
+    Distribución Estratificada & Una comparación de la distribución de datos para diferentes estratos \\
+    \hline
+    Comparación de Modelos Predictivos Multivariables & Un método para comparar varios modelos predictivos que involucran múltiples variables. Implica la construcción de modelos separados para cada variable objetivo y comparar la curva ROC (Receiver Operating Characteristic) para cada modelo \\
+    \hline
+    Distinguibilidad & Un método para evaluar la calidad de los conjuntos de datos sintéticos. Implica la creación de un modelo que intenta distinguir entre conjuntos de datos reales y sintéticos. Un buen conjunto sintético es aquel que el modelo no puede distinguir de los datos reales \\
+    \hline
+    Kullback-Leibler & Una medida de la divergencia entre dos distribuciones de probabilidad \\
+    \hline
+    Pairwise Correlation & Una medida de la similitud entre dos conjuntos de datos que compara las correlaciones de cada par de variables en los conjuntos de datos \\
+    \hline
+    Log-Cluster & Un método para evaluar la calidad de los conjuntos de datos sintéticos que compara la estructura de los conjuntos de datos reales y sintéticos mediante el uso de clustering \\
+    \hline
+    Cobertura de Soporte (Support Coverage) & Una medida de qué tan bien los datos sintéticos representan la distribución de los datos reales. Se mide como la proporción de variables en el conjunto de datos real que están representadas en el conjunto de datos sintéticos \\
+    \hline
+    Cross-Classification & Un método para evaluar la calidad de los conjuntos de datos sintéticos que compara la precisión de los modelos predictivos construidos a partir de los conjuntos de datos reales y sintéticos \\
+    \hline
+    Métrica de Revelación Involuntaria & Una medida de qué tan bien se protege la privacidad de los datos en un conjunto de datos sintético. Se mide como la tasa de predicciones correctas de atributos sensibles de un individuo en un conjunto de datos sintético \\
+    \hline
+    
+    
+\end{longtable}

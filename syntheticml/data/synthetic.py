@@ -94,8 +94,7 @@ class Synthetic:
                  max_cpu_pool=None) -> None:
         self.df = df
         self.random_state = random_state
-        self.train, self.hold = train_test_split(
-            df, test_size=0.2, random_state=random_state)
+        
         self.category_columns = category_columns
         self.primary_key = id
         self.target_column = target_column
@@ -111,6 +110,12 @@ class Synthetic:
         self.metadata_path = f"{self.synthetic_folder}/metadata.json"
         self.metadata_noise_path = f"{self.synthetic_folder}/metadata_noise.json"
         self.make_folders()
+        if not os.path.exists(f"{self.split}/train.parquet"):
+            self.train, self.hold = train_test_split(
+                df, test_size=0.2, random_state=random_state)
+        else:
+            self.train = pd.read_parquet(f"{self.split}/train.parquet")
+            self.hold = pd.read_parquet(f"{self.split}/hold.parquet")
         self.metadata, self.metadata_noised = self._gen_metadata(
             default_encoder)
         self.metric = Metrics(self.df, self.train, self.hold, self.metadata, includes=list(set(self.df.columns) - set(self.exclude_columns) - set(self.df.select_dtypes(include=np.datetime64).columns)))
