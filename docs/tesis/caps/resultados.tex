@@ -1,9 +1,72 @@
 \chapter{Resultados}
-A continuación, se presentan los resultados obtenidos a partir de los preprocesamientos y modelos generados en el proyecto. Los resultados son mostrados tanto en términos de desempeño de los modelos de machine learning entrenados con los datos sintéticos generados, como en términos de similitud, privacidad y utilidad de los datos sintéticos generados. Cabe destacar que los resultados son específicos para cada conjunto de datos y modelo utilizado, por lo que se presenta una descripción detallada de los mismos en cada caso.
+En este proyecto, se han generado datos sintéticos a través de diferentes preprocesamientos y modelos de machine learning. Los resultados obtenidos se presentan en términos de desempeño de los modelos entrenados con los datos sintéticos, así como en términos de similitud, privacidad y utilidad de los datos generados.
 
-\section{Datos tabulares}
-\subsection{Metricas}
-\subsection{Ejemplos}
-\section{Datos de texto}
-\subsection{Metricas}
-\subsection{Ejemplos}
+Es importante tener en cuenta que los resultados son específicos para cada conjunto de datos y modelo utilizado. Por lo tanto, se proporciona una descripción detallada de los resultados para cada caso. Esto permitirá una mejor comprensión de la eficacia de los diferentes métodos utilizados para generar datos sintéticos y cómo se comparan con los datos reales.
+
+\newpage
+\section{King County}
+
+\subsection{Reportes}
+
+\subsubsection{Scores}
+
+La Tabla \ref{kingcounty-scores} muestra los scores obtenidos para diferentes modelos utilizados en el proyecto. Como se puede apreciar, los modelos con puntajes más altos, como tddpm\_mlp\_21613 y smote-enc\_21613, tienen un mayor parecido con el conjunto real. En cambio, los modelos con puntajes más bajos, como ctgan\_noise\_21613 y ctgan\_21613, tienen una similitud muy baja con los datos reales.
+
+\begin{table}[H]
+    \centering
+    \caption{Scores King County}
+    \label{kingcounty-scores}
+    \begin{tabular}{|l|r|r|r|}
+        \hline
+        \rowcolor[gray]{0.8}
+        Nombre                      & Column Pair Trends & Column Shapes & \textbf{Score} \\ \hline
+        tddpm\_mlp\_21613           & 0.954061 & 0.971517 & 0.962789 \\ \hline
+        smote-enc\_21613            & 0.941977 & 0.967207 & 0.954592 \\ \hline
+        gaussiancopula\_noise\_21613& 0.845585 & 0.809726 & 0.827655 \\ \hline
+        tvae\_21613                 & 0.781927 & 0.856533 & 0.819230 \\ \hline
+        tvae\_noise\_21613          & 0.770583 & 0.859122 & 0.814853 \\ \hline
+        gaussiancopula\_21613       & 0.833007 & 0.792259 & 0.812633 \\ \hline
+        copulagan\_noise\_21613     & 0.761719 & 0.844915 & 0.803317 \\ \hline
+        copulagan\_21613            & 0.745335 & 0.815264 & 0.780299 \\ \hline
+        ctgan\_noise\_21613         & 0.749491 & 0.770946 & 0.760218 \\ \hline
+        ctgan\_21613                & 0.735844 & 0.746231 & 0.741038 \\ \hline
+    \end{tabular}
+\end{table}
+\newpage
+
+Este resultado se puede apreciar en el Anexo \fullref{A-pairwise}, donde se muestran las diferencias entre los datos reales y los datos generados por cada modelo. Se puede observar que, en general, los modelos con puntajes más altos tienen una mayor similitud visual con los datos reales. Por ejemplo, las imágenes \fullref{r-pair-copulagan_noise_21613} y \fullref{r-pair-gaussiancopula_21613} muestran la comparación entre los datos reales y los datos generados por los modelos gaussiancopula\_21613 y copulagan\_noise\_21613. A pesar de que estos modelos tienen puntajes similares, el modelo gaussiancopula\_21613 tiene una mayor similitud visual con los datos reales que el modelo copulagan\_noise\_21613.
+
+\begin{figure}[H]
+    \centering
+	\includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/copulagan_noise_21613.svg}
+	\caption{Comparación de conjunto Real y copulagan\_noise\_21613 (0.80)}
+	\label{r-pair-copulagan_noise_21613}
+\end{figure}
+\begin{figure}[H]
+    \centering
+	\includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/gaussiancopula_21613.svg}
+	\caption{Comparación de conjunto Real y gaussiancopula\_21613 (0.81)}
+	\label{r-pair-gaussiancopula_21613}
+\end{figure}
+
+\newpage 
+Es importante destacar que, entre los modelos con puntajes superiores al 90\%, puede ser difícil evaluar visualmente cuál es el mejor. Esto se debe a que, a medida que el puntaje aumenta, la similitud visual entre los datos reales y los datos generados también aumenta. Esto se puede observar en las figuras \fullref{r-pair-smote-enc_21613} y \fullref{r-pair-tddpm_mlp_21613}, donde se comparan los datos reales con los datos generados por los modelos smote-enc\_21613 y tddpm\_mlp\_21613, respectivamente. Ambos modelos tienen puntajes superiores al 90\%, y la similitud visual entre los datos reales y los datos generados es muy alta en ambos casos.
+
+\begin{figure}[H]
+    \centering
+    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/smote-enc_21613.svg}
+    \caption{Comparación de conjunto Real y smote-enc\_21613 (0.95)}
+    \label{r-pair-smote-enc_21613}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/tddpm_mlp_21613.svg}
+    \caption{Comparación de conjunto Real y tddpm\_mlp\_21613 (0.96)}
+    \label{r-pair-tddpm_mlp_21613}
+\end{figure}
+
+En la evaluación de SDMetrics y en la comparación visual utilizando la correlación de Wise, los mejores modelos encontrados son TDDPM y SMOTE. Estos modelos han obtenido los puntajes más altos en ambas métricas y también se han demostrado tener una mayor similitud visual con los datos reales. Por lo tanto, se puede concluir que estos modelos son los más efectivos para generar datos sintéticos útiles para este conjunto de datos específico.
+
+\subsubsection{Adhesión}
+
+\subsubsection{Privacidad}

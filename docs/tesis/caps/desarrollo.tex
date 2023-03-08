@@ -413,19 +413,18 @@ En la \fullref{metricas-categoricas} se muestran los datos calculados para campo
     \caption{Métricas para campos categóricos}
     \label{metricas-categoricas}
     \begin{tabular}{|m{10em}|m{25em}|}
-    \hline
-    \rowcolor[gray]{0.8}
-    Nombre del campo (name) & waterfront \\ \hline
-    Valores del Top 5 (top5) & [0 1] \\ \hline
-    Frecuencia Top 5 (top5\_freq) & [17166   124] \\ \hline
-    Probabilidades de Top 5 (top5\_prob) & [0.99282822 0.00717178] \\ \hline
-    Elementos observados (nobs) & 17290.0 \\ \hline
-    Nulos (missing) & 17290.0 \\ \hline
-\end{tabular}
+        \hline
+        \rowcolor[gray]{0.8}
+        Nombre del campo (name) & waterfront \\ \hline
+        Valores del Top 5 (top5) & [0 1] \\ \hline
+        Frecuencia Top 5 (top5\_freq) & [17166   124] \\ \hline
+        Probabilidades de Top 5 (top5\_prob) & [0.99282822 0.00717178] \\ \hline
+        Elementos observados (nobs) & 17290.0 \\ \hline
+        Nulos (missing) & 17290.0 \\ \hline
+    \end{tabular}
 \end{table}
-
-Los Scores calculados corresponden a la Distancia al registro más cercano (DCR), para visualizar los resultados se muestra un código de ejemplo en la \fullref{codigo-show-score} y el resultado de ese código se muestra en la \fullref{tabla-ejemplo-score}.
-
+\newpage
+En el Código \fullref{codigo-show-score}, se muestra cómo se calcula y se muestra el Score promedio para una selección específica de modelos. El código utiliza la función "sort\_values" para ordenar los resultados en orden descendente según el puntaje. Luego, se filtran los resultados para incluir solo los modelos seleccionados y las columnas que muestran el puntaje y la Distancia al registro más cercano (DCR) en los tres umbrales \emph{Synthetic vs Train} (ST), \emph{Synthetic vs Hold} (SH) y \emph{Train vs Hold} TH.
 \begin{listing}[H]
     \begin{minted}[linenos=true,frame=lines,framesep=2mm,baselinestretch=1.2]{python}
 avg = syn.scores[syn.scores["type"] == "avg"]
@@ -435,3 +434,39 @@ avg.sort_values("score", ascending=False).loc[ ["tddpm_mlp_21613","smote-enc_216
 \label{codigo-show-score}
 \end{listing}
 
+El Score calculado se obtiene a través de SDV y se basa en cuatro métricas: KSComplement, TVComplement que conforman \emph{Column Shapes}, ContingencySimilarity y CorrelationSimilarity conforman \emph{Column Pair Trends}. Además, para mostrar los resultados, se proporciona un ejemplo de código en el Código \fullref{codigo-show-score} y un ejemplo de resultado en la \fullref{tabla-show-score}.
+
+\begin{table}[H]
+    \centering
+    \caption{Ejemplo de scores promedios}
+    \label{tabla-show-score}
+    \begin{tabular}{|m{10em}|m{5em}|m{5em}|r|r|r|r|}
+        \hline
+        \rowcolor[gray]{0.8}
+        Nombre & Column Pair Trends & Column Shapes & \textbf{Score} $\downarrow$ & DCR ST& DCR SH& DCR TH\\ \hline
+        ntddpm\_mlp\_21613 & 0.954 & 0.971 & 0.962 & 0.084 & 0.104 & 0.035 \\ \hline
+        nsmote-enc\_21613 & 0.941 & 0.967 & 0.954 & 0.058 & 0.090 & 0.035 \\ \hline
+        \textbf{<model>}\_\textbf{<use\_noise>} \_\textbf{<n\_sample>} & 0.941 & 0.967 & 0.954 & 0.058 & 0.090 & 0.035 \\ \hline
+    \end{tabular}
+\end{table}
+
+%\begin{table}[H]
+%    \centering
+%    \caption{Scores promedios de un Modelo}
+%    \label{tabla-show-score}
+%    \begin{tabular}{|l|r|r|r|r|}
+%        \hline
+%        \rowcolor[gray]{0.8}
+%        name & score & DCR ST 5th & DCR SH 5th & DCR TH 5th \\ \hline
+%        ntddpm\_mlp\_21613 & 0.962789 & 0.084187 & 0.104472 & 0.035750 \\ \hline
+%        nsmote-enc\_21613 & 0.954592 & 0.058759 & 0.090209 & 0.035750 \\ \hline
+%        ngaussiancopula\_noise\_21613 & 0.827655 & 0.209163 & 0.229880 & 0.035750 \\ \hline
+%        ntvae\_21613 & 0.819230 & 0.108154 & 0.133609 & 0.035750 \\ \hline
+%        ntvae\_noise\_21613 & 0.814853 & 0.121998 & 0.139551 & 0.035750 \\ \hline
+%        ngaussiancopula\_21613 & 0.812633 & 0.206765 & 0.226026 & 0.035750 \\ \hline
+%        ncopulagan\_noise\_21613 & 0.803317 & 0.230017 & 0.253036 & 0.035750 \\ \hline
+%        ncopulagan\_21613 & 0.780299 & 0.219406 & 0.242047 & 0.035750 \\ \hline
+%        nctgan\_noise\_21613 & 0.760218 & 0.207462 & 0.230596 & 0.035750 \\ \hline
+%        nctgan\_21613 & 0.741038 & 0.210415 & 0.232722 & 0.035750 \\ \hline
+%    \end{tabular}
+%\end{table}

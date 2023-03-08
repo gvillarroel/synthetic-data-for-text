@@ -286,9 +286,26 @@ class Synthetic:
         serie_fake = serie_fake[serie_fake <=
                                 np.quantile(serie_fake, privacy_cut)]
 
-        privacy_chart = self.charts.privacy(serie_real, serie_fake)
+        privacy_chart = self.charts.privacy(serie_real, serie_fake, model_key)
 
         if not exclude_columns:
             exclude_columns = set(self.text_columns) & set(
                 self.exclude_columns)
-        return [privacy_chart] + self.charts.charts(self.train, self.fake_data[model_key], exclude_columns)
+        return [privacy_chart] + self.charts.charts(self.train, { model_key: self.fake_data[model_key] }, exclude_columns)
+
+    def get_multiple_charts(self, models: list[str], exclude_columns: set[str] = set(), privacy_cut=0.05) -> list[go.Figure]:
+
+        serie_real = self.privacy_metrics.loc[models[0], :]["DCR TH"]
+        serie_real = serie_real[serie_real <=
+                                np.quantile(serie_real, privacy_cut)]
+        
+        serie_fakes = []
+        for model_key in models:
+            serie_fake = self.privacy_metrics.loc[model_key, :]["DCR SH"]
+            serie_fake = serie_fake[serie_fake <=
+                                np.quantile(serie_fake, privacy_cut)]
+            serie_fakes.append((model_key, serie_fake,))
+
+        privacy_chart = self.charts.privacys(serie_real, dict(serie_fakes))
+
+        return [privacy_chart] + self.charts.charts(self.train, {model_key: self.fake_data[model_key] for model_key in models}, exclude_columns)
