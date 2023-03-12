@@ -251,6 +251,9 @@ class Synthetic:
         for model_name, pd_data in iters:
             if pd_data.shape[0] == 0:
                 del self.fake_data[model_name]
+    
+    def get_details(self):
+        return self.metric.get_details(list(self.fake_data.keys()), self.report_folder)
 
     def grid_search(self, model) -> None:
         raise Exception("No Implemented")

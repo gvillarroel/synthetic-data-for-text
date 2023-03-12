@@ -1,6 +1,6 @@
 import pandas as pd
 from sdmetrics.reports.single_table import QualityReport
-
+from sdmetrics.reports.single_table import DiagnosticReport
 import json
 from statsmodels.stats.descriptivestats import describe
 from scipy import stats
@@ -111,12 +111,36 @@ class Metrics:
             })
         return pd.DataFrame(frame).set_index("name"), pd.DataFrame(dists).set_index("name") 
 
+    def get_details(self, models: list[str], report_folder):
+        result = {}
+        for model_name in models:
+            
+            report_path = f"{report_folder}/{model_name}.rpt"
+            diagnostic_path = f"{report_folder}/{model_name}_diagnostic.rpt"
+            rpt = QualityReport().load(report_path)
+            dia = DiagnosticReport().load(diagnostic_path)
+            result[model_name] = dict(
+                report = dict(
+                    column_shape = rpt.get_details('Column Shapes'),
+                    column_pair_trends = rpt.get_details('Column Pair Trends'),
+                ),
+                diagnostic = dict(
+                    synthesis = dia.get_details('Synthesis'),
+                    coverage = dia.get_details('Coverage'),
+                    boundaries = dia.get_details('Boundaries'),
+                )
+            )
+        return result
+
+
     def get_scores(self, fake_data: dict, report_folder) -> tuple[pd.DataFrame, dict]:
         scores = []
         reports = {}
         for model_name, df_fake in fake_data.items():
             report_path = f"{report_folder}/{model_name}.rpt"
+            diagnostic_path = f"{report_folder}/{model_name}_diagnostic.rpt"
             report = QualityReport()
+            diagnostic = DiagnosticReport()
             if os.path.exists(report_path):
                 report = report.load(report_path)
             else:
@@ -125,6 +149,16 @@ class Metrics:
                 metadata["fields"] = {k:v for k,v in metadata["fields"].items() if k in columns_to_compare}
                 report.generate(self.real_data.loc[:,columns_to_compare], df_fake.loc[:,columns_to_compare], metadata)
                 report.save(report_path)
+            
+            if os.path.exists(diagnostic_path):
+                diagnostic = diagnostic.load(diagnostic_path)
+            else:
+                columns_to_compare = list(set(self.train_data.columns) & set(self.includes) & set(df_fake.columns))
+                metadata = self.metadata.copy()
+                metadata["fields"] = {k:v for k,v in metadata["fields"].items() if k in columns_to_compare}
+                diagnostic.generate(self.real_data.loc[:,columns_to_compare], df_fake.loc[:,columns_to_compare], metadata)
+                diagnostic.save(diagnostic_path)
+
             scores.append( dict(
                 name = model_name,
                 type = "avg",
@@ -140,6 +174,12 @@ class Metrics:
                 type = "Column Pair Trends",
                 score = report._property_breakdown["Column Pair Trends"]
             ))
+            for k,v in diagnostic.get_properties().items():
+                scores.append( dict(
+                    name = model_name,
+                    type = k,
+                    score = v
+                ))                
             reports[model_name] = report
         pd_scores = pd.DataFrame(scores).set_index("name")
         privacy_frame, _ = self.calculate_privacy(fake_data, report_folder)
