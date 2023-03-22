@@ -1,12 +1,12 @@
 # Fdb version 3
-["bibtex memoria"] 1679451880 "memoria.aux" "memoria.bbl" "memoria" 1679451881
+["bibtex memoria"] 1679452386 "memoria.aux" "memoria.bbl" "memoria" 1679452387
   "/usr/share/texlive/texmf-dist/bibtex/bst/base/plain.bst" 1292289607 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
   "bibliografia.bib" 1679447523 18937 672519a69d7509b2913e06a5b9755fc6 ""
-  "memoria.aux" 1679451881 30666 aef5ca1784929b0f8b6dafae172df380 "pdflatex"
+  "memoria.aux" 1679452386 30706 2f4b5b71ddf1fce2fab8c2e95032378e "pdflatex"
   (generated)
   "memoria.bbl"
   "memoria.blg"
-["pdflatex"] 1679451880 "/home/gvillarroel/dev/synthetic-data-for-text/docs/tesis/memoria.tex" "memoria.pdf" "memoria" 1679451881
+["pdflatex"] 1679452386 "/home/gvillarroel/dev/synthetic-data-for-text/docs/tesis/memoria.tex" "memoria.pdf" "memoria" 1679452387
   "../../notebooks/economicos_run-a.py" 1679171734 1638 2b1f36c42ed0b599d16ae11a6cc9ae1f ""
   "../../notebooks/economicos_train.py" 1677689278 2908 dfd22a1b328bf8155ae902c1c58aa18e ""
   "../dfd/images/processor.svg" 1677855066 12200 b78b4773c7eaef18bb3021e7fe25657c ""
@@ -257,7 +257,7 @@
   "caps/discusion.tex" 1674410718 134 36daad7909db2ae6425ebb7ecbbf2730 ""
   "caps/introduccion.tex" 1679449444 10371 a4d63bf392d368e977104b9fbaa6a7d2 ""
   "caps/marco.tex" 1678562386 27049 1b8c61005f296e4a4098a6a9c6a75e18 ""
-  "caps/resultados.tex" 1679451879 16722 4c08e2fae67d71fd59ef9fd8d49107f6 ""
+  "caps/resultados.tex" 1679452385 16876 0e8002f0a4664d9d06d4c928799ad0c8 ""
   "imagenes/escudoU2014.pdf" 1634316032 43308 6bdf0b57311ff58ead5d8849e1baa122 ""
   "imagenes/kingcounty/pairwise/copulagan_21613.svg" 1678317567 53695 b7713fea3e07b37fffbf2ac2da0edd97 ""
   "imagenes/kingcounty/pairwise/copulagan_noise_21613.svg" 1678317567 53539 e23fc0d131b8758925432671a36d1e07 ""
@@ -285,14 +285,14 @@
   "imagenes/kingcounty/top2/field_waterfront.svg" 1678415440 9488 a852b03150c03265eb2a8deaf934b01a ""
   "imagenes/kingcounty/top2/field_yr_built.svg" 1678415440 39551 04547d984cc28bc69701f36469d83626 ""
   "imagenes/kingcounty/top2/privacy.svg" 1679251773 21832 f1bca39a639d90c2610e67d87423eeea ""
-  "memoria.aux" 1679451881 30666 aef5ca1784929b0f8b6dafae172df380 "pdflatex"
-  "memoria.bbl" 1679451880 5671 39d4c2c71c4c9ef798f9075315025119 "bibtex memoria"
-  "memoria.lof" 1679451881 5402 3c1a0cef9950c8293448490cb14aa39a "pdflatex"
-  "memoria.lol" 1679451881 793 847829e6f8f5d66468ab8629406f4b96 "pdflatex"
-  "memoria.lot" 1679451881 2816 8d76ea74adff360566557b52fc17b0b9 "pdflatex"
-  "memoria.out" 1679451881 6999 0d390b07ed122aff90ff91b198a8b68a "pdflatex"
+  "memoria.aux" 1679452386 30706 2f4b5b71ddf1fce2fab8c2e95032378e "pdflatex"
+  "memoria.bbl" 1679452386 5671 39d4c2c71c4c9ef798f9075315025119 "bibtex memoria"
+  "memoria.lof" 1679452386 5402 3c1a0cef9950c8293448490cb14aa39a "pdflatex"
+  "memoria.lol" 1679452386 793 847829e6f8f5d66468ab8629406f4b96 "pdflatex"
+  "memoria.lot" 1679452386 2836 750a1b5c44f1a9e4b2856a4cc39ccfd9 "pdflatex"
+  "memoria.out" 1679452386 6999 0d390b07ed122aff90ff91b198a8b68a "pdflatex"
   "memoria.tex" 1679449305 2042 349f2936285c6f57a39dec859d7caab4 ""
-  "memoria.toc" 1679451881 4212 343ea87f69e454f169afff1a1393880b "pdflatex"
+  "memoria.toc" 1679452386 4212 343ea87f69e454f169afff1a1393880b "pdflatex"
   "svg-inkscape/copulagan_21613_svg-raw.pdf" 1679447526 20862 38407fee11549242a116f8a52a9cbe22 ""
   "svg-inkscape/copulagan_noise_21613_svg-raw.pdf" 1679447524 20863 c091f94ca403a1334d4d0a2f09a6074c ""
   "svg-inkscape/ctgan_21613_svg-raw.pdf" 1679447526 20784 cdbc88ea4c88df0d394a28ef36bc8e00 ""

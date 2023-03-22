@@ -250,9 +250,11 @@ df_converted["publication_date"] = dtime.apply(lambda x: (x - basedate).days)
 
 \textbf{Scores}
 
+En la Tabla \ref{dcr-eco-a-scores} se muestran los resultados de los scores, donde valores más altos indican un mejor rendimiento.
+
    \begin{table}[H]
     \centering
-    \caption{Scores DCR}
+    \caption{Scores DCR sin nulos}
     \label{dcr-eco-a-scores}
     \begin{tabular}{|l|r|r|r|r|}
         \hline
@@ -273,7 +275,7 @@ df_converted["publication_date"] = dtime.apply(lambda x: (x - basedate).days)
 
 \begin{table}[H]
     \centering
-    \caption{Scores DCR}
+    \caption{Scores DCR con nulos}
     \label{dcr-eco-b-scores}
     \begin{tabular}{|l|r|r|r|r|}
         \hline
@@ -286,3 +288,4 @@ df_converted["publication_date"] = dtime.apply(lambda x: (x - basedate).days)
         copulagan\_682338           & 0.670 & 2.72e-10 & 2.71e-10 & 9.00e-17 \\ \hline
     \end{tabular}
 \end{table}
+
