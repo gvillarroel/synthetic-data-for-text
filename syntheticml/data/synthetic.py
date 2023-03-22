@@ -15,7 +15,8 @@ from functools import partial
 
 import numpy as np
 from copy import copy
-
+import asyncio
+from tqdm.asyncio import tqdm_asyncio
 
 from .metrics import Metrics
 from .charts import Charts
@@ -43,6 +44,8 @@ def parallel_train(model_item: tuple[str, ModelInterface], checkpoint_folder: st
         print("Fitting")
         print(checkpoint)
         print("="*30)
+        print(f"t:{type(model)}")
+        print(f"c:{df.columns}")
         model.fit(df)
         model.save(checkpoint)
         print("="*30)
@@ -50,9 +53,11 @@ def parallel_train(model_item: tuple[str, ModelInterface], checkpoint_folder: st
         print("="*30)
     return (model_name, (checkpoint, model,))
 
-
 def parallel_syn(params: tuple[str, str, tuple[str, str]], df: pd.DataFrame, syntheticdata_folder: str, n_sample: int, remaining_columns: tuple[str] = tuple(), additional_parameters: dict = {}) -> pd.DataFrame:
     file_name, model_name, (model_checkpoint, model) = params
+    print("="*30)
+    print(f"Starting to generate data with model in:{model_checkpoint}")
+    
     model = model.load(model_checkpoint)
     syndata_path = f"{syntheticdata_folder}/{file_name}.parquet"
     p = {}
@@ -72,10 +77,13 @@ def parallel_syn(params: tuple[str, str, tuple[str, str]], df: pd.DataFrame, syn
                 if pp in f.__code__.co_varnames:
                     p[pp] = additional_parameters[model_name][pp]
         # return (model_name, p)
+        print("Generating")
         new_data = f(**p)
+        print("Done -> head(1)")
         print(new_data.head(1))
         if len(new_data.columns) > 2:
             new_data.to_parquet(syndata_path, compression='snappy', engine='pyarrow', version='2.6')
+    print("="*30)
     return (file_name, pd.read_parquet(syndata_path))
 
 
@@ -91,10 +99,13 @@ class Synthetic:
                  n_sample: int = 0, exclude_columns: tuple[str] = tuple(),
                  default_encoder="FrequencyEncoder",
                  random_state=42,
-                 max_cpu_pool=None) -> None:
+                 max_batch_size = 50000,
+                 max_cpu_pool=None,
+                 use_noise = True) -> None:
+        self.use_noise = use_noise
         self.df = df
         self.random_state = random_state
-        
+        self.max_batch_size = max_batch_size
         self.category_columns = category_columns
         self.primary_key = id
         self.target_column = target_column
@@ -166,9 +177,13 @@ class Synthetic:
             if key in model.__init__.__code__.co_varnames:
                 params[key] = value
         if "cuda" in model.__init__.__code__.co_varnames:
-            params["cuda"] = self.cuda
+            params["cuda"] = bool(self.cuda)
+        if "verbose" in model.__init__.__code__.co_varnames:
+            params["verbose"] = True
         if "df" in model.__init__.__code__.co_varnames:
             params["df"] = self.df
+        if "categorical" in model.__init__.__code__.co_varnames:
+            params["df"] = 'categorical'
         return params
 
     def fit_models(self, models: list[str]) -> dict:
@@ -177,11 +192,10 @@ class Synthetic:
             target_column=self.target_column,
             exclude_columns=self.exclude_columns
         )
-        models = dict(
-            **{model_name: model(**self._define_params(model, **{**{"checkpoint": os.path.join(self.checkpoint_folder, model_name)}, **base_params})) for model_name, model in zip(models, getter(MODELS))},
-            **{f"{model_name}_noise": model(**self._define_params(model, **{**{"checkpoint": os.path.join(self.checkpoint_folder, f"{model_name}_noise"), "table_metadata": self.metadata_noised}, **base_params}))
-                for model_name, model in zip(models, getter(MODELS))}
-        )
+        models = {model_name: model(**self._define_params(model, **{**{"checkpoint": os.path.join(self.checkpoint_folder, model_name)}, **base_params})) for model_name, model in zip(models, getter(MODELS))}
+        if self.use_noise:
+            models = dict(**models, **{f"{model_name}_noise": model(**self._define_params(model, **{**{"checkpoint": os.path.join(self.checkpoint_folder, f"{model_name}_noise"), "table_metadata": self.metadata_noised}, **base_params}))
+                for model_name, model in zip(models, getter(MODELS))})
 
         #################################################
         # Train Models
@@ -190,6 +204,7 @@ class Synthetic:
             torch.multiprocessing.set_start_method('spawn')
         except:
             pass
+        
         pt = partial(parallel_train,
                      checkpoint_folder=self.checkpoint_folder, df=self.train)
         if self.max_cpu_pool > 1:
@@ -202,7 +217,8 @@ class Synthetic:
 
     def _gen_synthetic(self, remaining_columns=None, additional_parameters={}) -> dict:
         data_gen = {}
-        models = self.fit_models(self.model_names)
+        print("Fitting Models")
+        models = self.fit_models(list(self.model_names))
         try:
             torch.multiprocessing.set_start_method('spawn')
         except:
@@ -309,6 +325,6 @@ class Synthetic:
                                 np.quantile(serie_fake, privacy_cut)]
             serie_fakes.append((model_key, serie_fake,))
 
-        privacy_chart = self.charts.privacys(serie_real, dict(serie_fakes))
+        privacy_chart = self.charts.privacies(serie_real, dict(serie_fakes))
 
         return [privacy_chart] + self.charts.charts(self.train, {model_key: self.fake_data[model_key] for model_key in models}, exclude_columns)

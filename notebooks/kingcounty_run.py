@@ -5,6 +5,7 @@ import torch
 import numpy as np
 import itertools
 import multiprocessing as mp
+import os
 
 
 if __name__ == '__main__':
@@ -19,7 +20,7 @@ if __name__ == '__main__':
                     synthetic_folder="../datasets/kingcounty/synth",
                     models=MODELS.keys(),
                     n_sample=21613,
-                    max_cpu_pool=1,
+                    max_cpu_pool=4,
                     target_column="price"
                     )
 
@@ -27,16 +28,16 @@ if __name__ == '__main__':
     syn.process_scores()
     
 
-    # remaining_columns=('view','condition','waterfront'),
-    # syn.process()
-    #syn.process(additional_parameters={"smote-enc": {"frac_lam_del": 0.3}})
-    #syn.process(additional_parameters={"smote-enc": {"frac_lam_del": 0.5, "k_neighbours": 1}})
-    #syn.process(additional_parameters={"smote-enc": {"frac_lam_del": 0.1, "k_neighbours": 1}})
-    #syn.process(additional_parameters={"smote-enc": {"frac_lam_del": 1, "k_neighbours": 1}})
-    #syn.process(additional_parameters={"smote-enc": {"k_neighbours": 20}})
-    #syn.process(additional_parameters={"smote-enc": {"k_neighbours": 1}})
-    #syn.process(additional_parameters={"smote-enc": {"k_neighbours": 10}})
+    best_model = "tddpm_mlp_21613"
+    second_best_model = "smote-enc_21613"
 
-    # syn.process_scores()
-    # print(syn.scores)
-    #print(syn.metric.get_scores(syn.fake_data, syn.report_folder))
+    from syntheticml.data.charts import Charts
+    
+    folder_path = f"../docs/tesis/imagenes/kingcounty/{best_model}"
+    if not os.path.exists(folder_path):
+        os.mkdir(folder_path)
+    for fig in syn.get_charts(best_model, {'date', 'id', 'zipcode', 'lat', 'long', 'yr_renovated'}):
+        if fig:
+            file_name = f'{fig.layout.title.text.replace(":","").replace(" ","_").lower()}.svg'
+            fig.write_image(f"{folder_path}/{file_name}")
+            display(fig.show("png"))

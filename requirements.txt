@@ -10,3 +10,5 @@ nbformat
 imblearn
 cython
 virtualdatalab
+asyncio
+tqdm

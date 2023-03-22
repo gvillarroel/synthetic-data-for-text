@@ -204,3 +204,85 @@ En la \fullref{top2-dcr} solo se consideran los modelos TDDPM y SMOTE para su co
     \caption{DCR en Smote y TDDPM}
     \label{top2-dcr}
 \end{figure}
+
+\newpage
+\section{Economicos}
+El conjunto de economicos, a diferencia de kingcounty que fue filtrado y preprocesado para evitar valores nulos. Este dataset economicos.cl contiene nulos. A continuación se mostrará dos tipos de tratamientos de los elementos nulos. El primero simplemente quita todos los registros que contiene un registro vacio con dropna, se muestra en Código \fullref{codigo-remove-nan}, se considerará \fullref{ds-conjunto-a}. El Código \fullref{codigo-replace-nan} se considerará \fullref{ds-conjunto-b}.
+
+
+\begin{listing}[H]
+    \begin{minted}[linenos=true,frame=lines,framesep=2mm,baselinestretch=1.2]{python}
+df_converted = df.dropna().astype({k: 'str' for k in ("description", "price", "title", "address", "owner",)})
+basedate = pd.Timestamp('2017-12-01')
+dtime = df_converted.pop("publication_date")
+df_converted["publication_date"] = dtime.apply(lambda x: (x - basedate).days)
+    \end{minted}
+\caption{Eliminación de valores nulos en el conjunto de datos de Económicos}
+\label{codigo-remove-nan}
+\end{listing}
+
+\begin{listing}[H]
+    \begin{minted}[linenos=true,frame=lines,framesep=2mm,baselinestretch=1.2]{python}
+df_converted = df.fillna(dict(
+            property_type = "None",
+            transaction_type = "None",
+            state = "None",
+            county = "None",
+            rooms = -1,
+            bathrooms = -1,
+            m_built = -1,
+            m_size = -1,
+            source = "None"
+    )).fillna(-1).astype({k: 'str' for k in ("description", "price", "title", "address", "owner",)})
+basedate = pd.Timestamp('2017-12-01')
+dtime = df_converted.pop("publication_date")
+df_converted["publication_date"] = dtime.apply(lambda x: (x - basedate).days)
+    \end{minted}
+\caption{Reemplazo de valores nulos en el conjunto de datos de Económicos}
+\label{codigo-replace-nan}
+\end{listing}
+
+
+
+\subsection{Reportes}
+\subsubsection{Conjunto A}
+\label{ds-conjunto-a}
+
+\textbf{Scores}
+
+   \begin{table}[H]
+    \centering
+    \caption{Scores DCR}
+    \label{dcr-eco-a-scores}
+    \begin{tabular}{|l|r|r|r|r|}
+        \hline
+        \rowcolor[gray]{0.8}
+        Modelo & \textbf{Score} & DCR ST 5th & DCR SH 5th & DCR TH 5th \\ \hline
+       smote-enc\_27574         & 0.967 & 2.58e-11 & 3.92e-08 & 1.28e-08 \\ \hline
+       tddpm\_mlp\_27574        & 0.939 & 8.65e-09 & 4.81e-08 & 1.28e-08 \\ \hline
+       tvae\_27574              & 0.880 & 1.23e-07 & 2.18e-07 & 1.28e-08 \\ \hline
+       copulagan\_27574         & 0.850 & 1.05e-07 & 2.17e-07 & 1.28e-08 \\ \hline
+       ctgan\_27574             & 0.799 & 1.52e-06 & 2.89e-06 & 1.28e-08 \\ \hline
+       gaussiancopula\_27574    & 0.713 & 3.91e-03 & 4.46e-03 & 1.28e-08 \\ \hline
+    \end{tabular}
+\end{table}
+
+
+\subsubsection{Conjunto B}
+\label{ds-conjunto-b}
+
+\begin{table}[H]
+    \centering
+    \caption{Scores DCR}
+    \label{dcr-eco-b-scores}
+    \begin{tabular}{|l|r|r|r|r|}
+        \hline
+        \rowcolor[gray]{0.8}
+        Modelo & \textbf{Score} & DCR ST 5th & DCR SH 5th & DCR TH 5th \\ \hline
+        tddpm\_mlp\_682338          & 0.966 & 8.05e-15 & 8.06e-15 & 9.00e-17 \\ \hline
+        smote-enc\_682338           & 0.947 & 7.09e-15 & 8.92e-15 & 9.00e-17 \\ \hline
+        tvae\_682338                & 0.766 & 1.27e-14 & 1.23e-14 & 9.00e-17 \\ \hline
+        gaussiancopula\_682338      & 0.714 & 4.83e-04 & 4.84e-04 & 9.00e-17 \\ \hline
+        copulagan\_682338           & 0.670 & 2.72e-10 & 2.71e-10 & 9.00e-17 \\ \hline
+    \end{tabular}
+\end{table}

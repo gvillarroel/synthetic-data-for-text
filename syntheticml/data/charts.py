@@ -125,7 +125,7 @@ class Charts:
         ], layout=dict(title="Privacy", barmode='overlay'))
         return fig
     
-    def privacys(self, dist_real: np.array, dist_syn: dict[str,np.array]):
+    def privacies(self, dist_real: np.array, dist_syn: dict[str,np.array]):
         data = [go.Histogram(x=dist_real, name="Real", marker_color=self.color_real)]
         
         next_colors = (
