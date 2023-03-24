@@ -10,7 +10,6 @@ import os
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 from sklearn.metrics import pairwise_distances
 from sklearn.neighbors import NearestNeighbors
-from virtualdatalab.cython.cython_metric import mixed_distance
 
 
 
@@ -209,6 +208,7 @@ class Metrics:
                     "missing": serie.isna().count()
                 }
         else:
+            print(serie.name)
             desc = describe(serie, 
             stats=["nobs", "missing", "mean", "std_err", "ci", "ci", "std", "iqr", "iqr_normal", "mad", "mad_normal", "coef_var", "range", "max", "min", "skew", "kurtosis", "jarque_bera", "mode", "freq", "median", "percentiles", "distinct"],
             percentiles=[0.1,1,5,25,75,95,99,99.9]

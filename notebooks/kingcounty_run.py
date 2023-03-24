@@ -17,11 +17,11 @@ if __name__ == '__main__':
                     #category_columns=("condition", "floors", "grade", "view", "waterfront", "yr_built", "yr_renovated", "zipcode", "bathrooms", "bedrooms",),
                     category_columns=("condition", "floors", "grade", "view",
                                       "waterfront", "zipcode", "bathrooms", "bedrooms",),
-                    synthetic_folder="../datasets/kingcounty/synth",
+                    synthetic_folder="../datasets/kingcounty/synth-d",
                     models=MODELS.keys(),
                     n_sample=21613,
                     max_cpu_pool=4,
-                    target_column="price"
+                    target_column="price",
                     )
 
     syn.process()

@@ -8,7 +8,7 @@ import multiprocessing as mp
 
 def test_train(args):
     lrc, ntc, sts, btsc, rtdlc, syn, df = args
-    checkpoint = "ordinal-3/" +  "_".join(
+    checkpoint = "ordinal-4/" +  "_".join(
             map(str, [lrc, ntc, sts, btsc, "-".join(map(str, rtdlc))]))
     model = SDV_MLP(syn.metadata, 
                     "price", 

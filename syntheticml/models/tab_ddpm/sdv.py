@@ -123,7 +123,7 @@ class SDVTABDDPM(ModelInterface):
         self.scaler = QuantileTransformer(
             output_distribution='normal',
             n_quantiles=max(min(X_num.shape[0] // 30, 1000), 10),
-            subsample=1e9,
+            subsample=int(1e9),
             random_state=self.seed,
         ).fit(X_num)
 

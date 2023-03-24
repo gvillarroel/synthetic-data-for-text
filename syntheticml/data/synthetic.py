@@ -101,7 +101,7 @@ class Synthetic:
                  random_state=42,
                  max_batch_size = 50000,
                  max_cpu_pool=None,
-                 use_noise = True) -> None:
+                 use_noise = True, use_categorical=False) -> None:
         self.use_noise = use_noise
         self.df = df
         self.random_state = random_state
@@ -113,6 +113,7 @@ class Synthetic:
         self.text_columns = text_columns
         self.exclude_columns = exclude_columns
         self.synthetic_folder = synthetic_folder
+        self.use_categorical = use_categorical
         ###########################################################
         # Machine Info
         self.cuda = torch.cuda.is_available()
@@ -178,12 +179,17 @@ class Synthetic:
                 params[key] = value
         if "cuda" in model.__init__.__code__.co_varnames:
             params["cuda"] = bool(self.cuda)
+            print(f"Cuda => {bool(self.cuda)}")
         if "verbose" in model.__init__.__code__.co_varnames:
             params["verbose"] = True
+            print(f"verbose => True")
         if "df" in model.__init__.__code__.co_varnames:
             params["df"] = self.df
-        if "categorical" in model.__init__.__code__.co_varnames:
-            params["df"] = 'categorical'
+        #if "categorical" in model.__init__.__code__.co_varnames and self.use_categorical:
+        #    params["categorical"] = 'categorical'
+        #    print(f"categorical => categorical")
+        if "batch_size" in model.__init__.__code__.co_varnames:
+            params["batch_size"] = self.max_batch_size
         return params
 
     def fit_models(self, models: list[str]) -> dict:

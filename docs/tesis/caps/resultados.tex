@@ -242,17 +242,36 @@ df_converted["publication_date"] = dtime.apply(lambda x: (x - basedate).days)
 \label{codigo-replace-nan}
 \end{listing}
 
-
-
-\subsection{Reportes}
 \subsubsection{Conjunto A}
 \label{ds-conjunto-a}
 
-\textbf{Scores}
+\begin{table}[H]
+    \centering
+    \caption{Scores DCR sin nulos}
+    \label{dcr-eco-a-scores}
+    \begin{tabular}{lllllrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr}
+        & name & top5 & top5\_freq & top5\_prob & is\_categorical & nobs & missing & mean & std\_err & upper\_ci & lower\_ci & std & iqr & iqr\_normal & mad & mad\_normal & coef\_var & range & max & min & skew & kurtosis & jarque\_bera & jarque\_bera\_pval & mode & mode\_freq & median & 0.1% & 1.0% & 5.0% & 25.0% & 75.0% & 95.0% & 99.0% & 99.9% \\
+       0 & m\_size & [5000.   50.   60.  200.   70.] & [601 342 321 285 281] & [0.02724512 0.01550388 0.01455188 0.0129199  0.01273856] & False & 22059.000000 & 0.000000 & 146269.353488 & 105454.123661 & 352955.637885 & -60416.930908 & 15662333.864910 & 340.500000 & 252.413028 & 290634.769396 & 364256.665279 & 107.078711 & 2241000000.000000 & 2241000000.000000 & 0.000000 & 134.762058 & 19052.885006 & 333615501598.613220 & 0.000000 & 5000.000000 & 0.027245 & 145.000000 & 2.000000 & 22.000000 & 35.000000 & 66.000000 & 406.500000 & 5000.000000 & 10200.000000 & 70000.000000 \\
+       3 & m\_built & [140.  60. 120.  50.  70.] & [700 467 444 431 415] & [0.03173308 0.0211705  0.02012784 0.01953851 0.01881318] & False & 22059.000000 & 0.000000 & 1771.336159 & 664.364677 & 3073.466999 & 469.205319 & 98673.252621 & 140.000000 & 103.782155 & 3201.642247 & 4012.663491 & 55.705549 & 11999999.000000 & 12000000.000000 & 1.000000 & 96.077796 & 10658.885634 & 104398649894.541122 & 0.000000 & 140.000000 & 0.031733 & 107.000000 & 2.000000 & 23.000000 & 33.000000 & 60.000000 & 200.000000 & 490.000000 & 1200.000000 & 37946.564000 \\
+       7 & publication\_date & [1545 1693 1546 1549  721] & [10883  6103   895   320   125] & [0.49335872 0.27666712 0.04057301 0.01450655 0.00566662] & False & 22059.000000 & 0.000000 & 1470.755338 & 2.056273 & 1474.785560 & 1466.725116 & 305.403340 & 148.000000 & 109.712564 & 206.754513 & 259.128354 & 0.207651 & 1489.000000 & 1693.000000 & 204.000000 & -2.019239 & 5.892322 & 22679.245743 & 0.000000 & 1545.000000 & 0.493359 & 1545.000000 & 450.696000 & 531.000000 & 628.900000 & 1545.000000 & 1693.000000 & 1693.000000 & 1693.000000 & 1693.000000 \\
+       9 & \_price & [12500. 10500. 11500.  8500.  9000.] & [104  99  91  86  85] & [0.00471463 0.00448796 0.0041253  0.00389864 0.0038533 ] & False & 22059.000000 & 0.000000 & 110378.900259 & 32745.675510 & 174559.244908 & 46198.555609 & 4863476.976221 & 9959.233916 & 7382.791149 & 202281.355744 & 253522.082870 & 44.061655 & 390000000.000000 & 390000000.000000 & 0.000000 & 60.578790 & 4066.968253 & 15193611545.235235 & 0.000000 & 12500.000000 & 0.004715 & 5083.869574 & 0.262868 & 6.270122 & 11.759796 & 2040.766084 & 12000.000000 & 32000.000000 & 58942.000000 & 262695.428000 \\
+    \end{tabular}
+\end{table}
+
+
+
+\subsubsection{Conjunto B}
+\label{ds-conjunto-b}
+
+
+\subsection{Reportes}
+\subsubsection{Scores}
+\textbf{Conjunto A}
+
 
 En la Tabla \ref{dcr-eco-a-scores} se muestran los resultados de los scores, donde valores más altos indican un mejor rendimiento.
 
-   \begin{table}[H]
+\begin{table}[H]
     \centering
     \caption{Scores DCR sin nulos}
     \label{dcr-eco-a-scores}
@@ -260,17 +279,17 @@ En la Tabla \ref{dcr-eco-a-scores} se muestran los resultados de los scores, don
         \hline
         \rowcolor[gray]{0.8}
         Modelo & \textbf{Score} & DCR ST 5th & DCR SH 5th & DCR TH 5th \\ \hline
-       smote-enc\_27574         & 0.967 & 2.58e-11 & 3.92e-08 & 1.28e-08 \\ \hline
-       tddpm\_mlp\_27574        & 0.939 & 8.65e-09 & 4.81e-08 & 1.28e-08 \\ \hline
-       tvae\_27574              & 0.880 & 1.23e-07 & 2.18e-07 & 1.28e-08 \\ \hline
-       copulagan\_27574         & 0.850 & 1.05e-07 & 2.17e-07 & 1.28e-08 \\ \hline
-       ctgan\_27574             & 0.799 & 1.52e-06 & 2.89e-06 & 1.28e-08 \\ \hline
-       gaussiancopula\_27574    & 0.713 & 3.91e-03 & 4.46e-03 & 1.28e-08 \\ \hline
+        smote-enc\_27574         & 0.967 & 2.58e-11 & 3.92e-08 & 1.28e-08 \\ \hline
+        tddpm\_mlp\_27574        & 0.939 & 8.65e-09 & 4.81e-08 & 1.28e-08 \\ \hline
+        tvae\_27574              & 0.880 & 1.23e-07 & 2.18e-07 & 1.28e-08 \\ \hline
+        copulagan\_27574         & 0.850 & 1.05e-07 & 2.17e-07 & 1.28e-08 \\ \hline
+        ctgan\_27574             & 0.799 & 1.52e-06 & 2.89e-06 & 1.28e-08 \\ \hline
+        gaussiancopula\_27574    & 0.713 & 3.91e-03 & 4.46e-03 & 1.28e-08 \\ \hline
     \end{tabular}
 \end{table}
 
 
-\subsubsection{Conjunto B}
+\textbf{Conjunto B}
 \label{ds-conjunto-b}
 
 \begin{table}[H]
