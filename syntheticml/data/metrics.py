@@ -144,8 +144,8 @@ class Metrics:
                 report = report.load(report_path)
             else:
                 columns_to_compare = list(set(self.train_data.columns) & set(self.includes) & set(df_fake.columns))
-                metadata = self.metadata.copy()
-                metadata["fields"] = {k:v for k,v in metadata["fields"].items() if k in columns_to_compare}
+                metadata = self.metadata.to_dict()
+                metadata["columns"] = {k:v for k,v in metadata["columns"].items() if k in columns_to_compare}
                 report.generate(self.real_data.loc[:,columns_to_compare], df_fake.loc[:,columns_to_compare], metadata)
                 report.save(report_path)
             
@@ -153,8 +153,8 @@ class Metrics:
                 diagnostic = diagnostic.load(diagnostic_path)
             else:
                 columns_to_compare = list(set(self.train_data.columns) & set(self.includes) & set(df_fake.columns))
-                metadata = self.metadata.copy()
-                metadata["fields"] = {k:v for k,v in metadata["fields"].items() if k in columns_to_compare}
+                metadata = self.metadata.to_dict()
+                metadata["columns"] = {k:v for k,v in metadata["columns"].items() if k in columns_to_compare}
                 diagnostic.generate(self.real_data.loc[:,columns_to_compare], df_fake.loc[:,columns_to_compare], metadata)
                 diagnostic.save(diagnostic_path)
 
@@ -185,9 +185,9 @@ class Metrics:
         return pd_scores.join(privacy_frame), reports
     
     def is_categorical(self, serie: pd.Series) -> bool:
-        return self.metadata["fields"][serie.name]["type"] == "categorical"
+        return self.metadata.columns[serie.name]["sdtype"] == "categorical"
     def is_datetime(self, serie: pd.Series) -> bool:
-        return self.metadata["fields"][serie.name]["type"] == "datetime"
+        return self.metadata.columns[serie.name]["sdtype"] == "datetime"
 
     def get_probs_from_serie(self, serie: pd.Series) -> pd.DataFrame:
         values, counts = np.unique(serie, return_counts=True)

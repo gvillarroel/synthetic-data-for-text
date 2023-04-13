@@ -14,12 +14,14 @@ class SDVSMOTE(ModelInterface):
     def __init__(self, table_metadata: dict, target_column: str, exclude_columns:set[str]=set(), seed=42, df:pd.DataFrame=None, max_data=50000, batch_size=5000) -> None:
         super().__init__()
         self.metadata = table_metadata
-        self.column_id = [col for col, col_type in table_metadata["fields"].items() if col_type["type"] == "id" and col != target_column and col not in exclude_columns][0]
-        self.cat_columns = [col for col, col_type in table_metadata["fields"].items() if col_type["type"] == "categorical" and col != target_column and col not in exclude_columns]
-        self.num_columns = [col for col, col_type in table_metadata["fields"].items() if col_type["type"] in ["numerical","datetime"] and col != target_column and col not in exclude_columns]
-        self.date_columns = [col for col, col_type in table_metadata["fields"].items() if col_type["type"] == "datetime" and col != target_column and col not in exclude_columns]
+        
+        self.column_id = table_metadata.primary_key
+        self.cat_columns = [col for col, col_type in table_metadata.columns.items() if col_type["sdtype"] == "categorical" and col != target_column and col not in exclude_columns]
+        self.num_columns = [col for col, col_type in table_metadata.columns.items() if col_type["sdtype"] in ["numerical","datetime"] and col != target_column and col not in exclude_columns]
+        self.date_columns = [col for col, col_type in table_metadata.columns.items() if col_type["sdtype"] == "datetime" and col != target_column and col not in exclude_columns]
         self.target_column = target_column
-        self.is_regression = table_metadata["fields"][target_column]["type"] != "categorical"
+        self.is_regression = table_metadata.columns[target_column]["sdtype"] != "categorical"
+
         self.seed = seed
         self.max_data = max_data
         self.batch_size = batch_size

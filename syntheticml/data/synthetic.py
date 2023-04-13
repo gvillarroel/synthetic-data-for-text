@@ -1,8 +1,11 @@
 
 from operator import imod
 import pandas as pd
-from sdv.tabular import GaussianCopula, TVAE, CTGAN, CopulaGAN
-from sdv.metadata import table
+
+from sdv.single_table import GaussianCopulaSynthesizer, CTGANSynthesizer, TVAESynthesizer, CopulaGANSynthesizer
+from sdv.lite import SingleTablePreset
+
+from sdv.metadata import SingleTableMetadata
 import os
 import json
 import operator as op
@@ -27,10 +30,11 @@ from ..models.smote.sdv import SDVSMOTE
 from ..models.tab_ddpm.sdv import SDV_MLP
 
 MODELS = {
-    "copulagan": CopulaGAN,
-    "tvae": TVAE,
-    "gaussiancopula": GaussianCopula,
-    "ctgan": CTGAN,
+    "copulagan": CopulaGANSynthesizer,
+    "tvae": TVAESynthesizer,
+    "gaussiancopula": GaussianCopulaSynthesizer,
+    "ctgan": CTGANSynthesizer,
+    "tablepreset": SingleTablePreset,
     "smote-enc": SDVSMOTE,
     "tddpm_mlp": SDV_MLP
 }
@@ -80,7 +84,9 @@ def parallel_syn(params: tuple[str, str, tuple[str, str]], df: pd.DataFrame, syn
         print("Generating")
         new_data = f(**p)
         print("Done -> head(1)")
-        print(new_data.head(1))
+        print(new_data.head(1).to_dict("records"))
+        if None in new_data.columns:
+            new_data = new_data.drop(columns=[None])
         if len(new_data.columns) > 2:
             new_data.to_parquet(syndata_path, compression='snappy', engine='pyarrow', version='2.6')
     print("="*30)
@@ -97,15 +103,23 @@ class Synthetic:
                  text_columns: tuple[str] = (),
                  models: tuple[str] = [],
                  n_sample: int = 0, exclude_columns: tuple[str] = tuple(),
-                 default_encoder="FrequencyEncoder",
                  random_state=42,
-                 max_batch_size = 50000,
                  max_cpu_pool=None,
-                 use_noise = True, use_categorical=False) -> None:
-        self.use_noise = use_noise
+                 default_parameters = dict(
+                    batch_size = 50000,
+                    
+                    use_categorical=False,
+                    cuda = True,
+                    verbose = True,
+                 ),
+                 model_parameters = {}
+                 ) -> None:
+        
         self.df = df
+        
         self.random_state = random_state
-        self.max_batch_size = max_batch_size
+        self.default_parameters = default_parameters
+        self.model_parameters = model_parameters
         self.category_columns = category_columns
         self.primary_key = id
         self.target_column = target_column
@@ -113,14 +127,12 @@ class Synthetic:
         self.text_columns = text_columns
         self.exclude_columns = exclude_columns
         self.synthetic_folder = synthetic_folder
-        self.use_categorical = use_categorical
         ###########################################################
         # Machine Info
         self.cuda = torch.cuda.is_available()
-        self.max_cpu_pool = max_cpu_pool or mp.cpu_count()
+        self.max_cpu_pool = max_cpu_pool or mp.cpu_count()-1
         ###########################################################
         self.metadata_path = f"{self.synthetic_folder}/metadata.json"
-        self.metadata_noise_path = f"{self.synthetic_folder}/metadata_noise.json"
         self.make_folders()
         if not os.path.exists(f"{self.split}/train.parquet"):
             self.train, self.hold = train_test_split(
@@ -128,9 +140,8 @@ class Synthetic:
         else:
             self.train = pd.read_parquet(f"{self.split}/train.parquet")
             self.hold = pd.read_parquet(f"{self.split}/hold.parquet")
-        self.metadata, self.metadata_noised = self._gen_metadata(
-            default_encoder)
-        self.metric = Metrics(self.df, self.train, self.hold, self.metadata, includes=list(set(self.df.columns) - set(self.exclude_columns) - set(self.df.select_dtypes(include=np.datetime64).columns)))
+        self.metadata = self._gen_metadata()
+        self.metric = Metrics(self.df, self.train, self.hold, self.metadata, includes=list(set(self.df.columns) - set(self.text_columns) - set(self.exclude_columns) - set(self.df.select_dtypes(include=np.datetime64).columns)))
         self.charts = Charts(self.metadata)
         self.model_names = models
         self.fake_data = {}
@@ -157,39 +168,47 @@ class Synthetic:
             if not os.path.exists(f):
                 os.makedirs(f, exist_ok=True)
 
-    def _gen_metadata(self, default_encoder) -> dict:
+    def _gen_metadata(self) -> dict:
+        metadata = SingleTableMetadata()
         if not os.path.exists(self.metadata_path):
-            meta = table.Table(primary_key=self.primary_key, field_names=set(self.train.columns.to_list()) - set(self.text_columns),
-                               field_transformers={k: f'{default_encoder}' for k in self.category_columns})
-            meta.fit(self.train.astype(
-                {k: "category" for k in self.category_columns}))
-            meta.to_json(self.metadata_path)
-        if not os.path.exists(self.metadata_noise_path):
-            meta_noise = table.Table(primary_key=self.primary_key, field_names=set(self.train.columns.to_list()) - set(self.text_columns),
-                                     field_transformers={k: f'{default_encoder}_noised' for k in self.category_columns})
-            meta_noise.fit(self.train.astype(
-                {k: "category" for k in self.category_columns}))
-            meta_noise.to_json(self.metadata_noise_path)
-        return json.load(open(self.metadata_path, "r")), json.load(open(self.metadata_noise_path, "r"))
+            metadata.detect_from_dataframe(
+                self.df
+            )
+            for cat in self.category_columns:
+                metadata.update_column(column_name=cat, sdtype="categorical")   
+            for text in self.text_columns:
+                metadata.update_column(column_name=text, sdtype="text")   
+            metadata.save_to_json(self.metadata_path)
+        else:
+            metadata = metadata.load_from_json(self.metadata_path)
+        
+        print(metadata.to_dict())
+        return metadata
 
-    def _define_params(self, model, **kwargs):
-        params = {"table_metadata": self.metadata}
+    def _define_params(self, model, model_name, **kwargs):
+        if "table_metadata" in model.__init__.__code__.co_varnames:
+            params = {"table_metadata": self.metadata}
+        else:
+            params = {"metadata": self.metadata}
+        
         for key, value in kwargs.items():
             if key in model.__init__.__code__.co_varnames:
                 params[key] = value
-        if "cuda" in model.__init__.__code__.co_varnames:
-            params["cuda"] = bool(self.cuda)
-            print(f"Cuda => {bool(self.cuda)}")
-        if "verbose" in model.__init__.__code__.co_varnames:
-            params["verbose"] = True
-            print(f"verbose => True")
+        for key, value in self.default_parameters.items():
+            if key in model.__init__.__code__.co_varnames:
+                params[key] = value
+        if model_name in self.model_parameters:
+            for key, value in self.model_parameters[model_name].items():
+                if key in model.__init__.__code__.co_varnames:
+                    params[key] = value
+        print(f"""Params
+{params}
+        """)
+        if "name" in model.__init__.__code__.co_varnames:
+            params["name"] = "FAST_ML"
         if "df" in model.__init__.__code__.co_varnames:
             params["df"] = self.df
-        #if "categorical" in model.__init__.__code__.co_varnames and self.use_categorical:
-        #    params["categorical"] = 'categorical'
-        #    print(f"categorical => categorical")
-        if "batch_size" in model.__init__.__code__.co_varnames:
-            params["batch_size"] = self.max_batch_size
+
         return params
 
     def fit_models(self, models: list[str]) -> dict:
@@ -198,11 +217,15 @@ class Synthetic:
             target_column=self.target_column,
             exclude_columns=self.exclude_columns
         )
-        models = {model_name: model(**self._define_params(model, **{**{"checkpoint": os.path.join(self.checkpoint_folder, model_name)}, **base_params})) for model_name, model in zip(models, getter(MODELS))}
-        if self.use_noise:
-            models = dict(**models, **{f"{model_name}_noise": model(**self._define_params(model, **{**{"checkpoint": os.path.join(self.checkpoint_folder, f"{model_name}_noise"), "table_metadata": self.metadata_noised}, **base_params}))
-                for model_name, model in zip(models, getter(MODELS))})
-
+        models = {model_name: model(
+            **self._define_params(
+            model, model_name, **{
+            **{"checkpoint": os.path.join(self.checkpoint_folder, model_name)}, 
+            **base_params
+            }
+            )
+            ) for model_name, model in zip(models, getter(MODELS))}
+        
         #################################################
         # Train Models
         #################################################
@@ -236,7 +259,7 @@ class Synthetic:
         # Here df is used instead of train since df is the whole set of elements
 
         def fn_model_name(model_name):
-            final_name = f"{model_name}_{self.n_sample}"
+            final_name = f"{model_name}"
             if remaining_columns:
                 final_name += "_wfixed_columns"
             if additional_parameters and model_name in additional_parameters:

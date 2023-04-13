@@ -16,13 +16,13 @@ class Charts:
         self.colors = [color_synthetic, "rgba(254,207,68,0.5)", "rgba(0,126,72, 0.5)"]
 
     def is_categorical(self, serie: pd.Series) -> bool:
-        return self.metadata["fields"][serie.name]["type"] == "categorical"
+        return self.metadata.columns[serie.name]["sdtype"] == "categorical"
 
     def is_id(self, serie: pd.Series) -> bool:
-        return self.metadata["fields"][serie.name]["type"] == "id"
+        return self.metadata.primary_key == serie.name
     
     def get_serie_title(self, serie) -> str:
-        return f"Field: {serie.name}"
+        return f"{serie.name}"
 
     def chart_categorical(self, serie_real : pd.Series, serie_fake : dict[str, pd.Series], max_categories=10) -> go.Figure:
         x, y = zip(*list(serie_real.astype(str).value_counts().to_frame().head(max_categories).to_dict()[serie_real.name].items()))

@@ -1,7 +1,7 @@
 \chapter{Anexos}
 
 \section{Código de entrenamiento de economicos}
-\label{A-codigo_train}
+
 
 \begin{listing}[H]
 \inputminted[
@@ -14,208 +14,57 @@
 \label{anexo-economicos-cl}
 \end{listing}
 
-
 \section{Lista completa de figura pairwise kingcounty}
 \label{A-pairwise}
 
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/pairwise/ctgan_21613.svg}
-    \caption{Comparación de conjunto Real y Modelo: ctgan\_21613}
-    \label{pair-ctgan_21613}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/pairwise/ctgan_noise_21613.svg}
-    \caption{Comparación de conjunto Real y Modelo: ctgan\_noise\_21613}
-    \label{pair-ctgan_noise_21613}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/pairwise/copulagan_21613.svg}
-    \caption{Comparación de conjunto Real y Modelo: copulagan\_21613}
-    \label{pair-copulagan_21613}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/pairwise/copulagan_noise_21613.svg}
-    \caption{Comparación de conjunto Real y Modelo: copulagan\_noise\_21613}
-    \label{pair-copulagan_noise_21613}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/pairwise/gaussiancopula_21613.svg}
-    \caption{Comparación de conjunto Real y Modelo: gaussiancopula\_21613}
-    \label{pair-gaussiancopula_21613}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/pairwise/tvae_noise_21613.svg}
-    \caption{Comparación de conjunto Real y Modelo: tvae\_noise\_21613}
-    \label{pair-tvae_noise_21613}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/pairwise/tvae_21613.svg}
-    \caption{Comparación de conjunto Real y Modelo: tvae\_21613}
-    \label{pair-tvae_21613}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/pairwise/gaussiancopula_noise_21613.svg}
-    \caption{Comparación de conjunto Real y Modelo: gaussiancopula\_noise\_21613}
-    \label{pair-gaussiancopula_noise_21613}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/pairwise/smote-enc_21613.svg}
-    \caption{Comparación de conjunto Real y Modelo: smote-enc\_21613}
-    \label{pair-smote-enc_21613}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/pairwise/tddpm_mlp_21613.svg}
-    \caption{Comparación de conjunto Real y Modelo: tddpm\_mlp\_21613}
-    \label{pair-tddpm_mlp_21613}
-\end{figure}
+\input{datasets/kingcounty-a-2/pairwise.tex}
 
 \section{Smote y TDDPM en KingCounty Graficas por Columnas}
-\label{A-kingcounty-top2}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/top2/field_bathrooms.svg}
-    \caption{Smote y TDDPM en King County: field bathrooms}
-    \label{pair-field_bathrooms}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/top2/field_sqft_lot.svg}
-    \caption{Smote y TDDPM en King County: field sqft lot}
-    \label{pair-field_sqft_lot}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/top2/privacy.svg}
-    \caption{Smote y TDDPM en King County: privacy}
-    \label{pair-privacy}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/top2/field_bedrooms.svg}
-    \caption{Smote y TDDPM en King County: field bedrooms}
-    \label{pair-field_bedrooms}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/top2/field_sqft_above.svg}
-    \caption{Smote y TDDPM en King County: field sqft above}
-    \label{pair-field_sqft_above}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/top2/field_price.svg}
-    \caption{Smote y TDDPM en King County: field price}
-    \label{pair-field_price}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/top2/field_condition.svg}
-    \caption{Smote y TDDPM en King County: field condition}
-    \label{pair-field_condition}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/top2/field_sqft_lot15.svg}
-    \caption{Smote y TDDPM en King County: field sqft lot15}
-    \label{pair-field_sqft_lot15}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/top2/field_sqft_living.svg}
-    \caption{Smote y TDDPM en King County: field sqft living}
-    \label{pair-field_sqft_living}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/top2/field_sqft_basement.svg}
-    \caption{Smote y TDDPM en King County: field sqft basement}
-    \label{pair-field_sqft_basement}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/top2/field_waterfront.svg}
-    \caption{Smote y TDDPM en King County: field waterfront}
-    \label{pair-field_waterfront}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/top2/field_view.svg}
-    \caption{Smote y TDDPM en King County: field view}
-    \label{pair-field_view}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/top2/field_floors.svg}
-    \caption{Smote y TDDPM en King County: field floors}
-    \label{pair-field_floors}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/top2/field_yr_built.svg}
-    \caption{Smote y TDDPM en King County: field yr built}
-    \label{pair-field_yr_built}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/top2/field_sqft_living15.svg}
-    \caption{Smote y TDDPM en King County: field sqft living15}
-    \label{pair-field_sqft_living15}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/top2/field_grade.svg}
-    \caption{Smote y TDDPM en King County: field grade}
-    \label{pair-field_grade}
-\end{figure}
+
+%\input{datasets/kingcounty-a-1/top2.tex}
 
 \section{Tabla de comparación de Top5 KingCounty}
-\label{tabla-top5-kingcounty}
 
-\begin{longtable}{|l|l|m{10em}|m{10em}|}
-    \caption{Tabla de comparación de Top5 KingCounty} \\
-    \hline
-    \rowcolor[gray]{0.8}
-    Modelo & Columna & top5 & top5\_prob \\ \hline
-    Real & bathrooms & [2.5  1.   1.75 2.25 2.  ] & [0.25060729 0.17860035 0.14025448 0.09375361 0.08825911] \\ \hline
-    smote-enc\_21613 & bathrooms & [2.5  1.   1.75 2.25 2.  ] & [0.30545017 0.21347275 0.15975756 0.08832238 0.06199685] \\ \hline
-    tddpm\_mlp\_21613 & bathrooms & [2.5  1.   1.75 2.25 2.  ] & [0.26937491 0.18414843 0.1375561  0.09031601 0.08800259] \\ \hline
-    Real & bedrooms & [3 4 2 5 6] & [0.45488722 0.3167727  0.12938115 0.07472527 0.01226142] \\ \hline
-    smote-enc\_21613 & bedrooms & [3 4 2 5 6] & [0.51457389 0.33621727 0.11108541 0.03428333 0.00212825] \\ \hline
-    tddpm\_mlp\_21613 & bedrooms & [3 4 2 5 1] & [0.48026651 0.32318512 0.1245084  0.0605654  0.00573729] \\ \hline
-    Real & condition & [3 4 5 2 1] & [0.65054945 0.26096009 0.07888953 0.00803933 0.0015616 ] \\ \hline
-    smote-enc\_21613 & condition & [3 4 5 2 1] & [7.08198390e-01 2.49838068e-01 4.09919497e-02 8.32793560e-04
-     1.38798927e-04] \\ \hline
-    tddpm\_mlp\_21613 & condition & [3 4 5 2 1] & [6.91065562e-01 2.52486929e-01 5.33937908e-02 2.77610697e-03
-     2.77610697e-04] \\ \hline
-    Real & date & ['20140623T000000' '20140625T000000' '20140626T000000' '20150421T000000'
-     '20150325T000000'] & [0.00711394 0.00607287 0.00584153 0.00584153 0.00584153] \\ \hline
-    smote-enc\_21613 & date & ['20140623T000000' '20150408T000000' '20150428T000000' '20140625T000000'
-     '20150421T000000'] & [0.00758767 0.00707875 0.00684741 0.00670861 0.00619969] \\ \hline
-    tddpm\_mlp\_21613 & date & ['20140623T000000' '20140625T000000' '20140528T000000' '20140709T000000'
-     '20140826T000000'] & [0.00772683 0.00754176 0.00684773 0.00666266 0.00661639] \\ \hline
-    Real & floors & [1.  2.  1.5 3.  2.5] & [0.49091961 0.38334297 0.0880856  0.02990168 0.00740312] \\ \hline
-    smote-enc\_21613 & floors & [1.  2.  1.5 3.  2.5] & [0.51156658 0.39270843 0.06620709 0.02840751 0.00111039] \\ \hline
-    tddpm\_mlp\_21613 & floors & [1.  2.  1.5 3.  2.5] & [0.48572618 0.40748624 0.08032203 0.02415213 0.00231342] \\ \hline
-    Real & grade & [ 7  8  9  6 10] & [0.41648352 0.28218623 0.11983806 0.09369578 0.05292076] \\ \hline
-    smote-enc\_21613 & grade & [ 7  8  9  6 10] & [0.44549829 0.28847044 0.11594337 0.08369575 0.04524845] \\ \hline
-    tddpm\_mlp\_21613 & grade & [ 7  8  9  6 10] & [0.42742794 0.28922408 0.11766067 0.08527275 0.05242215] \\ \hline
-    Real & view & [0 2 3 1 4] & [0.90144592 0.04528629 0.02290341 0.01590515 0.01445922] \\ \hline
-    smote-enc\_21613 & view & [0 2 3 4 1] & [0.96391228 0.01600814 0.01101138 0.00582955 0.00323864] \\ \hline
-    tddpm\_mlp\_21613 & view & [0 2 3 4 1] & [0.93406746 0.03340582 0.01452829 0.0093925  0.00860593] \\ \hline
-    Real & waterfront & [0 1] & [0.99282822 0.00717178] \\\hline
-    smote-enc\_21613 & waterfront & [0 1] & [0.99898214 0.00101786] \\ \hline
-    tddpm\_mlp\_21613 & waterfront & [0 1] & [0.99717762 0.00282238] \\ \hline
-    Real & zipcode & [98103 98038 98115 98052 98117] & [0.02828224 0.02735685 0.02672065 0.02654714 0.02631579] \\ \hline
-    smote-enc\_21613 & zipcode & [98115 98038 98103 98052 98042] & [0.02863885 0.02854631 0.02748219 0.02674193 0.0259554 ] \\ \hline
-    tddpm\_mlp\_21613 & zipcode & [98115 98023 98103 98052 98118] & [0.03025957 0.02998196 0.02901032 0.0285939  0.02799241] \\ \hline
-\end{longtable}
+\section{Figuras de correlación Economicos}
+
+\subsection{Conjunto A}
+%\input{datasets/economicos-a-1/pairwise.tex}
+
+%\begin{longtable}{|l|l|m{10em}|m{10em}|}
+%    \caption{Tabla de comparación de Top5 KingCounty} \\
+%    \hline
+%    \rowcolor[gray]{0.8}
+%    Modelo & Columna & top5 & top5\_prob \\ \hline
+%    Real & bathrooms & [2.5  1.   1.75 2.25 2.  ] & [0.25060729 0.17860035 0.14025448 0.09375361 0.08825911] \\ \hline
+%    smote-enc\_21613 & bathrooms & [2.5  1.   1.75 2.25 2.  ] & [0.30545017 0.21347275 0.15975756 0.08832238 0.06199685] \\ \hline
+%    tddpm\_mlp\_21613 & bathrooms & [2.5  1.   1.75 2.25 2.  ] & [0.26937491 0.18414843 0.1375561  0.09031601 0.08800259] \\ \hline
+%    Real & bedrooms & [3 4 2 5 6] & [0.45488722 0.3167727  0.12938115 0.07472527 0.01226142] \\ \hline
+%    smote-enc\_21613 & bedrooms & [3 4 2 5 6] & [0.51457389 0.33621727 0.11108541 0.03428333 0.00212825] \\ \hline
+%    tddpm\_mlp\_21613 & bedrooms & [3 4 2 5 1] & [0.48026651 0.32318512 0.1245084  0.0605654  0.00573729] \\ \hline
+%    Real & condition & [3 4 5 2 1] & [0.65054945 0.26096009 0.07888953 0.00803933 0.0015616 ] \\ \hline
+%    smote-enc\_21613 & condition & [3 4 5 2 1] & [7.08198390e-01 2.49838068e-01 4.09919497e-02 8.32793560e-04
+%     1.38798927e-04] \\ \hline
+%    tddpm\_mlp\_21613 & condition & [3 4 5 2 1] & [6.91065562e-01 2.52486929e-01 5.33937908e-02 2.77610697e-03
+%     2.77610697e-04] \\ \hline
+%    Real & date & ['20140623T000000' '20140625T000000' '20140626T000000' '20150421T000000'
+%     '20150325T000000'] & [0.00711394 0.00607287 0.00584153 0.00584153 0.00584153] \\ \hline
+%    smote-enc\_21613 & date & ['20140623T000000' '20150408T000000' '20150428T000000' '20140625T000000'
+%     '20150421T000000'] & [0.00758767 0.00707875 0.00684741 0.00670861 0.00619969] \\ \hline
+%    tddpm\_mlp\_21613 & date & ['20140623T000000' '20140625T000000' '20140528T000000' '20140709T000000'
+%     '20140826T000000'] & [0.00772683 0.00754176 0.00684773 0.00666266 0.00661639] \\ \hline
+%    Real & floors & [1.  2.  1.5 3.  2.5] & [0.49091961 0.38334297 0.0880856  0.02990168 0.00740312] \\ \hline
+%    smote-enc\_21613 & floors & [1.  2.  1.5 3.  2.5] & [0.51156658 0.39270843 0.06620709 0.02840751 0.00111039] \\ \hline
+%    tddpm\_mlp\_21613 & floors & [1.  2.  1.5 3.  2.5] & [0.48572618 0.40748624 0.08032203 0.02415213 0.00231342] \\ \hline
+%    Real & grade & [ 7  8  9  6 10] & [0.41648352 0.28218623 0.11983806 0.09369578 0.05292076] \\ \hline
+%    smote-enc\_21613 & grade & [ 7  8  9  6 10] & [0.44549829 0.28847044 0.11594337 0.08369575 0.04524845] \\ \hline
+%    tddpm\_mlp\_21613 & grade & [ 7  8  9  6 10] & [0.42742794 0.28922408 0.11766067 0.08527275 0.05242215] \\ \hline
+%    Real & view & [0 2 3 1 4] & [0.90144592 0.04528629 0.02290341 0.01590515 0.01445922] \\ \hline
+%    smote-enc\_21613 & view & [0 2 3 4 1] & [0.96391228 0.01600814 0.01101138 0.00582955 0.00323864] \\ \hline
+%    tddpm\_mlp\_21613 & view & [0 2 3 4 1] & [0.93406746 0.03340582 0.01452829 0.0093925  0.00860593] \\ \hline
+%    Real & waterfront & [0 1] & [0.99282822 0.00717178] \\\hline
+%    smote-enc\_21613 & waterfront & [0 1] & [0.99898214 0.00101786] \\ \hline
+%    tddpm\_mlp\_21613 & waterfront & [0 1] & [0.99717762 0.00282238] \\ \hline
+%    Real & zipcode & [98103 98038 98115 98052 98117] & [0.02828224 0.02735685 0.02672065 0.02654714 0.02631579] \\ \hline
+%    smote-enc\_21613 & zipcode & [98115 98038 98103 98052 98042] & [0.02863885 0.02854631 0.02748219 0.02674193 0.0259554 ] \\ \hline
+%    tddpm\_mlp\_21613 & zipcode & [98115 98023 98103 98052 98118] & [0.03025957 0.02998196 0.02901032 0.0285939  0.02799241] \\ \hline
+%\end{longtable}

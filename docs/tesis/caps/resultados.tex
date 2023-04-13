@@ -10,200 +10,70 @@ Es importante tener en cuenta que los resultados son específicos para cada conj
 
 \subsubsection{Scores}
 
-La Tabla \ref{kingcounty-scores} muestra los scores obtenidos para diferentes modelos utilizados en el proyecto. Como se puede apreciar, los modelos con puntajes más altos, como tddpm\_mlp\_21613 y smote-enc\_21613, tienen un mayor parecido con el conjunto real. En cambio, los modelos con puntajes más bajos, como ctgan\_noise\_21613 y ctgan\_21613, tienen una similitud muy baja con los datos reales.
+La Tabla \ref{table-score-king county-a-1} muestra los scores obtenidos para diferentes modelos utilizados en el proyecto. Como se puede apreciar, los modelos con puntajes más altos, como tddpm\_mlp y smote-enc, tienen un mayor parecido con el conjunto real. En cambio, los modelos con puntajes más bajos, como ctgan, tienen una similitud muy baja con los datos reales.
 
-\begin{table}[H]
-    \centering
-    \caption{Scores King County}
-    \label{kingcounty-scores}
-    \begin{tabular}{|l|m{5em}|m{5em}|r|r|r|}
-        \hline
-        \rowcolor[gray]{0.8}
-        Modelo & Column Pair Trends & Column Shapes & Coverage & Boundaries & \textbf{Score} \\ \hline
-        tddpm\_mlp\_21613           & 0.954 & 0.971 & 0.957 & 1.0 & 0.962 \\ \hline
-        smote-enc\_21613            & 0.941 & 0.967 & 0.819 & 0.999 & 0.954 \\ \hline
-        gaussiancopula\_noise\_21613& 0.845 & 0.809 & 0.743 & 1.0 & 0.827 \\ \hline
-        tvae\_21613                 & 0.781 & 0.856 & 0.650 & 1.0 & 0.819 \\ \hline
-        tvae\_noise\_21613          & 0.770 & 0.859 & 0.755 & 1.0 & 0.814 \\ \hline
-        gaussiancopula\_21613       & 0.833 & 0.792 & 0.712 & 1.0 & 0.812 \\ \hline
-        copulagan\_noise\_21613     & 0.761 & 0.844 & 0.881 & 1.0 & 0.803 \\ \hline
-        copulagan\_21613            & 0.745 & 0.815 & 0.868 & 1.0 & 0.780 \\ \hline
-        ctgan\_noise\_21613         & 0.749 & 0.770 & 0.852 & 1.0 & 0.760 \\ \hline
-        ctgan\_21613                & 0.735 & 0.746 & 0.850 & 1.0 & 0.741 \\ \hline
-    \end{tabular}
-\end{table}
+\input{datasets/kingcounty-a-1/tables/table-score-king county-a-1.tex}
 
 Si bien los modelos TDDPM y SMOTE consiguen buenos puntajes en general, hay una diferencia significativa entre ellos en términos de cobertura y límites. SMOTE no cubre la diversidad del conjunto de datos, lo que se refleja en su puntaje de cobertura \emph{(Coverage)}, que es mucho menor que el de TDDPM, así como en su puntaje de límites \emph{(Boundaries)}.
 \newpage
 \subsubsection{Correlación pairwise}
-Este resultado se puede apreciar en el Anexo \fullref{A-pairwise}, donde se muestran las diferencias entre los datos reales y los datos generados por cada modelo. Se puede observar que, en general, los modelos con puntajes más altos tienen una mayor similitud visual con los datos reales. Por ejemplo, las imágenes \fullref{r-pair-copulagan_noise_21613} y \fullref{r-pair-gaussiancopula_21613} muestran la comparación entre los datos reales y los datos generados por los modelos gaussiancopula\_21613 y copulagan\_noise\_21613. A pesar de que estos modelos tienen puntajes similares, el modelo gaussiancopula\_21613 tiene una mayor similitud visual con los datos reales que el modelo copulagan\_noise\_21613.
+Este resultado se puede apreciar en el Anexo \fullref{A-pairwise}, donde se muestran las diferencias entre los datos reales y los datos generados por cada modelo. Se puede observar que, en general, los modelos con puntajes más altos tienen una mayor similitud visual con los datos reales. Por ejemplo, las imágenes \fullref{pairwise-king county-a-1-copulagan} y \fullref{pairwise-king county-a-1-gaussiancopula} muestran la comparación entre los datos reales y los datos generados por los modelos gaussiancopula y copulagan. A pesar de que estos modelos tienen puntajes similares, el modelo gaussiancopula tiene una mayor similitud visual con los datos reales que el modelo copulagan.
 
-\begin{figure}[H]
-    \centering
-	\includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/pairwise/copulagan_noise_21613.svg}
-	\caption{Comparación de conjunto Real y copulagan\_noise\_21613 (0.80)}
-	\label{r-pair-copulagan_noise_21613}
-\end{figure}
-\begin{figure}[H]
-    \centering
-	\includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/pairwise/gaussiancopula_21613.svg}
-	\caption{Comparación de conjunto Real y gaussiancopula\_21613 (0.81)}
-	\label{r-pair-gaussiancopula_21613}
-\end{figure}
+\input{datasets/kingcounty-a-1/pairwise/pairwise-king county-a-1-copulagan.tex}
+
+\input{datasets/kingcounty-a-1/pairwise/pairwise-king county-a-1-gaussiancopula.tex}
 
 \newpage 
-Es importante destacar que, entre los modelos con puntajes superiores al 90\%, puede ser difícil evaluar visualmente cuál es el mejor. Esto se debe a que, a medida que el puntaje aumenta, la similitud visual entre los datos reales y los datos generados también aumenta. Esto se puede observar en las figuras \fullref{r-pair-smote-enc_21613} y \fullref{r-pair-tddpm_mlp_21613}, donde se comparan los datos reales con los datos generados por los modelos smote-enc\_21613 y tddpm\_mlp\_21613, respectivamente. Ambos modelos tienen puntajes superiores al 90\%, y la similitud visual entre los datos reales y los datos generados es muy alta en ambos casos.
+Es importante destacar que, entre los modelos con puntajes superiores al 90\%, puede ser difícil evaluar visualmente cuál es el mejor. Esto se debe a que, a medida que el puntaje aumenta, la similitud visual entre los datos reales y los datos generados también aumenta. Esto se puede observar en las figuras \fullref{pairwise-king county-a-1-smote-enc} y \fullref{pairwise-king county-a-1-tddpm_mlp}, donde se comparan los datos reales con los datos generados por los modelos smote-enc y tddpm\_mlp, respectivamente. Ambos modelos tienen puntajes superiores al 90\%, y la similitud visual entre los datos reales y los datos generados es muy alta en ambos casos.
 
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/pairwise/smote-enc_21613.svg}
-    \caption{Comparación de conjunto Real y smote-enc\_21613 (0.95)}
-    \label{r-pair-smote-enc_21613}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.5,inkscapelatex=false]{imagenes/kingcounty/pairwise/tddpm_mlp_21613.svg}
-    \caption{Comparación de conjunto Real y tddpm\_mlp\_21613 (0.96)}
-    \label{r-pair-tddpm_mlp_21613}
-\end{figure}
+\input{datasets/kingcounty-a-1/pairwise/pairwise-king county-a-1-smote-enc.tex}
+
+\input{datasets/kingcounty-a-1/pairwise/pairwise-king county-a-1-tddpm_mlp.tex}
 
 En la evaluación de SDMetrics y en la comparación visual utilizando la correlación de Wise, los mejores modelos encontrados son TDDPM y SMOTE. Estos modelos han obtenido los puntajes más altos en ambas métricas y también se han demostrado tener una mayor similitud visual con los datos reales. Por lo tanto, se puede concluir que estos modelos son los más efectivos para generar datos sintéticos útiles para este conjunto de datos específico.
 
 \newpage
 \subsubsection{Revisión de Columnas}
-La \fullref{tab-coverage} muestra la superioridad del modelo TDDPM al cubrir los diferentes valores en general, aunque existen casos en los que ambos modelos fallan en cubrir los valores. Por ejemplo, en las columnas de 'bathrooms' o 'bedrooms', donde TDDPM solo sobrepasa el 70\% de cobertura, pero aún así es mejor que SMOTE. En cambio, SMOTE tiene algunos campos que solo alcanzan un 40\% de cobertura.
+La \fullref{table-coverage-king county-a-1} muestra la superioridad del modelo TDDPM al cubrir los diferentes valores en general, aunque existen casos en los que ambos modelos fallan en cubrir los valores. Por ejemplo, en las columnas de \emph{bathrooms} o \emph{bedrooms}, donde TDDPM solo sobrepasa el 70\% de cobertura, pero aún así es mejor que SMOTE. En cambio, SMOTE tiene algunos campos que solo alcanzan un 40\% de cobertura.
 
-\begin{table}[H]
-    \centering
-    \caption{Cobertura en columnas}
-    \label{tab-coverage}
-    \begin{tabular}{|l|l|r|r|}
-        \hline
-        \rowcolor[gray]{0.8}
-        Columna & Metrica & smote-enc\_21613 $\uparrow$& tddpm\_mlp\_21613 \\  \hline
-        zipcode & CategoryCoverage & 1.000000 & 1.000000 \\ \hline
-        condition & CategoryCoverage & 1.000000 & 1.000000 \\ \hline
-        waterfront & CategoryCoverage & 1.000000 & 1.000000 \\ \hline
-        view & CategoryCoverage & 1.000000 & 1.000000 \\ \hline
-        yr\_built & RangeCoverage & 1.000000 & 1.000000 \\ \hline
-        yr\_renovated & RangeCoverage & 0.999941 & 0.999999 \\ \hline
-        long & RangeCoverage & 0.989726 & 1.000000 \\ \hline
-        date & CategoryCoverage & 0.962366 & 0.916667 \\ \hline
-        lat & RangeCoverage & 0.956463 & 0.987428 \\ \hline
-        sqft\_living15 & RangeCoverage & 0.937471 & 1.000000 \\ \hline
-        floors & CategoryCoverage & 0.833333 & 0.833333 \\ \hline
-        sqft\_basement & RangeCoverage & 0.794770 & 1.000000 \\ \hline
-        grade & CategoryCoverage & 0.750000 & 0.916667 \\ \hline
-        price & RangeCoverage & 0.684852 & 1.000000 \\ \hline
-        bathrooms & CategoryCoverage & 0.666667 & 0.733333 \\ \hline
-        sqft\_above & RangeCoverage & 0.651510 & 0.999948 \\ \hline
-        sqft\_living & RangeCoverage & 0.601635 & 0.999836 \\ \hline
-        sqft\_lot & RangeCoverage & 0.556842 & 1.000000 \\ \hline
-        bedrooms & CategoryCoverage & 0.538462 & 0.769231 \\ \hline
-        sqft\_lot15 & RangeCoverage & 0.471789 & 1.000000 \\ \hline
-    \end{tabular}
-\end{table}
+\input{datasets/kingcounty-a-1/tables/table-coverage-king county-a-1.tex}
 
 \newpage
 En general, la distribución en ambos modelos es cercana a la real, en casi todos los casos por encima del 90\%. La única excepción es SMOTE en \emph{bathrooms}.
-\begin{table}[H]
-    \centering
-    \caption{Comparación de distribución por columna}
-    \label{tab-coverage}
-    \begin{tabular}{|l|l|r|r|}
-        \hline
-        \rowcolor[gray]{0.8}
-        Columna & Metrica & smote-enc\_21613 & tddpm\_mlp\_21613 \\ \hline
-        yr\_renovated & KSComplement & 0.993521 & 0.983621 \\ \hline
-        waterfront & TVComplement & 0.993476 & 0.995281 \\ \hline
-        lat & KSComplement & 0.991201 & 0.967797 \\ \hline
-        long & KSComplement & 0.987587 & 0.958543 \\ \hline
-        sqft\_lot15 & KSComplement & 0.984718 & 0.982927 \\ \hline
-        sqft\_lot & KSComplement & 0.984708 & 0.985379 \\ \hline
-        sqft\_living15 & KSComplement & 0.982320 & 0.976357 \\ \hline
-        yr\_built & KSComplement & 0.982157 & 0.986443 \\ \hline
-        sqft\_living & KSComplement & 0.982033 & 0.986397 \\ \hline
-        sqft\_above & KSComplement & 0.981626 & 0.973534 \\ \hline
-        price & KSComplement & 0.981020 & 0.988063 \\ \hline
-        zipcode & TVComplement & 0.971848 & 0.949012 \\ \hline
-        floors & TVComplement & 0.971125 & 0.973812 \\ \hline
-        sqft\_basement & KSComplement & 0.968048 & 0.950354 \\ \hline
-        grade & TVComplement & 0.962325 & 0.979642 \\ \hline
-        condition & TVComplement & 0.940994 & 0.958127 \\ \hline
-        view & TVComplement & 0.937814 & 0.967658 \\ \hline
-        date & TVComplement & 0.935944 & 0.926618 \\ \hline
-        bedrooms & TVComplement & 0.922170 & 0.969509 \\ \hline
-        bathrooms & TVComplement & 0.889496 & 0.971267 \\ \hline
-    \end{tabular}
-\end{table}
 
+\input{datasets/kingcounty-a-1/tables/table-shape-king county-a-1.tex}
 
 \newpage
 
-En la revisión por columnas de los conjuntos de datos completos, como se puede observar en la lista \fullref{A-kingcounty-top2}, se aprecia una similitud entre los tres conjuntos analizados: Real, Smote y TDDPM. Sin embargo, existen diferencias notables entre ellos. Cabe destacar que los datos generados son alrededor de un 20\% más grandes que el conjunto real.
+%En la revisión por columnas de los conjuntos de datos completos, como se puede observar en la lista \fullref{A-kingcounty-top2}, se aprecia una similitud entre los tres conjuntos analizados: Real, Smote y TDDPM. Sin embargo, existen diferencias notables entre ellos. Cabe destacar que los datos generados son alrededor de un 20\% más grandes que el conjunto real.
 
-En varias columnas, la distribución entre los tres conjuntos es similar, como es el caso de bathrooms, sqft\_lot, sqft\_above, price, sqft\_living, sqft\_basement, yr\_built, sqft\_living15 y grade. En \fullref{top2-field_grade} muestra un ejemplo de esto.
+En varias columnas, la distribución entre los tres conjuntos es similar, como es el caso de bathrooms, sqft\_lot, sqft\_above, price, sqft\_living, sqft\_basement, yr\_built, sqft\_living15 y grade. En \fullref{frecuency-top2-grade} muestra un ejemplo de esto.
 
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=1,inkscapelatex=false]{imagenes/kingcounty/top2/field_grade.svg}
-    \caption{Distribución de la columna \emph{grade} en Smote y TDDPM en King County}
-    \label{top2-field_grade}
-\end{figure}
+\input{datasets/kingcounty-a-1/top2/frecuency-top2-grade.tex}
 
 
 \newpage
-La distribución de los campos bedrooms, condition, view y floors contiene más elementos menos frecuentes en el conjunto de datos generado por el modelo TDDPM. Por ejemplo, en \fullref{top2-field_bedrooms} se puede observar que en la columna \emph{bedrooms} la distribución de valores en el conjunto TDDPM es distinta a SMOTE. Presenta más registros en valor 6 y 1.
+La distribución de los campos bedrooms, condition, view y floors contiene más elementos menos frecuentes en el conjunto de datos generado por el modelo TDDPM. Por ejemplo, en \fullref{frecuency-top2-bedrooms} se puede observar que en la columna \emph{bedrooms} la distribución de valores en el conjunto TDDPM es distinta a SMOTE. Presenta más registros en valor 6 y 1.
 
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=1,inkscapelatex=false]{imagenes/kingcounty/top2/field_bedrooms.svg}
-    \caption{Distribución de la columna \emph{bedrooms} en Smote y TDDPM en King County}
-    \label{top2-field_bedrooms}
-\end{figure}
+
+\input{datasets/kingcounty-a-1/top2/frecuency-top2-bedrooms.tex}
 
 \newpage
-En contraste, en el caso de la columna \emph{sqft\_lot15}, el modelo SMOTE tiene una distribución más cercana a la del conjunto real. Esto se puede observar en \fullref{top2-field_sqft_lot15}.
+En contraste, en el caso de la columna \emph{sqft\_lot15}, el modelo SMOTE tiene una distribución más cercana a la del conjunto real. Esto se puede observar en \fullref{frecuency-top2-sqft lot15}.
 
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=1,inkscapelatex=false]{imagenes/kingcounty/top2/field_sqft_lot15.svg}
-    \caption{Distribución de la columna \emph{sqft\_lot15} en Smote y TDDPM en King County}
-    \label{top2-field_sqft_lot15}
-\end{figure}
+\input{datasets/kingcounty-a-1/top2/frecuency-top2-sqft lot15.tex}
 
 \newpage
 \subsubsection{Privacidad}
 En el análisis de los registros más cercanos entre los conjuntos reales usados para entrenamiento, los generados por los modelos y el conjunto real almacenado, se presentan sus distancias en la tabla.
+DCR2
 
-\begin{table}[H]
-    \centering
-    \caption{Distancia de registros más cercanos entre conjuntos Sinteticos, \emph{Train} y \emph{Hold}}
-    \label{tab-dcr}
-    \begin{tabular}{|l|r|r|r|r|}
-        \hline
-        \rowcolor[gray]{0.8}
-        Modelo & \textbf{Score}     & DCR ST & DCR SH & DCR TH \\ \hline
-        tddpm\_mlp\_21613           & 0.962 & 0.084 & 0.104 & 0.035 \\ \hline
-        smote-enc\_21613            & 0.954 & 0.058 & 0.090 & 0.035 \\ \hline
-        gaussiancopula\_noise\_21613& 0.827 & 0.209 & 0.229 & 0.035 \\ \hline
-        tvae\_21613                 & 0.819 & 0.108 & 0.133 & 0.035 \\ \hline
-        tvae\_noise\_21613          & 0.814 & 0.121 & 0.139 & 0.035 \\ \hline
-        gaussiancopula\_21613       & 0.812 & 0.206 & 0.226 & 0.035 \\ \hline
-        copulagan\_noise\_21613     & 0.803 & 0.230 & 0.253 & 0.035 \\ \hline
-        copulagan\_21613            & 0.780 & 0.219 & 0.242 & 0.035 \\ \hline
-        ctgan\_noise\_21613         & 0.760 & 0.207 & 0.230 & 0.035 \\ \hline
-        ctgan\_21613                & 0.741 & 0.210 & 0.232 & 0.035 \\ \hline
-    \end{tabular}
-\end{table}
+\input{datasets/kingcounty-a-1/tables/table-dcr-king county-a-1.tex}
 
-En la \fullref{top2-dcr} solo se consideran los modelos TDDPM y SMOTE para su comparación. Se ve que en ambos casos existe una distancia mayor a cero, pero que en el caso de TDDPM es mayor, por lo que se considera que es un mejor conjunto en términos de privacidad.
-\begin{figure}[H]
-    \centering
-    \includesvg[scale=.7,inkscapelatex=false]{imagenes/kingcounty/top2/privacy.svg}
-    \caption{DCR en Smote y TDDPM}
-    \label{top2-dcr}
-\end{figure}
+En la \fullref{frecuency-top2-privacy} solo se consideran los modelos TDDPM y SMOTE para su comparación. Se ve que en ambos casos existe una distancia mayor a cero, pero que en el caso de TDDPM es mayor, por lo que se considera que es un mejor conjunto en términos de privacidad.
+
+\input{datasets/kingcounty-a-1/top2/frecuency-top2-privacy.tex}
+
 
 \newpage
 \section{Economicos}
@@ -245,23 +115,23 @@ df_converted["publication_date"] = dtime.apply(lambda x: (x - basedate).days)
 \subsubsection{Conjunto A}
 \label{ds-conjunto-a}
 
-\begin{table}[H]
-    \centering
-    \caption{Scores DCR sin nulos}
-    \label{dcr-eco-a-scores}
-    \begin{tabular}{lllllrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr}
-        & name & top5 & top5\_freq & top5\_prob & is\_categorical & nobs & missing & mean & std\_err & upper\_ci & lower\_ci & std & iqr & iqr\_normal & mad & mad\_normal & coef\_var & range & max & min & skew & kurtosis & jarque\_bera & jarque\_bera\_pval & mode & mode\_freq & median & 0.1% & 1.0% & 5.0% & 25.0% & 75.0% & 95.0% & 99.0% & 99.9% \\
-       0 & m\_size & [5000.   50.   60.  200.   70.] & [601 342 321 285 281] & [0.02724512 0.01550388 0.01455188 0.0129199  0.01273856] & False & 22059.000000 & 0.000000 & 146269.353488 & 105454.123661 & 352955.637885 & -60416.930908 & 15662333.864910 & 340.500000 & 252.413028 & 290634.769396 & 364256.665279 & 107.078711 & 2241000000.000000 & 2241000000.000000 & 0.000000 & 134.762058 & 19052.885006 & 333615501598.613220 & 0.000000 & 5000.000000 & 0.027245 & 145.000000 & 2.000000 & 22.000000 & 35.000000 & 66.000000 & 406.500000 & 5000.000000 & 10200.000000 & 70000.000000 \\
-       3 & m\_built & [140.  60. 120.  50.  70.] & [700 467 444 431 415] & [0.03173308 0.0211705  0.02012784 0.01953851 0.01881318] & False & 22059.000000 & 0.000000 & 1771.336159 & 664.364677 & 3073.466999 & 469.205319 & 98673.252621 & 140.000000 & 103.782155 & 3201.642247 & 4012.663491 & 55.705549 & 11999999.000000 & 12000000.000000 & 1.000000 & 96.077796 & 10658.885634 & 104398649894.541122 & 0.000000 & 140.000000 & 0.031733 & 107.000000 & 2.000000 & 23.000000 & 33.000000 & 60.000000 & 200.000000 & 490.000000 & 1200.000000 & 37946.564000 \\
-       7 & publication\_date & [1545 1693 1546 1549  721] & [10883  6103   895   320   125] & [0.49335872 0.27666712 0.04057301 0.01450655 0.00566662] & False & 22059.000000 & 0.000000 & 1470.755338 & 2.056273 & 1474.785560 & 1466.725116 & 305.403340 & 148.000000 & 109.712564 & 206.754513 & 259.128354 & 0.207651 & 1489.000000 & 1693.000000 & 204.000000 & -2.019239 & 5.892322 & 22679.245743 & 0.000000 & 1545.000000 & 0.493359 & 1545.000000 & 450.696000 & 531.000000 & 628.900000 & 1545.000000 & 1693.000000 & 1693.000000 & 1693.000000 & 1693.000000 \\
-       9 & \_price & [12500. 10500. 11500.  8500.  9000.] & [104  99  91  86  85] & [0.00471463 0.00448796 0.0041253  0.00389864 0.0038533 ] & False & 22059.000000 & 0.000000 & 110378.900259 & 32745.675510 & 174559.244908 & 46198.555609 & 4863476.976221 & 9959.233916 & 7382.791149 & 202281.355744 & 253522.082870 & 44.061655 & 390000000.000000 & 390000000.000000 & 0.000000 & 60.578790 & 4066.968253 & 15193611545.235235 & 0.000000 & 12500.000000 & 0.004715 & 5083.869574 & 0.262868 & 6.270122 & 11.759796 & 2040.766084 & 12000.000000 & 32000.000000 & 58942.000000 & 262695.428000 \\
-    \end{tabular}
-\end{table}
+%\begin{table}[H]
+%    \centering
+%    \caption{Scores DCR sin nulos}
+%    \label{dcr-eco-a-scores2}
+%    \begin{tabular}{lllllrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr}
+%        & name & top5 & top5\_freq & top5\_prob & is\_categorical & nobs & missing & mean & std\_err & upper\_ci & lower\_ci & std & iqr & iqr\_normal & mad & mad\_normal & coef\_var & range & max & min & skew & kurtosis & jarque\_bera & jarque\_bera\_pval & mode & mode\_freq & median & 0.1% & 1.0% & 5.0% & 25.0% & 75.0% & 95.0% & 99.0% & 99.9% \\
+%       0 & m\_size & [5000.   50.   60.  200.   70.] & [601 342 321 285 281] & [0.02724512 0.01550388 0.01455188 0.0129199  0.01273856] & False & 22059.000000 & 0.000000 & 146269.353488 & 105454.123661 & 352955.637885 & -60416.930908 & 15662333.864910 & 340.500000 & 252.413028 & 290634.769396 & 364256.665279 & 107.078711 & 2241000000.000000 & 2241000000.000000 & 0.000000 & 134.762058 & 19052.885006 & 333615501598.613220 & 0.000000 & 5000.000000 & 0.027245 & 145.000000 & 2.000000 & 22.000000 & 35.000000 & 66.000000 & 406.500000 & 5000.000000 & 10200.000000 & 70000.000000 \\
+%       3 & m\_built & [140.  60. 120.  50.  70.] & [700 467 444 431 415] & [0.03173308 0.0211705  0.02012784 0.01953851 0.01881318] & False & 22059.000000 & 0.000000 & 1771.336159 & 664.364677 & 3073.466999 & 469.205319 & 98673.252621 & 140.000000 & 103.782155 & 3201.642247 & 4012.663491 & 55.705549 & 11999999.000000 & 12000000.000000 & 1.000000 & 96.077796 & 10658.885634 & 104398649894.541122 & 0.000000 & 140.000000 & 0.031733 & 107.000000 & 2.000000 & 23.000000 & 33.000000 & 60.000000 & 200.000000 & 490.000000 & 1200.000000 & 37946.564000 \\
+%       7 & publication\_date & [1545 1693 1546 1549  721] & [10883  6103   895   320   125] & [0.49335872 0.27666712 0.04057301 0.01450655 0.00566662] & False & 22059.000000 & 0.000000 & 1470.755338 & 2.056273 & 1474.785560 & 1466.725116 & 305.403340 & 148.000000 & 109.712564 & 206.754513 & 259.128354 & 0.207651 & 1489.000000 & 1693.000000 & 204.000000 & -2.019239 & 5.892322 & 22679.245743 & 0.000000 & 1545.000000 & 0.493359 & 1545.000000 & 450.696000 & 531.000000 & 628.900000 & 1545.000000 & 1693.000000 & 1693.000000 & 1693.000000 & 1693.000000 \\
+%       9 & \_price & [12500. 10500. 11500.  8500.  9000.] & [104  99  91  86  85] & [0.00471463 0.00448796 0.0041253  0.00389864 0.0038533 ] & False & 22059.000000 & 0.000000 & 110378.900259 & 32745.675510 & 174559.244908 & 46198.555609 & 4863476.976221 & 9959.233916 & 7382.791149 & 202281.355744 & 253522.082870 & 44.061655 & 390000000.000000 & 390000000.000000 & 0.000000 & 60.578790 & 4066.968253 & 15193611545.235235 & 0.000000 & 12500.000000 & 0.004715 & 5083.869574 & 0.262868 & 6.270122 & 11.759796 & 2040.766084 & 12000.000000 & 32000.000000 & 58942.000000 & 262695.428000 \\
+%    \end{tabular}
+%\end{table}
 
 
 
 \subsubsection{Conjunto B}
-\label{ds-conjunto-b}
+\label{ds-conjunto-b2}
 
 
 \subsection{Reportes}
@@ -269,42 +139,16 @@ df_converted["publication_date"] = dtime.apply(lambda x: (x - basedate).days)
 \textbf{Conjunto A}
 
 
-En la Tabla \ref{dcr-eco-a-scores} se muestran los resultados de los scores, donde valores más altos indican un mejor rendimiento.
+%En la Tabla \ref{dcr-eco-a-scores} se muestran los resultados de los scores, donde valores más altos indican un mejor rendimiento.
 
-\begin{table}[H]
-    \centering
-    \caption{Scores DCR sin nulos}
-    \label{dcr-eco-a-scores}
-    \begin{tabular}{|l|r|r|r|r|}
-        \hline
-        \rowcolor[gray]{0.8}
-        Modelo & \textbf{Score} & DCR ST 5th & DCR SH 5th & DCR TH 5th \\ \hline
-        smote-enc\_27574         & 0.967 & 2.58e-11 & 3.92e-08 & 1.28e-08 \\ \hline
-        tddpm\_mlp\_27574        & 0.939 & 8.65e-09 & 4.81e-08 & 1.28e-08 \\ \hline
-        tvae\_27574              & 0.880 & 1.23e-07 & 2.18e-07 & 1.28e-08 \\ \hline
-        copulagan\_27574         & 0.850 & 1.05e-07 & 2.17e-07 & 1.28e-08 \\ \hline
-        ctgan\_27574             & 0.799 & 1.52e-06 & 2.89e-06 & 1.28e-08 \\ \hline
-        gaussiancopula\_27574    & 0.713 & 3.91e-03 & 4.46e-03 & 1.28e-08 \\ \hline
-    \end{tabular}
-\end{table}
+\input{datasets/economicos-a-1/tables/table-score-economicos-a-1.tex}
+
+\input{datasets/economicos-a-1/tables/table-dcr-economicos-a-1.tex}
+
+\input{datasets/economicos-a-1/tables/table-coverage-economicos-a-1.tex}
+
+\input{datasets/economicos-a-1/tables/table-shape-economicos-a-1.tex}
 
 
 \textbf{Conjunto B}
 \label{ds-conjunto-b}
-
-\begin{table}[H]
-    \centering
-    \caption{Scores DCR con nulos}
-    \label{dcr-eco-b-scores}
-    \begin{tabular}{|l|r|r|r|r|}
-        \hline
-        \rowcolor[gray]{0.8}
-        Modelo & \textbf{Score} & DCR ST 5th & DCR SH 5th & DCR TH 5th \\ \hline
-        tddpm\_mlp\_682338          & 0.966 & 8.05e-15 & 8.06e-15 & 9.00e-17 \\ \hline
-        smote-enc\_682338           & 0.947 & 7.09e-15 & 8.92e-15 & 9.00e-17 \\ \hline
-        tvae\_682338                & 0.766 & 1.27e-14 & 1.23e-14 & 9.00e-17 \\ \hline
-        gaussiancopula\_682338      & 0.714 & 4.83e-04 & 4.84e-04 & 9.00e-17 \\ \hline
-        copulagan\_682338           & 0.670 & 2.72e-10 & 2.71e-10 & 9.00e-17 \\ \hline
-    \end{tabular}
-\end{table}
-

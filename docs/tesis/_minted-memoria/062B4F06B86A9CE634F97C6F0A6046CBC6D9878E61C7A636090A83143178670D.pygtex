@@ -1,0 +1,178 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{pandas} \PYG{k}{as} \PYG{n+nn}{pd}
+\PYG{k+kn}{from} \PYG{n+nn}{syntheticml.data.synthetic} \PYG{k+kn}{import} \PYG{n}{Synthetic}\PYG{p}{,} \PYG{n}{MODELS}
+\PYG{k+kn}{from} \PYG{n+nn}{syntheticml.models.tab\PYGZus{}ddpm.sdv} \PYG{k+kn}{import} \PYG{n}{SDV\PYGZus{}MLP}
+\PYG{k+kn}{import} \PYG{n+nn}{torch}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{import} \PYG{n+nn}{itertools}
+\PYG{k+kn}{import} \PYG{n+nn}{multiprocessing} \PYG{k}{as} \PYG{n+nn}{mp}
+\PYG{k+kn}{from} \PYG{n+nn}{syntheticml.data.synthetic} \PYG{k+kn}{import} \PYG{n}{MODELS}
+\PYG{k+kn}{import} \PYG{n+nn}{os}
+
+\PYG{n}{DATASET}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}a\PYGZhy{}1\PYGZdq{}}
+
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZsq{}}\PYG{p}{:}
+    \PYG{n}{df} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{read\PYGZus{}parquet}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}../datasets/economicos/raw/full\PYGZus{}dedup\PYGZus{}economicos\PYGZus{}step0.parquet\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{}category\PYGZus{}columns=(\PYGZdq{}property\PYGZus{}type\PYGZdq{}, \PYGZdq{}transaction\PYGZus{}type\PYGZdq{}, \PYGZdq{}state\PYGZdq{}, \PYGZdq{}county\PYGZdq{}, \PYGZdq{}rooms\PYGZdq{}, \PYGZdq{}bathrooms\PYGZdq{}, \PYGZdq{}m\PYGZus{}built\PYGZdq{}, \PYGZdq{}m\PYGZus{}size\PYGZdq{}, \PYGZdq{}source\PYGZdq{}, )}
+    \PYG{n}{category\PYGZus{}columns}\PYG{o}{=}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}property\PYGZus{}type\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}transaction\PYGZus{}type\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}state\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}county\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}rooms\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}bathrooms\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}source\PYGZdq{}}\PYG{p}{,} \PYG{p}{)}
+    \PYG{n}{df\PYGZus{}converted} \PYG{o}{=} \PYG{n}{df}\PYG{o}{.}\PYG{n}{dropna}\PYG{p}{()}\PYG{o}{.}\PYG{n}{astype}\PYG{p}{(\PYGZob{}}\PYG{n}{k}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}str\PYGZsq{}} \PYG{k}{for} \PYG{n}{k} \PYG{o+ow}{in} \PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}price\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}title\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}address\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}owner\PYGZdq{}}\PYG{p}{,)\PYGZcb{})}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{df\PYGZus{}converted}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{)}
+    \PYG{n}{basedate} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{Timestamp}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}2017\PYGZhy{}12\PYGZhy{}01\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{dtime} \PYG{o}{=} \PYG{n}{df\PYGZus{}converted}\PYG{o}{.}\PYG{n}{pop}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}publication\PYGZus{}date\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{df\PYGZus{}converted}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}publication\PYGZus{}date\PYGZdq{}}\PYG{p}{]} \PYG{o}{=} \PYG{n}{dtime}\PYG{o}{.}\PYG{n}{apply}\PYG{p}{(}\PYG{k}{lambda} \PYG{n}{x}\PYG{p}{:} \PYG{p}{(}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{basedate}\PYG{p}{)}\PYG{o}{.}\PYG{n}{days}\PYG{p}{)}
+    \PYG{n}{syn} \PYG{o}{=} \PYG{n}{Synthetic}\PYG{p}{(}\PYG{n}{df\PYGZus{}converted}\PYG{p}{,} 
+            \PYG{n+nb}{id}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}url\PYGZdq{}}\PYG{p}{,} 
+            \PYG{n}{category\PYGZus{}columns}\PYG{o}{=}\PYG{n}{category\PYGZus{}columns}\PYG{p}{,}
+            \PYG{n}{text\PYGZus{}columns}\PYG{o}{=}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}description\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}price\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}title\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}address\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}owner\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}source\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}url\PYGZdq{}}\PYG{p}{,} \PYG{p}{),}
+            \PYG{n}{exclude\PYGZus{}columns}\PYG{o}{=}\PYG{n+nb}{tuple}\PYG{p}{(),}
+            \PYG{n}{synthetic\PYGZus{}folder} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}../datasets/economicos/synth\PYGZhy{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{DATASET}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{models}\PYG{o}{=}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}copulagan\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}tvae\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}gaussiancopula\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}ctgan\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}smote\PYGZhy{}enc\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}tddpm\PYGZus{}mlp\PYGZsq{}}\PYG{p}{],}
+            \PYG{n}{n\PYGZus{}sample} \PYG{o}{=} \PYG{n}{df\PYGZus{}converted}\PYG{o}{.}\PYG{n}{shape}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{],}
+            \PYG{n}{target\PYGZus{}column}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}\PYGZus{}price\PYGZdq{}}\PYG{p}{,}
+            \PYG{n}{max\PYGZus{}cpu\PYGZus{}pool}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,}
+            \PYG{n}{model\PYGZus{}parameters}\PYG{o}{=}\PYG{n+nb}{dict}\PYG{p}{(}
+                \PYG{n}{tddpm\PYGZus{}mlp}\PYG{o}{=}\PYG{n+nb}{dict}\PYG{p}{(}
+                        \PYG{n}{batch\PYGZus{}size}\PYG{o}{=}\PYG{l+m+mi}{3750}\PYG{p}{,}
+                        \PYG{n}{steps}\PYG{o}{=}\PYG{l+m+mi}{3000000}\PYG{p}{,}
+                        \PYG{n}{num\PYGZus{}timesteps}\PYG{o}{=}\PYG{l+m+mi}{100}\PYG{p}{,}
+                        \PYG{n}{lr}\PYG{o}{=}\PYG{l+m+mf}{5e\PYGZhy{}4}\PYG{p}{,}
+                        \PYG{n}{model\PYGZus{}params}\PYG{o}{=}\PYG{n+nb}{dict}\PYG{p}{(}
+                                \PYG{n}{rtdl\PYGZus{}params}\PYG{o}{=}\PYG{n+nb}{dict}\PYG{p}{(}
+                                        \PYG{n}{dropout}\PYG{o}{=}\PYG{l+m+mf}{0.0}\PYG{p}{,}
+                                        \PYG{n}{d\PYGZus{}layers}\PYG{o}{=}\PYG{p}{[}\PYG{l+m+mi}{1024}\PYG{p}{,} \PYG{l+m+mi}{512}\PYG{p}{,} \PYG{l+m+mi}{256}\PYG{p}{]}
+                                \PYG{p}{)}
+                        \PYG{p}{)}
+                \PYG{p}{)}
+            \PYG{p}{)}
+    \PYG{p}{)}
+
+    \PYG{n}{syn}\PYG{o}{.}\PYG{n}{process}\PYG{p}{()}
+    \PYG{n}{syn}\PYG{o}{.}\PYG{n}{process\PYGZus{}scores}\PYG{p}{()}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{syn}\PYG{o}{.}\PYG{n}{\PYGZus{}selectable\PYGZus{}columns}\PYG{p}{())}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{syn}\PYG{o}{.}\PYG{n}{train}\PYG{o}{.}\PYG{n}{loc}\PYG{p}{[:,} \PYG{n}{syn}\PYG{o}{.}\PYG{n}{\PYGZus{}selectable\PYGZus{}columns}\PYG{p}{()])}
+    
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{syn}\PYG{o}{.}\PYG{n}{current\PYGZus{}metrics}\PYG{p}{())}
+
+
+
+\PYG{k}{def} \PYG{n+nf}{print\PYGZus{}charts}\PYG{p}{(}\PYG{n}{folder\PYGZus{}path}\PYG{p}{,} \PYG{n}{model\PYGZus{}name}\PYG{p}{,} \PYG{n}{figs}\PYG{p}{):}
+    \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{exists}\PYG{p}{(}\PYG{n}{folder\PYGZus{}path}\PYG{p}{):}
+        \PYG{n}{os}\PYG{o}{.}\PYG{n}{makedirs}\PYG{p}{(}\PYG{n}{folder\PYGZus{}path}\PYG{p}{,} \PYG{n}{exist\PYGZus{}ok}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+    \PYG{n}{model\PYGZus{}tex} \PYG{o}{=} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{folder\PYGZus{}path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/../}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{model\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.tex\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}w\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{relative\PYGZus{}path} \PYG{o}{=} \PYG{n}{folder\PYGZus{}path}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}../docs/tesis/\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{for} \PYG{n}{fig} \PYG{o+ow}{in} \PYG{n}{figs}\PYG{p}{:}
+        \PYG{k}{if} \PYG{n}{fig}\PYG{p}{:}
+            \PYG{n}{file\PYGZus{}name} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{fig}\PYG{o}{.}\PYG{n}{layout}\PYG{o}{.}\PYG{n}{title}\PYG{o}{.}\PYG{n}{text}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}:\PYGZdq{}}\PYG{p}{,}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{} \PYGZdq{}}\PYG{p}{,}\PYG{l+s+s2}{\PYGZdq{}\PYGZus{}\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{\PYGZsq{}}
+            \PYG{n}{field\PYGZus{}name} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{} \PYGZsq{}}\PYG{o}{.}\PYG{n}{join}\PYG{p}{(}\PYG{n+nb}{map}\PYG{p}{(}\PYG{n+nb}{str}\PYG{o}{.}\PYG{n}{capitalize}\PYG{p}{,} \PYG{n}{file\PYGZus{}name}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZsq{}}\PYG{p}{)))}
+            \PYG{n}{fig}\PYG{o}{.}\PYG{n}{update\PYGZus{}layout}\PYG{p}{(}
+                \PYG{n}{title}\PYG{o}{=}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Field \PYGZlt{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{field\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZgt{} Distribution\PYGZdq{}}\PYG{p}{,}
+                \PYG{n}{xaxis\PYGZus{}title}\PYG{o}{=}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Total \PYGZlt{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{field\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{n}{yaxis\PYGZus{}title}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Frequency\PYGZdq{}}\PYG{p}{,}
+                \PYG{n}{legend}\PYG{o}{=}\PYG{n+nb}{dict}\PYG{p}{(}\PYG{n}{orientation}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}h\PYGZdq{}}\PYG{p}{,} \PYG{n}{yanchor}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}bottom\PYGZdq{}}\PYG{p}{,} \PYG{n}{y}\PYG{o}{=}\PYG{l+m+mf}{1.02}\PYG{p}{,} \PYG{n}{xanchor}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}right\PYGZdq{}}\PYG{p}{,} \PYG{n}{x}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}
+            \PYG{p}{)}
+            \PYG{n}{fig}\PYG{o}{.}\PYG{n}{write\PYGZus{}image}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{folder\PYGZus{}path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{file\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.svg\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{field\PYGZus{}name\PYGZus{}} \PYG{o}{=} \PYG{n}{field\PYGZus{}name}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZus{}\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZbs{}\PYGZus{}\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{model\PYGZus{}name\PYGZus{}} \PYG{o}{=} \PYG{n}{model\PYGZus{}name}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZus{}\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZbs{}\PYGZus{}\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{folder\PYGZus{}path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{file\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.tex\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}w\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{ltext}\PYG{p}{:}
+                \PYG{n}{ltext}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{begin}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{figure}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{[H]}
+\PYG{l+s+s2}{    }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{centering}
+\PYG{l+s+s2}{    }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{includesvg[scale=.5,inkscapelatex=false]}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{relative\PYGZus{}path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{file\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.svg}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}
+\PYG{l+s+s2}{    }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{caption}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{Frecuencia del campo }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{field\PYGZus{}name\PYGZus{}}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ en el modelo real y }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{model\PYGZus{}name\PYGZus{}}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}
+\PYG{l+s+s2}{    }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{label}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{frecuency\PYGZhy{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{field\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZhy{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{model\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}
+\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{end}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{figure}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{folder\PYGZus{}path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{file\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.svg\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{model\PYGZus{}tex}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}input}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{relative\PYGZus{}path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{/}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{file\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{.tex}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}\PYGZbs{}n}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+    \PYG{n}{model\PYGZus{}tex}\PYG{o}{.}\PYG{n}{close}\PYG{p}{()}
+
+
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZsq{}}\PYG{p}{:}
+    \PYG{n}{best\PYGZus{}model} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}tddpm\PYGZus{}mlp\PYGZdq{}}
+    \PYG{n}{second\PYGZus{}best\PYGZus{}model} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}smote\PYGZhy{}enc\PYGZdq{}}
+
+    \PYG{c+c1}{\PYGZsh{} Frecuency Maps}
+    \PYG{k+kn}{from} \PYG{n+nn}{syntheticml.data.charts} \PYG{k+kn}{import} \PYG{n}{Charts}
+    \PYG{n}{base\PYGZus{}path} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}../docs/tesis/datasets/economicos/dataset\PYGZhy{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{DATASET}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}
+    \PYG{n}{print\PYGZus{}charts}\PYG{p}{(}
+        \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{base\PYGZus{}path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{best\PYGZus{}model}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} 
+        \PYG{n}{best\PYGZus{}model}\PYG{p}{,}
+        \PYG{n}{syn}\PYG{o}{.}\PYG{n}{get\PYGZus{}charts}\PYG{p}{(}
+            \PYG{n}{best\PYGZus{}model}\PYG{p}{,} 
+            \PYG{n+nb}{set}\PYG{p}{(}\PYG{n}{syn}\PYG{o}{.}\PYG{n}{text\PYGZus{}columns}\PYG{p}{)} \PYG{o}{|} \PYG{n+nb}{set}\PYG{p}{(}\PYG{n}{syn}\PYG{o}{.}\PYG{n}{exclude\PYGZus{}columns}\PYG{p}{)}
+            \PYG{p}{)}
+    \PYG{p}{)}
+    
+    \PYG{n}{print\PYGZus{}charts}\PYG{p}{(}
+        \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{base\PYGZus{}path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{second\PYGZus{}best\PYGZus{}model}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} 
+        \PYG{n}{second\PYGZus{}best\PYGZus{}model}\PYG{p}{,}
+        \PYG{n}{syn}\PYG{o}{.}\PYG{n}{get\PYGZus{}charts}\PYG{p}{(}
+            \PYG{n}{second\PYGZus{}best\PYGZus{}model}\PYG{p}{,} 
+            \PYG{n+nb}{set}\PYG{p}{(}\PYG{n}{syn}\PYG{o}{.}\PYG{n}{text\PYGZus{}columns}\PYG{p}{)} \PYG{o}{|} \PYG{n+nb}{set}\PYG{p}{(}\PYG{n}{syn}\PYG{o}{.}\PYG{n}{exclude\PYGZus{}columns}\PYG{p}{)}
+            \PYG{p}{)}
+    \PYG{p}{)}
+
+    \PYG{n}{print\PYGZus{}charts}\PYG{p}{(}
+        \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{base\PYGZus{}path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/top2\PYGZdq{}}\PYG{p}{,} 
+        \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}top2\PYGZdq{}}\PYG{p}{,}
+        \PYG{n}{syn}\PYG{o}{.}\PYG{n}{get\PYGZus{}multiple\PYGZus{}charts}\PYG{p}{(}
+            \PYG{p}{[}\PYG{n}{best\PYGZus{}model}\PYG{p}{,} \PYG{n}{second\PYGZus{}best\PYGZus{}model}\PYG{p}{],} 
+            \PYG{n+nb}{set}\PYG{p}{(}\PYG{n}{syn}\PYG{o}{.}\PYG{n}{text\PYGZus{}columns}\PYG{p}{)} \PYG{o}{|} \PYG{n+nb}{set}\PYG{p}{(}\PYG{n}{syn}\PYG{o}{.}\PYG{n}{exclude\PYGZus{}columns}\PYG{p}{)}
+            \PYG{p}{)}
+    \PYG{p}{)}
+
+
+    \PYG{n}{print\PYGZus{}charts}\PYG{p}{(}
+        \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{base\PYGZus{}path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/top2+1\PYGZdq{}}\PYG{p}{,} 
+        \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}top2+1\PYGZdq{}}\PYG{p}{,}
+        \PYG{n}{syn}\PYG{o}{.}\PYG{n}{get\PYGZus{}multiple\PYGZus{}charts}\PYG{p}{(}
+            \PYG{p}{[}\PYG{n}{best\PYGZus{}model}\PYG{p}{,} \PYG{n}{second\PYGZus{}best\PYGZus{}model}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}copulagan\PYGZdq{}}\PYG{p}{],} 
+            \PYG{n+nb}{set}\PYG{p}{(}\PYG{n}{syn}\PYG{o}{.}\PYG{n}{text\PYGZus{}columns}\PYG{p}{)} \PYG{o}{|} \PYG{n+nb}{set}\PYG{p}{(}\PYG{n}{syn}\PYG{o}{.}\PYG{n}{exclude\PYGZus{}columns}\PYG{p}{)}
+            \PYG{p}{)}
+    \PYG{p}{)}
+
+    \PYG{c+c1}{\PYGZsh{} Correlation Maps}
+    \PYG{n}{models} \PYG{o}{=} \PYG{p}{[}\PYG{n}{best\PYGZus{}model}\PYG{p}{,} \PYG{n}{second\PYGZus{}best\PYGZus{}model}\PYG{p}{]}
+    \PYG{n}{prop\PYGZus{}cat} \PYG{o}{=} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}top5\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}top5\PYGZus{}prob\PYGZdq{}}\PYG{p}{]}
+
+    \PYG{n}{current\PYGZus{}metrics} \PYG{o}{=} \PYG{n}{syn}\PYG{o}{.}\PYG{n}{current\PYGZus{}metrics}\PYG{p}{()}
+    \PYG{n}{fake\PYGZus{}metrics} \PYG{o}{=} \PYG{n}{syn}\PYG{o}{.}\PYG{n}{get\PYGZus{}metrics\PYGZus{}fake}\PYG{p}{()}
+    \PYG{n}{columns} \PYG{o}{=} \PYG{n+nb}{list}\PYG{p}{(}\PYG{n}{current\PYGZus{}metrics}\PYG{o}{.}\PYG{n}{name}\PYG{o}{.}\PYG{n}{unique}\PYG{p}{())}
+
+    \PYG{n}{dfs} \PYG{o}{=} \PYG{p}{[}
+        \PYG{n}{current\PYGZus{}metrics}\PYG{o}{.}\PYG{n}{loc}\PYG{p}{[(}\PYG{n}{current\PYGZus{}metrics}\PYG{o}{.}\PYG{n}{name}\PYG{o}{.}\PYG{n}{isin}\PYG{p}{(}\PYG{n}{columns}\PYG{p}{)} \PYG{o}{\PYGZam{}} \PYG{n}{current\PYGZus{}metrics}\PYG{o}{.}\PYG{n}{is\PYGZus{}categorical}\PYG{p}{),}\PYG{n}{prop\PYGZus{}cat}\PYG{p}{]}\PYG{o}{.}\PYG{n}{dropna}\PYG{p}{(}\PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{how}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}all\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{assign}\PYG{p}{(}\PYG{n}{model}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Real\PYGZdq{}}\PYG{p}{)}
+    \PYG{p}{]}
+    \PYG{k}{for} \PYG{n}{model\PYGZus{}name} \PYG{o+ow}{in} \PYG{n}{models}\PYG{p}{:}
+        \PYG{n}{dfs}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{fake\PYGZus{}metrics}\PYG{p}{[}\PYG{n}{model\PYGZus{}name}\PYG{p}{]}\PYG{o}{.}\PYG{n}{loc}\PYG{p}{[(}\PYG{n}{fake\PYGZus{}metrics}\PYG{p}{[}\PYG{n}{model\PYGZus{}name}\PYG{p}{]}\PYG{o}{.}\PYG{n}{name}\PYG{o}{.}\PYG{n}{isin}\PYG{p}{(}\PYG{n}{columns}\PYG{p}{)} \PYG{o}{\PYGZam{}} \PYG{n}{fake\PYGZus{}metrics}\PYG{p}{[}\PYG{n}{model\PYGZus{}name}\PYG{p}{]}\PYG{o}{.}\PYG{n}{is\PYGZus{}categorical}\PYG{p}{),}\PYG{n}{prop\PYGZus{}cat}\PYG{p}{]}\PYG{o}{.}\PYG{n}{dropna}\PYG{p}{(}\PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{how}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{}all\PYGZsq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{assign}\PYG{p}{(}\PYG{n}{model}\PYG{o}{=}\PYG{n}{model\PYGZus{}name}\PYG{p}{))}
+
+    \PYG{n}{diffdf} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{concat}\PYG{p}{(}\PYG{n}{dfs}\PYG{p}{)}\PYG{o}{.}\PYG{n}{sort\PYGZus{}values}\PYG{p}{([}\PYG{l+s+s2}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}model\PYGZdq{}}\PYG{p}{],} \PYG{n}{ascending}\PYG{o}{=}\PYG{p}{[}\PYG{k+kc}{True}\PYG{p}{,} \PYG{k+kc}{True}\PYG{p}{])}\PYG{o}{.}\PYG{n}{loc}\PYG{p}{[:,} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}model\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{]} \PYG{o}{+} \PYG{n}{prop\PYGZus{}cat}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{:]]}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{diffdf}\PYG{p}{)}
+    \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{exists}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{base\PYGZus{}path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/pairwise/\PYGZdq{}}\PYG{p}{):}
+        \PYG{n}{os}\PYG{o}{.}\PYG{n}{makedirs}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{base\PYGZus{}path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/pairwise/\PYGZdq{}}\PYG{p}{,} \PYG{n}{exist\PYGZus{}ok}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+    \PYG{n}{pair\PYGZus{}tex} \PYG{o}{=} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{base\PYGZus{}path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/pairwise.tex\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}w\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{relative\PYGZus{}path} \PYG{o}{=} \PYG{n}{base\PYGZus{}path}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}../docs/tesis/\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{for} \PYG{n}{model\PYGZus{}name}\PYG{p}{,} \PYG{n}{model\PYGZus{}data} \PYG{o+ow}{in} \PYG{n}{syn}\PYG{o}{.}\PYG{n}{fake\PYGZus{}data}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+        \PYG{n}{fig} \PYG{o}{=} \PYG{n}{syn}\PYG{o}{.}\PYG{n}{charts}\PYG{o}{.}\PYG{n}{pair\PYGZus{}corr}\PYG{p}{(}\PYG{n}{syn}\PYG{o}{.}\PYG{n}{df}\PYG{p}{,} \PYG{n}{model\PYGZus{}data}\PYG{p}{,} \PYG{n+nb}{set}\PYG{p}{(}\PYG{n}{syn}\PYG{o}{.}\PYG{n}{text\PYGZus{}columns}\PYG{p}{)} \PYG{o}{|} \PYG{n+nb}{set}\PYG{p}{(}\PYG{n}{syn}\PYG{o}{.}\PYG{n}{exclude\PYGZus{}columns}\PYG{p}{),} \PYG{n}{syn}\PYG{o}{.}\PYG{n}{target\PYGZus{}column}\PYG{p}{)}
+        \PYG{c+c1}{\PYGZsh{}fig.update\PYGZus{}layout(dict(width=1000)).show(\PYGZdq{}png\PYGZdq{})}
+        \PYG{n}{fig}\PYG{o}{.}\PYG{n}{update\PYGZus{}layout}\PYG{p}{(}
+            \PYG{n}{title}\PYG{o}{=}\PYG{n+nb}{dict}\PYG{p}{(}
+                \PYG{n}{text}\PYG{o}{=}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Correlation Model \PYGZlt{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{model\PYGZus{}name}\PYG{o}{.}\PYG{n}{capitalize}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+                \PYG{n}{x}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{,}  \PYG{c+c1}{\PYGZsh{} x=0.5 centra el título horizontalmente}
+                \PYG{n}{yanchor}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}top\PYGZdq{}}\PYG{p}{,}  \PYG{c+c1}{\PYGZsh{} Alinea el título en la parte superior}
+                \PYG{n}{font}\PYG{o}{=}\PYG{n+nb}{dict}\PYG{p}{(}
+                    \PYG{n}{size}\PYG{o}{=}\PYG{l+m+mi}{20}\PYG{p}{,}  \PYG{c+c1}{\PYGZsh{} Establecer el tamaño de la fuente}
+                    \PYG{n}{family}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}Arial, sans\PYGZhy{}serif\PYGZdq{}}\PYG{p}{,}  \PYG{c+c1}{\PYGZsh{} Establecer la fuente}
+                \PYG{p}{)}
+            \PYG{p}{)}
+        \PYG{p}{)}
+        \PYG{n}{fig}\PYG{o}{.}\PYG{n}{write\PYGZus{}image}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{base\PYGZus{}path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/pairwise/}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{model\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.svg\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{ecaped\PYGZus{}model} \PYG{o}{=} \PYG{n}{model\PYGZus{}name}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZus{}\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZbs{}\PYGZus{}\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{base\PYGZus{}path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/pairwise/}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{model\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.tex\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}w\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{ltext}\PYG{p}{:}
+            \PYG{n}{ltext}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{begin}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{figure}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{[H]}
+\PYG{l+s+s2}{    }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{centering}
+\PYG{l+s+s2}{    }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{includesvg[scale=.5,inkscapelatex=false]}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{relative\PYGZus{}path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/pairwise/}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{model\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.svg}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}
+\PYG{l+s+s2}{    }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{caption}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{Correlación de conjunto Real y Modelo: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{ecaped\PYGZus{}model}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}
+\PYG{l+s+s2}{    }\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{label}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{pairwise\PYGZhy{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{model\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}
+\PYG{l+s+se}{\PYGZbs{}\PYGZbs{}}\PYG{l+s+s2}{end}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+s2}{figure}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{pair\PYGZus{}tex}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s1}{\PYGZsq{}\PYGZbs{}input}\PYG{l+s+se}{\PYGZob{}\PYGZob{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{relative\PYGZus{}path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{/pairwise/}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{model\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{.tex}\PYG{l+s+se}{\PYGZcb{}\PYGZcb{}\PYGZbs{}n}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}                
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{base\PYGZus{}path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/pairwise/}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{model\PYGZus{}name}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.svg\PYGZdq{}}\PYG{p}{)}    
+\end{Verbatim}
