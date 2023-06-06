@@ -119,9 +119,9 @@ El conjunto de datos corresponde a un \emph{Web Scraping} realizado en 2020, con
 
 \subsection{Computación y Software}
 
-Para llevar a cabo los experimentos, se utilizó un computador con las siguientes especificaciones técnicas, como se muestra en la \fullref{tabla-componentes-pc}. El procesador empleado fue un AMD Ryzen 9 7950X 16-Core Processor, con cuatro modulos de 32 GB para una memoria total de 128 GB DDR5. La tarjeta gráfica empleada fue una NVIDIA GeForce RTX 4090, y se contó con dos discos duros de 500 GB SSD. La utilización de un equipo con estas características permitió una ejecución eficiente de los modelos de generación de datos, asegurando la viabilidad de los experimentos. Es importante destacar que la elección de los componentes del computador fue cuidadosamente considerada para asegurar que los resultados obtenidos no se vieran limitados por un hardware insuficiente.
+Para llevar a cabo los experimentos, se utilizó un computador con las siguientes especificaciones técnicas, como se muestra en la \fullref{tabla-componentes-pc}. El procesador empleado fue un AMD Ryzen 9 7950X 16-Core Procesadores, con cuatro modulos de 32 GB para una memoria total de 128 GB DDR5. La tarjeta gráfica empleada fue una NVIDIA GeForce RTX 4090, y se contó con dos discos duros de 500 GB SSD. La utilización de un equipo con estas características permitió una ejecución eficiente de los modelos de generación de datos, asegurando la viabilidad de los experimentos. Es importante destacar que la elección de los componentes del computador fue cuidadosamente considerada para asegurar que los resultados obtenidos no se vieran limitados por un hardware insuficiente.
 
-En relación al software utilizado, se trabajó con el sistema operativo Ubuntu 20.04.2 LTS y se empleó el lenguaje de programación Python 3.9.5 para el desarrollo de los modelos de generación de datos. Se utilizaron diversas bibliotecas, incluyendo DVC, SDV y PyTorch, cuya lista completa se puede encontrar en el \href{https://github.com/gvillarroel/synthetic-data-for-text/blob/main/freeze.txt}{repositorio en Github}. La elección de estas herramientas se basó en la compatibilidad con el modelo TabDDPM, el cual fue utilizado en algunos de los experimentos.
+En relación al software utilizado, se trabajó con el sistema operativo Ubuntu 20.04.2 LTS y se empleó el lenguaje de programación Python 3.10 para el desarrollo de los modelos de generación de datos. Se utilizaron diversas bibliotecas, incluyendo DVC, SDV y PyTorch, cuya lista completa se puede encontrar en el \href{https://github.com/gvillarroel/synthetic-data-for-text/blob/main/freeze.txt}{repositorio en Github}. La elección de estas herramientas se basó en la compatibilidad con el modelo TabDDPM, el cual fue utilizado en algunos de los experimentos.
 
 \begin{table}[H]
 	\centering
@@ -142,6 +142,19 @@ En relación al software utilizado, se trabajó con el sistema operativo Ubuntu 
         \hline
       \end{tabular}        
 \end{table}  
+
+En favor de la reproducibilidad, se utilizó \textit{devcontainer}, el cual establece el entorno de desarrollo y pruebas mediante una imagen de \textit{Docker} replicable. Los experimentos pueden ser replicados utilizando el contenedor descrito en el repositorio.
+
+\begin{listing}[H]
+\inputminted[
+    framesep=5pt, rulecolor=gray,
+    fontsize=\tiny,
+    linenos=true, 
+    breaklines=true,xleftmargin=1.0cm
+    ]{json}{../../.devcontainer/devcontainer.json}
+\caption{Devcontainer del actual projecto.}
+\label{devcontainer-file}
+\end{listing}
 
 El código fuente de los modelos de generación de datos, así como los scripts de análisis y visualización de los resultados, se encuentra disponible en un repositorio público de Github:
 \href{https://github.com/gvillarroel/synthetic-data-for-text}{gvillarroel/synthetic-data-for-text}
@@ -280,6 +293,8 @@ En la \fullref{modelos-tab-soportados} se detallan los modelos actualmente sopor
         \hline
         ctgan & SDV \cite{kotelnikov_overview_nodate} \\
         \hline
+        tablepreset & SDV \cite{kotelnikov_overview_nodate} \\
+        \hline
         smote-enc & tabDDPM \cite{akim_tabddpm_2023} \\
         \hline
         tddpm\_mlp & tabDDPM \cite{akim_tabddpm_2023} \\
@@ -287,7 +302,7 @@ En la \fullref{modelos-tab-soportados} se detallan los modelos actualmente sopor
       \end{tabular}        
 \end{table} 
 
-Al ejecutar el script de generación de datos sintéticos, se crearán múltiples archivos en una carpeta. En la \fullref{synth-folders} se muestra un ejemplo de los archivos generados y su formato. El nombre del modelo utilizado se indica en el campo \textbf{<model>}, y en caso de haberse aplicado \emph{Differential Privacy} para generar una versión con ruido, se añade el sufijo \textbf{\_noise} al nombre del modelo. El campo \textbf{<n\_sample>} indica el número de registros sintéticos generados, y finalmente el campo \textbf{<type\_comparison>} especifica si se trata de una comparación entre los datos sintéticos y los datos de entrenamiento (\emph{Synthetic vs Train}, abreviado como ST) o entre los datos sintéticos y los datos de validación (\emph{Synthetic vs Hold}, abreviado como SH). Adicionalmente se encuentran los archivos de esquema (\emph{metadata.json} y \emph{metadata\_noise.json}) y una separación del dataset inicial en el conjunto de entrenamiento y test (hold).
+Al ejecutar el script de generación de datos sintéticos, se crearán múltiples archivos en una carpeta. En la \fullref{synth-folders} se muestra un ejemplo de los archivos generados y su formato. El nombre del modelo utilizado se indica en el campo \textbf{<model>}, y en caso de haberse aplicado \emph{Differential Privacy} para generar una versión con ruido. El campo \textbf{<n\_sample>} indica el número de registros sintéticos generados, y finalmente el campo \textbf{<type\_comparison>} especifica si se trata de una comparación entre los datos sintéticos y los datos de entrenamiento (\emph{Synthetic vs Train}, abreviado como ST) o entre los datos sintéticos y los datos de validación (\emph{Synthetic vs Hold}, abreviado como SH). Adicionalmente se encuentran los archivos de esquema (\emph{metadata.json}) y una separación del dataset inicial en el conjunto de entrenamiento y test (hold).
 \begin{figure}[H]
 	\centering
 	\includesvg[scale=1,inkscapelatex=false]{../dfd/images/synth_tree.svg}
@@ -339,7 +354,7 @@ Se han automatizado la mayoría de las métricas para evaluar los conjuntos de d
 
 \begin{listing}[H]
 \inputminted[
-    firstline=33, lastline=34
+    firstline=55, lastline=55
     ]{python}{../../notebooks/economicos_run-a.py}
 \caption{Obtención de métricas en economicos\_run-a.py}
 \label{code-economicos-metrics}
@@ -428,7 +443,7 @@ En el Código \fullref{codigo-show-score}, se muestra cómo se calcula y se mues
 \begin{listing}[H]
     \begin{minted}[linenos=true,frame=lines,framesep=2mm,baselinestretch=1.2]{python}
 avg = syn.scores[syn.scores["type"] == "avg"]
-avg.sort_values("score", ascending=False).loc[ ["tddpm_mlp_21613","smote-enc_21613","gaussiancopula_noise_21613","tvae_21613", "tvae_noise_21613","gaussiancopula_21613", "copulagan_noise_21613","copulagan_21613","ctgan_noise_21613","ctgan_21613"], ["score", "DCR ST 5th", "DCR SH 5th", "DCR TH 5th"]]
+avg.sort_values("score", ascending=False).loc[ ["tddpm_mlp","smote-enc","gaussiancopula","tvae","gaussiancopula", "copulagan","ctgan"], ["score", "DCR ST 5th", "DCR SH 5th", "DCR TH 5th"]]
     \end{minted}
 \caption{Mostrando Scores Promedios Calculados}
 \label{codigo-show-score}
@@ -444,29 +459,8 @@ El Score calculado se obtiene a través de SDV y se basa en cuatro métricas: KS
         \hline
         \rowcolor[gray]{0.8}
         Nombre & Column Pair Trends & Column Shapes & \textbf{Score} $\downarrow$ & DCR ST& DCR SH& DCR TH\\ \hline
-        ntddpm\_mlp\_21613 & 0.954 & 0.971 & 0.962 & 0.084 & 0.104 & 0.035 \\ \hline
-        nsmote-enc\_21613 & 0.941 & 0.967 & 0.954 & 0.058 & 0.090 & 0.035 \\ \hline
-        \textbf{<model>}\_\textbf{<use\_noise>} \_\textbf{<n\_sample>} & 0.941 & 0.967 & 0.954 & 0.058 & 0.090 & 0.035 \\ \hline
+        ntddpm\_mlp & 0.954 & 0.971 & 0.962 & 0.084 & 0.104 & 0.035 \\ \hline
+        nsmote-enc & 0.941 & 0.967 & 0.954 & 0.058 & 0.090 & 0.035 \\ \hline
+        \textbf{<model>} & 0.941 & 0.967 & 0.954 & 0.058 & 0.090 & 0.035 \\ \hline
     \end{tabular}
 \end{table}
-
-%\begin{table}[H]
-%    \centering
-%    \caption{Scores promedios de un Modelo}
-%    \label{tabla-show-score}
-%    \begin{tabular}{|l|r|r|r|r|}
-%        \hline
-%        \rowcolor[gray]{0.8}
-%        name & score & DCR ST 5th & DCR SH 5th & DCR TH 5th \\ \hline
-%        ntddpm\_mlp\_21613 & 0.962789 & 0.084187 & 0.104472 & 0.035750 \\ \hline
-%        nsmote-enc\_21613 & 0.954592 & 0.058759 & 0.090209 & 0.035750 \\ \hline
-%        ngaussiancopula\_noise\_21613 & 0.827655 & 0.209163 & 0.229880 & 0.035750 \\ \hline
-%        ntvae\_21613 & 0.819230 & 0.108154 & 0.133609 & 0.035750 \\ \hline
-%        ntvae\_noise\_21613 & 0.814853 & 0.121998 & 0.139551 & 0.035750 \\ \hline
-%        ngaussiancopula\_21613 & 0.812633 & 0.206765 & 0.226026 & 0.035750 \\ \hline
-%        ncopulagan\_noise\_21613 & 0.803317 & 0.230017 & 0.253036 & 0.035750 \\ \hline
-%        ncopulagan\_21613 & 0.780299 & 0.219406 & 0.242047 & 0.035750 \\ \hline
-%        nctgan\_noise\_21613 & 0.760218 & 0.207462 & 0.230596 & 0.035750 \\ \hline
-%        nctgan\_21613 & 0.741038 & 0.210415 & 0.232722 & 0.035750 \\ \hline
-%    \end{tabular}
-%\end{table}

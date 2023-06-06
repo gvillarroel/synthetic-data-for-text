@@ -26,7 +26,7 @@ class Charts:
 
     def chart_categorical(self, serie_real : pd.Series, serie_fake : dict[str, pd.Series], max_categories=10) -> go.Figure:
         x, y = zip(*list(serie_real.astype(str).value_counts().to_frame().head(max_categories).to_dict()[serie_real.name].items()))
-        
+        y = np.array(list(y)) / sum(y)
         data=[
             go.Bar(name='Real', x=x, y=y, marker_color=self.color_real)
         ]
@@ -38,6 +38,7 @@ class Charts:
 
         for key, df_fake in serie_fake.items():
             x2, y2 = np.unique( df_fake[df_fake.astype(str).isin(x)].astype(str), return_counts=True)
+            y2 = np.array(list(y2)) / sum(y2)
             data.append(go.Bar(name=key, x=x2, y=y2, marker_color=next(next_colors)))
                                 
         fig = go.Figure(data=data, layout=dict(title=self.get_serie_title(serie_real)))
@@ -48,7 +49,7 @@ class Charts:
         tmax = serie_real.quantile(0.95)
         
         data = [
-            go.Histogram(x=serie_real[((serie_real <= tmax) & (serie_real >= tmin) )], name="Real", marker_color=self.color_real)
+            go.Histogram(x=serie_real[((serie_real <= tmax) & (serie_real >= tmin) )], name="Real", marker_color=self.color_real, histnorm='percent')
         ]
         
         next_colors = (
@@ -58,7 +59,7 @@ class Charts:
 
         for key, df_fake in serie_fake.items():
             data.append(
-                go.Histogram(x=df_fake[((df_fake <= tmax) & (df_fake >= tmin) )], name=key, marker_color=next(next_colors))
+                go.Histogram(x=df_fake[((df_fake <= tmax) & (df_fake >= tmin) )], name=key, marker_color=next(next_colors), histnorm='percent')
             )
                 
         fig = go.Figure(data=data, layout=dict(title=self.get_serie_title(serie_real), barmode='overlay'))

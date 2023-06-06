@@ -11,10 +11,16 @@ import torch
 from torch.utils.data import TensorDataset, random_split
 from torch.utils.data import  DataLoader, RandomSampler, SequentialSampler #Dataset,
 from transformers import get_linear_schedule_with_warmup, AdamW
-from transformers import T5Tokenizer, T5ForConditionalGeneration
+from transformers import MT5Tokenizer, MT5ForConditionalGeneration
 import os
 import pandas as pd
-df = pd.read_parquet('../datasets/economicos/synth-a/split/train.parquet')
+import sys
+
+DATASET = sys.argv[1]
+
+CACHE_DIR = "/models/"
+
+df = pd.read_parquet(f'../datasets/economicos/synth-{DATASET}/split/train.parquet')
 print(df.shape)
 df.sample(3)
 CHAR_SEP = "<SEP>"
@@ -24,7 +30,6 @@ def convert(row):
     return {
         "text": [
             f"""<fecha, {(pd.Timestamp('2017-12-01') +  pd.DateOffset(int(row.publication_date or 0))).strftime('%Y-%m-%d')}>
-<precio, {row.price}>
 <tipo, {row.property_type}>
 <transacción, {row.transaction_type}>
 <región, {row.state}>
@@ -33,9 +38,7 @@ def convert(row):
 <baños, {row.rooms or -1}>
 <construidos, {row.m_built or -1}>
 <terreno, {row.m_size or -1}>
-<precio_real, {row._price}>
-<titulo, {row.title}>
-<dirección, {row.address}>""".replace("\n", " "),
+<precio_real, {row._price}>""".replace("\n", " "),
 "descripción de esta publicación"],
 
 "target": row.description
@@ -44,7 +47,7 @@ def convert(row):
 print(
     df.sample(1).apply(convert, axis=1).iloc[-1]
 )
-TMP_TEXTPATH = "./df_text-a.parquet"
+TMP_TEXTPATH = f"./df_text-{DATASET}.parquet"
 if not os.path.exists(TMP_TEXTPATH):
     df_text = pd.DataFrame(df.apply(convert, axis=1).to_list())
     print(df_text.sample(3))
@@ -66,7 +69,7 @@ class TextDataModule(L.LightningDataModule):
         self.data = data
         self.batch_size = batch_size
         self.model_base = model_base
-        self.tokenizer = T5Tokenizer.from_pretrained(self.model_base)
+        self.tokenizer = MT5Tokenizer.from_pretrained(self.model_base, cache_dir=CACHE_DIR)
 
     def encode_text(self, text, target):
         source = self.tokenizer.batch_encode_plus([CHAR_SEP.join(text)], 
@@ -149,7 +152,7 @@ class T5Economicos(L.LightningModule):
         self.lr = lr
         self.max_epochs = max_epochs
         self.model_base = model_base
-        self.model = T5ForConditionalGeneration.from_pretrained(self.model_base)
+        self.model = MT5ForConditionalGeneration.from_pretrained(self.model_base, cache_dir=CACHE_DIR)
         self.scorer = rouge_scorer.RougeScorer(['rouge1', 'rouge2', 'rougeL'], use_stemmer=True)
 
     def forward(self, batch, batch_idx):
@@ -182,7 +185,7 @@ class T5Economicos(L.LightningModule):
     
 max_epochs = 5
 model = "google/mt5-base"
-output = f"./A1-{model.replace('/','_')}"
+output = f"./{DATASET}-{model.replace('/','_')}"
 name = "DESCRIPCION_PROPIEDADES"
 bs = 1 # batch size
 lr = 2e-5
@@ -193,7 +196,6 @@ trainer = L.Trainer(      # loading the trainer
     accelerator="gpu",
     devices=1,
     max_epochs=15,
-    #precision=16,
     default_root_dir=output, 
     gradient_clip_val=1.0,
     callbacks=[

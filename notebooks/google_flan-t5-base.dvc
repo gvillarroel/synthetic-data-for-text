@@ -1,5 +1,0 @@
-outs:
-- md5: 374d86c2bfe9214ce53842575fee9f75.dir
-  size: 3808105818
-  nfiles: 7
-  path: google_flan-t5-base

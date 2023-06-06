@@ -1,7 +1,7 @@
 \chapter{Resultados}
-En este proyecto, se han generado datos sintéticos a través de diferentes preprocesamientos y modelos de machine learning. Los resultados obtenidos se presentan en términos de desempeño de los modelos entrenados con los datos sintéticos, así como en términos de similitud, privacidad y utilidad de los datos generados.
+En este proyecto, se han generado datos sintéticos empleando diversos preprocesamientos y modelos de aprendizaje automático. Los resultados obtenidos se analizan en función del desempeño de los modelos entrenados con los datos sintéticos, y se evalúan en términos de similitud, privacidad y utilidad de los datos generados.
 
-Es importante tener en cuenta que los resultados son específicos para cada conjunto de datos y modelo utilizado. Por lo tanto, se proporciona una descripción detallada de los resultados para cada caso. Esto permitirá una mejor comprensión de la eficacia de los diferentes métodos utilizados para generar datos sintéticos y cómo se comparan con los datos reales.
+Es importante destacar que los resultados son específicos para cada conjunto de datos y modelo empleado. Por consiguiente, se ofrece una descripción detallada de los resultados en cada caso particular. Esto posibilita una comprensión más profunda acerca de la efectividad de los distintos métodos empleados en la generación de datos sintéticos y su comparación con los datos reales.
 
 \newpage
 \section{King County}
@@ -11,8 +11,13 @@ Es importante tener en cuenta que los resultados son específicos para cada conj
 \subsubsection{Scores}
 
 La Tabla \ref{table-score-king county-a-1} muestra los scores obtenidos para diferentes modelos utilizados en el proyecto. Como se puede apreciar, los modelos con puntajes más altos, como tddpm\_mlp y smote-enc, tienen un mayor parecido con el conjunto real. En cambio, los modelos con puntajes más bajos, como ctgan, tienen una similitud muy baja con los datos reales.
-
++ Promedio (+- des)
 \input{datasets/kingcounty-a-1/tables/table-score-king county-a-1.tex}
+
+\input{datasets/kingcounty-a-2/tables/table-score-king county-a-2.tex}
+
+\input{datasets/kingcounty-a-3/tables/table-score-king county-a-3.tex}
+
 
 Si bien los modelos TDDPM y SMOTE consiguen buenos puntajes en general, hay una diferencia significativa entre ellos en términos de cobertura y límites. SMOTE no cubre la diversidad del conjunto de datos, lo que se refleja en su puntaje de cobertura \emph{(Coverage)}, que es mucho menor que el de TDDPM, así como en su puntaje de límites \emph{(Boundaries)}.
 \newpage
@@ -45,7 +50,7 @@ En general, la distribución en ambos modelos es cercana a la real, en casi todo
 
 \newpage
 
-%En la revisión por columnas de los conjuntos de datos completos, como se puede observar en la lista \fullref{A-kingcounty-top2}, se aprecia una similitud entre los tres conjuntos analizados: Real, Smote y TDDPM. Sin embargo, existen diferencias notables entre ellos. Cabe destacar que los datos generados son alrededor de un 20\% más grandes que el conjunto real.
+En la revisión por columnas de los conjuntos de datos completos, como se puede observar en la lista \fullref{A-pairwise-kingcounty-top2-a-1}, se aprecia una similitud entre los tres conjuntos analizados: Real, Smote y TDDPM. Sin embargo, existen diferencias notables entre ellos. Cabe destacar que los datos generados son alrededor de un 20\% más grandes que el conjunto real.
 
 En varias columnas, la distribución entre los tres conjuntos es similar, como es el caso de bathrooms, sqft\_lot, sqft\_above, price, sqft\_living, sqft\_basement, yr\_built, sqft\_living15 y grade. En \fullref{frecuency-top2-grade} muestra un ejemplo de esto.
 
@@ -114,20 +119,15 @@ df_converted["publication_date"] = dtime.apply(lambda x: (x - basedate).days)
 
 \subsubsection{Conjunto A}
 \label{ds-conjunto-a}
+Para el conjunta A, como la \fullref{table-score-economicos-a-1} muestra los 
+\input{datasets/economicos-a-1/tables/table-score-economicos-a-1.tex}
 
-%\begin{table}[H]
-%    \centering
-%    \caption{Scores DCR sin nulos}
-%    \label{dcr-eco-a-scores2}
-%    \begin{tabular}{lllllrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr}
-%        & name & top5 & top5\_freq & top5\_prob & is\_categorical & nobs & missing & mean & std\_err & upper\_ci & lower\_ci & std & iqr & iqr\_normal & mad & mad\_normal & coef\_var & range & max & min & skew & kurtosis & jarque\_bera & jarque\_bera\_pval & mode & mode\_freq & median & 0.1% & 1.0% & 5.0% & 25.0% & 75.0% & 95.0% & 99.0% & 99.9% \\
-%       0 & m\_size & [5000.   50.   60.  200.   70.] & [601 342 321 285 281] & [0.02724512 0.01550388 0.01455188 0.0129199  0.01273856] & False & 22059.000000 & 0.000000 & 146269.353488 & 105454.123661 & 352955.637885 & -60416.930908 & 15662333.864910 & 340.500000 & 252.413028 & 290634.769396 & 364256.665279 & 107.078711 & 2241000000.000000 & 2241000000.000000 & 0.000000 & 134.762058 & 19052.885006 & 333615501598.613220 & 0.000000 & 5000.000000 & 0.027245 & 145.000000 & 2.000000 & 22.000000 & 35.000000 & 66.000000 & 406.500000 & 5000.000000 & 10200.000000 & 70000.000000 \\
-%       3 & m\_built & [140.  60. 120.  50.  70.] & [700 467 444 431 415] & [0.03173308 0.0211705  0.02012784 0.01953851 0.01881318] & False & 22059.000000 & 0.000000 & 1771.336159 & 664.364677 & 3073.466999 & 469.205319 & 98673.252621 & 140.000000 & 103.782155 & 3201.642247 & 4012.663491 & 55.705549 & 11999999.000000 & 12000000.000000 & 1.000000 & 96.077796 & 10658.885634 & 104398649894.541122 & 0.000000 & 140.000000 & 0.031733 & 107.000000 & 2.000000 & 23.000000 & 33.000000 & 60.000000 & 200.000000 & 490.000000 & 1200.000000 & 37946.564000 \\
-%       7 & publication\_date & [1545 1693 1546 1549  721] & [10883  6103   895   320   125] & [0.49335872 0.27666712 0.04057301 0.01450655 0.00566662] & False & 22059.000000 & 0.000000 & 1470.755338 & 2.056273 & 1474.785560 & 1466.725116 & 305.403340 & 148.000000 & 109.712564 & 206.754513 & 259.128354 & 0.207651 & 1489.000000 & 1693.000000 & 204.000000 & -2.019239 & 5.892322 & 22679.245743 & 0.000000 & 1545.000000 & 0.493359 & 1545.000000 & 450.696000 & 531.000000 & 628.900000 & 1545.000000 & 1693.000000 & 1693.000000 & 1693.000000 & 1693.000000 \\
-%       9 & \_price & [12500. 10500. 11500.  8500.  9000.] & [104  99  91  86  85] & [0.00471463 0.00448796 0.0041253  0.00389864 0.0038533 ] & False & 22059.000000 & 0.000000 & 110378.900259 & 32745.675510 & 174559.244908 & 46198.555609 & 4863476.976221 & 9959.233916 & 7382.791149 & 202281.355744 & 253522.082870 & 44.061655 & 390000000.000000 & 390000000.000000 & 0.000000 & 60.578790 & 4066.968253 & 15193611545.235235 & 0.000000 & 12500.000000 & 0.004715 & 5083.869574 & 0.262868 & 6.270122 & 11.759796 & 2040.766084 & 12000.000000 & 32000.000000 & 58942.000000 & 262695.428000 \\
-%    \end{tabular}
-%\end{table}
 
+\input{datasets/economicos-a-1/tables/table-dcr-economicos-a-1.tex}
+
+\input{datasets/economicos-a-1/tables/table-coverage-economicos-a-1.tex}
+
+\input{datasets/economicos-a-1/tables/table-shape-economicos-a-1.tex}
 
 
 \subsubsection{Conjunto B}
@@ -141,13 +141,7 @@ df_converted["publication_date"] = dtime.apply(lambda x: (x - basedate).days)
 
 %En la Tabla \ref{dcr-eco-a-scores} se muestran los resultados de los scores, donde valores más altos indican un mejor rendimiento.
 
-\input{datasets/economicos-a-1/tables/table-score-economicos-a-1.tex}
 
-\input{datasets/economicos-a-1/tables/table-dcr-economicos-a-1.tex}
-
-\input{datasets/economicos-a-1/tables/table-coverage-economicos-a-1.tex}
-
-\input{datasets/economicos-a-1/tables/table-shape-economicos-a-1.tex}
 
 
 \textbf{Conjunto B}

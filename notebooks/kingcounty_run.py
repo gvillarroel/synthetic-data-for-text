@@ -48,9 +48,9 @@ def print_charts(folder_path, model_name, figs):
             file_name = f'{fig.layout.title.text.replace(":","").replace(" ","_").lower()}'
             field_name = ' '.join(map(str.capitalize, file_name.split('_')))
             fig.update_layout(
-                title=f"Field <{field_name}> Distribution",
+                title=f"Attribute <{field_name}> Distribution",
                 xaxis_title=f"Total <{field_name}>",
-                yaxis_title="Frequency",
+                yaxis_title="Frequency Percentage",
                 legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
             )
             fig.write_image(f"{folder_path}/{file_name}.svg")

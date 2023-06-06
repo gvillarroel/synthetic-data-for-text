@@ -164,17 +164,17 @@ if __name__ == '__main__':
                 )
             )
         )
-        fig.write_image(f"{base_path}/pairwise/{model_name}.svg")
+        fig.write_image(f"{base_path}/pairwise/pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}.svg")
         ecaped_model = model_name.replace("_", "\_")
         with open(f"{base_path}/pairwise/{model_name}.tex", "w") as ltext:
             ltext.write(f"""\\begin{{figure}}[H]
     \\centering
-    \\includesvg[scale=.5,inkscapelatex=false]{{{relative_path}/pairwise/{model_name}.svg}}
+    \\includesvg[scale=.5,inkscapelatex=false]{{{relative_path}/pairwise/pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}.svg}}
     \\caption{{Correlación de conjunto Real y Modelo: {ecaped_model}}}
-    \\label{{pairwise-{model_name}}}
+    \\label{{pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}}}
 \\end{{figure}}""")
             pair_tex.write(f'\input{{{relative_path}/pairwise/{model_name}.tex}}\n')                
-        print(f"{base_path}/pairwise/{model_name}.svg")    
+        print(f"{base_path}/pairwise/pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}.svg")    
     
     # Score Table
     score_table = syn.scores.sort_values("score", ascending=False).loc[:
@@ -265,7 +265,7 @@ if __name__ == '__main__':
     formated_dcr = dcr_score.style.hide(axis="index")\
         .format("\hline {}", dcr_score.columns[0], escape="latex")\
         .format("{:e}", dcr_score.columns[1:])\
-        .format_index("{}", escape="latex", axis=1)\
+        .format_index("{}",dcr_score.columns[:-1], escape="latex", axis=1)\
         .set_table_styles([
         {'selector': 'toprule', 'props': ':hline\n\\rowcolor[gray]{0.8};'},
         {'selector': 'bottomrule', 'props': ':hline;'}

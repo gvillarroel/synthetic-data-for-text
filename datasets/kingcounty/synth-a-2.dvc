@@ -1,0 +1,5 @@
+outs:
+- md5: 886b6a7d746e6486dda22a34e9da20a0.dir
+  size: 234453567
+  nfiles: 55
+  path: synth-a-2

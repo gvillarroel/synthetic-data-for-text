@@ -35,17 +35,17 @@ if __name__ == '__main__':
             category_columns=category_columns,
             text_columns=("description", "price", "title", "address", "owner", "source", "url", ),
             exclude_columns=tuple(),
-            synthetic_folder = "../datasets/economicos/synth-b",
+            synthetic_folder = f"../datasets/economicos/synth-{DATASET_VERSION}",
             models=["copulagan", "tvae", "gaussiancopula", "ctgan", "smote-enc", 'tddpm_mlp'],
             n_sample = df_converted.shape[0],
             target_column="_price",
             max_cpu_pool=1,
             model_parameters=dict(
                 tddpm_mlp=dict(
-                        batch_size=5000,
-                        steps=10000000,
-                        num_timesteps=10,
-                        lr=2e-6,
+                        batch_size=3750,
+                        steps=300000,
+                        num_timesteps=100,
+                        lr=5e-4,
                         model_params=dict(
                                 rtdl_params=dict(
                                         dropout=0.0,
@@ -53,6 +53,18 @@ if __name__ == '__main__':
                                 )
                         )
                 )
+                #tddpm_mlp=dict(
+                #        batch_size=5000,
+                #        steps=10000000,
+                #        num_timesteps=10,
+                #        lr=2e-6,
+                #        model_params=dict(
+                #                rtdl_params=dict(
+                #                        dropout=0.0,
+                #                        d_layers=[1024, 512, 256]
+                #                )
+                #        )
+                #)
             )
     )
 
@@ -173,17 +185,17 @@ if __name__ == '__main__':
                 )
             )
         )
-        fig.write_image(f"{base_path}/pairwise/{model_name}.svg")
+        fig.write_image(f"{base_path}/pairwise/pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}.svg")
         ecaped_model = model_name.replace("_", "\_")
         with open(f"{base_path}/pairwise/{model_name}.tex", "w") as ltext:
             ltext.write(f"""\\begin{{figure}}[H]
     \\centering
-    \\includesvg[scale=.5,inkscapelatex=false]{{{relative_path}/pairwise/{model_name}.svg}}
+    \\includesvg[scale=.5,inkscapelatex=false]{{{relative_path}/pairwise/pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}.svg}}
     \\caption{{Correlación de conjunto Real y Modelo: {ecaped_model}}}
-    \\label{{pairwise-{model_name}}}
+    \\label{{pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}}}
 \\end{{figure}}""")
             pair_tex.write(f'\input{{{relative_path}/pairwise/{model_name}.tex}}\n')                
-        print(f"{base_path}/pairwise/{model_name}.svg")    
+        print(f"{base_path}/pairwise/pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}.svg")    
     
     # Score Table
     score_table = syn.scores.sort_values("score", ascending=False).loc[:
@@ -270,11 +282,11 @@ if __name__ == '__main__':
     with open(f"{base_path}/tables/table-shape-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}.tex", "w") as stext:
         stext.write(formated_shape)
 
-    dcr_score = syn.scores[syn.scores["type"] == "avg"].sort_values("score", ascending=False).loc[:,["DCR ST 5th", "DCR SH 5th", "DCR TH 5th","score"]].reset_index().rename(columns={'name':"Modelo", "score": "textbf{Score}", "DCR ST 5th":"DCR ST", "DCR SH 5th": "DCR SH", "DCR TH 5th": "DCR TH"})
+    dcr_score = syn.scores[syn.scores["type"] == "avg"].sort_values("score", ascending=False).loc[:,["DCR ST 5th", "DCR SH 5th", "DCR TH 5th","score"]].reset_index().rename(columns={'name':"Modelo", "score": "\textbf{Score}", "DCR ST 5th":"DCR ST", "DCR SH 5th": "DCR SH", "DCR TH 5th": "DCR TH"})
     formated_dcr = dcr_score.style.hide(axis="index")\
-        .format(precision=3)\
         .format("\hline {}", dcr_score.columns[0], escape="latex")\
-        .format_index("{}", escape="latex", axis=1)\
+        .format("{:e}", dcr_score.columns[1:])\
+        .format_index("{}",dcr_score.columns[:-1], escape="latex", axis=1)\
         .set_table_styles([
         {'selector': 'toprule', 'props': ':hline\n\\rowcolor[gray]{0.8};'},
         {'selector': 'bottomrule', 'props': ':hline;'}

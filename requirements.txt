@@ -10,7 +10,12 @@ imblearn
 asyncio
 tqdm
 ipykernel
-lightning
+lightning>=2
 kaleido
 scikit-learn==1.1.3
 plotly
+rouge-score
+transformers
+SentencePiece
+tensorboard
+torch>=2

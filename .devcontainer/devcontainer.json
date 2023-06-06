@@ -1,13 +1,13 @@
 {
   "name": "SyntheticData",
-  "image": "nvidia/cuda:12.0.0-devel-ubuntu22.04",
+  "image": "nvidia/cuda:12.1.0-devel-ubuntu22.04",
   "extensions": [
     "jebbs.plantuml",
     "ms-toolsai.jupyter-keymap",
     "MS-CEINTL.vscode-language-pack-es",
     "SimonSiefke.svg-preview",
     "adamvoss.vscode-languagetool",
-    /*"mathematic.vscode-latex",*/
+    "mathematic.vscode-latex",
     "maltehei.latex-citations",
     "James-Yu.latex-workshop",
     "valentjn.vscode-ltex"
@@ -22,5 +22,8 @@
   },
   "features": {
     "ghcr.io/devcontainers/features/python:1": {"version": "3.10"}
-  }
+  },
+  "mounts": [
+    "source=${localEnv:HOME}/models,target=/models,type=bind"
+  ]
 }
