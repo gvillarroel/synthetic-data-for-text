@@ -13,7 +13,8 @@
     "valentjn.vscode-ltex"
     "yzhang.markdown-all-in-one",
     "ms-python.python",
-    "ms-azuretools.vscode-docker"
+    "ms-azuretools.vscode-docker",
+    "ms-toolsai.jupyter"
   ],
   "postCreateCommand": "bash ./.devcontainer/postscript.sh",
   "runArgs": ["--gpus", "all"],

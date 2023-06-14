@@ -52,39 +52,54 @@ class Metrics:
 
         #dist_rf = pairwise_distances(X_fake, Y=X_real, metric='l2', n_jobs=-1)
         dist_rf = pairwise_distances(X_base[:min(50000, X_base.shape[0])], Y=X_target[:min(50000, X_base.shape[0])], metric='minkowski', n_jobs=-1)
+
+        dist_rf = pairwise_distances(X_base[:min(50000, X_base.shape[0])], Y=X_target[:min(50000, X_base.shape[0])], metric='minkowski', n_jobs=-1)
         
         smallest_two_indexes_rf = [dist_rf[i].argsort()[:2] for i in range(len(dist_rf))]
         smallest_two_rf = [dist_rf[i][smallest_two_indexes_rf[i]] for i in range(len(dist_rf))]   
         min_dist_rf = np.array([i[0] for i in smallest_two_rf])
+        min_dist_rf2 = np.array([i[0]/i[1] if i[1] > 0 else 0 for i in smallest_two_rf])
         #fifth_perc_rf = np.percentile(min_dist_rf,5)
 
-        return min_dist_rf
+        return min_dist_rf, min_dist_rf2
     
     def calculate_privacy(self, fake_data: dict, report_folder):
         privacy_path = f"{report_folder}/privacy.npy"
+        privacy_path_nnr = f"{report_folder}/privacy_NNR.npy"
         frame = []
         dists = []
         columns_to_compare = list(set(self.train_data.columns) & set(self.includes) & set(self.hold_data.columns))
-        if os.path.exists(privacy_path):
+        if os.path.exists(privacy_path_nnr):
             dist_TH = np.load(privacy_path)
+            dist_TH_NNR = np.load(privacy_path_nnr)
         else:
-            dist_TH = self.privacy(self.train_data.loc[:, columns_to_compare], df_target=self.hold_data.loc[:, columns_to_compare])
+            dist_TH, dist_TH_NNR = self.privacy(self.train_data.loc[:, columns_to_compare], df_target=self.hold_data.loc[:, columns_to_compare])
             np.save(privacy_path, dist_TH)
+            np.save(privacy_path_nnr, dist_TH_NNR)
+            
         #dist_HT = self.privacy(self.hold_data, self.train_data)
         for model_name, df_fake in fake_data.items():
             columns_to_compare = list(set(self.train_data.columns) & set(self.includes) & set(df_fake.columns))
             privacy_path_model_ST = f"{report_folder}/privacy_{model_name}_ST.npy"
             privacy_path_model_SH = f"{report_folder}/privacy_{model_name}_SH.npy"
-            if os.path.exists(privacy_path_model_ST):
+
+            privacy_path_model_ST_NNR = f"{report_folder}/privacy_{model_name}_ST_NNR.npy"
+            privacy_path_model_SH_NNR = f"{report_folder}/privacy_{model_name}_SH_NNR.npy"
+
+            if os.path.exists(privacy_path_model_ST_NNR):
                 dist_ST = np.load(privacy_path_model_ST)
+                dist_ST_NNR = np.load(privacy_path_model_ST_NNR)
             else:
-                dist_ST = self.privacy(df_fake, df_target=self.train_data)
+                dist_ST, dist_ST_NNR = self.privacy(df_fake, df_target=self.train_data)
                 np.save(privacy_path_model_ST, dist_ST)
-            if os.path.exists(privacy_path_model_SH):
+                np.save(privacy_path_model_ST_NNR, dist_ST_NNR)
+            if os.path.exists(privacy_path_model_SH_NNR):
                 dist_SH = np.load(privacy_path_model_SH)
+                dist_SH_NNR = np.load(privacy_path_model_SH)
             else:
-                dist_SH = self.privacy(df_fake, df_target=self.hold_data)
+                dist_SH, dist_SH_NNR = self.privacy(df_fake, df_target=self.hold_data)
                 np.save(privacy_path_model_SH, dist_SH)
+                np.save(privacy_path_model_SH_NNR, dist_SH_NNR)
             
             #dist_HS = self.privacy(self.hold_data, df_fake)
             
@@ -99,12 +114,25 @@ class Metrics:
                 "DCR TH min": np.min(dist_TH),
                 "DCR TH median": np.median(dist_TH),
                 "DCR TH 5th": np.quantile(dist_TH, 0.05),
+
+                "NNDR ST min": np.min(dist_ST_NNR),
+                "NNDR ST median": np.median(dist_ST_NNR),
+                "NNDR ST 5th": np.quantile(dist_ST_NNR, 0.05), 
+                "NNDR SH min": np.min(dist_SH_NNR),
+                "NNDR SH median": np.median(dist_SH_NNR),
+                "NNDR SH 5th": np.quantile(dist_SH_NNR, 0.05), 
+                "NNDR TH min": np.min(dist_TH_NNR),
+                "NNDR TH median": np.median(dist_TH_NNR),
+                "NNDR TH 5th": np.quantile(dist_TH_NNR, 0.05),
             })
             dists.append({
                 "name": model_name, 
                 "DCR ST": dist_ST,
                 "DCR SH": dist_SH,
                 "DCR TH": dist_TH,
+                "NNDR ST": dist_ST_NNR,
+                "NNDR SH": dist_SH_NNR,
+                "NNDR TH": dist_TH_NNR,
                 #"DCR HS": dist_HS,
                 #"DCR HT": dist_HT
             })

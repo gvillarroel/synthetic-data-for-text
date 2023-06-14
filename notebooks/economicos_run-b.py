@@ -204,7 +204,10 @@ if __name__ == '__main__':
     "avg", ascending=False).rename(columns={'avg':'Score'}).loc[:,
     ["Column Pair Trends", "Column Shapes", "Coverage", "Boundaries", "Score"]].reset_index().rename(columns={"name": "Model Name"}).rename(columns={"Score":"\\textbf{Score}"})
 
-    formated_table = score_table.style.hide(axis="index").format(precision=3).format("\hline {}", score_table.columns[0], escape="latex").set_table_styles([
+    formated_table = score_table.style.hide(axis="index")\
+        .format(precision=3)\
+        .format("\hline {}", score_table.columns[0], escape="latex")\
+        .set_table_styles([
         {'selector': 'toprule', 'props': ':hline\n \\rowcolor[gray]{0.8};'},
         {'selector': 'bottomrule', 'props': ':hline;'}
     ], overwrite=False).highlight_max(
@@ -282,17 +285,18 @@ if __name__ == '__main__':
     with open(f"{base_path}/tables/table-shape-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}.tex", "w") as stext:
         stext.write(formated_shape)
 
-    dcr_score = syn.scores[syn.scores["type"] == "avg"].sort_values("score", ascending=False).loc[:,["DCR ST 5th", "DCR SH 5th", "DCR TH 5th","score"]].reset_index().rename(columns={'name':"Modelo", "score": "\textbf{Score}", "DCR ST 5th":"DCR ST", "DCR SH 5th": "DCR SH", "DCR TH 5th": "DCR TH"})
+    dcr_score = syn.scores[syn.scores["type"] == "avg"].sort_values("score", ascending=False).loc[:,["DCR ST 5th", "DCR SH 5th", "DCR TH 5th","NNDR ST 5th", "NNDR SH 5th", "NNDR TH 5th", "score"]].reset_index().rename(columns={'name':"Modelo", "score": "\textbf{Score}", "DCR ST 5th":"DCR ST", "DCR SH 5th": "DCR SH", "DCR TH 5th": "DCR TH", "NNDR ST 5th": "NNDR ST", "NNDR SH 5th": "NNDR SH", "NNDR TH 5th": "NNDR TH"})
     formated_dcr = dcr_score.style.hide(axis="index")\
         .format("\hline {}", dcr_score.columns[0], escape="latex")\
-        .format("{:e}", dcr_score.columns[1:])\
-        .format_index("{}",dcr_score.columns[:-1], escape="latex", axis=1)\
+        .format("{:.3e}", dcr_score.columns[1:4])\
+        .format("{:.3f}", dcr_score.columns[4:])\
+        .format("{:.3e}", dcr_score.columns[5])\
         .set_table_styles([
         {'selector': 'toprule', 'props': ':hline\n\\rowcolor[gray]{0.8};'},
         {'selector': 'bottomrule', 'props': ':hline;'}
     ], overwrite=False).highlight_min(
-        subset=dcr_score.columns[1:3],
-        props='cellcolor:{red};',
+        subset=dcr_score.columns[1:-1],
+        props='cellcolor:[rgb]{0.9, 0.54, 0.52};',
         axis=0
     ).highlight_max(
         subset=dcr_score.columns[1:],
