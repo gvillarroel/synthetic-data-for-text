@@ -95,7 +95,7 @@ class Metrics:
                 np.save(privacy_path_model_ST_NNR, dist_ST_NNR)
             if os.path.exists(privacy_path_model_SH_NNR):
                 dist_SH = np.load(privacy_path_model_SH)
-                dist_SH_NNR = np.load(privacy_path_model_SH)
+                dist_SH_NNR = np.load(privacy_path_model_SH_NNR)
             else:
                 dist_SH, dist_SH_NNR = self.privacy(df_fake, df_target=self.hold_data)
                 np.save(privacy_path_model_SH, dist_SH)
@@ -132,9 +132,7 @@ class Metrics:
                 "DCR TH": dist_TH,
                 "NNDR ST": dist_ST_NNR,
                 "NNDR SH": dist_SH_NNR,
-                "NNDR TH": dist_TH_NNR,
-                #"DCR HS": dist_HS,
-                #"DCR HT": dist_HT
+                "NNDR TH": dist_TH_NNR
             })
         return pd.DataFrame(frame).set_index("name"), pd.DataFrame(dists).set_index("name") 
 

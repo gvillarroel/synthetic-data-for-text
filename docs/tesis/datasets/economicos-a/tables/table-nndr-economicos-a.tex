@@ -1,0 +1,18 @@
+\begin{table}[H]
+\centering
+\fontsize{10}{14}\selectfont
+\caption{Proporción entre el más cercano y el segundo más cercano}
+\label{table-dcr-economicos-a}
+\begin{tabular}{|l|l|r|r|r|r|r|r|r|}
+\hline
+\rowcolor[gray]{0.8}
+Modelo & NNDR ST & NNDR SH & NNDR TH & \textbf{Score} \\
+\hline tddpm\_mlp & 0.07±0.00e+00 & \cellcolor[rgb]{0.9, 0.54, 0.52} 0.10±2.09e-03 & 0.01±0.00e+00 & \bfseries 0.98±1.27e-03 \\
+\hline smote-enc & \cellcolor[rgb]{0.9, 0.54, 0.52} 0.00±0.00e+00 & 0.11±0.00e+00 & 0.01±0.00e+00 & 0.97±6.71e-04 \\
+\hline copulagan & 0.27±3.32e-02 & 0.30±4.80e-02 & 0.01±0.00e+00 & 0.77±2.96e-02 \\
+\hline ctgan & 0.27±1.35e-02 & 0.27±5.93e-02 & 0.01±0.00e+00 & 0.70±2.63e-02 \\
+\hline gaussiancopula & 0.29±0.00e+00 & 0.28±0.00e+00 & 0.01±0.00e+00 & 0.69±0.00e+00 \\
+\hline tvae & \bfseries 0.37±6.93e-02 & \bfseries 0.43±1.08e-01 & 0.01±0.00e+00 & \cellcolor[rgb]{0.9, 0.54, 0.52} 0.61±2.50e-02 \\
+\hline
+\end{tabular}
+\end{table}

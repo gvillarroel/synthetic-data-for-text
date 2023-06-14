@@ -1,0 +1,17 @@
+\begin{table}[H]
+\centering
+\caption{Distancia de registros más cercanos entre conjuntos Sinteticos, \emph{Train} y \emph{Hold}}
+\label{table-dcr-economicos-b-1}
+\begin{tabular}{|l|l|r|r|r|r|r|r|r|}
+\hline
+\rowcolor[gray]{0.8}
+Modelo & DCR ST & DCR SH & DCR TH & NNDR ST & NNDR SH & NNDR TH & 	extbf{Score} \\
+\hline tddpm\_mlp & 8.613e-15 & 9.938e-15 & \cellcolor[rgb]{0.9, 0.54, 0.52} \bfseries 9.000e-17 & nan & 9.938e-15 & nan & \bfseries 0.984 \\
+\hline smote-enc & 8.985e-15 & 1.205e-14 & \cellcolor[rgb]{0.9, 0.54, 0.52} \bfseries 9.000e-17 & nan & 1.205e-14 & nan & 0.942 \\
+\hline copulagan & \cellcolor[rgb]{0.9, 0.54, 0.52} 2.045e-16 & \cellcolor[rgb]{0.9, 0.54, 0.52} 2.147e-16 & \cellcolor[rgb]{0.9, 0.54, 0.52} \bfseries 9.000e-17 & \cellcolor[rgb]{0.9, 0.54, 0.52} 0.000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 2.147e-16 & nan & 0.797 \\
+\hline tvae & 3.039e-15 & 2.998e-15 & \cellcolor[rgb]{0.9, 0.54, 0.52} \bfseries 9.000e-17 & 0.000 & 2.998e-15 & nan & 0.740 \\
+\hline ctgan & 1.773e-15 & 1.734e-15 & \cellcolor[rgb]{0.9, 0.54, 0.52} \bfseries 9.000e-17 & 0.001 & 1.734e-15 & nan & 0.732 \\
+\hline gaussiancopula & \bfseries 9.226e-13 & \bfseries 1.017e-12 & \cellcolor[rgb]{0.9, 0.54, 0.52} \bfseries 9.000e-17 & \bfseries 0.015 & \bfseries 1.017e-12 & nan & 0.631 \\
+\hline
+\end{tabular}
+\end{table}

@@ -1,0 +1,17 @@
+\begin{table}[H]
+\centering
+\caption{Distancia de registros más cercanos entre conjuntos Sinteticos, \emph{Train} y \emph{Hold}}
+\label{table-dcr-economicos-a-2}
+\begin{tabular}{|l|l|r|r|r|r|r|r|r|}
+\hline
+\rowcolor[gray]{0.8}
+Modelo & DCR ST & DCR SH & DCR TH & NNDR ST & NNDR SH & NNDR TH & \textbf{Score} \\
+\hline tddpm\_mlp & 4.621e-09 & \cellcolor[rgb]{0.9, 0.54, 0.52} 3.737e-08 & \bfseries 1.282e-08 & nan & 3.737e-08 & nan & \bfseries 0.980 \\
+\hline smote-enc & \cellcolor[rgb]{0.9, 0.54, 0.52} 3.460e-11 & 4.376e-08 & \bfseries 1.282e-08 & nan & 4.376e-08 & nan & 0.969 \\
+\hline copulagan & 1.221e-06 & 2.514e-06 & \bfseries 1.282e-08 & 0.263 & 2.514e-06 & nan & 0.791 \\
+\hline ctgan & \bfseries 1.622e-05 & \bfseries 2.750e-05 & \bfseries 1.282e-08 & 0.276 & \bfseries 2.750e-05 & nan & 0.726 \\
+\hline gaussiancopula & 5.276e-06 & 8.215e-06 & \bfseries 1.282e-08 & 0.293 & 8.215e-06 & nan & 0.692 \\
+\hline tvae & 3.902e-07 & 8.854e-07 & \bfseries 1.282e-08 & \bfseries 0.335 & 8.854e-07 & nan & 0.630 \\
+\hline
+\end{tabular}
+\end{table}
