@@ -304,7 +304,7 @@ class Synthetic:
         raise Exception("No Implemented")
 
     def process_scores(self):
-        self.scores, self.reports = self.metric.get_scores(
+        self.scores, self.reports, self.dist = self.metric.get_scores(
             self.fake_data, self.report_folder)
         _, self.privacy_metrics = self.metric.calculate_privacy(
             self.fake_data, self.report_folder)

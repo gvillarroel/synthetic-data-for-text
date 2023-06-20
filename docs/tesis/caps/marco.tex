@@ -270,32 +270,47 @@ Es importante destacar que no todas estas métricas son aplicables a todos los t
 A continuación presentan algunas de las posibles a considerar para medir la similitud, privacidad y utilidad en la evaluación de los conjuntos de datos sintéticos generados.
 
 \subsection{SDMetrics}
-SDMetrics es una herramienta que proporciona un conjunto de métricas para la evaluación de conjuntos sintéticos. La herramienta utiliza dos métodos de cálculo: el método de Reporte y el método de Diagnóstico.
+SDMetrics es una herramienta integral para la evaluación de conjuntos de datos sintéticos. Esta herramienta implementa dos enfoques distintos para el cálculo de métricas: el Reporte y el Diagnóstico \cite{noauthor_sdmetrics_nodate}.
+
 
 \subsubsection{SDMetrics Report}
 
-El informe de SDMetrics genera una puntuación de evaluación para un conjunto sintético al compararlo con el conjunto real. La puntuación utiliza \emph{KSComplement} en tablas numéricas y \emph{TVComplement} en caso de campos categóricos. El promedio de las columnas compone la métrica \emph{Column Shapes}. Además, se utiliza \emph{CorrelationSimilarity} en campos numéricos y \emph{ContingencySimilarity} en campos categóricos o combinaciones entre campos categóricos y numéricos.
+El informe de SDMetrics genera una puntuación de evaluación para un conjunto de datos sintéticos al compararlo con el conjunto de datos reales. Esta puntuación se compone de dos componentes: \emph{Column Shapes} y \emph{Column Pair Trends}.
 
-Estas cuatro métricas, TVComplement, KSComplement, CorrelationSimilarity y ContingencySimilarity, son utilizadas en la biblioteca de Python de código abierto \emph{SDMetrics} para evaluar datos sintéticos tabulares. Cada una de estas métricas tiene un enfoque diferente para evaluar la calidad de los datos sintéticos.
+\textbf{Column Shapes} se compone de las puntuaciones \emph{KSComplement} para columnas numéricas y \emph{TVComplement} para columnas categóricas.
 
-TVComplement se enfoca en la similitud entre una columna real y una columna sintética en términos de sus formas, mientras que KSComplement utiliza la estadística de Kolmogorov-Smirnov para calcular la máxima diferencia entre las funciones de distribución acumulativa de dos distribuciones numéricas. Por otro lado, CorrelationSimilarity mide la correlación entre un par de columnas numéricas y calcula la similitud entre los datos reales y sintéticos, comparando las tendencias de las distribuciones bidimensionales. Finalmente, ContingencySimilarity mide la similitud entre dos variables categóricas utilizando la tabla de contingencia y la estadística del coeficiente de contingencia, proporcionando una medida de la dependencia entre las dos variables.
+\textbf{TVComplement} se centra en la similitud entre una columna real y una columna sintética en términos de sus formas de distribución.
 
-Cada una de estas métricas tiene una forma diferente de evaluar la calidad de los datos sintéticos y, por lo tanto, proporciona información valiosa sobre diferentes aspectos de la calidad de los datos. TVComplement se enfoca en la distribución marginal o el histograma unidimensional de la columna, mientras que KSComplement se centra en la diferencia entre las funciones de distribución acumulativa de dos distribuciones numéricas. CorrelationSimilarity mide la similitud entre los datos reales y sintéticos basándose en la correlación entre un par de columnas numéricas, y ContingencySimilarity mide la similitud entre dos variables categóricas utilizando la tabla de contingencia y la estadística del coeficiente de contingencia. Juntas, estas métricas proporcionan una evaluación más completa de la calidad de los datos sintéticos.
+\textbf{KSComplement} utiliza la estadística de Kolmogorov-Smirnov para calcular la máxima diferencia entre las funciones de distribución acumulativa de dos distribuciones numéricas. 
+
+\rule{\textwidth}{0.5pt} 
+
+\textbf{Column Pair Trends} se compone de \emph{CorrelationSimilarity} para columnas numéricas y \emph{ContingencySimilarity} para columnas categóricas o combinaciones de columnas categóricas y numéricas.
+
+\textbf{CorrelationSimilarity} mide la correlación entre un par de columnas numéricas y calcula la similitud entre los datos reales y sintéticos al comparar las tendencias de las distribuciones bidimensionales. 
+
+\textbf{ContingencySimilarity} mide la similitud entre dos variables categóricas utilizando la tabla de contingencia y la estadística del coeficiente de contingencia, proporcionando una medida de la dependencia entre las dos variables.
+
+Cada una de estas métricas evalúa un aspecto diferente de la calidad de los datos sintéticos, proporcionando información valiosa sobre diversas características de los datos. \textbf{TVComplement} se enfoca en la distribución marginal o el histograma unidimensional de la columna, mientras que \textbf{KSComplement} se centra en la diferencia entre las funciones de distribución acumulativa de dos distribuciones numéricas. \textbf{CorrelationSimilarity} mide la similitud en la correlación entre un par de columnas numéricas en los datos reales y sintéticos, y \textbf{ContingencySimilarity} mide la similitud en la dependencia entre dos variables categóricas en los datos reales y sintéticos utilizando la tabla de contingencia y la estadística del coeficiente de contingencia. Juntas, estas métricas ofrecen una evaluación completa de la calidad de los datos sintéticos.
 
 \subsubsection{SDMetrics Diagnostic}
 
-Esta herramienta utiliza una variedad de métricas para proporcionar información valiosa sobre la calidad de los datos, incluyendo RangeCoverage, BoundaryAdherence y CategoryCoverage.
+SDMetrics Diagnostic emplea una serie de métricas para arrojar luz sobre la calidad de los datos sintéticos, haciendo especial énfasis en \emph{Coverage} y \emph{Boundaries}.
 
-RangeCoverage es una métrica que mide la proporción del rango de valores posibles para una característica que está cubierta por los datos. Se a como la relación entre el rango de valores observados y el rango de valores posibles para esa característica. Esta métrica puede ayudar a identificar si los datos tienen una cobertura adecuada en términos de la variedad de valores posibles que podría tomar la característica.
+\textbf{Coverage} comprende la media aritmética de \emph{RangeCoverage} y \emph{CategoryCoverage}.
 
-BoundaryAdherence es una métrica que mide la proporción de puntos de datos que caen dentro de los límites especificados para una característica. Se calcula como la relación entre el número de puntos de datos que caen dentro de los límites y el número total de puntos de datos. Esta métrica es útil para evaluar si los datos se ajustan a los límites especificados para la característica, lo que puede ser importante en situaciones donde se espera que la característica tenga ciertos valores o límites específicos.
+\textbf{RangeCoverage} cuantifica la proporción del rango de valores posibles de una característica que está representada en los datos. Se define como la relación entre el rango de valores observados y el rango de valores posibles para la característica en cuestión. Esta métrica es útil para determinar si los datos proporcionan una representación adecuada de la diversidad de valores que la característica puede adoptar.
 
-CategoryCoverage es una métrica que mide la proporción de categorías posibles para una característica categórica que está cubierta por los datos. Se calcula como la relación entre el número de categorías observadas y el número total de categorías posibles para esa característica. Esta métrica puede ayudar a identificar si los datos tienen una cobertura adecuada en términos de la variedad de categorías posibles que podría tomar la característica categórica.
+\textbf{CategoryCoverage} mide la proporción de categorías posibles de una característica categórica que están representadas en los datos. Se calcula como la relación entre el número de categorías observadas y el número total de categorías posibles para dicha característica. Esta métrica es útil para evaluar si los datos proporcionan una representación adecuada de la diversidad de categorías que la característica categórica puede adoptar.
 
-En resumen, \emph{SDMetrics Diagnostic} utiliza RangeCoverage, BoundaryAdherence y CategoryCoverage para evaluar la calidad de los datos tabulares. Estas métricas proporcionan información valiosa sobre la cobertura de los datos en términos de rango de valores, límites y categorías posibles, lo que puede ayudar a identificar problemas en la calidad de los datos.
+\rule{\textwidth}{0.5pt} 
 
+\textbf{Boundaries} se considera únicamente para la métrica \emph{BoundaryAdherence}, calculada como el promedio para todas las columnas numéricas.
 
+\textbf{BoundaryAdherence} evalúa la proporción de puntos de datos que caen dentro de los límites especificados para una característica. Se determina como la relación entre el número de puntos de datos que caen dentro de los límites y el número total de puntos de datos. Esta métrica es útil para evaluar si los datos se ajustan a los límites especificados para una característica, lo cual puede ser crucial en contextos donde se espera que la característica observe ciertos valores o límites específicos.
 
+En resumen, \emph{SDMetrics Diagnostic} utiliza RangeCoverage, BoundaryAdherence y CategoryCoverage para evaluar la calidad de los datos tabulares sintéticos. Estas métricas aportan una visión detallada de la cobertura de los datos en términos de rango de valores, límites y categorías posibles, lo que puede ayudar a detectar potenciales problemas en la calidad de los datos.
+\newpage
 
 \subsection{Conjuntos Estadísticos}
 

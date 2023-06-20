@@ -59,7 +59,7 @@ def print_charts(folder_path, model_name, figs):
             with open(f"{folder_path}/frecuency-{model_name_.lower()}-{field_name_.lower()}.tex", "w") as ltext:
                 ltext.write(f"""\\begin{{figure}}[H]
     \\centering
-    \\includesvg[scale=.5,inkscapelatex=false]{{{relative_path}/{file_name}.svg}}
+    \\includesvg[scale=.7,inkscapelatex=false]{{{relative_path}/{file_name}.svg}}
     \\caption{{Frecuencia del campo {field_name_.lower()} en el modelo real y {model_name_.lower()}}}
     \\label{{frecuency-{model_name_.lower()}-{field_name_.lower()}}}
 \\end{{figure}}""")
@@ -138,7 +138,7 @@ if __name__ == '__main__':
         with open(f"{base_path}/pairwise/pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}.tex", "w") as ltext:
             ltext.write(f"""\\begin{{figure}}[H]
     \\centering
-    \\includesvg[scale=.5,inkscapelatex=false]{{{relative_path}/pairwise/{model_name}.svg}}
+    \\includesvg[scale=.7,inkscapelatex=false]{{{relative_path}/pairwise/{model_name}.svg}}
     \\caption{{Correlación de conjunto Real y Modelo: {model_name_}}}
     \\label{{pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}}}
 \\end{{figure}}""")

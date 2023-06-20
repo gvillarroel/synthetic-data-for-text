@@ -4,6 +4,7 @@ pip install --upgrade pip
 apt update -y
 apt upgrade -y
 apt upgrade perl -y
+apt install pandoc
 apt install chktex -y
 
 apt install texlive -y

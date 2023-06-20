@@ -53,7 +53,7 @@ class Metrics:
         #dist_rf = pairwise_distances(X_fake, Y=X_real, metric='l2', n_jobs=-1)
         dist_rf = pairwise_distances(X_base[:min(50000, X_base.shape[0])], Y=X_target[:min(50000, X_base.shape[0])], metric='minkowski', n_jobs=-1)
 
-        dist_rf = pairwise_distances(X_base[:min(50000, X_base.shape[0])], Y=X_target[:min(50000, X_base.shape[0])], metric='minkowski', n_jobs=-1)
+        #dist_rf = pairwise_distances(X_base[:min(50000, X_base.shape[0])], Y=X_target[:min(50000, X_base.shape[0])], metric='minkowski', n_jobs=-1)
         
         smallest_two_indexes_rf = [dist_rf[i].argsort()[:2] for i in range(len(dist_rf))]
         smallest_two_rf = [dist_rf[i][smallest_two_indexes_rf[i]] for i in range(len(dist_rf))]   
@@ -61,11 +61,12 @@ class Metrics:
         min_dist_rf2 = np.array([i[0]/i[1] if i[1] > 0 else 0 for i in smallest_two_rf])
         #fifth_perc_rf = np.percentile(min_dist_rf,5)
 
-        return min_dist_rf, min_dist_rf2
+        return min_dist_rf, min_dist_rf2, smallest_two_indexes_rf
     
     def calculate_privacy(self, fake_data: dict, report_folder):
         privacy_path = f"{report_folder}/privacy.npy"
         privacy_path_nnr = f"{report_folder}/privacy_NNR.npy"
+        privacy_dist2 = f"{report_folder}/privacy_dist2.npy"
         frame = []
         dists = []
         columns_to_compare = list(set(self.train_data.columns) & set(self.includes) & set(self.hold_data.columns))
@@ -73,9 +74,10 @@ class Metrics:
             dist_TH = np.load(privacy_path)
             dist_TH_NNR = np.load(privacy_path_nnr)
         else:
-            dist_TH, dist_TH_NNR = self.privacy(self.train_data.loc[:, columns_to_compare], df_target=self.hold_data.loc[:, columns_to_compare])
+            dist_TH, dist_TH_NNR, dist_TH_2 = self.privacy(self.train_data.loc[:, columns_to_compare], df_target=self.hold_data.loc[:, columns_to_compare])
             np.save(privacy_path, dist_TH)
             np.save(privacy_path_nnr, dist_TH_NNR)
+            np.save(privacy_dist2, dist_TH_2)
             
         #dist_HT = self.privacy(self.hold_data, self.train_data)
         for model_name, df_fake in fake_data.items():
@@ -86,45 +88,65 @@ class Metrics:
             privacy_path_model_ST_NNR = f"{report_folder}/privacy_{model_name}_ST_NNR.npy"
             privacy_path_model_SH_NNR = f"{report_folder}/privacy_{model_name}_SH_NNR.npy"
 
+            privacy_path_model_ST_dist_2 = f"{report_folder}/privacy_{model_name}_ST_dist2.npy"
+            privacy_path_model_SH_dist_2 = f"{report_folder}/privacy_{model_name}_SH_dist2.npy"
+
             if os.path.exists(privacy_path_model_ST_NNR):
                 dist_ST = np.load(privacy_path_model_ST)
                 dist_ST_NNR = np.load(privacy_path_model_ST_NNR)
+                dist_ST_2 = np.load(privacy_path_model_ST_dist_2)
             else:
-                dist_ST, dist_ST_NNR = self.privacy(df_fake, df_target=self.train_data)
+                dist_ST, dist_ST_NNR, dist_ST_2 = self.privacy(df_fake, df_target=self.train_data)
                 np.save(privacy_path_model_ST, dist_ST)
                 np.save(privacy_path_model_ST_NNR, dist_ST_NNR)
+                np.save(privacy_path_model_ST_dist_2, dist_ST_2)
+                
             if os.path.exists(privacy_path_model_SH_NNR):
                 dist_SH = np.load(privacy_path_model_SH)
                 dist_SH_NNR = np.load(privacy_path_model_SH_NNR)
+                dist_SH_2 = np.load(privacy_path_model_SH_dist_2)
             else:
-                dist_SH, dist_SH_NNR = self.privacy(df_fake, df_target=self.hold_data)
+                dist_SH, dist_SH_NNR, dist_SH_2 = self.privacy(df_fake, df_target=self.hold_data)
                 np.save(privacy_path_model_SH, dist_SH)
                 np.save(privacy_path_model_SH_NNR, dist_SH_NNR)
+                np.save(privacy_path_model_SH_dist_2, dist_SH_2)
             
             #dist_HS = self.privacy(self.hold_data, df_fake)
-            
-            frame.append({
+            data = {
                 "name": model_name, 
                 "DCR ST min": np.min(dist_ST),
                 "DCR ST median": np.median(dist_ST),
-                "DCR ST 5th": np.quantile(dist_ST, 0.05), 
+                 
                 "DCR SH min": np.min(dist_SH),
                 "DCR SH median": np.median(dist_SH),
-                "DCR SH 5th": np.quantile(dist_SH, 0.05), 
                 "DCR TH min": np.min(dist_TH),
                 "DCR TH median": np.median(dist_TH),
-                "DCR TH 5th": np.quantile(dist_TH, 0.05),
+                
 
                 "NNDR ST min": np.min(dist_ST_NNR),
                 "NNDR ST median": np.median(dist_ST_NNR),
-                "NNDR ST 5th": np.quantile(dist_ST_NNR, 0.05), 
+                
                 "NNDR SH min": np.min(dist_SH_NNR),
                 "NNDR SH median": np.median(dist_SH_NNR),
-                "NNDR SH 5th": np.quantile(dist_SH_NNR, 0.05), 
+                
                 "NNDR TH min": np.min(dist_TH_NNR),
                 "NNDR TH median": np.median(dist_TH_NNR),
-                "NNDR TH 5th": np.quantile(dist_TH_NNR, 0.05),
-            })
+            }
+            
+            for i in range(5):
+                data.update({
+                    f"DCR ST {i+1}th": np.quantile(dist_ST, (i+1.0)/100),
+                    f"DCR SH {i+1}th": np.quantile(dist_SH, (i+1.0)/100), 
+                    f"DCR TH {i+1}th": np.quantile(dist_TH, (i+1.0)/100),
+                    f"NNDR ST {i+1}th": np.quantile(dist_ST_NNR, (i+1.0)/100), 
+                    f"NNDR SH {i+1}th": np.quantile(dist_SH_NNR, (i+1.0)/100), 
+                    f"NNDR TH {i+1}th": np.quantile(dist_TH_NNR, (i+1.0)/100),
+                })
+
+
+
+            frame.append(data)
+
             dists.append({
                 "name": model_name, 
                 "DCR ST": dist_ST,
@@ -207,8 +229,8 @@ class Metrics:
                 ))                
             reports[model_name] = report
         pd_scores = pd.DataFrame(scores).set_index("name")
-        privacy_frame, _ = self.calculate_privacy(fake_data, report_folder)
-        return pd_scores.join(privacy_frame), reports
+        privacy_frame, dist = self.calculate_privacy(fake_data, report_folder)
+        return pd_scores.join(privacy_frame), reports, dist
     
     def is_categorical(self, serie: pd.Series) -> bool:
         return self.metadata.columns[serie.name]["sdtype"] == "categorical"
