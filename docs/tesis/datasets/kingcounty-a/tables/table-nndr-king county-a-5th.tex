@@ -1,0 +1,19 @@
+\begin{table}[H]
+\centering
+\fontsize{10}{14}\selectfont
+\caption{Proporción entre el más cercano y el segundo más cercano, percentil 5, datos king county}
+\label{table-dcr-king county-a}
+\begin{tabular}{|l|l|r|r|r|r|r|r|r|}
+\hline
+\rowcolor[gray]{0.8}
+Modelo & NNDR ST & NNDR SH & NNDR TH & \textbf{Score} \\
+\hline tddpm\_mlp & 6.12e-01±2.28e-03 & 6.03e-01±4.17e-03 & 3.76e-01±0.00e+00 & \bfseries 9.52e-01±2.36e-03 \\
+\hline smote-enc & \cellcolor[rgb]{0.9, 0.54, 0.52} 1.98e-01±3.57e-03 & \cellcolor[rgb]{0.9, 0.54, 0.52} 4.09e-01±6.38e-03 & 3.76e-01±0.00e+00 & 9.53e-01±2.45e-04 \\
+\hline ctgan & 8.09e-01±8.59e-03 & 8.15e-01±4.89e-03 & 3.76e-01±0.00e+00 & 8.24e-01±2.02e-02 \\
+\hline tablepreset & 8.25e-01±1.11e-16 & 8.18e-01±0.00e+00 & 3.76e-01±0.00e+00 & 8.37e-01±7.85e-17 \\
+\hline copulagan & \bfseries 8.30e-01±5.92e-03 & \bfseries 8.24e-01±3.49e-03 & 3.76e-01±0.00e+00 & 7.89e-01±2.92e-03 \\
+\hline gaussiancopula & 7.53e-01±1.11e-16 & 7.52e-01±1.36e-16 & 3.76e-01±0.00e+00 & 7.88e-01±0.00e+00 \\
+\hline tvae & 7.32e-01±5.74e-03 & 7.04e-01±4.22e-03 & 3.76e-01±0.00e+00 & \cellcolor[rgb]{0.9, 0.54, 0.52} 7.38e-01±1.18e-02 \\
+\hline
+\end{tabular}
+\end{table}

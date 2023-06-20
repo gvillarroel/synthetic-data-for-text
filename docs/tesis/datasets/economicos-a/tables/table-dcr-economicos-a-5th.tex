@@ -1,0 +1,18 @@
+\begin{table}[H]
+\centering
+\fontsize{10}{14}\selectfont
+\caption{Distancia de registros más cercanos, percentil 5, datos economicos}
+\label{table-dcr-economicos-a}
+\begin{tabular}{|l|l|r|r|r|r|r|r|r|}
+\hline
+\rowcolor[gray]{0.8}
+Modelo & DCR ST & DCR SH & DCR TH & \textbf{Score} \\
+\hline tddpm\_mlp & 4.48e-09±2.32e-10 & \cellcolor[rgb]{0.9, 0.54, 0.52} 3.59e-08±2.38e-09 & 1.28e-08±0.00e+00 & \bfseries 9.79e-01±1.27e-03 \\
+\hline smote-enc & \cellcolor[rgb]{0.9, 0.54, 0.52} 3.15e-11±3.01e-12 & 4.22e-08±2.49e-09 & 1.28e-08±0.00e+00 & 9.69e-01±6.71e-04 \\
+\hline copulagan & 1.37e-06±1.76e-07 & 2.86e-06±3.82e-07 & 1.28e-08±0.00e+00 & 7.68e-01±2.96e-02 \\
+\hline ctgan & \bfseries 1.49e-05±5.01e-06 & \bfseries 2.42e-05±9.67e-06 & 1.28e-08±0.00e+00 & 6.98e-01±2.63e-02 \\
+\hline gaussiancopula & 5.28e-06±0.00e+00 & 8.21e-06±0.00e+00 & 1.28e-08±0.00e+00 & 6.92e-01±0.00e+00 \\
+\hline tvae & 3.90e-07±1.08e-07 & 7.80e-07±2.49e-07 & 1.28e-08±0.00e+00 & \cellcolor[rgb]{0.9, 0.54, 0.52} 6.12e-01±2.50e-02 \\
+\hline
+\end{tabular}
+\end{table}

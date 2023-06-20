@@ -1,0 +1,19 @@
+\begin{table}[H]
+\centering
+\fontsize{9}{14}\selectfont
+\caption{Evaluaci\'on de M\'etricas de Rendimiento para Diversos Modelos de Aprendizaje Autom\'atico, King County}
+\label{table-score-king county-a}
+\begin{tabular}{|l|r|r|r|r|r|}
+\hline
+\rowcolor[gray]{0.8}
+Model Name & Column Pair Trends & Column Shapes & Coverage & Boundaries & \textbf{Score} \\
+\hline tddpm\_mlp & 9.37e-01±3.80e-03 & \bfseries 9.67e-01±1.48e-03 & \bfseries 9.66e-01±4.96e-03 & 1.00e+00±0.00e+00 & 9.52e-01±2.36e-03 \\
+\hline smote-enc & \bfseries 9.41e-01±2.60e-04 & 9.65e-01±3.06e-04 & 8.42e-01±8.31e-03 & \bfseries 1.00e+00±1.02e-05 & \bfseries 9.53e-01±2.45e-04 \\
+\hline ctgan & 8.10e-01±1.40e-02 & 8.38e-01±2.67e-02 & 8.56e-01±2.25e-03 & 1.00e+00±0.00e+00 & 8.24e-01±2.02e-02 \\
+\hline tablepreset & 8.37e-01±0.00e+00 & 8.37e-01±1.36e-16 & 7.53e-01±0.00e+00 & 1.00e+00±0.00e+00 & 8.37e-01±7.85e-17 \\
+\hline copulagan & 7.64e-01±4.93e-03 & 8.14e-01±4.70e-03 & 8.40e-01±1.74e-02 & 1.00e+00±0.00e+00 & 7.89e-01±2.92e-03 \\
+\hline gaussiancopula & 7.65e-01±0.00e+00 & 8.11e-01±0.00e+00 & 7.51e-01±7.85e-17 & 1.00e+00±0.00e+00 & 7.88e-01±0.00e+00 \\
+\hline tvae & 7.07e-01±1.19e-02 & 7.68e-01±1.22e-02 & 4.53e-01±1.63e-02 & 1.00e+00±0.00e+00 & 7.38e-01±1.18e-02 \\
+\hline
+\end{tabular}
+\end{table}
