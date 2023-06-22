@@ -55,7 +55,15 @@
     
     \PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{syn}\PYG{o}{.}\PYG{n}{current\PYGZus{}metrics}\PYG{p}{())}
 
-
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k}{as} \PYG{n+nn}{np}
+\PYG{k}{def} \PYG{n+nf}{is\PYGZus{}same}\PYG{p}{(}\PYG{n}{x}\PYG{p}{):}
+\PYG{+w}{    }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    subset=coverage\PYGZus{}score.columns[2:],}
+\PYG{l+s+sd}{        props=\PYGZsq{}bfseries:;\PYGZsq{},}
+\PYG{l+s+sd}{        axis=1}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{values} \PYG{o}{=} \PYG{p}{[}\PYG{n}{i} \PYG{k}{if} \PYG{n+nb}{type}\PYG{p}{(}\PYG{n}{i}\PYG{p}{)} \PYG{o}{==} \PYG{n+nb}{str} \PYG{k}{else} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+si}{\PYGZob{}:.2e\PYGZcb{}}\PYG{l+s+s1}{\PYGZsq{}} \PYG{k}{if} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{l+m+mf}{1.0} \PYG{k}{else} \PYG{n+nb}{round}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{)} \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n}{x}\PYG{o}{.}\PYG{n}{values}\PYG{p}{]}
+    \PYG{k}{return} \PYG{p}{[} \PYG{l+s+s1}{\PYGZsq{}cellcolor:[rgb]\PYGZob{}0.9, 0.54, 0.52\PYGZcb{};\PYGZsq{}} \PYG{k}{if} \PYG{n}{i} \PYG{o}{==} \PYG{l+m+mi}{0} \PYG{o+ow}{or} \PYG{n}{values}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{==} \PYG{n}{v} \PYG{k}{else} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}} \PYG{k}{for} \PYG{n}{i}\PYG{p}{,}\PYG{n}{v} \PYG{o+ow}{in} \PYG{n+nb}{enumerate}\PYG{p}{(}\PYG{n}{values}\PYG{p}{)]}
 
 \PYG{k}{def} \PYG{n+nf}{print\PYGZus{}charts}\PYG{p}{(}\PYG{n}{folder\PYGZus{}path}\PYG{p}{,} \PYG{n}{model\PYGZus{}name}\PYG{p}{,} \PYG{n}{figs}\PYG{p}{):}
     \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{exists}\PYG{p}{(}\PYG{n}{folder\PYGZus{}path}\PYG{p}{):}
@@ -289,4 +297,41 @@
     \PYG{p}{)}
     \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{base\PYGZus{}path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/tables/table\PYGZhy{}dcr\PYGZhy{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{DATASET\PYGZus{}NAME}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZhy{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{DATASET\PYGZus{}VERSION}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.tex\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}w\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{stext}\PYG{p}{:}
         \PYG{n}{stext}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{formated\PYGZus{}dcr}\PYG{p}{)}
+    
+    \PYG{n}{avg} \PYG{o}{=} \PYG{n}{syn}\PYG{o}{.}\PYG{n}{scores}\PYG{p}{[}\PYG{n}{syn}\PYG{o}{.}\PYG{n}{scores}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}type\PYGZdq{}}\PYG{p}{]} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}avg\PYGZdq{}}\PYG{p}{]}
+    \PYG{n}{avg}\PYG{o}{.}\PYG{n}{sort\PYGZus{}values}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}score\PYGZdq{}}\PYG{p}{,} \PYG{n}{ascending}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{)}\PYG{o}{.}\PYG{n}{loc}\PYG{p}{[:,:]}
+
+    \PYG{n}{dfs} \PYG{o}{=} \PYG{p}{[]}
+    \PYG{k}{for} \PYG{n}{model} \PYG{o+ow}{in} \PYG{n}{avg}\PYG{o}{.}\PYG{n}{index}\PYG{p}{:}
+        \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}min\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}1p\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}5p\PYGZdq{}}\PYG{p}{]:}
+            \PYG{n}{d} \PYG{o}{=} \PYG{n}{avg}\PYG{o}{.}\PYG{n}{loc}\PYG{p}{[[}\PYG{n}{model}\PYG{p}{],[}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}record\PYGZus{}ST\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{i}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]]}\PYG{o}{.}\PYG{n}{iloc}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{to\PYGZus{}dict}\PYG{p}{()[}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}record\PYGZus{}ST\PYGZus{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{i}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}
+            \PYG{n}{current\PYGZus{}data} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{o}{.}\PYG{n}{from\PYGZus{}dict}\PYG{p}{(}
+                    \PYG{p}{[}\PYG{n}{d}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}record\PYGZdq{}}\PYG{p}{],} \PYG{n}{d}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}closest\PYGZdq{}}\PYG{p}{],} \PYG{n}{d}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}closest\PYGZus{}2\PYGZdq{}}\PYG{p}{]]}
+                \PYG{p}{)}\PYG{o}{.}\PYG{n}{assign}\PYG{p}{(}\PYG{n}{distance}\PYG{o}{=}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}0\PYGZsq{}}\PYG{p}{]}\PYG{o}{+}\PYG{p}{[}\PYG{l+s+sa}{f}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{v}\PYG{l+s+si}{:}\PYG{l+s+s1}{.2e}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s1}{\PYGZsq{}} \PYG{k}{for} \PYG{n}{i}\PYG{p}{,}\PYG{n}{v} \PYG{o+ow}{in} \PYG{n+nb}{enumerate}\PYG{p}{(}\PYG{n}{d}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}dists\PYGZdq{}}\PYG{p}{])])}\PYG{o}{.}\PYG{n}{rename}\PYG{p}{(}\PYG{n}{columns}\PYG{o}{=}\PYG{p}{\PYGZob{}}\PYG{l+s+s2}{\PYGZdq{}distance\PYGZdq{}}\PYG{p}{:} \PYG{l+s+s2}{\PYGZdq{}Variable/Distancia\PYGZdq{}}\PYG{p}{\PYGZcb{})}
+            \PYG{n}{dfs}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}
+                \PYG{n}{current\PYGZus{}data}\PYG{o}{.}\PYG{n}{assign}\PYG{p}{(}\PYG{n}{model}\PYG{o}{=}\PYG{n}{model}\PYG{p}{)}\PYG{o}{.}\PYG{n}{assign}\PYG{p}{(}\PYG{n}{level}\PYG{o}{=}\PYG{n}{i}\PYG{p}{)}
+            \PYG{p}{)}
+            \PYG{n}{c\PYGZus{}1} \PYG{o}{=} \PYG{n}{current\PYGZus{}data}\PYG{o}{.}\PYG{n}{set\PYGZus{}index}\PYG{p}{([}\PYG{l+s+s2}{\PYGZdq{}Variable/Distancia\PYGZdq{}}\PYG{p}{])}\PYG{o}{.}\PYG{n}{T}
+            \PYG{n}{percentil} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}minimo\PYGZdq{}} \PYG{k}{if} \PYG{n}{i} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}min\PYGZdq{}} \PYG{k}{else} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{i}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ercentil\PYGZdq{}}
+            \PYG{n}{current\PYGZus{}table} \PYG{o}{=} \PYG{n}{c\PYGZus{}1}\PYG{o}{.}\PYG{n}{style}\PYGZbs{}
+            \PYG{o}{.}\PYG{n}{format\PYGZus{}index}\PYG{p}{(}\PYG{n}{escape}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}latex\PYGZdq{}}\PYG{p}{,} \PYG{n}{precision}\PYG{o}{=}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{)}\PYGZbs{}
+            \PYG{o}{.}\PYG{n}{format\PYGZus{}index}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}\PYGZbs{}hline }\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{escape}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}latex\PYGZdq{}}\PYG{p}{,} \PYG{n}{precision}\PYG{o}{=}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{)}\PYGZbs{}
+            \PYG{o}{.}\PYG{n}{set\PYGZus{}table\PYGZus{}styles}\PYG{p}{([}
+        \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}selector\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}toprule\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}props\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}:hline}\PYG{l+s+se}{\PYGZbs{}n\PYGZbs{}\PYGZbs{}}\PYG{l+s+s1}{rowcolor[gray]}\PYG{l+s+si}{\PYGZob{}0.8\PYGZcb{}}\PYG{l+s+s1}{;\PYGZsq{}}\PYG{p}{\PYGZcb{},}
+        \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}selector\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}bottomrule\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}props\PYGZsq{}}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}:hline;\PYGZsq{}}\PYG{p}{\PYGZcb{}}
+    \PYG{p}{],} \PYG{n}{overwrite}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{)}\PYGZbs{}
+            \PYG{o}{.}\PYG{n}{apply}\PYG{p}{(}
+                \PYG{n}{is\PYGZus{}same}\PYG{p}{,}
+                \PYG{n}{axis}\PYG{o}{=}\PYG{l+m+mi}{1}
+            \PYG{p}{)}\PYGZbs{}
+            \PYG{o}{.}\PYG{n}{to\PYGZus{}latex}\PYG{p}{(}
+                \PYG{n}{column\PYGZus{}format} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}|l|r|r|r|\PYGZdq{}}\PYG{p}{,}
+                \PYG{n}{position}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}H\PYGZdq{}}\PYG{p}{,}
+                \PYG{n}{position\PYGZus{}float}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{}centering\PYGZdq{}}\PYG{p}{,}
+                \PYG{n}{caption} \PYG{o}{=} \PYG{n}{unicode\PYGZus{}to\PYGZus{}latex}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}Ejemplos para el modelo }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{model}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{, }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{percentil}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{),}
+                \PYG{n}{label} \PYG{o}{=} \PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}table\PYGZhy{}example\PYGZhy{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{DATASET\PYGZus{}NAME}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZhy{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{DATASET\PYGZus{}VERSION}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                \PYG{n}{clines}\PYG{o}{=}\PYG{k+kc}{None}
+            \PYG{p}{)}
+            \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{base\PYGZus{}path}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{/tables/table\PYGZhy{}example\PYGZhy{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{DATASET\PYGZus{}NAME}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZhy{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{DATASET\PYGZus{}VERSION}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{()}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZhy{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{model}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZhy{}}\PYG{l+s+si}{\PYGZob{}}\PYG{n}{i}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{.tex\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}w\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{stext}\PYG{p}{:}
+                \PYG{n}{stext}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{current\PYGZus{}table}\PYG{p}{)}
 \end{Verbatim}

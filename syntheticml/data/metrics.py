@@ -61,23 +61,27 @@ class Metrics:
         min_dist_rf2 = np.array([i[0]/i[1] if i[1] > 0 else 0 for i in smallest_two_rf])
         #fifth_perc_rf = np.percentile(min_dist_rf,5)
 
-        return min_dist_rf, min_dist_rf2, smallest_two_indexes_rf
+        return min_dist_rf, min_dist_rf2, smallest_two_indexes_rf, smallest_two_rf
     
     def calculate_privacy(self, fake_data: dict, report_folder):
         privacy_path = f"{report_folder}/privacy.npy"
         privacy_path_nnr = f"{report_folder}/privacy_NNR.npy"
         privacy_dist2 = f"{report_folder}/privacy_dist2.npy"
+        privacy_dist_score = f"{report_folder}/privacy_dist2_score.npy"
         frame = []
         dists = []
         columns_to_compare = list(set(self.train_data.columns) & set(self.includes) & set(self.hold_data.columns))
         if os.path.exists(privacy_path_nnr):
             dist_TH = np.load(privacy_path)
             dist_TH_NNR = np.load(privacy_path_nnr)
+            dist_TH_2 = np.load(privacy_dist2)
+            dist_TH_score = np.load(privacy_dist_score)
         else:
-            dist_TH, dist_TH_NNR, dist_TH_2 = self.privacy(self.train_data.loc[:, columns_to_compare], df_target=self.hold_data.loc[:, columns_to_compare])
+            dist_TH, dist_TH_NNR, dist_TH_2, dist_TH_score = self.privacy(self.train_data.loc[:, columns_to_compare], df_target=self.hold_data.loc[:, columns_to_compare])
             np.save(privacy_path, dist_TH)
             np.save(privacy_path_nnr, dist_TH_NNR)
             np.save(privacy_dist2, dist_TH_2)
+            np.save(privacy_dist_score, dist_TH_score)
             
         #dist_HT = self.privacy(self.hold_data, self.train_data)
         for model_name, df_fake in fake_data.items():
@@ -91,27 +95,71 @@ class Metrics:
             privacy_path_model_ST_dist_2 = f"{report_folder}/privacy_{model_name}_ST_dist2.npy"
             privacy_path_model_SH_dist_2 = f"{report_folder}/privacy_{model_name}_SH_dist2.npy"
 
+
+            privacy_path_model_ST_dist_score_2 = f"{report_folder}/privacy_{model_name}_ST_dist2_score.npy"
+            privacy_path_model_SH_dist_score_2 = f"{report_folder}/privacy_{model_name}_SH_dist2_score.npy"
+
             if os.path.exists(privacy_path_model_ST_NNR):
                 dist_ST = np.load(privacy_path_model_ST)
                 dist_ST_NNR = np.load(privacy_path_model_ST_NNR)
                 dist_ST_2 = np.load(privacy_path_model_ST_dist_2)
+                dist_ST_2_score = np.load(privacy_path_model_ST_dist_score_2)
             else:
-                dist_ST, dist_ST_NNR, dist_ST_2 = self.privacy(df_fake, df_target=self.train_data)
+                dist_ST, dist_ST_NNR, dist_ST_2, dist_ST_2_score = self.privacy(df_fake, df_target=self.train_data)
                 np.save(privacy_path_model_ST, dist_ST)
                 np.save(privacy_path_model_ST_NNR, dist_ST_NNR)
                 np.save(privacy_path_model_ST_dist_2, dist_ST_2)
+                np.save(privacy_path_model_ST_dist_score_2, dist_ST_2_score)
                 
             if os.path.exists(privacy_path_model_SH_NNR):
                 dist_SH = np.load(privacy_path_model_SH)
                 dist_SH_NNR = np.load(privacy_path_model_SH_NNR)
                 dist_SH_2 = np.load(privacy_path_model_SH_dist_2)
+                dist_SH_2_score = np.load(privacy_path_model_SH_dist_score_2)
             else:
-                dist_SH, dist_SH_NNR, dist_SH_2 = self.privacy(df_fake, df_target=self.hold_data)
+                dist_SH, dist_SH_NNR, dist_SH_2, dist_SH_2_score = self.privacy(df_fake, df_target=self.hold_data)
                 np.save(privacy_path_model_SH, dist_SH)
                 np.save(privacy_path_model_SH_NNR, dist_SH_NNR)
                 np.save(privacy_path_model_SH_dist_2, dist_SH_2)
+                np.save(privacy_path_model_SH_dist_score_2, dist_SH_2_score)
             
             #dist_HS = self.privacy(self.hold_data, df_fake)
+            
+
+            ST_minimo = np.min(dist_ST)
+            ST_maximo = np.max(dist_ST)
+            
+            reg_ST_minimo = {
+                "record": df_fake.iloc[np.argmin(np.abs(dist_ST - ST_minimo))].to_dict(),
+                "closest": self.train_data.iloc[  dist_ST_2[np.argmin(np.abs(dist_ST - ST_minimo))][0]   ].to_dict(),
+                "closest_2": self.train_data.iloc[  dist_ST_2[np.argmin(np.abs(dist_ST - ST_minimo))][1]   ].to_dict(),
+                "dists": dist_ST_2_score[np.argmin(np.abs(dist_ST - ST_minimo))].tolist()
+            }
+            reg_ST_maximo = {
+                "record": df_fake.iloc[np.argmin(np.abs(dist_ST - ST_maximo))].to_dict(),
+                "closest": self.train_data.iloc[  dist_ST_2[np.argmin(np.abs(dist_ST - ST_maximo))][0]   ].to_dict(),
+                "closest_2": self.train_data.iloc[  dist_ST_2[np.argmin(np.abs(dist_ST - ST_maximo))][1]   ].to_dict(),
+                "dists": dist_ST_2_score[np.argmin(np.abs(dist_ST - ST_maximo))].tolist()
+            }
+            
+
+            SH_minimo = np.min(dist_SH)
+            SH_maximo = np.max(dist_SH)
+            
+            reg_SH_minimo = {
+                "record": df_fake.iloc[np.argmin(np.abs(dist_SH - SH_minimo))].to_dict(),
+                "closest": self.hold_data.iloc[  dist_SH_2[np.argmin(np.abs(dist_SH - SH_minimo))][0] ].to_dict(),
+                "closest_2": self.hold_data.iloc[  dist_SH_2[np.argmin(np.abs(dist_SH - SH_minimo))][1]   ].to_dict(),
+                "dists": dist_SH_2_score[np.argmin(np.abs(dist_SH - SH_minimo))].tolist()
+            }
+            reg_SH_maximo = {
+                "record": df_fake.iloc[np.argmin(np.abs(dist_SH - SH_maximo))].to_dict(),
+                "closest": self.hold_data.iloc[  dist_SH_2[np.argmin(np.abs(dist_SH - SH_maximo))][0] ].to_dict(),
+                "closest_2": self.hold_data.iloc[  dist_SH_2[np.argmin(np.abs(dist_SH - SH_maximo))][1]   ].to_dict(),
+                "dists": dist_SH_2_score[np.argmin(np.abs(dist_SH - SH_maximo))].tolist()
+            }
+
+
             data = {
                 "name": model_name, 
                 "DCR ST min": np.min(dist_ST),
@@ -131,9 +179,30 @@ class Metrics:
                 
                 "NNDR TH min": np.min(dist_TH_NNR),
                 "NNDR TH median": np.median(dist_TH_NNR),
+
+                "record_ST_min": reg_ST_minimo,
+                "record_ST_max": reg_ST_maximo,
+                
+                "record_SH_min": reg_SH_minimo,
+                "record_SH_max": reg_SH_maximo,
             }
-            
+                        
             for i in range(5):
+                ST_p = np.percentile(dist_ST, 1+i)
+                reg_ST_p = {
+                    "record": df_fake.iloc[np.argmin(np.abs(dist_ST - ST_p))].to_dict(),
+                    "closest": self.train_data.iloc[  dist_ST_2[np.argmin(np.abs(dist_ST - ST_p))][0]   ].to_dict(),
+                    "closest_2": self.train_data.iloc[  dist_ST_2[np.argmin(np.abs(dist_ST - ST_p))][1]   ].to_dict(),
+                    "dists": dist_ST_2_score[np.argmin(np.abs(dist_ST - ST_p))].tolist(),
+                }
+                
+                SH_p = np.percentile(dist_SH, 1+i)
+                reg_SH_p = {
+                    "record": df_fake.iloc[np.argmin(np.abs(dist_SH - SH_p))].to_dict(),
+                    "closest": self.train_data.iloc[  dist_SH_2[np.argmin(np.abs(dist_SH - SH_p))][0]   ].to_dict(),
+                    "closest_2": self.train_data.iloc[  dist_SH_2[np.argmin(np.abs(dist_SH - SH_p))][1]   ].to_dict(),
+                    "dists": dist_SH_2_score[np.argmin(np.abs(dist_SH - SH_p))].tolist()
+                }
                 data.update({
                     f"DCR ST {i+1}th": np.quantile(dist_ST, (i+1.0)/100),
                     f"DCR SH {i+1}th": np.quantile(dist_SH, (i+1.0)/100), 
@@ -141,6 +210,8 @@ class Metrics:
                     f"NNDR ST {i+1}th": np.quantile(dist_ST_NNR, (i+1.0)/100), 
                     f"NNDR SH {i+1}th": np.quantile(dist_SH_NNR, (i+1.0)/100), 
                     f"NNDR TH {i+1}th": np.quantile(dist_TH_NNR, (i+1.0)/100),
+                    f"record_ST_{i+1}p": reg_ST_p,
+                    f"record_SH_{i+1}p": reg_SH_p
                 })
 
 

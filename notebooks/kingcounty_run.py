@@ -1,6 +1,8 @@
 import pandas as pd
 from syntheticml.data.synthetic import Synthetic, MODELS
 import os
+from pylatexenc.latexencode import unicode_to_latex
+
 import sys
 syn = None
 DATASET_VERSION=sys.argv[1]
@@ -35,7 +37,16 @@ if __name__ == '__main__':
 
     syn.process()
     syn.process_scores()
- 
+
+import numpy as np
+def is_same(x):
+    """
+    subset=coverage_score.columns[2:],
+        props='bfseries:;',
+        axis=1
+    """
+    values = [i if type(i) == str else '{:.2e}' if i < 1.0 else round(i,5) for i in x.values]
+    return [ 'cellcolor:[rgb]{0.9, 0.54, 0.52};' if i == 0 or values[0] == v else '' for i,v in enumerate(values)]
 
 def print_charts(folder_path, model_name, figs):
     if not os.path.exists(folder_path):
@@ -272,3 +283,55 @@ if __name__ == '__main__':
     )
     with open(f"{base_path}/tables/table-dcr-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}.tex", "w") as stext:
         stext.write(formated_dcr)
+
+    avg = syn.scores[syn.scores["type"] == "avg"]
+    avg.sort_values("score", ascending=False).loc[:,:]
+
+    dfs = []
+    for model in avg.index:
+        for i in ["min", "1p", "5p"]:
+            d = avg.loc[[model],[f"record_ST_{i}"]].iloc[0].to_dict()[f"record_ST_{i}"]
+            current_data = pd.DataFrame.from_dict(
+                    [d["record"], d["closest"], d["closest_2"]]
+                ).assign(distance=['0']+[f'{v:.2e}' for i,v in enumerate(d["dists"])]).rename(columns={"distance": "Variable/Distancia"})
+            dfs.append(
+                current_data.assign(model=model).assign(level=i)
+            )
+            c_1 = current_data.set_index(["Variable/Distancia"]).T
+            percentil = "minimo" if i == "min" else f"{i}ercentil"
+            current_table = c_1.style\
+            .format_index(escape="latex", precision=3, axis=1)\
+            .format_index("\hline {}", escape="latex", precision=3, axis=0)\
+            .set_table_styles([
+        {'selector': 'toprule', 'props': ':hline\n\\rowcolor[gray]{0.8};'},
+        {'selector': 'bottomrule', 'props': ':hline;'}
+    ], overwrite=False)\
+            .apply(
+                is_same,
+                axis=1
+            )\
+            .to_latex(
+                column_format = f"|l|r|r|r|",
+                position="H",
+                position_float="centering",
+                caption = unicode_to_latex(f"Ejemplos para el modelo {model}, {percentil}"),
+                label = f"table-example-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}",
+                clines=None
+            )
+            with open(f"{base_path}/tables/table-example-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model}-{i}.tex", "w") as stext:
+                stext.write(current_table)
+            
+
+    data_table = pd.concat(dfs).set_index(["model", "level", "Variable/Distancia"])
+    latex_table = data_table.style\
+        .format_index("{}", escape="latex", axis=1)\
+        .format_index("{}", escape="latex", axis=0)\
+        .to_latex(
+        position="H",
+        position_float="centering",
+        caption = f"Distancia de registros más cercanos entre conjuntos Sinteticos, \emph{{Train}} y \emph{{Hold}}",
+        label = f"table-example-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}",
+        clines=None
+    )
+    with open(f"{base_path}/tables/table-example-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}.tex", "w") as stext:
+        stext.write(latex_table)
