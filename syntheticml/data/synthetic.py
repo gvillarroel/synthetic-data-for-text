@@ -64,6 +64,7 @@ def parallel_syn(params: tuple[str, str, tuple[str, str]], df: pd.DataFrame, syn
     
     model = model.load(model_checkpoint)
     syndata_path = f"{syntheticdata_folder}/{file_name}.parquet"
+    syndata_path_with_text = f"{syntheticdata_folder}/{file_name}_with_text.parquet"
     p = {}
     if not os.path.exists(syndata_path):
         f = model.sample_remaining_columns if remaining_columns else model.sample
@@ -90,7 +91,11 @@ def parallel_syn(params: tuple[str, str, tuple[str, str]], df: pd.DataFrame, syn
         if len(new_data.columns) > 2:
             new_data.to_parquet(syndata_path, compression='snappy', engine='pyarrow', version='2.6')
     print("="*30)
-    return (file_name, pd.read_parquet(syndata_path))
+    data = pd.read_parquet(syndata_path)
+    if os.path.exists(syndata_path_with_text):
+        data_with_text = pd.read_parquet(syndata_path_with_text)
+        data = data.join(data_with_text.drop(columns=data.columns))
+    return (file_name, data)
 
 
 class Synthetic:

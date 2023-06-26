@@ -293,7 +293,7 @@ if __name__ == '__main__':
             d = avg.loc[[model],[f"record_ST_{i}"]].iloc[0].to_dict()[f"record_ST_{i}"]
             current_data = pd.DataFrame.from_dict(
                     [d["record"], d["closest"], d["closest_2"]]
-                ).assign(distance=['0']+[f'{v:.2e}' for i,v in enumerate(d["dists"])]).rename(columns={"distance": "Variable/Distancia"})
+                ).assign(distance=['Sintético']+[f'DCR{i+1} d({v:.2e})' for i,v in enumerate(d["dists"])]).rename(columns={"distance": "Variable/Distancia"})
             dfs.append(
                 current_data.assign(model=model).assign(level=i)
             )
@@ -315,9 +315,9 @@ if __name__ == '__main__':
                 position="H",
                 position_float="centering",
                 caption = unicode_to_latex(f"Ejemplos para el modelo {model}, {percentil}"),
-                label = f"table-example-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}",
+                label = f"table-example-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model}-{i}",
                 clines=None
-            )
+            ).replace("\centering", "\\centering\n\\fontsize{10}{14}\\selectfont")
             with open(f"{base_path}/tables/table-example-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model}-{i}.tex", "w") as stext:
                 stext.write(current_table)
             

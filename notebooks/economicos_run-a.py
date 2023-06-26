@@ -6,6 +6,8 @@ import numpy as np
 import itertools
 import multiprocessing as mp
 from syntheticml.data.synthetic import MODELS
+from pylatexenc.latexencode import unicode_to_latex
+
 import os
 import sys
 DATASET_VERSION=sys.argv[1]
@@ -182,7 +184,30 @@ if __name__ == '__main__':
     \\label{{pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}}}
 \\end{{figure}}""")
             pair_tex.write(f'\input{{{relative_path}/pairwise/{model_name}.tex}}\n')                
-        print(f"{base_path}/pairwise/pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}.svg")    
+        print(f"{base_path}/pairwise/pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}.svg")
+        if "description" in model_data.columns:
+            
+            c_3 = pd.DataFrame(index=range(8), data={"description": model_data.sample(8)["description"].to_list() })
+            #c_3["description"] = model_data.sample(10)["description"].apply(unicode_to_latex) 
+            #.format(escape="latex")\
+            current_sample_wtext = c_3.style\
+            .hide(axis="index")\
+            .format("\hline {}", c_3.columns[0], escape="latex")\
+            .format_index("\hline {}", escape="latex", axis=0)\
+            .set_table_styles([
+        {'selector': 'toprule', 'props': ':hline\n\\rowcolor[gray]{0.8};'},
+        {'selector': 'bottomrule', 'props': ':hline;'}
+    ], overwrite=False)\
+            .to_latex(
+                column_format = "|m{45em}|",
+                position="H",
+                position_float="centering",
+                caption = unicode_to_latex(f"Ejemplos de textos aleatoreos del modelo {model_name}"),
+                label = f"table-sample10-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}-text",
+                clines=None
+            ).replace("\centering", "\\centering\n\\fontsize{8}{14}\\selectfont")
+            with open(f"{base_path}/tables/table-sample10-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}-text.tex", "w") as stext:
+                stext.write(current_sample_wtext) 
     
     # Score Table
     score_table = syn.scores.sort_values("score", ascending=False).loc[:
@@ -271,10 +296,8 @@ if __name__ == '__main__':
 
     dcr_score = syn.scores[syn.scores["type"] == "avg"].sort_values("score", ascending=False).loc[:,["DCR ST 5th", "DCR SH 5th", "DCR TH 5th","NNDR ST 5th", "NNDR SH 5th", "NNDR TH 5th", "score"]].reset_index().rename(columns={'name':"Modelo", "score": "\\textbf{Score}", "DCR ST 5th":"DCR ST", "DCR SH 5th": "DCR SH", "DCR TH 5th": "DCR TH", "NNDR ST 5th": "NNDR ST", "NNDR SH 5th": "NNDR SH", "NNDR TH 5th": "NNDR TH"})
     formated_dcr = dcr_score.style.hide(axis="index")\
+        .format(precision=3)\
         .format("\hline {}", dcr_score.columns[0], escape="latex")\
-        .format("{:.3e}", dcr_score.columns[1:4])\
-        .format("{:.3f}", dcr_score.columns[4:])\
-        .format("{:.3e}", dcr_score.columns[5])\
         .set_table_styles([
         {'selector': 'toprule', 'props': ':hline\n\\rowcolor[gray]{0.8};'},
         {'selector': 'bottomrule', 'props': ':hline;'}
@@ -302,16 +325,18 @@ if __name__ == '__main__':
 
     dfs = []
     for model in avg.index:
-        for i in ["min", "1p", "5p"]:
+        for i in ["min", "1p", "2p", "3p", "4p", "5p"]:
             d = avg.loc[[model],[f"record_ST_{i}"]].iloc[0].to_dict()[f"record_ST_{i}"]
             current_data = pd.DataFrame.from_dict(
                     [d["record"], d["closest"], d["closest_2"]]
-                ).assign(distance=['0']+[f'{v:.2e}' for i,v in enumerate(d["dists"])]).rename(columns={"distance": "Variable/Distancia"})
+                ).assign(distance=['Sintético']+[f'DCR{i+1} d({v:.2e})' for i,v in enumerate(d["dists"])]).rename(columns={"distance": "Variable/Distancia"})
             dfs.append(
                 current_data.assign(model=model).assign(level=i)
             )
-            c_1 = current_data.set_index(["Variable/Distancia"]).T
-            percentil = "minimo" if i == "min" else f"{i}ercentil"
+            c_1 = current_data.drop(columns=[c for c in current_data.columns if c in syn.text_columns]).copy()
+            c_1 = c_1.set_index(["Variable/Distancia"]).T.sort_index()
+            percentil = "minimo" if i == "min" else f"percentil {i[0]}"
+            #.format(escape="latex", subset=[c for c in c_1.columns if c in syn.text_columns])\
             current_table = c_1.style\
             .format_index(escape="latex", precision=3, axis=1)\
             .format_index("\hline {}", escape="latex", precision=3, axis=0)\
@@ -328,8 +353,47 @@ if __name__ == '__main__':
                 position="H",
                 position_float="centering",
                 caption = unicode_to_latex(f"Ejemplos para el modelo {model}, {percentil}"),
-                label = f"table-example-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}",
+                label = f"table-example-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model}-{i}",
                 clines=None
-            )
+            ).replace("\centering", "\\centering\n\\fontsize{10}{14}\\selectfont")
             with open(f"{base_path}/tables/table-example-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model}-{i}.tex", "w") as stext:
                 stext.write(current_table)
+            #formated_table = score_table.style.hide(axis="index").format(precision=3).format("\hline {}", score_table.columns[0], escape="latex").set_table_styles([
+            c_2 = current_data[["Variable/Distancia","description"]].copy()
+            c_2 = c_2.rename(columns={"Variable/Distancia": "Distancia"})
+            c_2["description"] = c_2["description"].apply(unicode_to_latex) 
+            #.format(escape="latex")\
+            current_table_wtext = c_2.style\
+            .hide(axis="index")\
+            .format("\hline {}", c_2.columns[0], escape="latex")\
+            .format_index("\hline {}", escape="latex", axis=0)\
+            .set_table_styles([
+        {'selector': 'toprule', 'props': ':hline\n\\rowcolor[gray]{0.8};'},
+        {'selector': 'bottomrule', 'props': ':hline;'}
+    ], overwrite=False)\
+            .to_latex(
+                column_format = "|l|m{35em}|",
+                position="H",
+                position_float="centering",
+                caption = unicode_to_latex(f"Ejemplos de texto modelo {model}, {percentil}"),
+                label = f"table-example-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model}-{i}-text",
+                clines=None
+            ).replace("\centering", "\\centering\n\\fontsize{10}{14}\\selectfont")
+            with open(f"{base_path}/tables/table-example-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model}-{i}-text.tex", "w") as stext:
+                stext.write(current_table_wtext)
+
+            
+    
+    data_table = pd.concat(dfs).set_index(["model", "level", "Variable/Distancia"])
+    latex_table = data_table.style\
+        .format_index("{}", escape="latex", axis=1)\
+        .format_index("{}", escape="latex", axis=0)\
+        .to_latex(
+        position="H",
+        position_float="centering",
+        caption = f"Distancia de registros más cercanos entre conjuntos Sinteticos, \emph{{Train}} y \emph{{Hold}}",
+        label = f"table-example-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}",
+        clines=None
+    )
+    with open(f"{base_path}/tables/table-example-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}.tex", "w") as stext:
+        stext.write(latex_table)

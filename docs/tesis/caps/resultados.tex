@@ -71,15 +71,24 @@ Al analizar los registros más cercanos entre los conjuntos de datos reales util
 \input{datasets/kingcounty-a/tables/table-dcr-king county-a-1th.tex}
 \input{datasets/kingcounty-a/tables/table-dcr-king county-a-min.tex}
 \newpage
-\input{datasets/kingcounty-a-1/tables/table-example-king county-a-1-smote-enc-min.tex}
-\input{datasets/kingcounty-a-1/tables/table-example-king county-a-1-tddpm_mlp-min.tex}
-
-\newpage
 Al analizar los ratios entre la distancia al primer vecino más cercano y la distancia al segundo para el modelo TDDPM, se evidencia que para el percentil 5, la distancia al vecino más cercano es solo 2/3 de la distancia al segundo más cercano. Sin embargo, para el percentil 1, esta distancia se reduce a la mitad. En contraposición, para el modelo SMOTE, en el percentil 5, la distancia al vecino más cercano es solo un 20\% de la distancia al segundo más cercano, y disminuye rápidamente a un 6\% para el percentil 1.
 
 \input{datasets/kingcounty-a/tables/table-nndr-king county-a-5th.tex}
 \input{datasets/kingcounty-a/tables/table-nndr-king county-a-1th.tex}
 \input{datasets/kingcounty-a/tables/table-nndr-king county-a-min.tex}
+\newpage
+Las Tablas \ref{table-example-king county-a-1-smote-enc-min} y \ref{table-example-king county-a-1-tddpm_mlp-min} presentan un ejemplo de la mínima distancia en los modelos SMOTE y TDDPM, respectivamente. Los nombres de las columnas representan la distancia de Minkowski al registro 0, indicado de esta manera en la columna correspondiente. Las celdas coloreadas en rojo señalan que el valor de la característica para una propiedad específica es idéntico al valor correspondiente de la propiedad de referencia. Así, la tabla proporciona una comparación detallada de las propiedades que son similares en términos de las características seleccionadas.
+
+En la Tabla \ref{table-example-king county-a-1-smote-enc-min}, se puede observar claramente que, excepto por las variables de precio y fecha en el segundo registro más cercano, son idénticas a las del original. Esto significa que ese registro fue transferido en su totalidad al conjunto sintético. 
+
+
+\input{datasets/kingcounty-a-1/tables/table-example-king county-a-1-smote-enc-min.tex}
+\newpage
+La Tabla \ref{table-example-king county-a-1-tddpm_mlp-min} presenta valores de distancia mayores que los obtenidos en la tabla correspondiente a SMOTE (\ref{table-example-king county-a-1-smote-enc-min}). Se pueden observar diferencias en las variables \emph{sqft\_living}, \emph{sqft\_lot}, \emph{sqft\_above}, \emph{yr\_built} y \emph{lat}, entre otras. Esta es la mínima distancia encontrada por la métrica.
+\input{datasets/kingcounty-a-1/tables/table-example-king county-a-1-tddpm_mlp-min.tex}
+\newpage
+En la Tabla \ref{table-example-king county-a-1-smote-enc-1p}, se puede observar una notable mejoría en el modelo SMOTE. Esta tabla presenta un registro cercano con múltiples diferencias, entre las cuales se pueden destacar \emph{sqft\_lot} y \emph{price}.
+\input{datasets/kingcounty-a-1/tables/table-example-king county-a-1-smote-enc-1p.tex}
 \newpage
 %\input{datasets/kingcounty-a-1/tables/table-dcr-king county-a-1.tex}
 %\input{datasets/kingcounty-a-2/tables/table-dcr-king county-a-2.tex}
@@ -164,6 +173,21 @@ Aunque la diferencia es pequeña, se puede apreciar al comparar visualmente las 
 \input{datasets/economicos-a-2/pairwise/smote-enc.tex}
 \input{datasets/economicos-a-2/pairwise/tddpm_mlp.tex}
 \newpage
+Es fácil entender que la implicancia de un \emph{DCR} igual a 0 es un registro copiado desde el conjunto real, esto se puede apreciar en la Tabla \ref{table-example-economicos-a-2-tddpm_mlp-min}.
+\input{datasets/economicos-a-2/tables/table-example-economicos-a-2-tddpm_mlp-min.tex}
+Ya cuando se observa el percentil 1, se puede apreciar que la diferencia se puede considerar significativa. En el caso mostrado por la Tabla \ref{table-example-economicos-a-2-tddpm_mlp-1p}, los metros cuadrados (\emph{m\_size}) y \emph{\_price} cambian y luego la variable \emph{county} también cambian en el segundo registro más cercano.
+\input{datasets/economicos-a-2/tables/table-example-economicos-a-2-tddpm_mlp-1p.tex}
+\newpage
+En las Tablas \ref{table-example-economicos-a-1-tddpm_mlp-4p} y \ref{table-example-economicos-a-1-tddpm_mlp-4p-text} se puede observar un registro con coherencia simulada. Por ejemplo, cuando decide generar un número de teléfono, este parece coherente. También menciona que está cerca de un metro, detalle que podría estar presente en una publicación real, a pesar de que el metro indicado no exista.
+\input{datasets/economicos-a-1/tables/table-example-economicos-a-1-tddpm_mlp-4p.tex}
+\input{datasets/economicos-a-1/tables/table-example-economicos-a-1-tddpm_mlp-4p-text.tex}
+\newpage
+Algo que no se puede apreciar en el caso del modelo de SMOTE es que, incluso en el percentil 1, aún permite permear registros idénticos a los reales.
+\input{datasets/economicos-a-2/tables/table-example-economicos-a-2-smote-enc-1p.tex}
+
+
+
+\newpage
 \subsection{Reportes - Conjunto B}
 \label{ds-conjunto-b}
 Iniciaría contrastando los resultados entre ambos conjuntos para el modelo TDDPM La Tabla \ref{table-score-economicos-b} muestra mejores \emph{Score}, \emph{Coverage}, \emph{Column Shape} y \emph{Column Pair Trends} comparadas con la Tabla \ref{table-score-economicos-a}. Puede deverse que al ser una cantidad de datos mayor, pudo tener más tiempo de aprender la distribución. Mejoria no notoria en los demás modelos, lo que podría indicar una mayor capacidad de TDDPM. Se puede ver que la cobertura es el indicador más bajo, solo alcanzando el 87\% en el mejor de los casos.
@@ -194,3 +218,16 @@ Los modelos SMOTE y TDDPM, al ser comparados con el conjunto original, presentan
 
 \input{datasets/economicos-b-1/pairwise/smote-enc.tex}
 \input{datasets/economicos-b-1/pairwise/tddpm_mlp.tex}
+
+\newpage
+\input{datasets/economicos-b-2/tables/table-example-economicos-b-2-smote-enc-min.tex}
+\input{datasets/economicos-b-2/tables/table-example-economicos-b-2-tddpm_mlp-1p.tex}
+\newpage
+\input{datasets/economicos-b-1/tables/table-example-economicos-b-1-tddpm_mlp-2p.tex}
+\input{datasets/economicos-b-1/tables/table-example-economicos-b-1-tddpm_mlp-2p-text.tex}
+\newpage
+\input{datasets/economicos-b-2/tables/table-example-economicos-b-2-smote-enc-1p.tex}
+\newpage
+En el ejemplo presentado en las Tablas \ref{table-example-economicos-b-1-tddpm_mlp-4p} y \ref{table-example-economicos-b-1-tddpm_mlp-4p-text}, el registro sintético muestra coherencia con los datos de entrada. Por ejemplo, el texto generado corresponde a un departamento con dos dormitorios, aunque indica la existencia de un baño adicional en comparación con los datos de la publicación. Sin embargo, no proporciona otra información relevante que pueda correlacionarse con los datos estructurados de la publicación.
+\input{datasets/economicos-b-1/tables/table-example-economicos-b-1-tddpm_mlp-4p.tex}
+\input{datasets/economicos-b-1/tables/table-example-economicos-b-1-tddpm_mlp-4p-text.tex}
