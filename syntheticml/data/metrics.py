@@ -320,14 +320,19 @@ class Metrics:
         probs = self.get_probs_from_serie(serie)
         if self.is_categorical(serie) or self.is_datetime(serie):
             try:
-                desc = describe(serie.astype('category'), stats=["nobs", "missing"])[serie.name] 
-            except KeyError:
-                desc = {
-                    "nobs": serie.shape[0],
-                    "missing": serie.isna().count()
-                }
+                desc = describe(serie, 
+                stats=["nobs", "missing", "mean", "std_err", "ci", "ci", "std", "iqr", "iqr_normal", "mad", "mad_normal", "coef_var", "range", "max", "min", "skew", "kurtosis", "jarque_bera", "mode", "freq", "median", "percentiles", "distinct"],
+                percentiles=[0.1,1,5,25,75,95,99,99.9]
+                )[serie.name] 
+            except:
+                try:
+                    desc = describe(serie.astype('category'), stats=["nobs", "missing"])[serie.name] 
+                except KeyError:
+                    desc = {
+                        "nobs": serie.shape[0],
+                        "missing": serie.isna().count()
+                    }
         else:
-            print(serie.name)
             desc = describe(serie, 
             stats=["nobs", "missing", "mean", "std_err", "ci", "ci", "std", "iqr", "iqr_normal", "mad", "mad_normal", "coef_var", "range", "max", "min", "skew", "kurtosis", "jarque_bera", "mode", "freq", "median", "percentiles", "distinct"],
             percentiles=[0.1,1,5,25,75,95,99,99.9]

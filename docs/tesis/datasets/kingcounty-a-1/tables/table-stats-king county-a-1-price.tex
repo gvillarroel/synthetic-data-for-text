@@ -1,0 +1,46 @@
+\begin{table}[H]
+\centering
+\fontsize{8}{14}\selectfont
+\caption{Propiedades  estadisticas de variable price, King county (A-1)}
+\label{table-stats-king county-a-1-price}
+\begin{tabular}{|l|m{10em}|m{10em}|m{10em}|m{10em}|}
+\hline
+ \rowcolor[gray]{0.8}
+Variable/Modelo & Real & tddpm\_mlp & smote-enc & ctgan \\
+\hline top5 & [350000. 450000. 425000. 550000. 325000.] & [350000. 450000. 500000. 400000. 425000.] & [350000. 550000. 450000. 475000. 300000.] & [ 75000. 635732. 484716. 314440. 581465.] \\
+\hline top5\_freq & [143 140 123 123 123] & [149 148 136 135 133] & [196 186 181 168 159] & [170   3   3   3   2] \\
+\hline top5\_prob & [0.00827068 0.00809717 0.00711394 0.00711394 0.00711394] & [0.006894   0.00684773 0.00629251 0.00624624 0.0061537 ] & [0.0090682  0.00860553 0.0083742  0.00777274 0.00735634] & [7.86563642e-03 1.38805349e-04 1.38805349e-04 1.38805349e-04
+ 9.25368991e-05] \\
+\hline nobs & 17290 & \bfseries 21613 & \cellcolor[rgb]{0.9, 0.54, 0.52} 21614 & \bfseries 21613 \\
+\hline missing & 0.000 & 0.000 & 0.000 & 0.000 \\
+\hline mean & 537768 & \bfseries 530920 & 519775 & \cellcolor[rgb]{0.9, 0.54, 0.52} 689522 \\
+\hline std\_err & 2749 & 3395 & \bfseries 2132 & \cellcolor[rgb]{0.9, 0.54, 0.52} 4143 \\
+\hline upper\_ci & 543156 & \bfseries 537574 & 523953 & \cellcolor[rgb]{0.9, 0.54, 0.52} 697642 \\
+\hline lower\_ci & 532380 & \bfseries 524266 & 515597 & \cellcolor[rgb]{0.9, 0.54, 0.52} 681402 \\
+\hline std & 361464 & 499118 & \bfseries 313415 & \cellcolor[rgb]{0.9, 0.54, 0.52} 609070 \\
+\hline iqr & 319850 & 296944 & \bfseries 310588 & \cellcolor[rgb]{0.9, 0.54, 0.52} 466040 \\
+\hline iqr\_normal & 237105 & 220125 & \bfseries 230239 & \cellcolor[rgb]{0.9, 0.54, 0.52} 345476 \\
+\hline mad & 231680 & \bfseries 229859 & 212404 & \cellcolor[rgb]{0.9, 0.54, 0.52} 389581 \\
+\hline mad\_normal & 290368 & \bfseries 288085 & 266209 & \cellcolor[rgb]{0.9, 0.54, 0.52} 488267 \\
+\hline coef\_var & 0.672 & \cellcolor[rgb]{0.9, 0.54, 0.52} 0.940 & \bfseries 0.603 & 0.883 \\
+\hline range & 7625000 & \bfseries 7625000 & 5225000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 4599177 \\
+\hline max & 7700000 & \bfseries 7700000 & 5300000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 4674177 \\
+\hline min & 75000 & 75000 & 75000 & 75000 \\
+\hline skew & 4.032 & \cellcolor[rgb]{0.9, 0.54, 0.52} 9.648 & 2.857 & \bfseries 2.868 \\
+\hline kurtosis & 39.678 & \cellcolor[rgb]{0.9, 0.54, 0.52} 130.966 & \bfseries 18.424 & 13.316 \\
+\hline jarque\_bera & 1016020 & \cellcolor[rgb]{0.9, 0.54, 0.52} 15081933 & \bfseries 243639 & 125453 \\
+\hline jarque\_bera\_pval & 0.000 & 0.000 & 0.000 & 0.000 \\
+\hline mode & 350000 & \bfseries 350000 & \bfseries 350000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 75000 \\
+\hline mode\_freq & 0.008 & \cellcolor[rgb]{0.9, 0.54, 0.52} 0.007 & 0.009 & \bfseries 0.008 \\
+\hline median & 450000 & 443549 & \bfseries 450250 & \cellcolor[rgb]{0.9, 0.54, 0.52} 511031 \\
+\hline 0.1\% & 95000 & \bfseries 96170 & 99613 & \cellcolor[rgb]{0.9, 0.54, 0.52} 75000 \\
+\hline 1.0\% & 154467 & 158605 & \bfseries 153568 & \cellcolor[rgb]{0.9, 0.54, 0.52} 82232 \\
+\hline 5.0\% & 210000 & 212895 & \bfseries 210000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 169165 \\
+\hline 25.0\% & 320150 & \bfseries 316078 & 315000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 346617 \\
+\hline 75.0\% & 640000 & 613022 & \bfseries 625588 & \cellcolor[rgb]{0.9, 0.54, 0.52} 812657 \\
+\hline 95.0\% & 1150000 & 1008502 & \bfseries 1038350 & \cellcolor[rgb]{0.9, 0.54, 0.52} 1906392 \\
+\hline 99.0\% & 1950000 & \bfseries 1862308 & 1747830 & \cellcolor[rgb]{0.9, 0.54, 0.52} 3523890 \\
+\hline 99.9\% & 3331995 & \cellcolor[rgb]{0.9, 0.54, 0.52} 7700000 & \bfseries 2950000 & 4332603 \\
+\hline
+\end{tabular}
+\end{table}

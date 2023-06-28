@@ -37,9 +37,10 @@ class Charts:
         )
 
         for key, df_fake in serie_fake.items():
+            wrangling_name = key.replace("_", "-").split("-")[0].capitalize()
             x2, y2 = np.unique( df_fake[df_fake.astype(str).isin(x)].astype(str), return_counts=True)
             y2 = np.array(list(y2)) / sum(y2)
-            data.append(go.Bar(name=key, x=x2, y=y2, marker_color=next(next_colors)))
+            data.append(go.Bar(name=wrangling_name, x=x2, y=y2, marker_color=next(next_colors)))
                                 
         fig = go.Figure(data=data, layout=dict(title=self.get_serie_title(serie_real)))
         return fig
@@ -58,8 +59,9 @@ class Charts:
         )
 
         for key, df_fake in serie_fake.items():
+            wrangling_name = key.replace("_", "-").split("-")[0].capitalize()
             data.append(
-                go.Histogram(x=df_fake[((df_fake <= tmax) & (df_fake >= tmin) )], name=key, marker_color=next(next_colors), histnorm='percent')
+                go.Histogram(x=df_fake[((df_fake <= tmax) & (df_fake >= tmin) )], name=wrangling_name, marker_color=next(next_colors), histnorm='percent')
             )
                 
         fig = go.Figure(data=data, layout=dict(title=self.get_serie_title(serie_real), barmode='overlay'))
@@ -134,9 +136,10 @@ class Charts:
             for i in range(20)
         )
 
-        for k, v in dist_syn.items():
+        for key, v in dist_syn.items():
+            wrangling_name = key.replace("_", "-").split("-")[0].capitalize()
             data.append(
-                go.Histogram(x=v, name=k, marker_color=next(next_colors))
+                go.Histogram(x=v, name=wrangling_name, marker_color=next(next_colors))
             )
         
         fig = go.Figure(data=data, layout=dict(title="Privacy", barmode='overlay'))

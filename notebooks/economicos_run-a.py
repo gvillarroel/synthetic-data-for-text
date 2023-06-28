@@ -76,24 +76,39 @@ def print_charts(folder_path, model_name, figs):
             file_name = f'{fig.layout.title.text.replace(":","").replace(" ","_").lower()}'
             field_name = ' '.join(map(str.capitalize, file_name.split('_')))
             fig.update_layout(
-                title=f"Field <{field_name}> Distribution",
+                title=f"Distribución Variable {field_name}",
                 xaxis_title=f"Total <{field_name}>",
                 yaxis_title="Frequency",
                 legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
             )
             fig.write_image(f"{folder_path}/{file_name}.svg")
             field_name_ = field_name.replace("_", "\_")
-            model_name_ = model_name.replace("_", "\_")
+            model_name_ = model_name.replace("_", "-").split("-")[0]
             with open(f"{folder_path}/{file_name}.tex", "w") as ltext:
                 ltext.write(f"""\\begin{{figure}}[H]
     \\centering
     \\includesvg[scale=.7,inkscapelatex=false]{{{relative_path}/{file_name}.svg}}
-    \\caption{{Frecuencia del campo {field_name_.lower()} en el modelo real y {model_name_.lower()}}}
+    \\caption{{Frecuencia del campo {field_name_.capitalize()} en el modelo real y {model_name_.lower() if model_name_ != "top2" else "Top 2"}}}
     \\label{{frecuency-{field_name}-{model_name}}}
 \\end{{figure}}""")
             print(f"{folder_path}/{file_name}.svg")
             model_tex.write(f'\input{{{relative_path}/{file_name}.tex}}\n')
     model_tex.close()
+
+def max_min_first(x):
+    i, *v = x.values
+    if isinstance(i, str) or isinstance(v[0], str) \
+          or isinstance(i, list) or isinstance(v[0], list) \
+            or isinstance(i, np.ndarray) or isinstance(v[0], np.ndarray):
+        return ['']*len(x)
+    
+    mm = np.abs(np.array(v)-i)
+    vmin = np.min(mm)
+    vmax = np.max(mm)
+    if vmin == vmax:
+        return ['']*len(x)
+    else:
+        return [''] + ['bfseries:;' if vv==vmin else 'cellcolor:[rgb]{0.9, 0.54, 0.52};' if vv==vmax else '' for vv in mm]
 
 
 if __name__ == '__main__':
@@ -147,25 +162,93 @@ if __name__ == '__main__':
     current_metrics = syn.current_metrics()
     fake_metrics = syn.get_metrics_fake()
     columns = list(current_metrics.name.unique())
-
+    relative_path = base_path.replace("../docs/tesis/","")
     dfs = [
-        current_metrics.loc[(current_metrics.name.isin(columns) & current_metrics.is_categorical),prop_cat].dropna(axis=1, how='all').assign(model="Real")
+        current_metrics.dropna(axis=1, how='all').assign(model="Real")
     ]
-    for model_name in models:
-        dfs.append(fake_metrics[model_name].loc[(fake_metrics[model_name].name.isin(columns) & fake_metrics[model_name].is_categorical),prop_cat].dropna(axis=1, how='all').assign(model=model_name))
+    for model_name in models + ["ctgan"]:
+        dfs.append(fake_metrics[model_name]\
+                   .dropna(axis=1, how='all')\
+                    .assign(model=model_name))
 
-    diffdf = pd.concat(dfs).sort_values(["name", "model"], ascending=[True, True]).loc[:, ["model", "name"] + prop_cat[1:]]
-    print(diffdf)
+    diffdf = pd.concat(dfs)
+    stats_tex = open(f"{base_path}/stats.tex", "w")
+    for col in columns:
+        d = diffdf[ (diffdf["name"] == col) ].copy()
+        d = d.drop(columns=["name", "is_categorical"])\
+            .rename(columns={"model":"Variable/Modelo"})\
+                .set_index("Variable/Modelo").T.dropna()
+        f_d = d.style\
+            .format(precision=3, escape="latex")\
+            .format(precision=0, subset=pd.IndexSlice[[i for i in d.index if not isinstance(d.loc[i, "Real"], np.ndarray) and np.abs(d.loc[i, "Real"]) > 1000],:] )\
+            .format("{:.5e}", subset=pd.IndexSlice[[i for i in d.index if not isinstance(d.loc[i, "Real"], np.ndarray) and np.abs(d.loc[i, "Real"]) > 10e8],:] )\
+            .format_index(escape="latex", precision=3, axis=1)\
+            .format_index("\hline {}", escape="latex", precision=3, axis=0)\
+            .set_table_styles([
+            {'selector': 'toprule', 'props': ':hline\n \\rowcolor[gray]{0.8};'},
+            {'selector': 'bottomrule', 'props': ':hline;'}
+        ], overwrite=False)\
+        .apply(
+            max_min_first,
+            axis=1
+        ).to_latex(
+            column_format = "|l|m{10em}|m{10em}|m{10em}|m{10em}|",
+            position="H",
+            position_float="centering",
+            caption = unicode_to_latex(f"Propiedades  estadisticas de variable {col}, {DATASET_NAME.capitalize()} ({DATASET_VERSION.upper()})"),
+            label = f"table-stats-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{col}",
+            clines=None,
+        ).replace("\centering", "\\centering\n\\fontsize{8}{14}\\selectfont")
+        with open(f"{base_path}/tables/table-stats-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{col}.tex", "w") as stext:
+            stext.write(f_d)
+        stats_tex.write(f'\input{{{relative_path}/tables/table-stats-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{col}.tex}}\n')
+    stats_tex.close()
+
+    stats_tex = open(f"{base_path}/stats-short.tex", "w")
+    for col in columns:
+        d = diffdf[ (diffdf["name"] == col) ].copy()
+        d = d.drop(columns=["name", "is_categorical"])\
+            .rename(columns={"model":"Variable/Modelo"})\
+                .set_index("Variable/Modelo").T.dropna()
+        change = np.array([pd.Series(d.loc[[i], ["Real", "tddpm_mlp", "smote-enc"]].values.reshape(-1)).pct_change().abs().sum() if not i.startswith("top5") else 0.0 for i in d.index  ])
+        d = d.loc[change > 0.005,:]
+        f_d = d.style\
+            .format(precision=3, escape="latex")\
+            .format(precision=0, subset=pd.IndexSlice[[i for i in d.index if not isinstance(d.loc[i, "Real"], np.ndarray) and np.abs(d.loc[i, "Real"]) > 1000],:] )\
+            .format("{:.5e}", subset=pd.IndexSlice[[i for i in d.index if not isinstance(d.loc[i, "Real"], np.ndarray) and np.abs(d.loc[i, "Real"]) > 10e8],:] )\
+            .format_index(escape="latex", precision=3, axis=1)\
+            .format_index("\hline {}", escape="latex", precision=3, axis=0)\
+            .set_table_styles([
+            {'selector': 'toprule', 'props': ':hline\n \\rowcolor[gray]{0.8};'},
+            {'selector': 'bottomrule', 'props': ':hline;'}
+        ], overwrite=False)\
+        .apply(
+            max_min_first,
+            axis=1
+        ).to_latex(
+            column_format = "|l|m{10em}|m{10em}|m{10em}|m{10em}|",
+            position="H",
+            position_float="centering",
+            caption = unicode_to_latex(f"Propiedades estadisticas de variable {col} con cambio>5%, {DATASET_NAME.capitalize()} ({DATASET_VERSION.upper()})"),
+            label = f"table-stats-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{col}-short",
+            clines=None,
+        ).replace("\centering", "\\centering\n\\fontsize{8}{14}\\selectfont")
+        with open(f"{base_path}/tables/table-stats-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{col}-short.tex", "w") as stext:
+            stext.write(f_d)
+        stats_tex.write(f'\input{{{relative_path}/tables/table-stats-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{col}-short.tex}}\n')
+    stats_tex.close()
+
     if not os.path.exists(f"{base_path}/pairwise/"):
         os.makedirs(f"{base_path}/pairwise/", exist_ok=True)
     pair_tex = open(f"{base_path}/pairwise.tex", "w")
     relative_path = base_path.replace("../docs/tesis/", "")
     for model_name, model_data in syn.fake_data.items():
+        model_name_ = model_name.replace("_", "-").split("-")[0].capitalize()
         fig = syn.charts.pair_corr(syn.df, model_data, set(syn.text_columns) | set(syn.exclude_columns), syn.target_column)
         #fig.update_layout(dict(width=1000)).show("png")
         fig.update_layout(
             title=dict(
-                text=f"Correlation Model <{model_name.capitalize()}>",
+                text=f"Comparativa entre original y {model_name_}",
                 x=0.5,  # x=0.5 centra el título horizontalmente
                 yanchor="top",  # Alinea el título en la parte superior
                 font=dict(
@@ -175,19 +258,20 @@ if __name__ == '__main__':
             )
         )
         fig.write_image(f"{base_path}/pairwise/pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}.svg")
-        ecaped_model = model_name.replace("_", "\_")
+        
+
         with open(f"{base_path}/pairwise/{model_name}.tex", "w") as ltext:
             ltext.write(f"""\\begin{{figure}}[H]
     \\centering
-    \\includesvg[scale=.7,inkscapelatex=false]{{{relative_path}/pairwise/pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}.svg}}
-    \\caption{{Correlación de conjunto Real y Modelo: {ecaped_model}}}
+    \\includesvg[scale=.6,inkscapelatex=false]{{{relative_path}/pairwise/pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}.svg}}
+    \\caption{{Correlación de conjunto original de entrenamiento y {model_name_}}}
     \\label{{pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}}}
 \\end{{figure}}""")
             pair_tex.write(f'\input{{{relative_path}/pairwise/{model_name}.tex}}\n')                
         print(f"{base_path}/pairwise/pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}.svg")
         if "description" in model_data.columns:
             
-            c_3 = pd.DataFrame(index=range(8), data={"description": model_data.sample(8)["description"].to_list() })
+            c_3 = pd.DataFrame(index=range(10), data={"description": model_data.sample(10)["description"].to_list() })
             #c_3["description"] = model_data.sample(10)["description"].apply(unicode_to_latex) 
             #.format(escape="latex")\
             current_sample_wtext = c_3.style\
@@ -199,10 +283,10 @@ if __name__ == '__main__':
         {'selector': 'bottomrule', 'props': ':hline;'}
     ], overwrite=False)\
             .to_latex(
-                column_format = "|m{45em}|",
+                column_format = "|m{50em}|",
                 position="H",
                 position_float="centering",
-                caption = unicode_to_latex(f"Ejemplos de textos aleatoreos del modelo {model_name}"),
+                caption = unicode_to_latex(f"Ejemplos de textos aleatoreos del modelo {model_name}, conjunto {DATASET_NAME} {DATASET_VERSION.lower()}"),
                 label = f"table-sample10-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}-text",
                 clines=None
             ).replace("\centering", "\\centering\n\\fontsize{8}{14}\\selectfont")

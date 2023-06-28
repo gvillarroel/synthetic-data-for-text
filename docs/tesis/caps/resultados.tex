@@ -7,102 +7,97 @@ A continuación, se presentan los conjuntos de datos de King County y Económico
 
 \newpage
 \section{King County}
-\subsection{Reportes}
-La Tabla \ref{table-score-king county-a} muestra los puntajes obtenidos por los distintos patrones utilizados en este estudio. Es notorio que los patrones con puntajes más altos, como tddpm\_mlp y smote-enc, presentan una mayor similitud con el conjunto de datos original. En contraposición, los patrones con puntajes más bajos, como ctgan, exhiben una correspondencia considerablemente menor con el conjunto original. Se muestra el promedio ± desviación estándar basado en las 3 ejecuciones realizadas.
+\subsection{SDMetrics Score}
+La Tabla \ref{table-score-king county-a} muestra los puntajes obtenidos por los distintos patrones utilizados en este estudio. Es notorio que los patrones con puntajes más altos, como Tddpm y Smote, presentan una mayor similitud con el conjunto de datos original. En contraposición, los patrones con puntajes más bajos, como ctgan, exhiben una correspondencia considerablemente menor con el conjunto original. Se muestra el promedio ± desviación estándar basado en las 3 ejecuciones realizadas.
 
 \input{datasets/kingcounty-a/tables/table-score-king county-a-5th.tex}    
-A pesar de que los patrones TDDPM y SMOTE alcanzan calificaciones prometedoras en general, se observa una diferencia significativa entre ambos en términos de cobertura (\emph{Coverage}). Específicamente, SMOTE no logra capturar la diversidad del conjunto de datos, reflejándose en una calificación de cobertura marcadamente inferior a la de TDDPM.
+A pesar de que los patrones Tddpm y Smote alcanzan calificaciones prometedoras en general, se observa una diferencia significativa entre ambos en términos de cobertura (\emph{Coverage}). Específicamente, Smote no logra capturar la diversidad del conjunto de datos, reflejándose en una calificación de cobertura marcadamente inferior a la de Tddpm.
 
 \newpage
 
-\subsubsection{Correlación pairwise}
+\subsection{Correlación}
+En el Anexo \ref{A-pairwise-kingcounty-top2-a-1}, se contrasta la lista completa de cada modelo. Se observa que, en general, los modelos con puntajes más altos exhiben una mayor similitud visual con los datos reales. A modo de ilustración, las imágenes \ref{pairwise-king county-a-2-copulagan} y \ref{pairwise-king county-a-2-gaussiancopula} contrastan los datos reales con los generados por los modelos gaussiancopula y copulagan. A pesar de que estos modelos presentan puntajes similares, el modelo gaussiancopula muestra una mayor similitud visual con los datos reales en comparación con el modelo copulagan.
+\input{datasets/kingcounty-a-2/pairwise/pairwise-king county-a-2-copulagan.tex}
 
-En el Anexo \ref{A-pairwise-kingcounty-top2-a-1}, se contrasta la lista completa de cada modelo. Se observa que, en general, los modelos con puntajes más altos exhiben una mayor similitud visual con los datos reales. A modo de ilustración, las imágenes \fullref{pairwise-king county-a-1-copulagan} y \fullref{pairwise-king county-a-1-gaussiancopula} contrastan los datos reales con los generados por los modelos gaussiancopula y copulagan. A pesar de que estos modelos presentan puntajes similares, el modelo gaussiancopula muestra una mayor similitud visual con los datos reales en comparación con el modelo copulagan.
-
-\input{datasets/kingcounty-a-1/pairwise/pairwise-king county-a-1-copulagan.tex}
-
-\input{datasets/kingcounty-a-1/pairwise/pairwise-king county-a-1-gaussiancopula.tex}
-
-\newpage 
-Cabe resaltar que, entre los modelos con puntajes superiores al 90\%, la evaluación visual para determinar cuál es superior puede ser un desafío. Esta dificultad surge debido a que, a medida que el puntaje se incrementa, la similitud visual entre los datos reales y los generados se intensifica. Esto se aprecia en las figuras \fullref{pairwise-king county-a-1-smote-enc} y \fullref{pairwise-king county-a-1-tddpm_mlp}, donde se contrastan los datos reales con los generados por los modelos smote-enc y tddpm\_mlp, respectivamente. Ambos modelos ostentan puntajes por encima del 90\%, y la correspondencia visual entre los datos reales y los generados es notoriamente alta en ambos casos.
-
-\input{datasets/kingcounty-a-1/pairwise/pairwise-king county-a-1-smote-enc.tex}
-
-\input{datasets/kingcounty-a-1/pairwise/pairwise-king county-a-1-tddpm_mlp.tex}
-En la evaluación mediante SDMetrics y en la comparación visual a través de la correlación de Wise, los modelos más sobresalientes resultan ser TDDPM y SMOTE. Dichos modelos han logrado los puntajes más elevados en ambas métricas y han demostrado una notable similitud visual con los datos reales. Por ende, se puede inferir que estos modelos resultan ser los más eficaces para la generación de datos sintéticos beneficiosos para este conjunto de datos en particular.
-
+\input{datasets/kingcounty-a-2/pairwise/pairwise-king county-a-2-gaussiancopula.tex}
 \newpage
-\subsubsection{Revisión de Columnas}
-La Tabla \ref{table-coverage-king county-a} evidencia la predominancia del modelo TDDPM en términos de cobertura de los diferentes valores en general, aunque se presentan casos en los que ambos modelos no logran una cobertura completa. Por ejemplo, en la columna correspondientes a \emph{bedrooms}, TDDPM solo logra una cobertura que supera el 71.8\%, sin embargo, aún así supera a SMOTE. Por su parte, SMOTE solo alcanzan una cobertura del 51\% en la misma columna.
+Es especialmente relevante que, entre los modelos con puntajes superiores al 90\%, la evaluación visual para determinar cuál es superior puede ser un desafío. Esta dificultad surge debido a que, a medida que el puntaje se incrementa, la similitud visual entre los datos reales y los generados se intensifica. Este fenómeno se ilustra en las figuras \ref{pairwise-king county-a-2-smote-enc} y \ref{pairwise-king county-a-2-tddpm_mlp}, donde se contrastan los datos reales con los generados por los modelos Smote y Tddpm, respectivamente. Ambos modelos ostentan puntajes por encima del 90\%, y la correspondencia visual entre los datos reales y los generados es notablemente alta en ambos casos.
 
+\input{datasets/kingcounty-a-2/pairwise/pairwise-king county-a-2-smote-enc.tex}
+
+\input{datasets/kingcounty-a-2/pairwise/pairwise-king county-a-2-tddpm_mlp.tex}
+\newpage
+En la evaluación mediante SDMetrics y en la comparación visual a través de la correlación de en parejas, los modelos más sobresalientes resultan ser Tddpm y Smote. Dichos modelos han logrado los puntajes más elevados en ambas métricas y han demostrado una notable similitud visual con los datos reales. Por ende, se puede inferir que estos modelos resultan ser los más eficaces para la generación de datos sintéticos beneficiosos para este conjunto de datos en particular.
+
+\subsection{Cobertura}
+La Tabla \ref{table-coverage-king county-a} evidencia la superioridad del modelo Tddpm en términos de cobertura de valores distintos, aunque hay casos donde ningún modelo alcanza una cobertura completa. Un caso notable es la variable \emph{bedrooms}, en la que Tddpm solo logra un 71.8\% de cobertura, pero aún así supera al modelo Smote, que apenas alcanza el 51\% para la misma variable.
 
 \input{datasets/kingcounty-a/tables/table-coverage-king county-a.tex}
-
 \newpage
-En términos generales, la distribución en ambos modelos se aproxima a la real, en casi todos los casos superando el 90\%. La única excepción es el modelo SMOTE en la variable \emph{bathrooms}.
+\subsection{Distribución}
+En términos generales, la distribución en ambos modelos se aproxima a la real, en casi todos los casos superando el 90\%. La única excepción es el modelo Smote en la variable \emph{bathrooms}.
 
 \input{datasets/kingcounty-a/tables/table-shape-king county-a.tex}
-
-En la revisión de las columnas de los conjuntos de datos completos, se puede observar en la lista \fullref{A-pairwise-kingcounty-top2-a-1} una similitud entre los tres conjuntos analizados: Real, SMOTE y TDDPM. Sin embargo, también se pueden notar diferencias significativas. Es importante mencionar que los conjuntos de datos generados son aproximadamente un 20\% más grandes que el conjunto real.
-
-En varias columnas, la distribución de datos en los tres conjuntos es similar, tal como ocurre en los casos de bathrooms, sqft\_lot, sqft\_above, price, sqft\_living, sqft\_basement, yr\_built, sqft\_living15 y grade. Un ejemplo de esto se puede apreciar en la Figura \ref{frecuency-top2-grade}.
+\newpage
+Al examinar las variables de los conjuntos de datos completos, como se ilustra en la lista Anexa \ref{A-pairwise-kingcounty-top2-a-1}, se observa una similitud entre los tres conjuntos analizados: Real, Smote y Tddpm. Sin embargo, también surgen diferencias significativas. Es relevante mencionar que los conjuntos de datos generados son aproximadamente un 20\% más grandes que el conjunto real. En varias columnas, la distribución de datos en los tres conjuntos es similar, como se evidencia en los casos de bathrooms, sqft\_lot, sqft\_above, price, sqft\_living, sqft\_basement, yr\_built, sqft\_living15 y grade. Este patrón se puede apreciar en la Figura \ref{frecuency-top2-grade}.
 
 
-\input{datasets/kingcounty-a-1/top2/frecuency-top2-grade.tex}
+\input{datasets/kingcounty-a-2/top2/frecuency-top2-grade.tex}
+\newpage
+Por otra parte, la distribución de los atributos bedrooms, condition, view y floors en el conjunto de datos generado por el modelo Tddpm presenta una particularidad: contiene un mayor número de elementos menos frecuentes comparado con los demás conjuntos. Al considerar la columna \emph{bedrooms} como ejemplo (refiérase a Figura \ref{frecuency-top2-bedrooms}), la distribución de valores en el conjunto Tddpm se desvía de la del conjunto Smote. En específico, se registra un aumento en la cantidad de registros correspondientes a los valores 6 y 1.
 
-La distribución de los atributos bedrooms, condition, view y floors en el conjunto de datos generado por el modelo TDDPM presenta una característica notable: contiene un mayor número de elementos menos frecuentes en comparación con los otros conjuntos. Tomando como ejemplo la columna \emph{bedrooms} (véase \fullref{frecuency-top2-bedrooms}), la distribución de valores en el conjunto TDDPM difiere de la del conjunto SMOTE. En particular, se observa un incremento en la cantidad de registros correspondientes a los valores 6 y 1.
-
-
-
-\input{datasets/kingcounty-a-1/top2/frecuency-top2-bedrooms.tex}
+\input{datasets/kingcounty-a-2/top2/frecuency-top2-bedrooms.tex}
 
 \newpage
-Por otro lado, en el caso de la columna \emph{sqft\_lot15}, la distribución generada por el modelo SMOTE resulta ser más similar a la del conjunto de datos real, como se puede apreciar en \fullref{frecuency-top2-sqft lot15}.
-
-
-\input{datasets/kingcounty-a-1/top2/frecuency-top2-sqft lot15.tex}
+En el caso de la variable \emph{sqft\_lot15}, la distribución generada por el modelo Smote resulta ser más similar a la del conjunto de datos real, como se puede apreciar en la figura \ref{frecuency-top2-sqft lot15}.
+\input{datasets/kingcounty-a-2/top2/frecuency-top2-sqft lot15.tex}
 
 \newpage
-\subsubsection{Privacidad}
-Al analizar los registros más cercanos entre los conjuntos de datos reales utilizados para el entrenamiento, los generados por los modelos, y el conjunto de datos reales almacenados, encontramos que las distancias entre ellos se presentan en las siguientes tablas. Es importante destacar que la distancia mínima para el modelo TDDPM es de 0.0134, indicando que cada registro tiene al menos esa distancia respecto al conjunto real. La determinación del epsilon requerido para asegurar la privacidad de los datos depende del análisis específico de los datos a proteger y sus probabilidades asociadas. Sin embargo, si el objetivo es proteger el 95\% de los datos, el modelo TDDPM alcanza una distancia de 0.0579, mientras que el modelo SMOTE tiene una distancia de 0.00704.
+\subsection{Privacidad}
+Al analizar los registros más cercanos entre los conjuntos de datos reales utilizados para el entrenamiento, los generados por los modelos, y el conjunto de datos reales almacenados, encontramos que las distancias entre ellos se presentan en las siguientes tablas. Es importante destacar que la distancia mínima para el modelo Tddpm es de 0.0134, indicando que cada registro tiene al menos esa distancia respecto al conjunto real. La determinación del epsilon requerido para asegurar la privacidad de los datos depende del análisis específico de los datos a proteger y sus probabilidades asociadas. Sin embargo, si el objetivo es proteger el 95\% de los datos, el modelo Tddpm alcanza una distancia de 0.0579, mientras que el modelo Smote tiene una distancia de 0.00704.
 
 
 \input{datasets/kingcounty-a/tables/table-dcr-king county-a-5th.tex}
 \input{datasets/kingcounty-a/tables/table-dcr-king county-a-1th.tex}
 \input{datasets/kingcounty-a/tables/table-dcr-king county-a-min.tex}
 \newpage
-Al analizar los ratios entre la distancia al primer vecino más cercano y la distancia al segundo para el modelo TDDPM, se evidencia que para el percentil 5, la distancia al vecino más cercano es solo 2/3 de la distancia al segundo más cercano. Sin embargo, para el percentil 1, esta distancia se reduce a la mitad. En contraposición, para el modelo SMOTE, en el percentil 5, la distancia al vecino más cercano es solo un 20\% de la distancia al segundo más cercano, y disminuye rápidamente a un 6\% para el percentil 1.
+Al analizar los ratios entre la distancia al primer vecino más cercano y la distancia al segundo para el modelo Tddpm, se evidencia que para el percentil 5, la distancia al vecino más cercano es solo 2/3 de la distancia al segundo más cercano. Sin embargo, para el percentil 1, esta distancia se reduce a la mitad. En contraposición, para el modelo Smote, en el percentil 5, la distancia al vecino más cercano es solo un 20\% de la distancia al segundo más cercano, y disminuye rápidamente a un 6\% para el percentil 1.
 
 \input{datasets/kingcounty-a/tables/table-nndr-king county-a-5th.tex}
 \input{datasets/kingcounty-a/tables/table-nndr-king county-a-1th.tex}
 \input{datasets/kingcounty-a/tables/table-nndr-king county-a-min.tex}
+
 \newpage
-Las Tablas \ref{table-example-king county-a-1-smote-enc-min} y \ref{table-example-king county-a-1-tddpm_mlp-min} presentan un ejemplo de la mínima distancia en los modelos SMOTE y TDDPM, respectivamente. Los nombres de las columnas representan la distancia de Minkowski al registro 0, indicado de esta manera en la columna correspondiente. Las celdas coloreadas en rojo señalan que el valor de la característica para una propiedad específica es idéntico al valor correspondiente de la propiedad de referencia. Así, la tabla proporciona una comparación detallada de las propiedades que son similares en términos de las características seleccionadas.
+En la Figura \ref{frecuency-top2-privacy} solo se consideran los modelos Tddpm y Smote para su comparación. En ambos casos, existe una distancia mayor a cero. Sin embargo, esta distancia es mayor en el caso de Tddpm, lo que sugiere que este conjunto puede ser considerado superior en términos de privacidad.
+
+
+\input{datasets/kingcounty-a-1/top2/frecuency-top2-privacy.tex}
+\newpage
+\subsection{Ejemplo de registros}
+Las Tablas \ref{table-example-king county-a-1-smote-enc-min} y \ref{table-example-king county-a-1-tddpm_mlp-min} presentan un ejemplo de la mínima distancia en los modelos Smote y Tddpm, respectivamente. Los nombres de las columnas representan la distancia de Minkowski al registro Sintético, indicado de esta manera en la columna correspondiente. Las celdas coloreadas en rojo señalan que el valor de la característica para una propiedad específica es idéntico al valor correspondiente de la propiedad de referencia. Así, la tabla proporciona una comparación detallada de las propiedades que son similares en términos de las características seleccionadas.
 
 En la Tabla \ref{table-example-king county-a-1-smote-enc-min}, se puede observar claramente que, excepto por las variables de precio y fecha en el segundo registro más cercano, son idénticas a las del original. Esto significa que ese registro fue transferido en su totalidad al conjunto sintético. 
 
 
 \input{datasets/kingcounty-a-1/tables/table-example-king county-a-1-smote-enc-min.tex}
 \newpage
-La Tabla \ref{table-example-king county-a-1-tddpm_mlp-min} presenta valores de distancia mayores que los obtenidos en la tabla correspondiente a SMOTE (\ref{table-example-king county-a-1-smote-enc-min}). Se pueden observar diferencias en las variables \emph{sqft\_living}, \emph{sqft\_lot}, \emph{sqft\_above}, \emph{yr\_built} y \emph{lat}, entre otras. Esta es la mínima distancia encontrada por la métrica.
+La Tabla \ref{table-example-king county-a-1-tddpm_mlp-min} presenta valores de distancia mayores que los obtenidos en la tabla correspondiente a Smote (\ref{table-example-king county-a-1-smote-enc-min}). Se pueden observar diferencias en las variables \emph{sqft\_living}, \emph{sqft\_lot}, \emph{sqft\_above}, \emph{yr\_built} y \emph{lat}, entre otras. Esta es la mínima distancia encontrada por la métrica.
 \input{datasets/kingcounty-a-1/tables/table-example-king county-a-1-tddpm_mlp-min.tex}
 \newpage
-En la Tabla \ref{table-example-king county-a-1-smote-enc-1p}, se puede observar una notable mejoría en el modelo SMOTE. Esta tabla presenta un registro cercano con múltiples diferencias, entre las cuales se pueden destacar \emph{sqft\_lot} y \emph{price}.
+En la Tabla \ref{table-example-king county-a-1-smote-enc-1p}, se puede observar una notable mejoría en el modelo Smote. Esta tabla presenta un registro cercano con múltiples diferencias, entre las cuales se pueden destacar \emph{sqft\_lot} y \emph{price}.
 \input{datasets/kingcounty-a-1/tables/table-example-king county-a-1-smote-enc-1p.tex}
 \newpage
-%\input{datasets/kingcounty-a-1/tables/table-dcr-king county-a-1.tex}
-%\input{datasets/kingcounty-a-2/tables/table-dcr-king county-a-2.tex}
-%\input{datasets/kingcounty-a-3/tables/table-dcr-king county-a-3.tex}
+\subsection{Propiedades estadísticas}
+El listado completo de las propiedades estadísticas se encuentra en el Anexo \ref{propiedades-estadisticas-kingCounty}. A continuación, se procede a mostrar las propiedades estadisticas que entre el modelo Tddpm y Smote consigan una diferencia mayor al 5\% con respecto al conjunto original de entrenamiento. Se agrega el modelo Ctgan como referencia. las variables fueron seleccionadas por se 1) El peor resultado en la cobertura y 2) El peor resultado en la distribución respectivamente.
 
-
-En la Figura \ref{frecuency-top2-privacy} solo se consideran los modelos TDDPM y SMOTE para su comparación. En ambos casos, existe una distancia mayor a cero. Sin embargo, esta distancia es mayor en el caso de TDDPM, lo que sugiere que este conjunto puede ser considerado superior en términos de privacidad.
-
-
-\input{datasets/kingcounty-a-1/top2/frecuency-top2-privacy.tex}
-
-
+Como se puede apreciar en la Tabla \ref{table-stats-king county-a-1-bedrooms-short}, en general, el modelo Tddpm muestra propiedades estadísticas más cercanas al conjunto original, con excepciones notables en las métricas de máximo, kurtosis y Jarque-Bera. La diferencia en la métrica de \emph{máximo} podría contribuir a la baja puntuación en la métrica de cobertura mostrada en la Tabla \ref{table-coverage-king county-a}. Por otro lado, las diferencias en las métricas de kurtosis, skew y Jarque-Bera podrían explicar las desviaciones observadas en la métrica de distribución de la Tabla \ref{table-shape-king county-a}.
+\input{datasets/kingcounty-a-1/tables/table-stats-king county-a-1-bedrooms-short.tex}
+\newpage
+Es evidente que Smote presenta varias métricas inferiores a las de Tddpm. Entre estas destacan el mínimo, el máximo, la asimetría (skew) y los percentiles 0.1, 95, 99 y 99.9.
+\input{datasets/kingcounty-a-1/tables/table-stats-king county-a-1-bathrooms-short.tex}
 \newpage
 \section{Economicos}
+\subsection{Tratamiento de nulos en conjunto A y B}
 El conjunto de Económicos, a diferencia del conjunto de datos de King County que fue filtrado y preprocesado para evitar valores nulos, contiene elementos nulos. A continuación se describen dos tratamientos de estos elementos nulos. El primer enfoque simplemente elimina todos los registros que contienen un registro vacío utilizando el método `dropna`, como se muestra en el Código \ref{codigo-remove-nan}; este será considerado como el Conjunto A. En el segundo enfoque, los valores nulos son reemplazados por algún valor predeterminado o calculado, como se muestra en el Código \ref{codigo-replace-nan}; este será considerado como el Conjunto B.
 
 \begin{listing}[H]
@@ -138,15 +133,34 @@ df_converted["publication_date"] = dtime.apply(lambda x: (x - basedate).days)
 \end{listing}
 
 \newpage
-\subsection{Reportes - Conjunto A}
+\subsection{SDMetrics Score - Conjunto A}
 \label{ds-conjunto-a}
-Para el conjunto A, como se muestra en la Tabla \ref{table-score-economicos-a}, TDDPM es un punto superior a SMOTE y ambos superan en más de 10 puntos al siguiente modelo. Sin embargo, un punto crucial es que SMOTE tiene una cobertura (\emph{Coverage}) que es 12 puntos inferior a TDDPM.
+Para el conjunto A, como se muestra en la Tabla \ref{table-score-economicos-a}, Tddpm es un punto superior a Smote y ambos superan en más de 10 puntos al siguiente modelo. Sin embargo, un punto crucial es que Smote tiene una cobertura (\emph{Coverage}) que es 12 puntos inferior a Tddpm.
 
 \input{datasets/economicos-a/tables/table-score-economicos-a.tex}
 
 \newpage
-Es interesante observar que, para el percentil 1 y el 5, el modelo TDDPM muestra que la cercanía de los registros más cercanos es predominante al comparar el conjunto sintético y el conjunto de retención (\emph{Hold}). Este comportamiento no se observa con ninguna otra comparación. También se nota que las diferencias mínimas alcanzan cero en los dos mejores modelos (TDDPM y SMOTE), y que los valores de distancia son muy pequeños. En el percentil 5, TDDPM registra una distancia de $4.48 \times 10^{-9}$.
+\subsection{Correlación - Conjunto A}
+Aunque la diferencia es pequeña, se puede apreciar al comparar visualmente las Figuras \ref{pairwise-economicos-a-2-smote-enc} y \ref{pairwise-economicos-a-2-tddpm_mlp} que el segundo modelo, Tddpm, presenta una mayor similitud en las variables \emph{rooms} y \emph{bathrooms}.
+\input{datasets/economicos-a-2/pairwise/smote-enc.tex}
+\input{datasets/economicos-a-2/pairwise/tddpm_mlp.tex}
 
+
+\newpage
+\subsection{Cobertura - Conjunto A}
+En las tablas detalles de cobertura \ref{table-coverage-economicos-a} se puede ver el porqué ambos tenían una puntuación tan baja. Existen elementos con una cobertura menor al 40\%, por ejemplo, la variable \texttt{m\_size}. Aun así, se puede ver que Tddpm es ligeramente mejor en la mayoría de las columnas.
+\input{datasets/economicos-a/tables/table-coverage-economicos-a.tex}
+La escasa cobertura en m\_size podría atribuirse a su distribución. Como se ilustra en la figura \ref{frecuency-M Size-top2}, esta presenta una larga cola, caracterizada por valores altos pero infrecuentes.
+\input{datasets/economicos-a-2/top2/m_size.tex}
+\newpage
+\subsection{Distribución - Conjunto A}
+Ambos modelos muestran un buen rendimiento en cuanto a la forma y la distribución de los datos, como se evidencia en la Tabla \ref{table-shape-economicos-a}. Como se vio en la Figura  \ref{frecuency-M Size-top2} una buena distribución no asegura una cobertura completa.
+\input{datasets/economicos-a/tables/table-shape-economicos-a.tex}
+
+
+\newpage
+\subsection{Privacidad - Conjunto A}
+Resulta interesante notar que, para el percentil 1 y el 5, en las Tablas \ref{table-dcr-economicos-a-1th} y \ref{table-dcr-economicos-a-5th} respectivamente, el modelo Tddpm demuestra que la cercanía de los registros más próximos es predominante al comparar el conjunto sintético con el conjunto de retención (\emph{Hold}). Este fenómeno no se evidencia en ninguna otra comparación. Asimismo, se destaca que las diferencias mínimas llegan a cero en los dos modelos más efectivos (Tddpm y Smote), y que los valores de distancia son extremadamente reducidos. Para el percentil 5, Tddpm registra una distancia de $4.48 \times 10^{-9}$.
 
 \input{datasets/economicos-a/tables/table-dcr-economicos-a-5th.tex}
 \input{datasets/economicos-a/tables/table-dcr-economicos-a-1th.tex}
@@ -159,20 +173,9 @@ También se puede observar una disminución en la relación entre el registro m�
 \input{datasets/economicos-a/tables/table-nndr-economicos-a-1th.tex}
 \input{datasets/economicos-a/tables/table-nndr-economicos-a-min.tex}
 \newpage
-En las tablas detalles de cobertura \ref{table-coverage-economicos-a} se puede ver el porqué ambos tenían una puntuación tan baja. Existen elementos con una cobertura menor al 40\%, por ejemplo, la variable \texttt{m\_size}. Aun así, se puede ver que TDDPM es ligeramente mejor en la mayoría de las columnas.
 
-%\input{datasets/economicos-a-1/tables/table-dcr-economicos-a-1.tex}
-\input{datasets/economicos-a/tables/table-coverage-economicos-a.tex}
 
-Ambos modelos muestran un buen rendimiento en cuanto a la forma y la distribución de los datos, como se evidencia en la Tabla \ref{table-shape-economicos-a}.
-%\input{datasets/economicos-a-1/tables/table-coverage-economicos-a-1.tex}
-\input{datasets/economicos-a/tables/table-shape-economicos-a.tex}
-%\input{datasets/economicos-a-1/tables/table-shape-economicos-a-1.tex}
-\newpage
-Aunque la diferencia es pequeña, se puede apreciar al comparar visualmente las Figuras \ref{pairwise-economicos-a-2-smote-enc} y \ref{pairwise-economicos-a-2-tddpm_mlp} que el segundo modelo, TDDPM, presenta una mayor similitud en las variables \emph{rooms} y \emph{bathrooms}.
-\input{datasets/economicos-a-2/pairwise/smote-enc.tex}
-\input{datasets/economicos-a-2/pairwise/tddpm_mlp.tex}
-\newpage
+\subsection{Ejemplos de registros - Conjunto A}
 Es fácil entender que la implicancia de un \emph{DCR} igual a 0 es un registro copiado desde el conjunto real, esto se puede apreciar en la Tabla \ref{table-example-economicos-a-2-tddpm_mlp-min}.
 \input{datasets/economicos-a-2/tables/table-example-economicos-a-2-tddpm_mlp-min.tex}
 Ya cuando se observa el percentil 1, se puede apreciar que la diferencia se puede considerar significativa. En el caso mostrado por la Tabla \ref{table-example-economicos-a-2-tddpm_mlp-1p}, los metros cuadrados (\emph{m\_size}) y \emph{\_price} cambian y luego la variable \emph{county} también cambian en el segundo registro más cercano.
@@ -181,53 +184,65 @@ Ya cuando se observa el percentil 1, se puede apreciar que la diferencia se pued
 En las Tablas \ref{table-example-economicos-a-1-tddpm_mlp-4p} y \ref{table-example-economicos-a-1-tddpm_mlp-4p-text} se puede observar un registro con coherencia simulada. Por ejemplo, cuando decide generar un número de teléfono, este parece coherente. También menciona que está cerca de un metro, detalle que podría estar presente en una publicación real, a pesar de que el metro indicado no exista.
 \input{datasets/economicos-a-1/tables/table-example-economicos-a-1-tddpm_mlp-4p.tex}
 \input{datasets/economicos-a-1/tables/table-example-economicos-a-1-tddpm_mlp-4p-text.tex}
-\newpage
-Algo que no se puede apreciar en el caso del modelo de SMOTE es que, incluso en el percentil 1, aún permite permear registros idénticos a los reales.
-\input{datasets/economicos-a-2/tables/table-example-economicos-a-2-smote-enc-1p.tex}
-
-
 
 \newpage
-\subsection{Reportes - Conjunto B}
+\subsection{Propiedades estadísticas - Conjunto A}
+El listado completo de las propiedades estadísticas se encuentra en el Anexo \ref{propiedades-estadisticas-economicos-A}. A continuación, se presentan las propiedades estadísticas en las que los modelos Tddpm y Smote muestran una diferencia mayor al 5\% con respecto al conjunto original de entrenamiento. Como referencia, se incluye el modelo Ctgan. Las variables se seleccionaron por ser 1) las que obtuvieron el peor resultado en cobertura y 2) las que obtuvieron el peor resultado en la distribución, respectivamente.
+
+\input{datasets/economicos-a-1/tables/table-stats-economicos-a-1-m_size-short.tex}
+\input{datasets/economicos-a-1/tables/table-stats-economicos-a-1-county.tex}
+
+\newpage
+\subsection{SDMetrics Score - Conjunto B}
 \label{ds-conjunto-b}
-Iniciaría contrastando los resultados entre ambos conjuntos para el modelo TDDPM La Tabla \ref{table-score-economicos-b} muestra mejores \emph{Score}, \emph{Coverage}, \emph{Column Shape} y \emph{Column Pair Trends} comparadas con la Tabla \ref{table-score-economicos-a}. Puede deverse que al ser una cantidad de datos mayor, pudo tener más tiempo de aprender la distribución. Mejoria no notoria en los demás modelos, lo que podría indicar una mayor capacidad de TDDPM. Se puede ver que la cobertura es el indicador más bajo, solo alcanzando el 87\% en el mejor de los casos.
+Iniciaría contrastando los resultados entre ambos conjuntos para el modelo Tddpm La Tabla \ref{table-score-economicos-b} muestra mejores \emph{Score}, \emph{Coverage}, \emph{Column Shape} y \emph{Column Pair Trends} comparadas con la Tabla \ref{table-score-economicos-a}. Puede deverse que al ser una cantidad de datos mayor, pudo tener más tiempo de aprender la distribución. Mejoria no notoria en los demás modelos, lo que podría indicar una mayor capacidad de Tddpm. Se puede ver que la cobertura es el indicador más bajo, solo alcanzando el 87\% en el mejor de los casos.
 
 \input{datasets/economicos-b/tables/table-score-economicos-b.tex}
+
 \newpage
-Las distancias mínimas para los percentiles 5 y 1 son varias magnitudes menores en el Conjunto B que en el Conjunto A, pasando de $\times 10^{-9}$ en el Conjunto A a $\times 10^{-15}$ en el Conjunto B, como se puede ver al comparar la Tabla \ref{table-dcr-economicos-b} con la Tabla \ref{table-dcr-economicos-a}. Se puede afirmar que el 95\% de los registros tiene al menos una distancia de $9.12 \times 10^{-15}$.
+\subsection{Correlación - Conjunto B}
+Los modelos Smote y Tddpm, al ser comparados con el conjunto original, presentan diferencias marcadas. Los conjuntos sintéticos han creado correlaciones que no se ven presentes en los datos originales. En el caso del modelo Smote, se presentan correlaciones en las variables \emph{bathrooms}-\emph{rooms}, \emph{m\_size}-\emph{m\_built}; mientras que Tddpm adicionalmente genera una correlación entre \emph{\_price}-\emph{m\_size} y \emph{\_price}-\emph{m\_built}.
+
+
+\input{datasets/economicos-b-1/pairwise/smote-enc.tex}
+\input{datasets/economicos-b-1/pairwise/tddpm_mlp.tex}
+\newpage
+\subsection{Cobertura - Conjunto B}
+La cobertura es notablemente baja en las variables \emph{rooms} y \emph{m\_size} en Smote, y en \emph{bathrooms} y \emph{rooms} en el caso de Tddpm. En general, el modelo Tddpm es ligeramente superior a Smote.
+
+\input{datasets/economicos-b/tables/table-coverage-economicos-b.tex}
+
+\newpage
+\subsection{Distribución - Conjunto B}
+Ambos modelos presentan buenas métricas, superando el 91\% en términos de distribución y forma. Sin embargo, se observan excepciones en los casos de \emph{m\_built} (85\%) y \emph{m\_size} (55\%).
+\input{datasets/economicos-b/tables/table-shape-economicos-b.tex}
+
+\newpage
+\subsection{Privacidad - Conjunto B}
+Las distancias mínimas para los percentiles 5 y 1 son varias magnitudes menores en el Conjunto B que en el Conjunto A, pasando de $\times 10^{-9}$ en el Conjunto A a $\times 10^{-15}$ en el Conjunto B, como se puede ver al comparar la Tabla \ref{table-dcr-economicos-b-5th} con la Tabla \ref{table-dcr-economicos-a-5th}. Se puede afirmar que el 95\% de los registros tiene al menos una distancia de $9.12 \times 10^{-15}$.
 
 \input{datasets/economicos-b/tables/table-dcr-economicos-b-5th.tex}
 \input{datasets/economicos-b/tables/table-dcr-economicos-b-1th.tex}
 \input{datasets/economicos-b/tables/table-dcr-economicos-b-min.tex}
 \newpage
-Se puede observar que la distancia del segundo registro es al menos tres veces la distancia del primer registro.
-
+De las Tablas \ref{table-nndr-economicos-b-5th}, \ref{table-nndr-economicos-b-1th} y \ref{table-nndr-economicos-b-min} emergen dos características notables. La primera es que en el percentil 1 y el 5, en ambos casos, el modelo Tddpm mantiene la mayor razón entre el primer y el segundo registro más cercano. La segunda es que, al compararse con el Conjunto A (referenciado en la Tabla \ref{table-nndr-economicos-a-1th}), la razón para el modelo Tddpm resulta ser superior.
 \input{datasets/economicos-b/tables/table-nndr-economicos-b-5th.tex}
 \input{datasets/economicos-b/tables/table-nndr-economicos-b-1th.tex}
 \input{datasets/economicos-b/tables/table-nndr-economicos-b-min.tex}
 \newpage
-La cobertura es notablemente baja en las variables \emph{rooms} y \emph{m\_size} en SMOTE, y en \emph{bathrooms} y \emph{rooms} en el caso de TDDPM. En general, el modelo TDDPM es ligeramente superior a SMOTE.
+\subsection{Ejemplos de registros - Conjunto B}
+En el ejemplo de las Tablas \ref{table-example-economicos-b-1-tddpm_mlp-2p} y \ref{table-example-economicos-b-1-tddpm_mlp-2p-text}, corresponde a un departamento de dos dormitorios.
 
-\input{datasets/economicos-b/tables/table-coverage-economicos-b.tex}
-Ambos modelos presentan buenas métricas, superando el 91\% en términos de distribución y forma. Sin embargo, se observan excepciones en los casos de \emph{m\_built} (85\%) y \emph{m\_size} (55\%).
-\input{datasets/economicos-b/tables/table-shape-economicos-b.tex}
-
-\newpage
-Los modelos SMOTE y TDDPM, al ser comparados con el conjunto original, presentan diferencias marcadas. Los conjuntos sintéticos han creado correlaciones que no se ven presentes en los datos originales. En el caso del modelo SMOTE, se presentan correlaciones en las variables \emph{bathrooms}-\emph{rooms}, \emph{m\_size}-\emph{m\_built}; mientras que TDDPM adicionalmente genera una correlación entre \emph{\_price}-\emph{m\_size} y \emph{\_price}-\emph{m\_built}.
-
-
-\input{datasets/economicos-b-1/pairwise/smote-enc.tex}
-\input{datasets/economicos-b-1/pairwise/tddpm_mlp.tex}
-
-\newpage
-\input{datasets/economicos-b-2/tables/table-example-economicos-b-2-smote-enc-min.tex}
-\input{datasets/economicos-b-2/tables/table-example-economicos-b-2-tddpm_mlp-1p.tex}
-\newpage
 \input{datasets/economicos-b-1/tables/table-example-economicos-b-1-tddpm_mlp-2p.tex}
 \input{datasets/economicos-b-1/tables/table-example-economicos-b-1-tddpm_mlp-2p-text.tex}
-\newpage
-\input{datasets/economicos-b-2/tables/table-example-economicos-b-2-smote-enc-1p.tex}
 \newpage
 En el ejemplo presentado en las Tablas \ref{table-example-economicos-b-1-tddpm_mlp-4p} y \ref{table-example-economicos-b-1-tddpm_mlp-4p-text}, el registro sintético muestra coherencia con los datos de entrada. Por ejemplo, el texto generado corresponde a un departamento con dos dormitorios, aunque indica la existencia de un baño adicional en comparación con los datos de la publicación. Sin embargo, no proporciona otra información relevante que pueda correlacionarse con los datos estructurados de la publicación.
 \input{datasets/economicos-b-1/tables/table-example-economicos-b-1-tddpm_mlp-4p.tex}
 \input{datasets/economicos-b-1/tables/table-example-economicos-b-1-tddpm_mlp-4p-text.tex}
+
+\newpage
+\subsection{Propiedades estadísticas - Conjunto B}
+El listado completo de las propiedades estadísticas se encuentra en el Anexo \ref{propiedades-estadisticas-economicos-B}. A continuación, se presentan las propiedades estadísticas en las que los modelos Tddpm y Smote muestran una diferencia mayor al 5\% con respecto al conjunto original de entrenamiento. Como referencia, se incluye el modelo Ctgan. Las variables se seleccionaron por ser 1) las que obtuvieron el peor resultado en cobertura y 2) las que obtuvieron el peor resultado en la distribución, respectivamente.
+
+\input{datasets/economicos-b-1/tables/table-stats-economicos-b-1-bathrooms-short.tex}
+\input{datasets/economicos-b-1/tables/table-stats-economicos-b-1-m_size-short.tex}

@@ -1,0 +1,20 @@
+\begin{table}[H]
+\centering
+\fontsize{8}{14}\selectfont
+\caption{Propiedades  estadisticas de variable transaction\_type, Economicos (B-3)}
+\label{table-stats-economicos-b-3-transaction_type}
+\begin{tabular}{|l|m{10em}|m{10em}|m{10em}|m{10em}|}
+\hline
+ \rowcolor[gray]{0.8}
+Variable/Modelo & Real & tddpm\_mlp & smote-enc & ctgan \\
+\hline top5 & ['Venta' 'Arriendo' 'Busco arriendo' 'Compro' 'None'] & ['Venta' 'Arriendo' 'Busco arriendo' 'Compro' 'None'] & ['Venta' 'Arriendo' 'Busco arriendo' 'Compro' 'None'] & ['Venta' 'Arriendo' 'Otros' 'Busco arriendo' 'Compro'] \\
+\hline top5\_freq & [282495 258300   3031   1901     86] & [352202 324618   3417   2003     59] & [354665 325665   1521    451     24] & [366440 270864  29831   7637   4585] \\
+\hline top5\_prob & [5.17513327e-01 4.73189587e-01 5.55260410e-03 3.48251415e-03
+ 1.57546669e-04] & [5.16169406e-01 4.75743693e-01 5.00778207e-03 2.93549531e-03
+ 8.64674106e-05] & [5.19779054e-01 4.77278123e-01 2.22910053e-03 6.60962749e-04
+ 3.51731840e-05] & [0.5370359  0.39696455 0.0437188  0.0111924  0.00671954] \\
+\hline nobs & 545870 & 682338 & 682338 & 682338 \\
+\hline missing & 545870 & 0 & 0 & 0 \\
+\hline
+\end{tabular}
+\end{table}

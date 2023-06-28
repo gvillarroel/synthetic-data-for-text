@@ -1,0 +1,45 @@
+\begin{table}[H]
+\centering
+\fontsize{8}{14}\selectfont
+\caption{Propiedades  estadisticas de variable bedrooms, King county (A-2)}
+\label{table-stats-king county-a-2-bedrooms}
+\begin{tabular}{|l|m{10em}|m{10em}|m{10em}|m{10em}|}
+\hline
+ \rowcolor[gray]{0.8}
+Variable/Modelo & Real & tddpm\_mlp & smote-enc & ctgan \\
+\hline top5 & [3 4 2 5 6] & [3 4 2 5 6] & [3 4 2 5 1] & [4 3 2 5 6] \\
+\hline top5\_freq & [7865 5477 2237 1292  212] & [10728  6929  2646  1132    86] & [11430  7061  2430   621    47] & [8624 4895 4079 1578  679] \\
+\hline top5\_prob & [0.45488722 0.3167727  0.12938115 0.07472527 0.01226142] & [0.49636793 0.32059409 0.12242632 0.05237588 0.00397909] & [0.52882391 0.32668641 0.11242713 0.02873138 0.00217452] & [0.39901911 0.22648406 0.18872901 0.07301161 0.03141628] \\
+\hline nobs & 17290 & \bfseries 21613 & \cellcolor[rgb]{0.9, 0.54, 0.52} 21614 & \bfseries 21613 \\
+\hline missing & 0.000 & 0.000 & 0.000 & 0.000 \\
+\hline mean & 3.368 & \bfseries 3.307 & 3.271 & \cellcolor[rgb]{0.9, 0.54, 0.52} 3.975 \\
+\hline std\_err & 0.007 & \bfseries 0.005 & 0.005 & \cellcolor[rgb]{0.9, 0.54, 0.52} 0.025 \\
+\hline upper\_ci & 3.382 & \bfseries 3.318 & 3.280 & \cellcolor[rgb]{0.9, 0.54, 0.52} 4.025 \\
+\hline lower\_ci & 3.354 & \bfseries 3.297 & 3.261 & \cellcolor[rgb]{0.9, 0.54, 0.52} 3.925 \\
+\hline std & 0.931 & \bfseries 0.785 & 0.707 & \cellcolor[rgb]{0.9, 0.54, 0.52} 3.732 \\
+\hline iqr & 1.000 & 1.000 & 1.000 & 1.000 \\
+\hline iqr\_normal & 0.741 & 0.741 & 0.741 & 0.741 \\
+\hline mad & 0.734 & \bfseries 0.645 & 0.582 & \cellcolor[rgb]{0.9, 0.54, 0.52} 1.395 \\
+\hline mad\_normal & 0.920 & \bfseries 0.808 & 0.730 & \cellcolor[rgb]{0.9, 0.54, 0.52} 1.748 \\
+\hline coef\_var & 0.277 & \bfseries 0.237 & 0.216 & \cellcolor[rgb]{0.9, 0.54, 0.52} 0.939 \\
+\hline range & 33.000 & 9.000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 5.000 & \bfseries 33.000 \\
+\hline max & 33.000 & 9.000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 6.000 & \bfseries 33.000 \\
+\hline min & 0.000 & \bfseries 0.000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 1.000 & \bfseries 0.000 \\
+\hline skew & 2.304 & \bfseries 0.243 & 0.091 & \cellcolor[rgb]{0.9, 0.54, 0.52} 6.612 \\
+\hline kurtosis & 63.268 & 3.485 & \cellcolor[rgb]{0.9, 0.54, 0.52} 3.072 & \bfseries 51.539 \\
+\hline jarque\_bera & 2631992 & 424 & \cellcolor[rgb]{0.9, 0.54, 0.52} 34 & \bfseries 2279187 \\
+\hline jarque\_bera\_pval & 0.000 & 0.000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 0.000 & \bfseries 0.000 \\
+\hline mode & 3.000 & \bfseries 3.000 & \bfseries 3.000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 4.000 \\
+\hline mode\_freq & 0.455 & \bfseries 0.496 & \cellcolor[rgb]{0.9, 0.54, 0.52} 0.529 & 0.399 \\
+\hline median & 3.000 & \bfseries 3.000 & \bfseries 3.000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 4.000 \\
+\hline 0.1\% & 1.000 & \bfseries 1.000 & \bfseries 1.000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 0.000 \\
+\hline 1.0\% & 2.000 & \bfseries 2.000 & \bfseries 2.000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 0.000 \\
+\hline 5.0\% & 2.000 & 2.000 & 2.000 & 2.000 \\
+\hline 25.0\% & 3.000 & 3.000 & 3.000 & 3.000 \\
+\hline 75.0\% & 4.000 & 4.000 & 4.000 & 4.000 \\
+\hline 95.0\% & 5.000 & \bfseries 5.000 & 4.000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 7.000 \\
+\hline 99.0\% & 6.000 & \bfseries 5.000 & \bfseries 5.000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 33.000 \\
+\hline 99.9\% & 7.000 & \bfseries 6.000 & \bfseries 6.000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 33.000 \\
+\hline
+\end{tabular}
+\end{table}
