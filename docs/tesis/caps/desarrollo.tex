@@ -1,10 +1,10 @@
 \chapter{Desarrollo}
 \section{Recursos disponibles}
 \subsection{Conjuntos de datos}
-A continuación se listan y detallan los conjuntos de datos utilizados en los experimentos.
+A continuación se describen y detallan las bases de datos utilizadas en los experimentos.
 
 \subsubsection{King County}
-El conjunto de datos King County \cite{kaggle_house_2015} contiene información sobre precios de venta y características de 21,613 viviendas en Seattle y King County de los años 2014 y 2015. El conjunto de datos incluye información como el número de habitaciones, el número de baños, la superficie del terreno y la superficie construida, así como información sobre la ubicación de la propiedad, como la latitud y la longitud. Este conjunto de datos es comúnmente utilizado para tareas de regresión y predicción de precios de viviendas. Sus campos se listan en \fullref{data-county}.
+La base de datos de King County \cite{kaggle_house_2015} contiene notificación sobre precios de venta y características de 21,613 viviendas en Seattle y King County de los años 2014 y 2015. La base incluye datos como el número de habitaciones, el número de baños, la superficie del terreno y la superficie construida, así como detalles sobre la ubicación de la propiedad, como la latitud y la longitud. Este paquete de datos es comúnmente utilizado para tareas de regresión y predicción de precios de viviendas. Sus campos se describen en \fullref{data-county}.
  
 \begin{table}[H]
 	\centering
@@ -66,12 +66,12 @@ El conjunto de datos King County \cite{kaggle_house_2015} contiene información 
 
 
 \subsubsection{Economicos}
-Economicos.cl es un sitio web chileno que se dedica a la publicación de avisos clasificados en línea, principalmente en las categorías de bienes raíces, vehículos, empleos, servicios y productos diversos.
-El conjunto de datos corresponde a un \emph{Web Scraping} realizado en 2020, contiene 22.059 observaciones.
+Economicos.cl es un portal web chileno que se especializa en la publicación de anuncios clasificados en línea, enfocándose en las categorías de bienes raíces, vehículos, empleos, servicios y productos variados. 
+La base de datos se originó de un \emph{Web Scraping} ejecutado en 2020, y contiene 22.059 observaciones.
 
 \begin{table}[H]
 	\centering
-	\caption{Conjunto de datos Economicos.cl}
+	\caption{Base de datos Economicos.cl}
 	\label{data-economicos}
     \begin{tabular}{|l|m{30em}|}
         \hline
@@ -80,48 +80,50 @@ El conjunto de datos corresponde a un \emph{Web Scraping} realizado en 2020, con
         \hline
         url & URL de la publicación \\
         \hline
-        Descripción & Descripción de la publicación \\
+        Descripción & Detalles de la publicación \\
         \hline
-        price & Precio de venta, en dolares, UF o pesos \\
+        price & Valor de venta, en dólares, UF o pesos \\
         \hline
-        property\_type & Tipo de propiedad: Casa, Departamento, ETC \\
+        property\_type & Clase de propiedad: Casa, Departamento, etc. \\
         \hline
-        transaction\_type & Tipo de transactión\: Arriendo, Venta \\
+        transaction\_type & Clase de transacción\: Arriendo, Venta \\
         \hline
         state & Región de la publicación \\
         \hline
         county & Comuna de la publicación \\
         \hline
-        publication\_date & Día de la publicación \\
+        publication\_date & Fecha de la publicación \\
         \hline
-        rooms & Número de dormitorios \\
+        rooms & Cantidad de dormitorios \\
         \hline
-        bathrooms & Número de baños \\
+        bathrooms & Cantidad de baños \\
         \hline
-        m\_built & Tamaño del área habitable en metros cuadrados \\
+        m\_built & Extensión del área habitable en metros cuadrados \\
         \hline
-        m\_size & Tamaño del terreno en metros cuadrados \\
+        m\_size & Extensión del terreno en metros cuadrados \\
         \hline
-        source & Diario de la publicación \\
+        source & Medio de la publicación \\
         \hline
-        title & Titulo de la publicación \\
+        title & Título de la publicación \\
         \hline
         address & Dirección de la publicación \\
         \hline
-        owner & Publicante \\
+        owner & Publicador \\
         \hline
-        \_price & Precio traspasado a UF \\
+        \_price & Valor convertido a UF del día de la publicación \\
         \hline
     \end{tabular}
-\end{table}  
+\end{table}
+
 
 
 
 \subsection{Computación y Software}
 
-Para llevar a cabo los experimentos, se utilizó un computador con las siguientes especificaciones técnicas, como se muestra en la \fullref{tabla-componentes-pc}. El procesador empleado fue un AMD Ryzen 9 7950X 16-Core Procesadores, con cuatro modulos de 32 GB para una memoria total de 128 GB DDR5. La tarjeta gráfica empleada fue una NVIDIA GeForce RTX 4090, y se contó con dos discos duros de 500 GB SSD. La utilización de un equipo con estas características permitió una ejecución eficiente de los modelos de generación de datos, asegurando la viabilidad de los experimentos. Es importante destacar que la elección de los componentes del computador fue cuidadosamente considerada para asegurar que los resultados obtenidos no se vieran limitados por un hardware insuficiente.
+Para efectuar los experimentos, se recurrió a un equipo informático con las especificaciones técnicas detalladas en la \fullref{tabla-componentes-pc}. El procesador seleccionado fue un AMD Ryzen 9 7950X 16-Core Procesadores, complementado con cuatro módulos de 32 GB para sumar una memoria total de 128 GB DDR5. La tarjeta gráfica incorporada fue una NVIDIA GeForce RTX 4090, y el equipo contó con dos discos duros de 500 GB SSD. El uso de un sistema con estas características garantizó una ejecución eficaz de los modelos de generación de datos, asegurando la viabilidad de los experimentos. Cabe resaltar que la selección de los componentes del equipo se realizó de manera meticulosa para garantizar que los resultados obtenidos no se vieran afectados por una capacidad de hardware limitada.
 
-En relación al software utilizado, se trabajó con el sistema operativo Ubuntu 20.04.2 LTS y se empleó el lenguaje de programación Python 3.10 para el desarrollo de los modelos de generación de datos. Se utilizaron diversas bibliotecas, incluyendo DVC, SDV y PyTorch, cuya lista completa se puede encontrar en el \href{https://github.com/gvillarroel/synthetic-data-for-text/blob/main/freeze.txt}{repositorio en Github}. La elección de estas herramientas se basó en la compatibilidad con el modelo TabDDPM, el cual fue utilizado en algunos de los experimentos.
+En lo que respecta al software, se empleó el sistema operativo Ubuntu 20.04.2 LTS y se utilizó el lenguaje de programación Python 3.10 para la implementación de los modelos de generación de datos. Se recurrió a diversas bibliotecas, incluyendo DVC, SDV y PyTorch, cuya lista completa está disponible en el \href{https://github.com/gvillarroel/synthetic-data-for-text/blob/main/freeze.txt}{repositorio en Github}. La elección de estas herramientas estuvo guiada por su compatibilidad con el modelo TabDDPM, el cual fue empleado en algunos de los experimentos.
+
 
 \begin{table}[H]
 	\centering
@@ -143,7 +145,7 @@ En relación al software utilizado, se trabajó con el sistema operativo Ubuntu 
       \end{tabular}        
 \end{table}  
 
-En favor de la reproducibilidad, se utilizó \textit{devcontainer}, el cual establece el entorno de desarrollo y pruebas mediante una imagen de \textit{Docker} replicable. Los experimentos pueden ser replicados utilizando el contenedor descrito en el repositorio.
+Con el objetivo de asegurar la reproducibilidad, se implementó \textit{devcontainer}, que configura el entorno de desarrollo y pruebas mediante una imagen replicable de \textit{Docker}. Los experimentos pueden ser reproducidos utilizando el contenedor descrito en el repositorio.
 
 \begin{listing}[H]
 \inputminted[
@@ -152,22 +154,23 @@ En favor de la reproducibilidad, se utilizó \textit{devcontainer}, el cual esta
     linenos=true, 
     breaklines=true,xleftmargin=1.0cm
     ]{json}{../../.devcontainer/devcontainer.json}
-\caption{Devcontainer del actual projecto.}
+\caption{Devcontainer del proyecto en curso.}
 \label{devcontainer-file}
 \end{listing}
 
-El código fuente de los modelos de generación de datos, así como los scripts de análisis y visualización de los resultados, se encuentra disponible en un repositorio público de Github:
-\href{https://github.com/gvillarroel/synthetic-data-for-text}{gvillarroel/synthetic-data-for-text}
 
-\section{Desarrollo del flujo de procesamiento}
-A continuación se describe el flujo de procesamiento utilizado para generar nuevos datos sintéticos. Este flujo se basa en el propuesto por Synthetic Data Vault (SDV), con algunas modificaciones para guardar etapas intermedias.
-
-SDV es un ecosistema de bibliotecas de generación de datos sintéticos que permite a los usuarios aprender conjuntos de datos de una sola tabla, de múltiples tablas y de series de tiempo, y luego generar nuevos datos sintéticos con las mismas propiedades estadísticas y el mismo formato que los conjuntos de datos originales. Para ello, SDV utiliza diferentes técnicas, como modelos generativos y redes neuronales, para aprender la distribución subyacente de los datos y generar nuevos datos que sigan dicha distribución \cite{kotelnikov_overview_nodate, patki_synthetic_2016}.
-
-A continuación se describe el proceso de generación de datos sintéticos para una tabla única utilizando la biblioteca Synthetic Data Vault (SDV), seguido de las modificaciones realizadas para extender el proceso y agregar nuevos modelos.
-
+El código fuente de los modelos destinados a la generación de datos, así como los scripts para el análisis y la representación gráfica de los resultados, se encuentran disponibles en un repositorio público de Github:
+\href{https://github.com/gvillarroel/synthetic-data-for-text}{gvillarroel/synthetic-data-for-text}. Se requiere el uso de DVC para la descarga de datos desde un directorio compartido en Google Drive.
 
 \newpage
+
+\section{Desarrollo del flujo de procesamiento}
+En las siguientes secciones se detalla el flujo de procesamiento implementado para la generación de nuevos datos sintéticos. Este flujo se inspira en el propuesto por Synthetic Data Vault (SDV), incorporando algunas modificaciones para preservar etapas intermedias.
+
+SDV es un ecosistema de bibliotecas para la generación de datos sintéticos que facilita a los usuarios aprender de bases de datos unidimensionales, multidimensionales y de series temporales, para posteriormente generar nuevos datos sintéticos que mantengan las mismas propiedades estadísticas y el mismo formato que las bases de datos originales. Para conseguir esto, SDV emplea diversas técnicas, como modelos generativos y redes neuronales, con el fin de aprender la distribución subyacente de los datos y generar nuevos datos que sigan dicha distribición \cite{kotelnikov_overview_nodate, patki_synthetic_2016}.
+
+A continuación, se explica el proceso de generación de datos sintéticos para una base de datos unidimensional utilizando la biblioteca Synthetic Data Vault (SDV), seguido de las modificaciones introducidas para expandir el proceso e incorporar nuevos modelos.
+
 En la \fullref{process-sdv} se muestran los pasos necesarios para generar un conjunto de datos sintéticos utilizando SDV:
 
 \begin{figure}[H]
@@ -178,24 +181,23 @@ En la \fullref{process-sdv} se muestran los pasos necesarios para generar un con
 \end{figure}
 
 \begin{enumerate}
-    \item \textbf{Create Metadata}: Se crea un diccionario que define los campos del conjunto de datos y los tipos de datos que posee. Esto permite a SDV aprender la estructura del conjunto de datos original y utilizarla para generar nuevos datos sintéticos con la misma estructura.
-    \item \textbf{Create Model}: Se selecciona el modelo de generación de datos a utilizar. SDV ofrece varios modelos, incluyendo GaussianCopula, CTGAN, CopulaGAN y TVAE, que se adaptan a diferentes tipos de datos y distribuciones.
-    \item \textbf{Fit Model}: El modelo seleccionado se entrena con el conjunto de datos original para aprender sus distribuciones y patrones estadísticos.
-    \item \textbf{Generate Synthetic Dataset}: Con el modelo ya entrenado, se generan nuevos datos sintéticos con la misma estructura y características estadísticas que el conjunto original. Este nuevo conjunto de datos puede ser utilizado para diversas aplicaciones, como pruebas de software o análisis de datos sensibles.
+    \item \textbf{Creación de Metadatos}: Se elabora un diccionario que define los campos del conjunto de datos y los tipos de datos que contiene. Esto le permite a SDV aprender la estructura del conjunto de datos original y utilizarla para generar nuevos datos sintéticos con la misma estructura.
+    \item \textbf{Creación del Modelo}: Se selecciona el modelo de generación de datos a utilizar. SDV proporciona varios modelos, entre ellos GaussianCopula, CTGAN, CopulaGAN y TVAE, que se adaptan a distintos tipos de datos y distribuciones.
+    \item \textbf{Entrenamiento del Modelo}: El modelo seleccionado se entrena con el conjunto de datos original para aprender sus distribuciones y patrones estadísticos.
+    \item \textbf{Generación del Conjunto de Datos Sintéticos}: Con el modelo ya entrenado, se generan nuevos datos sintéticos que mantienen la misma estructura y características estadísticas que el conjunto original. Este nuevo conjunto de datos puede ser empleado para diversas aplicaciones, como pruebas de software o análisis de datos sensibles.
 \end{enumerate}
-
-Es importante destacar que el proceso de generación de datos sintéticos con SDV es escalable y puede utilizarse con conjuntos de datos de una sola tabla, múltiples tablas y series de tiempo. Además, en este proyecto se realizaron algunas modificaciones al flujo para extender el proceso y permitir la inyección de nuevos modelos.
-    
+Es crucial señalar que el proceso de generación de datos sintéticos con SDV es escalable y puede aplicarse a bases de datos unidimensionales, multidimensionales y de series temporales. Adicionalmente, en este proyecto se introdujeron ciertas modificaciones al flujo para expandir el proceso y facilitar la incorporación de nuevos modelos.
 \newpage
-En el proceso de generación de datos sintéticos con SDV extendido, se incluyen dos nuevas etapas para poder guardar los modelos intermedios y los resultados de la evaluación. El proceso completo se muestra en la \fullref{process-sdv-2} y consta de los siguientes pasos:
+En el proceso extendido de generación de datos sintéticos con SDV, se introducen dos nuevas etapas para permitir el almacenamiento de los modelos intermedios y los resultados de la evaluación. El proceso completo se ilustra en la Figura \ref{process-sdv-2} y comprende los siguientes pasos:
+
 
 \begin{enumerate}
-    \item \textbf{Create Metadata}: Crea un diccionario que define los campos del conjunto de datos y los tipos de datos que posee.
-    \item \textbf{Create Model}: Se selecciona el modelo a utilizar. SDV permite GaussianCopula, CTGAN, CopulaGAN y TVAE.
-    \item \textbf{Fit Model}: El modelo seleccionado toma el conjunto original para entrenar el modelo y aprender sus distribuciones.
-    \item \textbf{Save Model}: El modelo entrenado se guarda en un archivo para su uso posterior.
-    \item \textbf{Generate Synthetic Dataset}: Genera un nuevo conjunto de datos usando el modelo entrenado.
-    \item \textbf{Evaluate \& Save Metrics}: Evalúa y guarda el conjunto de datos sintético generado mediante métricas como la correlación, el error absoluto medio y el error cuadrático medio.
+    \item \textbf{Creación de Metadatos}: Se elabora un diccionario que define los campos del conjunto de datos y los tipos de datos que contiene.
+    \item \textbf{Creación del Modelo}: Se selecciona el modelo a utilizar. SDV permite elegir entre GaussianCopula, CTGAN, CopulaGAN y TVAE.
+    \item \textbf{Entrenamiento del Modelo}: El modelo seleccionado se entrena con el conjunto de datos original para aprender sus distribuciones.
+    \item \textbf{Guardado del Modelo}: El modelo entrenado se almacena en un archivo para su uso posterior.
+    \item \textbf{Generación del Conjunto de Datos Sintéticos}: Se genera un nuevo conjunto de datos utilizando el modelo entrenado.
+    \item \textbf{Evaluación y Guardado de Métricas}: Se evalúa el conjunto de datos sintético generado y se almacenan las métricas, como la correlación, el error absoluto medio y el error cuadrático medio.
 \end{enumerate}
 
 
@@ -212,28 +214,33 @@ Con estas nuevas etapas, se pueden guardar los modelos intermedios y los resulta
 
 \section{Modelos}
 
-Los modelos de generación de datos tabulares utilizan como base la metodología propuesta por \emph{Synthetic Data Vault} (SDV), mientras que para los modelos de generación de texto se utiliza la biblioteca Hugging Face para cargar, realizar \emph{fine-tuning} con nuevas tareas y evaluar el modelo basado en mT5.
+Los modelos de generación de datos tabulares se fundamentan en la metodología propuesta por \emph{Synthetic Data Vault} (SDV), mientras que los modelos de generación de texto utilizan la biblioteca Hugging Face para cargar, realizar \emph{fine-tuning} con nuevas tareas y evaluar el modelo basado en mT5.
 
 \subsection{Modelos para datos tabulares}
-Para que un modelo pueda ser utilizado con el SDV, es necesario que implemente los siguientes métodos:
+Para que un modelo sea compatible con SDV, debe implementar los siguientes métodos:
 \begin{enumerate}
-    \item \textbf{load}: Carga el modelo desde un archivo
-    \item \textbf{fit}: Entrena el modelo, utilizando un pandas dataframe como entrada
-    \item \textbf{save}: Guarda el modelo en un archivo
-    \item \textbf{sample}: Genera un conjunto de registros nuevos utilizando el modelo entrenado.
+    \item \textbf{cargar} (load): Carga el modelo desde un archivo.
+    \item \textbf{entrenar} (fit): Entrena el modelo, tomando como entrada un dataframe de pandas.
+    \item \textbf{guardar} (save): Almacena el modelo en un archivo.
+    \item \textbf{muestrear} (sample): Genera un conjunto de nuevos registros utilizando el modelo entrenado.
 \end{enumerate}
 
-Como consideración adicional, se recomienda ejecutar el proceso utilizando un script en lugar de un notebook, ya que se ha observado que el notebook puede fallar con algunos modelos debido a limitaciones de memoria. A continuación, se detallan los pasos a seguir para la ejecución del proceso:
+
+Como consideración adicional, se aconseja llevar a cabo el proceso mediante un script en lugar de un cuaderno Jupyter, dado que se ha observado que el cuaderno puede encontrar problemas con algunos modelos debido a restricciones de memoria. A continuación, se especifican los pasos para la ejecución del proceso:
 \begin{enumerate}
-\item Crear un archivo de configuración que contenga la información necesaria para la generación de datos sintéticos, como la ruta del conjunto de datos original y la configuración de los modelos a utilizar.
-\item Crear un script que cargue la configuración, ejecute el proceso de generación de datos sintéticos y guarde el conjunto de datos sintético resultante.
-\item Ejecutar el script creado en el paso anterior.
+\item Generar un archivo de configuración que contenga la información requerida para la generación de datos sintéticos, como la ruta del conjunto de datos original y la configuración de los modelos a emplear.
+\item Crear un script que cargue la configuración, ejecute el proceso de generación de datos sintéticos y almacene el conjunto de datos sintético resultante.
+\item Poner en marcha el script creado en el paso previo.
 \end{enumerate}
-De esta manera, se puede ejecutar el proceso de generación de datos sintéticos de forma automatizada y con una mayor capacidad de procesamiento, lo que puede mejorar el desempeño del proceso y reducir los tiempos de ejecución. Vea \nameref{a-2}
 
-La clase \emph{Synthetic} es una implementación que permite configurar los modelos a utilizar en el proceso de generación de datos sintéticos. Esta clase encapsula los métodos comunes de los modelos, como \emph{load}, \emph{fit}, \emph{save} y \emph{sample}, permitiendo así una configuración general de las entradas y la selección de modelos.
 
-En el ejemplo mostrado en el Código \fullref{code-economicos-synthetic}, se instancia la clase \emph{Synthetic} con un pandas dataframe previamente pre-procesado. Se especifican las columnas que se considerarán como categorías, las que se considerarán como texto y las que se excluirán del análisis. Además, se indica el directorio donde se guardarán los archivos temporales, se seleccionan los modelos a utilizar, se establece el número de registros sintéticos deseados y se define una columna objetivo para realizar pruebas con machine learning y estratificar los conjuntos parciales de datos que se utilizarán. De esta manera, se configura de manera flexible el proceso de generación de datos sintéticos según las necesidades específicas del usuario.
+De esta forma, es posible automatizar el proceso de generación de datos sintéticos y aprovechar una mayor capacidad de procesamiento, lo que puede mejorar el rendimiento del proceso y reducir los tiempos de ejecución.
+
+La clase \emph{Synthetic} es una implementación que permite configurar los modelos a utilizar en el proceso de generación de datos sintéticos. Esta clase encapsula los métodos comunes de los modelos, como \emph{load}, \emph{fit}, \emph{save} y \emph{sample}, lo que permite una configuración general de las entradas y la selección de modelos.
+
+
+En el ejemplo presentado en el Código \fullref{code-economicos-synthetic}, se crea una instancia de la clase \emph{Synthetic} utilizando un pandas dataframe previamente preprocesado. Se especifican las columnas que se considerarán como categorías, las que se considerarán como texto y las que se excluirán del análisis. Además, se indica el directorio donde se almacenarán los archivos temporales, se seleccionan los modelos a utilizar, se establece el número de registros sintéticos deseados y se define una columna objetivo para realizar pruebas con aprendizaje automático y estratificar los conjuntos parciales de datos que se utilizarán. De esta manera, se configura de forma flexible el proceso de generación de datos sintéticos según las necesidades específicas del usuario.
+
 \begin{listing}[H]
 \inputminted[
     firstline=45, lastline=54
@@ -309,6 +316,7 @@ Al ejecutar el script de generación de datos sintéticos, se crearán múltiple
 	\caption{Carpetas y archivos esperados generados por \emph{Synthetic}}
 	\label{synth-folders}
 \end{figure}
+
 
 \newpage
 \subsection{Modelos para textos}
@@ -420,7 +428,6 @@ En la \fullref{metricas-numericas} se muestra las metricas recolectadas para cam
     Percentil 99.9\% & 6965.550000 \\ \hline
 \end{longtable}
 
-\newpage
 En la \fullref{metricas-categoricas} se muestran los datos calculados para campos categóricos.
 
 \begin{table}[H]
@@ -438,7 +445,7 @@ En la \fullref{metricas-categoricas} se muestran los datos calculados para campo
         Nulos (missing) & 17290.0 \\ \hline
     \end{tabular}
 \end{table}
-\newpage
+
 En el Código \fullref{codigo-show-score}, se muestra cómo se calcula y se muestra el Score promedio para una selección específica de modelos. El código utiliza la función "sort\_values" para ordenar los resultados en orden descendente según el puntaje. Luego, se filtran los resultados para incluir solo los modelos seleccionados y las columnas que muestran el puntaje y la Distancia al registro más cercano (DCR) en los tres umbrales \emph{Synthetic vs Train} (ST), \emph{Synthetic vs Hold} (SH) y \emph{Train vs Hold} TH.
 \begin{listing}[H]
     \begin{minted}[linenos=true,frame=lines,framesep=2mm,baselinestretch=1.2]{python}
@@ -448,19 +455,3 @@ avg.sort_values("score", ascending=False).loc[ ["tddpm_mlp","smote-enc","gaussia
 \caption{Mostrando Scores Promedios Calculados}
 \label{codigo-show-score}
 \end{listing}
-
-El Score calculado se obtiene a través de SDV y se basa en cuatro métricas: KSComplement, TVComplement que conforman \emph{Column Shapes}, ContingencySimilarity y CorrelationSimilarity conforman \emph{Column Pair Trends}. Además, para mostrar los resultados, se proporciona un ejemplo de código en el Código \fullref{codigo-show-score} y un ejemplo de resultado en la \fullref{tabla-show-score}.
-
-\begin{table}[H]
-    \centering
-    \caption{Ejemplo de scores promedios}
-    \label{tabla-show-score}
-    \begin{tabular}{|m{10em}|m{5em}|m{5em}|r|r|r|r|}
-        \hline
-        \rowcolor[gray]{0.8}
-        Nombre & Column Pair Trends & Column Shapes & \textbf{Score} $\downarrow$ & DCR ST& DCR SH& DCR TH\\ \hline
-        ntddpm\_mlp & 0.954 & 0.971 & 0.962 & 0.084 & 0.104 & 0.035 \\ \hline
-        nsmote-enc & 0.941 & 0.967 & 0.954 & 0.058 & 0.090 & 0.035 \\ \hline
-        \textbf{<model>} & 0.941 & 0.967 & 0.954 & 0.058 & 0.090 & 0.035 \\ \hline
-    \end{tabular}
-\end{table}

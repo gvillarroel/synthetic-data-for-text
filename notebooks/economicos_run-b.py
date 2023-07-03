@@ -109,7 +109,7 @@ def print_charts(folder_path, model_name, figs):
                 ltext.write(f"""\\begin{{figure}}[H]
     \\centering
     \\includesvg[scale=.7,inkscapelatex=false]{{{relative_path}/{file_name}.svg}}
-    \\caption{{Frecuencia del campo {field_name_.capitalize()} en el modelo real y {model_name_.lower() if model_name_ != "top2" else "Top 2"}}}
+    \\caption{{Frecuencia del campo {field_name_.capitalize()} en el modelo real y {model_name_.lower() if model_name_ != "top2" else "Top 2"}, {DATASET_NAME.capitalize()} ({DATASET_VERSION.upper()})}}
     \\label{{frecuency-{field_name}-{model_name}}}
 \\end{{figure}}""")
             print(f"{folder_path}/{file_name}.svg")
@@ -183,7 +183,6 @@ if __name__ == '__main__':
     current_metrics = syn.current_metrics()
     fake_metrics = syn.get_metrics_fake()
     columns = list(current_metrics.name.unique())
-
     relative_path = base_path.replace("../docs/tesis/","")
     dfs = [
         current_metrics.dropna(axis=1, how='all').assign(model="Real")
@@ -212,7 +211,6 @@ if __name__ == '__main__':
         ], overwrite=False)\
         .apply(
             max_min_first,
-            
             axis=1
         ).to_latex(
             column_format = "|l|m{10em}|m{10em}|m{10em}|m{10em}|",
@@ -261,7 +259,6 @@ if __name__ == '__main__':
         stats_tex.write(f'\input{{{relative_path}/tables/table-stats-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{col}-short.tex}}\n')
     stats_tex.close()
 
-    
     if not os.path.exists(f"{base_path}/pairwise/"):
         os.makedirs(f"{base_path}/pairwise/", exist_ok=True)
     pair_tex = open(f"{base_path}/pairwise.tex", "w")
@@ -287,7 +284,7 @@ if __name__ == '__main__':
             ltext.write(f"""\\begin{{figure}}[H]
     \\centering
     \\includesvg[scale=.6,inkscapelatex=false]{{{relative_path}/pairwise/pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}.svg}}
-    \\caption{{Correlación de conjunto original de entrenamiento y {model_name_}}}
+    \\caption{{Correlación de conjunto original de entrenamiento y {model_name_}, {DATASET_NAME.capitalize()} ({DATASET_VERSION.upper()})}}
     \\label{{pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}}}
 \\end{{figure}}""")
             pair_tex.write(f'\input{{{relative_path}/pairwise/{model_name}.tex}}\n')                
@@ -308,7 +305,7 @@ if __name__ == '__main__':
                     column_format = "|m{50em}|",
                     position="H",
                     position_float="centering",
-                    caption = unicode_to_latex(f"Ejemplos de textos aleatoreos del modelo {model_name}, conjunto {DATASET_NAME} {DATASET_VERSION.lower()}"),
+                    caption = unicode_to_latex(f"Ejemplos de textos aleatoreos del modelo {model_name_}, conjunto {DATASET_NAME.capitalize()} ({DATASET_VERSION.upper()})"),
                     label = f"table-sample10-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}-text",
                     clines=None
                 ).replace("\centering", "\\centering\n\\fontsize{8}{14}\\selectfont")
@@ -335,7 +332,7 @@ if __name__ == '__main__':
         column_format = f"|l|{'r|'*len(score_table.columns[1:])}",
         position="H",
         position_float="centering",
-        caption = f"Scores {DATASET_NAME}",
+        caption = f"SDMetric Scores {DATASET_NAME.capitalize()} ({DATASET_VERSION.upper()})",
         label = f"table-score-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}",
         clines=None
     )
@@ -367,7 +364,7 @@ if __name__ == '__main__':
         column_format = f"|l|l|{'r|'*len(coverage_score.columns[2:])}",
         position="H",
         position_float="centering",
-        caption = f"Scores {DATASET_NAME}",
+        caption = f"Cobertura {DATASET_NAME.capitalize()} ({DATASET_VERSION.upper()})",
         label = f"table-coverage-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}",
         clines=None
     )
@@ -396,7 +393,7 @@ if __name__ == '__main__':
         column_format = f"|l|l|{'r|'*len(shape_score.columns[2:])}",
         position="H",
         position_float="centering",
-        caption = f"Shape {DATASET_NAME}",
+        caption = f"Distribución {DATASET_NAME.capitalize()} ({DATASET_VERSION.upper()})",
         label = f"table-shape-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}",
         clines=None
     )
@@ -434,6 +431,7 @@ if __name__ == '__main__':
 
     dfs = []
     for model in avg.index:
+        model_ = model.replace("_", "-").split("-")[0].capitalize()
         for i in ["min", "1p", "2p", "3p", "4p", "5p"]:
             d = avg.loc[[model],[f"record_ST_{i}"]].iloc[0].to_dict()[f"record_ST_{i}"]
             current_data = pd.DataFrame.from_dict(
@@ -461,7 +459,7 @@ if __name__ == '__main__':
                 column_format = f"|l|r|r|r|",
                 position="H",
                 position_float="centering",
-                caption = unicode_to_latex(f"Ejemplos para el modelo {model}, {percentil}"),
+                caption = unicode_to_latex(f"Ejemplos para el modelo {model_}, {percentil}, {DATASET_NAME.capitalize()} ({DATASET_VERSION.upper()})"),
                 label = f"table-example-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model}-{i}",
                 clines=None
             ).replace("\centering", "\\centering\n\\fontsize{10}{14}\\selectfont")
@@ -484,7 +482,7 @@ if __name__ == '__main__':
                 column_format = "|l|m{35em}|",
                 position="H",
                 position_float="centering",
-                caption = unicode_to_latex(f"Ejemplos de texto modelo {model}, {percentil}"),
+                caption = unicode_to_latex(f"Ejemplos de texto modelo {model_}, {percentil}, {DATASET_NAME.capitalize()} ({DATASET_VERSION.upper()})"),
                 label = f"table-example-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model}-{i}-text",
                 clines=None
             ).replace("\centering", "\\centering\n\\fontsize{10}{14}\\selectfont")
@@ -498,7 +496,7 @@ if __name__ == '__main__':
         .to_latex(
         position="H",
         position_float="centering",
-        caption = f"Distancia de registros más cercanos entre conjuntos Sinteticos, \emph{{Train}} y \emph{{Hold}}",
+        caption = f"Distancia de registros más cercanos entre conjuntos Sinteticos, \emph{{Train}} y \emph{{Hold}}, {DATASET_NAME.capitalize()} ({DATASET_VERSION.upper()}",
         label = f"table-example-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}",
         clines=None
     )

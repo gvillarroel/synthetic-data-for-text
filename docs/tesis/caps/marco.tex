@@ -106,26 +106,6 @@ Debido a que los datos sintéticos son basados en datos reales, pueden ser afect
     \item \href{http://www.eolusinc.com/pdf/hipaa.pdf}{Health insurance portability and accountability act of 1996} \cite{act_health_1996}
 \end{enumerate}
 
-\subsection{Protección de Privacidad}
-En la \fullref{metricas-privacidad} se listas las utilizadas en diferentes publicaciones para determinar la privacidad efectiva de los conjuntos generados.
-
-\begin{table}[H]
-	\centering
-	\caption{Metricas de privacidad}
-	\label{metricas-privacidad}
-    \begin{tabular}{|m{15em}|m{25em}|}
-    \hline
-    \rowcolor[gray]{0.8}
-    Tipo de revelación & Descripción \\
-    \hline
-    \textbf{\emph{Distance to Closest Record} (DCR)} 
-    & DRC se utiliza para medir la distancia euclidiana entre cualquier registro sintético y su vecino real más cercano. Idealmente, cuanto mayor sea la DCR, menor será el riesgo de violación de la privacidad. Además, se calcula el percentil 5 de esta métrica para proporcionar una estimación robusta del riesgo de privacidad. \cite{zhao_ctab-gan_2021} \\
-    \hline
-    \textbf{\emph{Nearest Neighbour Distance Ratio} (NNDR)} 
-    & NNDR mide la relación entre la distancia euclidiana del vecino real más cercano y el segundo más cercano para cualquier registro sintético correspondiente. Esta relación se encuentra dentro del intervalo [0, 1]. Los valores más altos indican una mayor privacidad. Los bajos valores de NNDR entre datos sintéticos y reales pueden revelar información sensible del registro de datos reales más cercano. \cite{zhao_ctab-gan_2021} \\
-    \hline
-    \end{tabular}
-\end{table}
 
 \newpage
 \section{Generación de Datos Sintéticos}
@@ -269,63 +249,118 @@ George Lucas
 Es importante destacar que no todas estas métricas son aplicables a todos los tipos de datos y modelos, y que la selección de las métricas a utilizar debe ser cuidadosamente considerada en función de las necesidades y objetivos específicos de cada caso de estudio.
 A continuación presentan algunas de las posibles a considerar para medir la similitud, privacidad y utilidad en la evaluación de los conjuntos de datos sintéticos generados.
 
-\subsection{SDMetrics}
-SDMetrics es una herramienta integral para la evaluación de conjuntos de datos sintéticos. Esta herramienta implementa dos enfoques distintos para el cálculo de métricas: el Reporte y el Diagnóstico \cite{noauthor_sdmetrics_nodate}.
+\textbf{SDMetrics Score}: Resume en valores de 0 a 1 el promedio de varias metricas que son detalladas a posterior. Es posible encontrar la mención de metricas que se detallan en una sección posterior.
+\textbf{Correlación}: 
+
+\textbf{Reporte diagnóstico}:
+
+\textbf{Reporte de calidad}:
+
+\textbf{Privacidad}:
+
+\textbf{Propiedades Estadísticas}:
 
 
-\subsubsection{SDMetrics Report}
 
-El informe de SDMetrics genera una puntuación de evaluación para un conjunto de datos sintéticos al compararlo con el conjunto de datos reales. Esta puntuación se compone de dos componentes: \emph{Column Shapes} y \emph{Column Pair Trends}.
+\newpage
+\subsection{SDMetrics Score}
+En la Tablas incluidas en la sección \emph{SDMetrics Score} se expresa en su última columna un promedio de \emph{Quality Report} de SDMetric. Adicionalmente se incluyen las metricas calculadas en \emph{Diagnostic Report}. Todas las metricas expresadas en este apartado van del 0 al 1, ya que las métricas promediadas van en este rango tambien. Detalles de cada metricas se podrán encontrar en las siguientes subsecciones \ref{Diagnostic Report} y \ref{Quality Report}.
+\[
+    Score = \frac{\text{Column Pair Trends}+\text{Column Shapes}}{2}
+\]
+El \emph{Quality Report} captura las formas de las columnas (\emph{Column Shapes}) y las tendencias entre pares de columnas (\emph{Column Pair Trends}). La forma de una columna describe su distribución general, y la tendencia entre dos columnas describe cómo varían en relación entre sí. Es importante tener en cuenta que las distribuciones de orden superior de 3 o más columnas no se incluyen en el \emph{Quality Report}. Detalles de cada métricas se podrán encontrar en Sección \ref{Quality Report}.
 
-\textbf{Column Shapes} se compone de las puntuaciones \emph{KSComplement} para columnas numéricas y \emph{TVComplement} para columnas categóricas.
+Por otro lado, el \emph{Diagnostic Report} mide la síntesis (\emph{Synthesis}), cobertura (\emph{Coverage}) y límites (\emph{Boundaries}). La síntesis se refiere a si los datos sintéticos son únicos o si copian las filas reales. La cobertura verifica si los datos sintéticos cubren el rango de valores posibles. Los límites, por su parte, comprueban si los datos sintéticos respetan los límites establecidos por los datos reales. Al igual que en el \emph{Quality Report}, se aplican métricas basadas en los tipos de columnas y se promedian para obtener una puntuación final. Detalles de cada métricas se podrán encontrar en Sección \ref{Diagnostic Report}.
 
-\textbf{TVComplement} se centra en la similitud entre una columna real y una columna sintética en términos de sus formas de distribución.
+\begin{table}[H]
+    \centering
+    \fontsize{7}{14}\selectfont
+    \caption{Ejemplo de Métricas de Rendimiento para Diversos Modelos}
+    \label{example-table-score}
+    \begin{tabular}{|l|r|r|r|r|r|r|}
+    \hline
+    \rowcolor[gray]{0.8}
+    Model Name & Column Pair Trends & Column Shapes & Coverage & Boundaries & Synthesis & \textbf{Score} \\
+    \hline tddpm\_mlp & \bfseries 9.73e-01 & \bfseries 9.84e-01 & \bfseries 7.91e-01 & \bfseries 1.00e+00 & 9.91e-01 & \bfseries 9.79e-01 \\
+    \hline smote-enc & 9.62e-01 & 9.76e-01 & 6.67e-01 & \bfseries 1.00e+00 & 9.24e-01 & 9.69e-01 \\
+    \hline copulagan & 7.46e-01 & 7.90e-01 & 6.80e-01 & \bfseries 1.00e+00 & \bfseries 1.00e+00 & 7.68e-01 \\
+    \hline
+    \end{tabular}
+\end{table}
 
-\textbf{KSComplement} utiliza la estadística de Kolmogorov-Smirnov para calcular la máxima diferencia entre las funciones de distribución acumulativa de dos distribuciones numéricas. 
-
-\rule{\textwidth}{0.5pt} 
-
-\textbf{Column Pair Trends} se compone de \emph{CorrelationSimilarity} para columnas numéricas y \emph{ContingencySimilarity} para columnas categóricas o combinaciones de columnas categóricas y numéricas.
-
-\textbf{CorrelationSimilarity} mide la correlación entre un par de columnas numéricas y calcula la similitud entre los datos reales y sintéticos al comparar las tendencias de las distribuciones bidimensionales. 
-
-\textbf{ContingencySimilarity} mide la similitud entre dos variables categóricas utilizando la tabla de contingencia y la estadística del coeficiente de contingencia, proporcionando una medida de la dependencia entre las dos variables.
-
-Cada una de estas métricas evalúa un aspecto diferente de la calidad de los datos sintéticos, proporcionando información valiosa sobre diversas características de los datos. \textbf{TVComplement} se enfoca en la distribución marginal o el histograma unidimensional de la columna, mientras que \textbf{KSComplement} se centra en la diferencia entre las funciones de distribución acumulativa de dos distribuciones numéricas. \textbf{CorrelationSimilarity} mide la similitud en la correlación entre un par de columnas numéricas en los datos reales y sintéticos, y \textbf{ContingencySimilarity} mide la similitud en la dependencia entre dos variables categóricas en los datos reales y sintéticos utilizando la tabla de contingencia y la estadística del coeficiente de contingencia. Juntas, estas métricas ofrecen una evaluación completa de la calidad de los datos sintéticos.
-
-\subsubsection{SDMetrics Diagnostic}
-
-SDMetrics Diagnostic emplea una serie de métricas para arrojar luz sobre la calidad de los datos sintéticos, haciendo especial énfasis en \emph{Coverage} y \emph{Boundaries}.
-
-\textbf{Coverage} comprende la media aritmética de \emph{RangeCoverage} y \emph{CategoryCoverage}.
-
-\textbf{RangeCoverage} cuantifica la proporción del rango de valores posibles de una característica que está representada en los datos. Se define como la relación entre el rango de valores observados y el rango de valores posibles para la característica en cuestión. Esta métrica es útil para determinar si los datos proporcionan una representación adecuada de la diversidad de valores que la característica puede adoptar.
-
-\textbf{CategoryCoverage} mide la proporción de categorías posibles de una característica categórica que están representadas en los datos. Se calcula como la relación entre el número de categorías observadas y el número total de categorías posibles para dicha característica. Esta métrica es útil para evaluar si los datos proporcionan una representación adecuada de la diversidad de categorías que la característica categórica puede adoptar.
-
-\rule{\textwidth}{0.5pt} 
-
-\textbf{Boundaries} se considera únicamente para la métrica \emph{BoundaryAdherence}, calculada como el promedio para todas las columnas numéricas.
-
-\textbf{BoundaryAdherence} evalúa la proporción de puntos de datos que caen dentro de los límites especificados para una característica. Se determina como la relación entre el número de puntos de datos que caen dentro de los límites y el número total de puntos de datos. Esta métrica es útil para evaluar si los datos se ajustan a los límites especificados para una característica, lo cual puede ser crucial en contextos donde se espera que la característica observe ciertos valores o límites específicos.
-
-En resumen, \emph{SDMetrics Diagnostic} utiliza RangeCoverage, BoundaryAdherence y CategoryCoverage para evaluar la calidad de los datos tabulares sintéticos. Estas métricas aportan una visión detallada de la cobertura de los datos en términos de rango de valores, límites y categorías posibles, lo que puede ayudar a detectar potenciales problemas en la calidad de los datos.
 \newpage
 
-\subsection{Conjuntos Estadísticos}
+\newpage
+\subsection{Reporte diagnóstico}
+\label{Diagnostic Report}
+La evaluación se lleva a cabo mediante una serie de métricas que se agrupan en: \emph{Synthesis}, \emph{Coverage}, y \emph{Boundaries}.
 
-\begin{longtable}{|m{7em}|m{30em}|}
+\emph{Synthesis} emplea \emph{NewRowSynthesis} en SDMetrics, la cual verifica la singularidad de los datos sintéticos, esto es, si los datos sintéticos copian filas completas de los datos reales o si son capaces de generar nuevas filas únicas. Para su cálculo, en primer lugar, se obtiene un conjunto único de filas tanto para los datos reales como para los sintéticos. Posteriormente, se calcula el número de filas únicas que se encuentran en los datos sintéticos pero no en los reales. Finalmente, este número se divide por el número total de filas únicas en los datos sintéticos para obtener la probabilidad de generar una nueva fila única. En lo que respecta a la puntuación, un valor de 1.0 indica que todos los datos sintéticos y reales son idénticos, mientras que un valor de 0.0 señala que todos los datos sintéticos y reales son completamente diferentes.
+
+La métrica \emph{RangeCoverage} se emplea para determinar si una columna sintética cubre todo el espectro de valores presentes en una columna real. Esta métrica es compatible con datos numéricos continuos y de tiempo/fecha, los cuales se transforman en valores numéricos. Los valores vacíos son ignorados por esta métrica. El cálculo de la puntuación se realiza de acuerdo con la siguiente fórmula, donde \(r\) y \(s\) representan las columnas real y sintética respectivamente:
+
+\[
+\text{{score}} = 1 - \left[ \max\left(\frac{{\min(s) - \min(r)}}{{\max(r) - \min(r)}}, 0\right) + \max\left(\frac{{\max(r) - \max(s)}}{{\max(r) - \min(r)}}, 0\right) \right]
+\]
+
+La métrica \emph{Boundaries} se emplea para evaluar si una columna sintética respeta los valores mínimos y máximos de la columna real, devolviendo el porcentaje de filas sintéticas que se mantienen dentro de los límites reales. Esta métrica se aplica a los datos numéricos, transformando los valores de fecha y hora en valores numéricos, e ignorando los valores ausentes. Un valor de 0.9 en esta métrica significa que el 10\% de los registros no respeta los límites de los datos reales.
+
+\newpage
+
+
+\subsection{Reporte de calidad}
+\label{Quality Report}
+
+El \emph{Quality Report} en SDMetrics consta de dos componentes principales: \emph{Column Shapes} y \emph{Column Pair Trends}. Existe un tercero, pero que solo se útiliza cuando se genera varios conjuntos de datos relacionados.
+
+El primero, \emph{Column Shapes}, mide la capacidad de los datos sintéticos para capturar la forma de cada columna en los datos reales. La forma de una columna describe su distribución general. Para realizar esta evaluación, se utilizan dos métricas basadas en los tipos de dato de la columna. Por ejemplo, para las columnas numéricas y de fecha y hora, se utiliza la métrica \emph{KSComplement}, mientras que para las columnas categóricas y booleanas, se utiliza la métrica \emph{TVComplement}.
+
+El \emph{KSComplement} utiliza la estadística de Kolmogorov-Smirnov para calcular la similitud entre las columnas reales y sintéticas. En particular, se convierte la distribución numérica en su función de distribución acumulativa, CDF por sus siglas en ingles de \emph{Cumulative distribution function}, y la estadística de KS es la diferencia máxima entre las dos CDFs. En SDMetrics, se invierte la estadística: \emph{KSComplement} devuelve $1 - (\text{estadística de KS})$ para que una puntuación más alta signifique una mayor calidad. En la Figura \ref{sdmetric_cdf} se puede observar una representación grafica del calculo.
+
+
+\begin{figure}[H] 
+    \centering
+    \includegraphics[width=.7\textwidth]{imagenes/SDMetrics/KSComplement_Description.png} 
+    \caption{Ejemplo de SDMetric en calculo de CDF \cite{noauthor_sdmetrics_nodate}}
+    \label{sdmetric_cdf} % puedes referirte a la imagen en tu documento usando \ref{fig:my_label}
+\end{figure}
+
+\emph{TVComplement} calcula la distancia de variación total, conocida como TVD por su acrónimo en inglés de \emph{Total Variation Distance}, entre las columnas reales y sintéticas. Para lograr esto, en primer lugar estima la frecuencia de cada valor de categoría y la expresa en términos de probabilidad. La estadística TVD compara las diferencias en estas probabilidades, siguiendo la fórmula:
+\[
+\delta(R,S) = 2 \sum_{\omega \in \Omega} |R_\omega - S_\omega|
+\]
+Aquí, $\omega$ representa todas las posibles categorías en una columna, $\Omega$. Por otro lado, $R$ y $S$ hacen referencia a las frecuencias reales y sintéticas para dichas categorías, respectivamente. \emph{TVComplement} retorna $1 - \text{TVD}$ de modo que una puntuación más alta denote una calidad superior.
+
+\emph{CorrelationSimilarity} es una métrica únicamente aplicable a variables numéricas; las fechas son transformadas a números para este fin. Esta métrica calcula la correlación utilizando los coeficientes de Pearson y Spearman. El score se obtiene mediante la siguiente fórmula, donde $S_{A,B}$ representa la correlación del conjunto sintético y $R_{A,B}$ la correlación del conjunto real.
+\[
+score = 1 - \frac{|S_{A,B} - R_{A.B}|}{2}
+\]
+
+
+\subsection{Correlación}
+En esta sección, se emplea la métrica de correlación de Pearson en las columnas numéricas, transformando las fechas en números e ignorando los valores ausentes, con el propósito de generar una representación visual en un mapa de calor para su análisis.
+
+
+\subsection{Privacidad}
+La Distancia al Registro más Cercano (DCR, por sus siglas en inglés) se emplea para cuantificar la distancia euclidiana entre cualquier registro sintético y su vecino real más próximo. Idealmente, a medida que la DCR se incrementa, el riesgo de violación de la privacidad disminuye. Adicionalmente, se estima el percentil 5 de esta métrica para proporcionar una medición robusta del riesgo de privacidad \cite{zhao_ctab-gan_2021}.
+
+Relación de Distancia del Vecino más Cercano (NNDR, por sus siglas en inglés). La NNDR mide la relación entre la distancia euclidiana para el vecino real más cercano y el segundo vecino real más cercano a cualquier registro sintético correspondiente. NNDR es un concepto comúnmente utilizado en el área de visión por computadora para el emparejamiento de descriptores de imagen locales. Platzer \cite{noauthor_virtual_2022} introduce esta idea para evaluar la privacidad de los datos sintéticos. Esta relación está dentro del intervalo [0, 1]. Valores más altos indican una mejor privacidad. Los valores bajos de NNDR entre datos sintéticos y reales pueden revelar información sensible del registro de datos reales más cercano. La Fig. 6 ilustra el caso. Tenga en cuenta que también se calcula aquí el percentil 5 \cite{zhao_ctab-gan_2021}.
+
+
+\subsection{Propiedades estadísticas}
+
+\begin{longtable}{|m{7em}|m{5em}|m{25em}|}
     \caption{Listado de conjunto estadísticos} 
     \label{tab-stats} \\
     \hline
     \rowcolor[gray]{0.8}
-    Nombre & Descripción \\
+    Nombre & abrev. & Descripción \\
     \hline
     \endfirsthead
     
     \hline
     \rowcolor[gray]{0.8}
-    Nombre & Descripción \\
+    Nombre & abrev. & Descripción \\
     \hline
     \endhead
     
@@ -334,60 +369,68 @@ En resumen, \emph{SDMetrics Diagnostic} utiliza RangeCoverage, BoundaryAdherence
     
     \hline \hline
     \endlastfoot
-    
     \hline
-    Media (Mean) & La suma de todos los valores dividido por el número total de valores \\
+    Numero de observaciones & nobs & Cuenta de elementos \\
     \hline
-    Mediana (Median) & El valor que se encuentra en el centro de un conjunto de datos ordenados de menor a mayor. Es decir, la mitad de los valores son mayores que la mediana y la otra mitad son menores \\
+    Vacios & missing & Numero de elementos vacios \\
     \hline
-    Moda (Mode) & El valor que aparece con mayor frecuencia en un conjunto de datos \\
+    Media & mean & La suma de todos los valores dividido por el número total de valores \\
     \hline
-    Mínimo (Min) & El valor más pequeño en un conjunto de datos \\
+    Mediana & median & El valor que se encuentra en el centro de un conjunto de datos ordenados de menor a mayor. Es decir, la mitad de los valores son mayores que la mediana y la otra mitad son menores \\
     \hline
-    Máximo (Max) & El valor más grande en un conjunto de datos \\
+    Moda & mode & El valor que aparece con mayor frecuencia en un conjunto de datos \\
     \hline
-    Percentil (25, 75) (Percentile) & El valor tal que P (25 o 75) por ciento de los datos son menores que él, y el restante (100 - P) por ciento son mayores. Cuando P = 50, el percentil es la mediana \\
+    Mínimo & min & El valor más pequeño en un conjunto de datos \\
     \hline
-    Media Truncada (Trimmed Mean) & El promedio de todos los valores, una vez que se han eliminado un porcentaje de los valores más bajos y un porcentaje de los valores más altos \\
+    Máximo & max & El valor más grande en un conjunto de datos \\
     \hline
-    Outlier & Un valor que se encuentra muy lejos de la mayoría de los valores en un conjunto de datos \\
+    Percentil & 0.1\%, ... 99.9\% & El valor tal que P (25 o 75) por ciento de los datos son menores que él, y el restante (100 - P) por ciento son mayores. Cuando P = 50, el percentil es la mediana \\
     \hline
-    Desviación (Deviation) & La diferencia entre un valor observado y la estimación de ese valor \\
+    Media Truncada & tmean & El promedio de todos los valores, una vez que se han eliminado un porcentaje de los valores más bajos y un porcentaje de los valores más altos \\
     \hline
-    Varianza (Variance) & La medida de cuán dispersos están los valores en un conjunto de datos. Es la suma de los cuadrados de las desviaciones desde la media dividido por n - 1, donde n es el número de valores \\
+    Varianza & var & La medida de cuán dispersos están los valores en un conjunto de datos. Es la suma de los cuadrados de las desviaciones desde la media dividido por n - 1, donde n es el número de valores \\
     \hline
-    Desviación Estándar (SD) & La raíz cuadrada de la varianza \\
+    Desviación Estándar & std & La raíz cuadrada de la varianza \\
     \hline
-    Desviación Absoluta Media (MAD) & La media de los valores absolutos de las desviaciones desde la media \\
+    Error estándar de la media & std\_err & Medida de la variación de las muestras de la media poblacional. \\
     \hline
-    Rango (Range) & La diferencia entre el valor más grande y el valor más pequeño en un conjunto de datos \\
+    Desviación Absoluta Media & mad & La media de los valores absolutos de las desviaciones desde la media \\
     \hline
-    Tablas de Frecuencia (Frequency Tables) & Un método para resumir los datos al contar cuántas veces ocurre cada valor en un conjunto de datos \\
+    Desviación Mediana Absoluta Normalizada & mad\_normal & Medida de dispersión basada en la mediana que normaliza la desviación mediana absoluta utilizando la constante de escala 1.4826 para la distribución normal. \\
     \hline
-    Probabilidad (Probability) & La medida de la posibilidad de que un evento ocurra. Se establece como el número de ocurrencias de un valor dividido por el número total de ocurrencias \\
+    Rango & range & La diferencia entre el valor más grande y el valor más pequeño en un conjunto de datos \\
     \hline
-    Tabla de Contingencia (Contingency Table) & Una tabla que muestra la distribución conjunta de dos o más variables categóricas \\
+    Tablas de Frecuencia & top5\_freq & Un método para resumir los datos al contar cuántas veces ocurre cada valor en un conjunto de datos \\
     \hline
-    Correlación& Una medida estadística que indica cómo dos variables numéricas están relacionadas entre sí. Puede variar entre -1 y 1 \\
+    Probabilidad & top5\_prob & La medida de la posibilidad de que un evento ocurra. Se establece como el número de ocurrencias de un valor dividido por el número total de ocurrencias \\
     \hline
-    Distribución Estratificada & Una comparación de la distribución de datos para diferentes estratos \\
+    Tabla de Contingencia & cont\_table & Una tabla que muestra la distribución conjunta de dos o más variables categóricas \\
     \hline
-    Comparación de Modelos Predictivos Multivariables & Un método para comparar varios modelos predictivos que involucran múltiples variables. Implica la construcción de modelos separados para cada variable objetivo y comparar la curva ROC (Receiver Operating Characteristic) para cada modelo \\
+    Comparación de Modelos Predictivos Multivariables & cross\_pred & Un método para comparar varios modelos predictivos que involucran múltiples variables. Implica la construcción de modelos separados para cada variable objetivo y comparar la curva ROC (Receiver Operating Characteristic) para cada modelo \\
     \hline
-    Distinguibilidad & Un método para evaluar la calidad de los conjuntos de datos sintéticos. Implica la creación de un modelo que intenta distinguir entre conjuntos de datos reales y sintéticos. Un buen conjunto sintético es aquel que el modelo no puede distinguir de los datos reales \\
+    Kullback-Leibler & kl & Una medida de la divergencia entre dos distribuciones de probabilidad \\
     \hline
-    Kullback-Leibler & Una medida de la divergencia entre dos distribuciones de probabilidad \\
+    Log-Cluster & log\_cluster & Un método para evaluar la calidad de los conjuntos de datos sintéticos que compara la estructura de los conjuntos de datos reales y sintéticos mediante el uso de clustering \\
     \hline
-    Pairwise Correlation & Una medida de la similitud entre dos conjuntos de datos que compara las correlaciones de cada par de variables en los conjuntos de datos \\
+    Cross-Classification & cross\_class & Un método para evaluar la calidad de los conjuntos de datos sintéticos que compara la precisión de los modelos predictivos construidos a partir de los conjuntos de datos reales y sintéticos \\
     \hline
-    Log-Cluster & Un método para evaluar la calidad de los conjuntos de datos sintéticos que compara la estructura de los conjuntos de datos reales y sintéticos mediante el uso de clustering \\
+    Intervalo de confianza superior & upper\_ci & Valor máximo del intervalo de confianza alrededor de la media. \\
     \hline
-    Cobertura de Soporte (Support Coverage) & Una medida de qué tan bien los datos sintéticos representan la distribución de los datos reales. Se mide como la proporción de variables en el conjunto de datos real que están representadas en el conjunto de datos sintéticos \\
+    Intervalo de confianza inferior & lower\_ci & Valor mínimo del intervalo de confianza alrededor de la media. \\
     \hline
-    Cross-Classification & Un método para evaluar la calidad de los conjuntos de datos sintéticos que compara la precisión de los modelos predictivos construidos a partir de los conjuntos de datos reales y sintéticos \\
+    Rango intercuartil & iqr & Diferencia entre el tercer y el primer cuartil, mide la dispersión de los datos. \\
     \hline
-    Métrica de Revelación Involuntaria & Una medida de qué tan bien se protege la privacidad de los datos en un conjunto de datos sintético. Se mide como la tasa de predicciones correctas de atributos sensibles de un individuo en un conjunto de datos sintético \\
+    Rango intercuartil normalizado & iqr\_normal & Rango intercuartil dividido por la media, para normalizar los valores. \\
     \hline
-    
-    
+    Coeficiente de variación & coef\_var & Relación entre la desviación estándar y la media, mide la dispersión relativa de los datos. \\
+    \hline
+    Sesgo & skew & Medida de la asimetría de la distribución de los datos alrededor de la media. \\
+    \hline
+    Curtosis & kurtosis & Medida de la "pesadez" de las colas de la distribución de los datos. \\
+    \hline
+    Test de Jarque-Bera & jarque\_bera & Estadístico que mide si los datos tienen la asimetría y la curtosis correspondiente a una distribución normal. \\
+    \hline
+    p-valor del test de Jarque-Bera & jarque\_bera \_pval & Probabilidad de que los datos sean normalmente distribuidos según el test de Jarque-Bera. \\
+    \hline
+
 \end{longtable}

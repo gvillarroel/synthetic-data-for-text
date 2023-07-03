@@ -88,7 +88,7 @@ def print_charts(folder_path, model_name, figs):
                 ltext.write(f"""\\begin{{figure}}[H]
     \\centering
     \\includesvg[scale=.7,inkscapelatex=false]{{{relative_path}/{file_name}.svg}}
-    \\caption{{Frecuencia del campo {field_name_.capitalize()} en el modelo real y {model_name_.lower() if model_name_ != "top2" else "Top 2"}}}
+    \\caption{{Frecuencia del campo {field_name_.capitalize()} en el modelo real y {model_name_.lower() if model_name_ != "top2" else "Top 2"}, {DATASET_NAME.capitalize()} ({DATASET_VERSION.upper()})}}
     \\label{{frecuency-{field_name}-{model_name}}}
 \\end{{figure}}""")
             print(f"{folder_path}/{file_name}.svg")
@@ -258,19 +258,17 @@ if __name__ == '__main__':
             )
         )
         fig.write_image(f"{base_path}/pairwise/pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}.svg")
-        
-
+        ecaped_model = model_name.replace("_", "\_")
         with open(f"{base_path}/pairwise/{model_name}.tex", "w") as ltext:
             ltext.write(f"""\\begin{{figure}}[H]
     \\centering
     \\includesvg[scale=.6,inkscapelatex=false]{{{relative_path}/pairwise/pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}.svg}}
-    \\caption{{Correlación de conjunto original de entrenamiento y {model_name_}}}
+    \\caption{{Correlación de conjunto original de entrenamiento y {model_name_}, {DATASET_NAME.capitalize()} ({DATASET_VERSION.upper()})}}
     \\label{{pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}}}
 \\end{{figure}}""")
             pair_tex.write(f'\input{{{relative_path}/pairwise/{model_name}.tex}}\n')                
         print(f"{base_path}/pairwise/pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}.svg")
         if "description" in model_data.columns:
-            
             c_3 = pd.DataFrame(index=range(10), data={"description": model_data.sample(10)["description"].to_list() })
             #c_3["description"] = model_data.sample(10)["description"].apply(unicode_to_latex) 
             #.format(escape="latex")\
@@ -280,16 +278,16 @@ if __name__ == '__main__':
             .format_index("\hline {}", escape="latex", axis=0)\
             .set_table_styles([
         {'selector': 'toprule', 'props': ':hline\n\\rowcolor[gray]{0.8};'},
-        {'selector': 'bottomrule', 'props': ':hline;'}
-    ], overwrite=False)\
-            .to_latex(
-                column_format = "|m{50em}|",
-                position="H",
-                position_float="centering",
-                caption = unicode_to_latex(f"Ejemplos de textos aleatoreos del modelo {model_name}, conjunto {DATASET_NAME} {DATASET_VERSION.lower()}"),
-                label = f"table-sample10-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}-text",
-                clines=None
-            ).replace("\centering", "\\centering\n\\fontsize{8}{14}\\selectfont")
+            {'selector': 'bottomrule', 'props': ':hline;'}
+        ], overwrite=False)\
+                .to_latex(
+                    column_format = "|m{50em}|",
+                    position="H",
+                    position_float="centering",
+                    caption = unicode_to_latex(f"Ejemplos de textos aleatoreos del modelo {model_name_}, conjunto {DATASET_NAME.capitalize()} ({DATASET_VERSION.upper()})"),
+                    label = f"table-sample10-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}-text",
+                    clines=None
+                ).replace("\centering", "\\centering\n\\fontsize{8}{14}\\selectfont")
             with open(f"{base_path}/tables/table-sample10-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}-text.tex", "w") as stext:
                 stext.write(current_sample_wtext) 
     
@@ -300,7 +298,10 @@ if __name__ == '__main__':
     "avg", ascending=False).rename(columns={'avg':'Score'}).loc[:,
     ["Column Pair Trends", "Column Shapes", "Coverage", "Boundaries", "Score"]].reset_index().rename(columns={"name": "Model Name"}).rename(columns={"Score":"\\textbf{Score}"})
 
-    formated_table = score_table.style.hide(axis="index").format(precision=3).format("\hline {}", score_table.columns[0], escape="latex").set_table_styles([
+    formated_table = score_table.style.hide(axis="index")\
+        .format(precision=3)\
+        .format("\hline {}", score_table.columns[0], escape="latex")\
+        .set_table_styles([
         {'selector': 'toprule', 'props': ':hline\n \\rowcolor[gray]{0.8};'},
         {'selector': 'bottomrule', 'props': ':hline;'}
     ], overwrite=False).highlight_max(
@@ -310,7 +311,7 @@ if __name__ == '__main__':
         column_format = f"|l|{'r|'*len(score_table.columns[1:])}",
         position="H",
         position_float="centering",
-        caption = f"Scores {DATASET_NAME}",
+        caption = f"SDMetric Scores {DATASET_NAME.capitalize()} ({DATASET_VERSION.upper()})",
         label = f"table-score-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}",
         clines=None
     )
@@ -342,7 +343,7 @@ if __name__ == '__main__':
         column_format = f"|l|l|{'r|'*len(coverage_score.columns[2:])}",
         position="H",
         position_float="centering",
-        caption = f"Scores {DATASET_NAME}",
+        caption = f"Cobertura {DATASET_NAME.capitalize()} ({DATASET_VERSION.upper()})",
         label = f"table-coverage-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}",
         clines=None
     )
@@ -371,7 +372,7 @@ if __name__ == '__main__':
         column_format = f"|l|l|{'r|'*len(shape_score.columns[2:])}",
         position="H",
         position_float="centering",
-        caption = f"Shape {DATASET_NAME}",
+        caption = f"Distribución {DATASET_NAME.capitalize()} ({DATASET_VERSION.upper()})",
         label = f"table-shape-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}",
         clines=None
     )
@@ -397,7 +398,7 @@ if __name__ == '__main__':
         column_format = f"|l|l|{'r|'*len(dcr_score.columns[1:])}",
         position="H",
         position_float="centering",
-        caption = f"Distancia de registros más cercanos entre conjuntos Sinteticos, \emph{{Train}} y \emph{{Hold}}",
+        caption = f"Distancia de registros más cercanos entre conjuntos Sinteticos, \emph{{Train}} y \emph{{Hold}}, {DATASET_NAME.capitalize()} ({DATASET_VERSION.upper()}",
         label = f"table-dcr-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}",
         clines=None
     )
@@ -409,6 +410,7 @@ if __name__ == '__main__':
 
     dfs = []
     for model in avg.index:
+        model_ = model.replace("_", "-").split("-")[0].capitalize()
         for i in ["min", "1p", "2p", "3p", "4p", "5p"]:
             d = avg.loc[[model],[f"record_ST_{i}"]].iloc[0].to_dict()[f"record_ST_{i}"]
             current_data = pd.DataFrame.from_dict(
@@ -436,13 +438,13 @@ if __name__ == '__main__':
                 column_format = f"|l|r|r|r|",
                 position="H",
                 position_float="centering",
-                caption = unicode_to_latex(f"Ejemplos para el modelo {model}, {percentil}"),
+                caption = unicode_to_latex(f"Ejemplos para el modelo {model_}, {percentil}, {DATASET_NAME.capitalize()} ({DATASET_VERSION.upper()})"),
                 label = f"table-example-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model}-{i}",
                 clines=None
             ).replace("\centering", "\\centering\n\\fontsize{10}{14}\\selectfont")
             with open(f"{base_path}/tables/table-example-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model}-{i}.tex", "w") as stext:
                 stext.write(current_table)
-            #formated_table = score_table.style.hide(axis="index").format(precision=3).format("\hline {}", score_table.columns[0], escape="latex").set_table_styles([
+
             c_2 = current_data[["Variable/Distancia","description"]].copy()
             c_2 = c_2.rename(columns={"Variable/Distancia": "Distancia"})
             c_2["description"] = c_2["description"].apply(unicode_to_latex) 
@@ -459,14 +461,12 @@ if __name__ == '__main__':
                 column_format = "|l|m{35em}|",
                 position="H",
                 position_float="centering",
-                caption = unicode_to_latex(f"Ejemplos de texto modelo {model}, {percentil}"),
+                caption = unicode_to_latex(f"Ejemplos de texto modelo {model_}, {percentil}, {DATASET_NAME.capitalize()} ({DATASET_VERSION.upper()})"),
                 label = f"table-example-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model}-{i}-text",
                 clines=None
             ).replace("\centering", "\\centering\n\\fontsize{10}{14}\\selectfont")
             with open(f"{base_path}/tables/table-example-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model}-{i}-text.tex", "w") as stext:
                 stext.write(current_table_wtext)
-
-            
     
     data_table = pd.concat(dfs).set_index(["model", "level", "Variable/Distancia"])
     latex_table = data_table.style\
@@ -475,7 +475,7 @@ if __name__ == '__main__':
         .to_latex(
         position="H",
         position_float="centering",
-        caption = f"Distancia de registros más cercanos entre conjuntos Sinteticos, \emph{{Train}} y \emph{{Hold}}",
+        caption = f"Distancia de registros más cercanos entre conjuntos Sinteticos, \emph{{Train}} y \emph{{Hold}}, {DATASET_NAME.capitalize()}",
         label = f"table-example-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}",
         clines=None
     )

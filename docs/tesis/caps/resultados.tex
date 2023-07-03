@@ -29,12 +29,12 @@ Es especialmente relevante que, entre los modelos con puntajes superiores al 90\
 \newpage
 En la evaluación mediante SDMetrics y en la comparación visual a través de la correlación de en parejas, los modelos más sobresalientes resultan ser Tddpm y Smote. Dichos modelos han logrado los puntajes más elevados en ambas métricas y han demostrado una notable similitud visual con los datos reales. Por ende, se puede inferir que estos modelos resultan ser los más eficaces para la generación de datos sintéticos beneficiosos para este conjunto de datos en particular.
 
-\subsection{Cobertura}
+\subsection{Reporte diagnóstico}
 La Tabla \ref{table-coverage-king county-a} evidencia la superioridad del modelo Tddpm en términos de cobertura de valores distintos, aunque hay casos donde ningún modelo alcanza una cobertura completa. Un caso notable es la variable \emph{bedrooms}, en la que Tddpm solo logra un 71.8\% de cobertura, pero aún así supera al modelo Smote, que apenas alcanza el 51\% para la misma variable.
 
 \input{datasets/kingcounty-a/tables/table-coverage-king county-a.tex}
 \newpage
-\subsection{Distribución}
+\subsection{Reporte de calidad}
 En términos generales, la distribución en ambos modelos se aproxima a la real, en casi todos los casos superando el 90\%. La única excepción es el modelo Smote en la variable \emph{bathrooms}.
 
 \input{datasets/kingcounty-a/tables/table-shape-king county-a.tex}
@@ -137,7 +137,7 @@ df_converted["publication_date"] = dtime.apply(lambda x: (x - basedate).days)
 \label{ds-conjunto-a}
 Para el conjunto A, como se muestra en la Tabla \ref{table-score-economicos-a}, Tddpm es un punto superior a Smote y ambos superan en más de 10 puntos al siguiente modelo. Sin embargo, un punto crucial es que Smote tiene una cobertura (\emph{Coverage}) que es 12 puntos inferior a Tddpm.
 
-\input{datasets/economicos-a/tables/table-score-economicos-a.tex}
+\input{datasets/economicos-a/tables/table-score-economicos-a-5th.tex}
 
 \newpage
 \subsection{Correlación - Conjunto A}
@@ -147,13 +147,13 @@ Aunque la diferencia es pequeña, se puede apreciar al comparar visualmente las 
 
 
 \newpage
-\subsection{Cobertura - Conjunto A}
+\subsection{Reporte diagnóstico - Conjunto A}
 En las tablas detalles de cobertura \ref{table-coverage-economicos-a} se puede ver el porqué ambos tenían una puntuación tan baja. Existen elementos con una cobertura menor al 40\%, por ejemplo, la variable \texttt{m\_size}. Aun así, se puede ver que Tddpm es ligeramente mejor en la mayoría de las columnas.
 \input{datasets/economicos-a/tables/table-coverage-economicos-a.tex}
 La escasa cobertura en m\_size podría atribuirse a su distribución. Como se ilustra en la figura \ref{frecuency-M Size-top2}, esta presenta una larga cola, caracterizada por valores altos pero infrecuentes.
 \input{datasets/economicos-a-2/top2/m_size.tex}
 \newpage
-\subsection{Distribución - Conjunto A}
+\subsection{Reporte de calidad - Conjunto A}
 Ambos modelos muestran un buen rendimiento en cuanto a la forma y la distribución de los datos, como se evidencia en la Tabla \ref{table-shape-economicos-a}. Como se vio en la Figura  \ref{frecuency-M Size-top2} una buena distribución no asegura una cobertura completa.
 \input{datasets/economicos-a/tables/table-shape-economicos-a.tex}
 
@@ -196,7 +196,7 @@ El listado completo de las propiedades estadísticas se encuentra en el Anexo \r
 \label{ds-conjunto-b}
 Iniciaría contrastando los resultados entre ambos conjuntos para el modelo Tddpm La Tabla \ref{table-score-economicos-b} muestra mejores \emph{Score}, \emph{Coverage}, \emph{Column Shape} y \emph{Column Pair Trends} comparadas con la Tabla \ref{table-score-economicos-a}. Puede deverse que al ser una cantidad de datos mayor, pudo tener más tiempo de aprender la distribución. Mejoria no notoria en los demás modelos, lo que podría indicar una mayor capacidad de Tddpm. Se puede ver que la cobertura es el indicador más bajo, solo alcanzando el 87\% en el mejor de los casos.
 
-\input{datasets/economicos-b/tables/table-score-economicos-b.tex}
+\input{datasets/economicos-b/tables/table-score-economicos-b-5th.tex}
 
 \newpage
 \subsection{Correlación - Conjunto B}
@@ -206,13 +206,13 @@ Los modelos Smote y Tddpm, al ser comparados con el conjunto original, presentan
 \input{datasets/economicos-b-1/pairwise/smote-enc.tex}
 \input{datasets/economicos-b-1/pairwise/tddpm_mlp.tex}
 \newpage
-\subsection{Cobertura - Conjunto B}
+\subsection{Reporte diagnóstico - Conjunto B}
 La cobertura es notablemente baja en las variables \emph{rooms} y \emph{m\_size} en Smote, y en \emph{bathrooms} y \emph{rooms} en el caso de Tddpm. En general, el modelo Tddpm es ligeramente superior a Smote.
 
 \input{datasets/economicos-b/tables/table-coverage-economicos-b.tex}
 
 \newpage
-\subsection{Distribución - Conjunto B}
+\subsection{Reporte de calidad - Conjunto B}
 Ambos modelos presentan buenas métricas, superando el 91\% en términos de distribución y forma. Sin embargo, se observan excepciones en los casos de \emph{m\_built} (85\%) y \emph{m\_size} (55\%).
 \input{datasets/economicos-b/tables/table-shape-economicos-b.tex}
 

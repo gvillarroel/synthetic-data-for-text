@@ -6,26 +6,20 @@
     + synth/ 
     ++ checkpoint/ 
     +++ copulagan.ckp 
-    +++ copulagan_noise.ckp
     +++ <b><model></b>.ckp
     ++ data/
     +++ copulagan_21613.parquet
-    +++ copulagan_noise_21613.parquet
     +++ <b><model></b>_<b><n_sample></b>.parquet
     +++ privacy_copulagan_21613_SH.npy
     +++ privacy_copulagan_21613_ST.npy
-    +++ privacy_copulagan_noise_21613_SH.npy
-    +++ privacy_copulagan_noise_21613_ST.npy
     +++ privacy_<b><model></b>_<b><n_sample></b>_<b><type_comparison></b>.npy
     ++ report/
     +++ copulagan_21613.rpt
-    +++ copulagan_noise_21613.rpt
     +++ <b><model><b>_<b><n_sample></b>.rpt
     ++ split/
     +++ train.parquet
     +++ hold.parquet
     ++ metadata.json
-    ++ metadata_noise.json
     }
 }
 @endsalt
