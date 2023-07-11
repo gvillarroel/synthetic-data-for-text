@@ -43,6 +43,15 @@
 \renewcommand\listingscaption{Código}
 
 
+\newcommand{\todo}[1]{%
+\begin{tcolorbox}[colback=red!50!white,colframe=red!75!black,fonttitle=\bfseries]
+\centering
+\textcolor{white}{\Huge Pendiente} \\
+\textcolor{white}{#1}
+\end{tcolorbox}
+}
+
+
 
 \setminted{fontsize=\footnotesize, 
 rulecolor=gray,
@@ -103,7 +112,10 @@ breaklines=true,xleftmargin=1.0cm,
 
 %\input{glosario.tex} % opcional
 \bibliographystyle{plain}
+\todo{completar la información de la bibliografía/referencias que se usa en el texto... al menos falta el año de publicación (o consulta en el caso de URLs)}
+\todo{esto es demasiada gente... colova Rohan Anil et al. PaLM 2.......}
 \bibliography{bibliografia}
+
 
 % opcional ...
 \begin{appendices}

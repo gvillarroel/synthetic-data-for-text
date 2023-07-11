@@ -96,7 +96,7 @@ Como se puede apreciar en la Tabla \ref{table-stats-king county-a-1-bedrooms-sho
 Es evidente que Smote presenta varias métricas inferiores a las de Tddpm. Entre estas destacan el mínimo, el máximo, la asimetría (skew) y los percentiles 0.1, 95, 99 y 99.9.
 \input{datasets/kingcounty-a-1/tables/table-stats-king county-a-1-bathrooms-short.tex}
 \newpage
-\section{Economicos}
+\section{Conjunto de datos proveniente de Economicos}
 \subsection{Tratamiento de nulos en conjunto A y B}
 El conjunto de Económicos, a diferencia del conjunto de datos de King County que fue filtrado y preprocesado para evitar valores nulos, contiene elementos nulos. A continuación se describen dos tratamientos de estos elementos nulos. El primer enfoque simplemente elimina todos los registros que contienen un registro vacío utilizando el método `dropna`, como se muestra en el Código \ref{codigo-remove-nan}; este será considerado como el Conjunto A. En el segundo enfoque, los valores nulos son reemplazados por algún valor predeterminado o calculado, como se muestra en el Código \ref{codigo-replace-nan}; este será considerado como el Conjunto B.
 

@@ -93,7 +93,7 @@ def print_charts(folder_path, model_name, figs):
     \\label{{frecuency-{model_name_.lower()}-{field_name_.lower()}}}
 \\end{{figure}}""")
             print(f"{folder_path}/{file_name}.svg")
-            model_tex.write(f'\input{{{relative_path}/{file_name}.tex}}\n')
+            model_tex.write(f'\input{{{relative_path}/frecuency-{model_name_.lower()}-{field_name_.lower()}.tex}}\n')
     model_tex.close()
     
 

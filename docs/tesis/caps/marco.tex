@@ -1,17 +1,19 @@
 \chapter{Revisión Bibliográfica}
+\todo{siempre al inicio de un capítulo indica (en una o 2 oraciones) qué es lo que vas a presentar en ese capítulo... es decir, indicar las secciones que vienen.}
+\newpage
 \section{Tipos de Datos}
 \label{tipo-de-datos}
-Los tipos de datos tienen diversas implicaciones en su generación, como su representación, almacenamiento y procesamiento. Los datos estructurados se presentan en la \fullref{tabla-tipo-datos}.
+Los tipos de datos tienen diversas implicaciones en su generación, como su representación, almacenamiento y procesamiento. Los datos estructurados se presentan en la Tabla \ref{tabla-tipo-datos}.
 
 En 2012, IDC estimó que para 2020, más del 95\% de los datos serían no estructurados \cite{gantz_digital_2012}. En un análisis posterior, Kiran Adnan y Rehan Akbar \cite{adnan_analytical_2019} encontraron que el texto es el tipo de dato no estructurado que más rápido crece en las publicaciones, seguido por la imagen, el video y finalmente el audio.
 
-La \fullref{tabla-tipo-datos} resume la lista que se encuentra en \emph{Practical Statistics for Data Scientists} \cite{bruce_practical_2020}.
+La Tabla \ref{tabla-tipo-datos} resume la lista que se encuentra en \emph{Practical Statistics for Data Scientists} \cite{bruce_practical_2020}.
 
 \begin{table}[H]
 	\centering
 	\caption{Tipos de datos estructurados}
 	\label{tabla-tipo-datos}
-    \begin{tabular}{|l|l|m{25em}|m{9em}|}
+    \begin{tabular}{|l|l|m{20em}|m{9em}|}
     \hline
     \rowcolor[gray]{0.8}
     T & Sub tipo & Descripción & Ejemplos \\
@@ -36,13 +38,13 @@ La \fullref{tabla-tipo-datos} resume la lista que se encuentra en \emph{Practica
 La protección de la información es un aspecto fundamental en la generación de datos sintéticos. Aunque este aspecto puede no ser crucial cuando los datos corresponden a temas como recetas o automóviles, resulta esencial cuando se trata de información relacionada con individuos \cite{bruce_practical_2020}. Por esta razón, el resguardo de la información es un tema de importancia para entidades como Equifax, que gestionan una gran cantidad de conjuntos de datos con contenido personal.
 
 \subsection{Tipo de datos a ser protegidos}
-Para identificar qué campos de datos son significativos desde el punto de vista de la privacidad, se puede recurrir a la definición resumida en la \fullref{data-relevante} del texto \emph{Data privacy: Definitions and techniques} \cite{de_capitani_di_vimercati_data_2012}.
+Para identificar qué campos de datos son significativos desde el punto de vista de la privacidad, se puede recurrir a la definición resumida en la Tabla \ref{data-relevante} del texto \emph{Data privacy: Definitions and techniques} \cite{de_capitani_di_vimercati_data_2012}.
 
 \begin{table}[H]
 	\centering
 	\caption{Niveles de revelación y ejemplos}
 	\label{data-relevante}
-    \begin{tabular}{|m{15em}|m{25em}|}
+    \begin{tabular}{|m{15em}|m{20em}|}
     \hline
     \rowcolor[gray]{0.8}
     Tipo de revelación & Descripción \\
@@ -64,13 +66,13 @@ Para identificar qué campos de datos son significativos desde el punto de vista
 
 \newpage
 \subsection{Tipos de riesgos de divulgación}
-Los tipos de divulgación definidos en \emph{Practical Synthetic Data Generation} \cite{bruce_practical_2020} están resumidos en la \fullref{relevantes-definiciones}.
+Los tipos de divulgación definidos en \emph{Practical Synthetic Data Generation} \cite{bruce_practical_2020} están resumidos en la Tabla \ref{relevantes-definiciones}.
 
 \begin{table}[H]
 	\centering
 	\caption{Tipos de Riesgos de Divulgación y sus Descripciones}
 	\label{relevantes-definiciones}
-    \begin{tabular}{|m{15em}|m{25em}|}
+    \begin{tabular}{|m{15em}|m{20em}|}
     \hline
     \rowcolor[gray]{0.8}
     Tipo de revelación & Descripción \\
@@ -112,26 +114,26 @@ Debido a que los datos sintéticos son basados en datos reales, pueden ser afect
 
 Los datos sintéticos, aunque no son datos reales, se generan con la intención de preservar ciertas propiedades de los datos originales. La utilidad de los datos sintéticos se mide por su capacidad para servir como un sustituto efectivo de los datos originales \cite{bruce_practical_2020}. Basándose en el uso de los datos originales, los datos sintéticos se pueden clasificar en tres categorías: aquellos que se basan en datos reales, los que no se basan en datos reales, y los híbridos.
 
-\textbf{Datos basados en datos reales}: utilizan modelos que aprenden la distribución de los datos originales para generar nuevos puntos de datos similares.
-
-\textbf{Datos no basados en datos reales}: utilizan conocimientos del mundo real. Por ejemplo, se podría formar un nombre completo seleccionando aleatoriamente un nombre y un apellido de un conjunto predefinido.
-
-\textbf{Híbridos}: estos combinan técnicas de imitación de distribución con algunos campos que no derivan de los datos reales. Esto puede ser especialmente útil cuando se intenta desacoplar las distribuciones de datos que podrían ser sensibles o generar discriminación, como la información sobre la etnia.
-
-En la \fullref{tipo-de-datos}, se revisaron los datos estructurados. Si bien cada tipo puede tener muchas representaciones, por ejemplo, los datos continuos podrían considerarse como \emph{float}, \emph{datetime} o incluso intervalos personalizados, como de 0 a 1. Sobre estos datos estructurados, se pueden generar estructuras para unirlos.
+\begin{itemize}
+    \item \textbf{Datos basados en datos reales}: utilizan modelos que aprenden la distribución de los datos originales para generar nuevos puntos de datos similares.
+    \item \textbf{Datos no basados en datos reales}: utilizan conocimientos del mundo real. Por ejemplo, se podría formar un nombre completo seleccionando aleatoriamente un nombre y un apellido de un conjunto predefinido.
+    \item \textbf{Híbridos}: estos combinan técnicas de imitación de distribución con algunos campos que no derivan de los datos reales. Esto puede ser especialmente útil cuando se intenta desacoplar las distribuciones de datos que podrían ser sensibles o generar discriminación, como la información sobre la etnia.
+\end{itemize}
+    
+En la Tabla \ref{tipo-de-datos}, se revisaron los datos estructurados. Si bien cada tipo puede tener muchas representaciones, por ejemplo, los datos continuos podrían considerarse como \emph{float}, \emph{datetime} o incluso intervalos personalizados, como de 0 a 1. Sobre estos datos estructurados, se pueden generar estructuras para unirlos.
 
 Entre las estructuras más comunes se encuentran las matrices bidimensionales (datos tabulares) y los arreglos, que permiten matrices de muchas dimensiones e incluso estructuras complejas que pueden mezclar todas las estructuras previas.
 
 Debido al objetivo, se detallan solo los modelos que permiten abordar la generación de datos tabulares y texto basados en datos reales.
 \newpage
 \subsection{Generación de datos tabulares}
-En la \fullref{tab-sota-tab}, se resumen las últimas publicaciones sobre generación de datos tabulares, indicando la fecha de publicación y si se puede acceder al código fuente o no, a febrero de 2023.
+En la Tabla \ref{tab-sota-tab}, se resumen las últimas publicaciones sobre generación de datos tabulares, indicando la fecha de publicación y si se puede acceder al código fuente o no, a febrero de 2023.
 
 \begin{table}[H]
 	\centering
 	\caption{Estado del arte en generación de datos tabulares}
 	\label{tab-sota-tab}
-    \begin{tabular}{|m{25em}|r|r|}
+    \begin{tabular}{|m{28em}|r|r|}
     \hline
     \rowcolor[gray]{0.8}
     Nombre & Fecha $\downarrow$ & Código \\
@@ -169,7 +171,7 @@ En la \fullref{tab-sota-tab}, se resumen las últimas publicaciones sobre genera
 \newpage
 \subsection{Generación de texto en base de datos tabulares}
 
-En la \fullref{tab-sota-text}, se listan las publicaciones en la generación de texto a partir de datos estructurados.
+En la Tabla \ref{tab-sota-text}, se listan las publicaciones en la generación de texto a partir de datos estructurados.
 
 \begin{table}[H]
 	\centering
@@ -200,7 +202,7 @@ El estado del arte en la generación de texto a partir de datos tabulares es Tab
 La diferencia entre \emph{Table-To-Text} y \emph{Data-To-Text} radica en el formato de información de entrada. en \emph{Table-To-Text} es una tabla con multiples filas y en \emph{Data-To-Text} corresponde a un solo objeto con sus propiedades. A continuación ejemplos de entradas de los modelos.
 
 \newpage
-En los siguientes ejemplos, se utilizará la \fullref{tabla-ejemplo-inputs} para ilustrar cómo se puede utilizar para generar texto utilizando los modelos de \emph{fine-tuning} mencionados anteriormente. Esta tabla representa información sobre películas, incluyendo el nombre de la película, el director, el año de lanzamiento y el género, y se utilizará para generar preguntas y respuestas a partir de la información proporcionada.
+En los siguientes ejemplos, se utilizará la Tabla \ref{tabla-ejemplo-inputs} para ilustrar cómo se puede utilizar para generar texto utilizando los modelos de \emph{fine-tuning} mencionados anteriormente. Esta tabla representa información sobre películas, incluyendo el nombre de la película, el director, el año de lanzamiento y el género, y se utilizará para generar preguntas y respuestas a partir de la información proporcionada.
 \begin{table}[H]
 	\centering
 	\caption{Ejemplo de tabla de entrada}
@@ -250,6 +252,8 @@ Es importante destacar que no todas estas métricas son aplicables a todos los t
 A continuación presentan algunas de las posibles a considerar para medir la similitud, privacidad y utilidad en la evaluación de los conjuntos de datos sintéticos generados.
 
 \textbf{SDMetrics Score}: Resume en valores de 0 a 1 el promedio de varias metricas que son detalladas a posterior. Es posible encontrar la mención de metricas que se detallan en una sección posterior.
+
+\todo{Completar}
 \textbf{Correlación}: 
 
 \textbf{Reporte diagnóstico}:
@@ -274,7 +278,7 @@ Por otro lado, el \emph{Diagnostic Report} mide la síntesis (\emph{Synthesis}),
 
 \begin{table}[H]
     \centering
-    \fontsize{7}{14}\selectfont
+    \fontsize{10}{14}\selectfont
     \caption{Ejemplo de Métricas de Rendimiento para Diversos Modelos}
     \label{example-table-score}
     \begin{tabular}{|l|r|r|r|r|r|r|}
@@ -349,7 +353,7 @@ Relación de Distancia del Vecino más Cercano (NNDR, por sus siglas en inglés)
 
 \subsection{Propiedades estadísticas}
 
-\begin{longtable}{|m{7em}|m{5em}|m{25em}|}
+\begin{longtable}{|m{7em}|m{5em}|m{20em}|}
     \caption{Listado de conjunto estadísticos} 
     \label{tab-stats} \\
     \hline
