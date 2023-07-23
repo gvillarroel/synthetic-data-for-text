@@ -4,7 +4,7 @@ pip install --upgrade pip
 apt update -y
 apt upgrade -y
 apt upgrade perl -y
-apt install pandoc
+apt install pandoc -y
 apt install chktex -y
 
 apt install texlive -y
@@ -18,9 +18,11 @@ apt install python3-pygments -y
 apt install inkscape -y
 #pip install -U torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 #pip install numpy --pre torch torchvision torchaudio --force-reinstall --index-url https://download.pytorch.org/whl/nightly/cu118
-pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu121
-pip install  git+https://github.com/huggingface/peft.git
+pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu121 -y
+pip install  git+https://github.com/huggingface/peft.git -y
 
+apt-get install texlive-fonts-extra -y
+apt-get install -y texlive-bibtex-extra biber
 
 
 #(cd notebooks & ln -s ../syntheticml .)

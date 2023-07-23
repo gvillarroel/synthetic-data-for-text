@@ -1,7 +1,9 @@
 \chapter{Conclusiones y discusión}
+Este capítulo resume y discute los hallazgos clave derivados de nuestro estudio sobre la generación de conjuntos de datos sintéticos estructurados, incluyendo textos. Se centra en la evaluación de diferentes modelos generativos y el análisis de métricas relevantes para la calidad de los datos. Además, se reflexiona sobre las implicaciones de la utilidad frente a la privacidad en los datos sintéticos, y se destaca el valor del modelo Tddpm para la preservación de la privacidad. Finalmente, se identifican limitaciones y se proponen caminos para investigaciones futuras, especialmente en lo que respecta a la creciente importancia de la generación de texto y la evaluación de la privacidad en dicho contexto.
 
+\label{chap:conclusion}
 \section{Conclusiones}
-
+\label{sec:conclusion}
 El objetivo principal de este estudio fue desarrollar un mecanismo para generar conjuntos de datos sintéticos estructurados, incluyendo textos, y comparar estos datos generados con sus contrapartes originales. Para lograr esto, se elaboró código y se examinaron los resultados producidos por varios enfoques, incluyendo \textbf{Tddpm}, \textbf{Smote}, \textbf{Ctgan}, \textbf{Tablepreset}, \textbf{Copulagan}, \textbf{Gaussiancopula} y \textbf{Tvae} para datos tabulares. Cada uno de estos modelos ha mostrado un grado de éxito notable en términos de distribución, correlación y cobertura. En lo que respecta a la generación de texto, se empleó el modelo \textbf{mt5}, que es un derivado de la serie de modelos \textbf{T5} y fue \emph{fine-tuned} para el conjunto original. Este modelo ha demostrado su capacidad para producir textos coherentes basados en las entradas proporcionadas, aunque decepcionante en su capacidad de diversidad de los textos generados. Si se observa el anexo \ref{ejemplo-10-aleatoreos-a} se puede notar que existen inicios de texto repetidos "Piso de madera en", "Departamento de 2 piso" son dos frecuentes inicios. Lo anterior no invalida la generación.
 
 
@@ -17,6 +19,7 @@ En resumen, nuestro estudio contribuye al creciente cuerpo de literatura en el c
 
 
 \section{Limitaciones}
+\label{sec:limit}
 A pesar de los hallazgos significativos, nuestro estudio tiene ciertas limitaciones. Por ejemplo, debido a limitaciones de tiempo, no se pudo realizar una evaluación completa de todas las métricas listadas en la revisión bibliográfica. Estas limitaciones ofrecen oportunidades para futuras investigaciones. En particular, se recomienda la exploración de la \emph{Cross-Classification} como una medida para la evaluación de textos.
 
 Y más allá de las metricas que por tiempo no pudieron ser analizadas, me gustaría contextualizar en el tiempo que se desarrolló este trabajo y es que al iniciar esta tesis, a mediados de 2022, era evidente la creciente complejidad de la inteligencia artificial y la mejora continua de sus resultados. Sin embargo, era difícil anticipar que, durante el desarrollo de este trabajo, este crecimiento se aceleraría de tal manera que, al acercarse a la conclusión del mismo, los modelos utilizados aquí, como el \textbf{T5}, constituirían solo uno de los muchos modelos disponibles para la generación de texto. Desafortunadamente, debido a limitaciones de tiempo, no se podrán tratar otros modelos en profundidad y estos serán objeto de la sección de discusión. Para aquellos interesados en continuar con esta línea de investigación, se recomienda visitar el \href{https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard}{HuggingFace Leaderboard LLM} \cite{noauthor_open_nodate}, donde encontrarán una amplia gama de modelos a explorar y explotar.
@@ -36,7 +39,7 @@ Muchos de los párrafos de este trabajo fueron analizados por ChatGPT, corregido
 
 
 \section{Discusión}
+\label{sec:discusion}
 Los modelos de generación de texto están en pleno auge. Recientemente han emergido modelos como \textbf{GPT-4} \cite{openai_gpt-4_2023}, \textbf{Llama} \cite{noauthor_llama_nodate}, \textbf{Palm2} \cite{anil_palm_2023} y \textbf{Falcon} \cite{noauthor_falcon_nodate}, entre muchos otros que se pueden ver en el \href{https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard}{HuggingFace Leaderboard LLM} \cite{noauthor_open_nodate}. El modelo \textbf{Chinchilla} \cite{hoffmann_training_2022} ha destacado la importancia de la calidad de los datos de entrada para la eficacia de estos modelos. Sería relevante llevar a cabo nuevos estudios con estos y otros modelos emergentes.
 
 En relación a las métricas, tal como se mencionó en la conclusión, algunas de ellas no se calcularon en este trabajo debido a restricciones de tiempo. Además, el estudio de la privacidad en la generación de texto es un área que aún no ha sido ampliamente explorada. Determinar qué métricas son relevantes en este aspecto podría ser tan importante como la evaluación de la eficacia de los nuevos modelos.
-

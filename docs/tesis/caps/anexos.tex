@@ -1,7 +1,10 @@
 \chapter{Anexos}
+Este capítulo de Anexos proporciona información adicional y detallada que respalda la investigación realizada en esta tesis. Aunque estos detalles son esenciales para el completo entendimiento de la investigación, se han incluido en los anexos para mantener la fluidez del cuerpo principal de la tesis.
 
+En las siguientes secciones, se presentan diversos elementos suplementarios. El código de entrenamiento de modelos económicos se proporciona para dar visibilidad a los métodos de aprendizaje automático utilizados. Se incluyen gráficos detallados de correlaciones y estadísticas para los conjuntos de datos utilizados, aportando un análisis más profundo de las características y estructuras de estos conjuntos de datos. También se proporcionan ejemplos de registros generados, ofreciendo una visión tangible de los resultados de la generación de datos.
+
+Por favor, refiérase a estos anexos para una comprensión más completa y detallada de la investigación y los métodos utilizados en este trabajo.
 \section{Código de entrenamiento de economicos}
-
 
 \begin{listing}[H]
 \inputminted[
@@ -13,7 +16,7 @@
 \caption{Código de ejemplo en Python para sumar dos números. Fuente: Autor.}
 \label{anexo-economicos-cl}
 \end{listing}
-
+4
 \section{Lista completa de figura pairwise kingcounty}
 \label{A-pairwise-kingcounty-top2-a-1}
 \input{datasets/kingcounty-a-3/pairwise.tex}
@@ -54,42 +57,3 @@
 \section{Estadisticos Economicos - Conjunto B}
 \label{propiedades-estadisticas-economicos-B}
 \input{datasets/economicos-b-3/stats.tex}
-
-%\begin{longtable}{|l|l|m{10em}|m{10em}|}
-%    \caption{Tabla de comparación de Top5 KingCounty} \\
-%    \hline
-%    \rowcolor[gray]{0.8}
-%    Modelo & Columna & top5 & top5\_prob \\ \hline
-%    Real & bathrooms & [2.5  1.   1.75 2.25 2.  ] & [0.25060729 0.17860035 0.14025448 0.09375361 0.08825911] \\ \hline
-%    smote-enc\_21613 & bathrooms & [2.5  1.   1.75 2.25 2.  ] & [0.30545017 0.21347275 0.15975756 0.08832238 0.06199685] \\ \hline
-%    tddpm\_mlp\_21613 & bathrooms & [2.5  1.   1.75 2.25 2.  ] & [0.26937491 0.18414843 0.1375561  0.09031601 0.08800259] \\ \hline
-%    Real & bedrooms & [3 4 2 5 6] & [0.45488722 0.3167727  0.12938115 0.07472527 0.01226142] \\ \hline
-%    smote-enc\_21613 & bedrooms & [3 4 2 5 6] & [0.51457389 0.33621727 0.11108541 0.03428333 0.00212825] \\ \hline
-%    tddpm\_mlp\_21613 & bedrooms & [3 4 2 5 1] & [0.48026651 0.32318512 0.1245084  0.0605654  0.00573729] \\ \hline
-%    Real & condition & [3 4 5 2 1] & [0.65054945 0.26096009 0.07888953 0.00803933 0.0015616 ] \\ \hline
-%    smote-enc\_21613 & condition & [3 4 5 2 1] & [7.08198390e-01 2.49838068e-01 4.09919497e-02 8.32793560e-04
-%     1.38798927e-04] \\ \hline
-%    tddpm\_mlp\_21613 & condition & [3 4 5 2 1] & [6.91065562e-01 2.52486929e-01 5.33937908e-02 2.77610697e-03
-%     2.77610697e-04] \\ \hline
-%    Real & date & ['20140623T000000' '20140625T000000' '20140626T000000' '20150421T000000'
-%     '20150325T000000'] & [0.00711394 0.00607287 0.00584153 0.00584153 0.00584153] \\ \hline
-%    smote-enc\_21613 & date & ['20140623T000000' '20150408T000000' '20150428T000000' '20140625T000000'
-%     '20150421T000000'] & [0.00758767 0.00707875 0.00684741 0.00670861 0.00619969] \\ \hline
-%    tddpm\_mlp\_21613 & date & ['20140623T000000' '20140625T000000' '20140528T000000' '20140709T000000'
-%     '20140826T000000'] & [0.00772683 0.00754176 0.00684773 0.00666266 0.00661639] \\ \hline
-%    Real & floors & [1.  2.  1.5 3.  2.5] & [0.49091961 0.38334297 0.0880856  0.02990168 0.00740312] \\ \hline
-%    smote-enc\_21613 & floors & [1.  2.  1.5 3.  2.5] & [0.51156658 0.39270843 0.06620709 0.02840751 0.00111039] \\ \hline
-%    tddpm\_mlp\_21613 & floors & [1.  2.  1.5 3.  2.5] & [0.48572618 0.40748624 0.08032203 0.02415213 0.00231342] \\ \hline
-%    Real & grade & [ 7  8  9  6 10] & [0.41648352 0.28218623 0.11983806 0.09369578 0.05292076] \\ \hline
-%    smote-enc\_21613 & grade & [ 7  8  9  6 10] & [0.44549829 0.28847044 0.11594337 0.08369575 0.04524845] \\ \hline
-%    tddpm\_mlp\_21613 & grade & [ 7  8  9  6 10] & [0.42742794 0.28922408 0.11766067 0.08527275 0.05242215] \\ \hline
-%    Real & view & [0 2 3 1 4] & [0.90144592 0.04528629 0.02290341 0.01590515 0.01445922] \\ \hline
-%    smote-enc\_21613 & view & [0 2 3 4 1] & [0.96391228 0.01600814 0.01101138 0.00582955 0.00323864] \\ \hline
-%    tddpm\_mlp\_21613 & view & [0 2 3 4 1] & [0.93406746 0.03340582 0.01452829 0.0093925  0.00860593] \\ \hline
-%    Real & waterfront & [0 1] & [0.99282822 0.00717178] \\\hline
-%    smote-enc\_21613 & waterfront & [0 1] & [0.99898214 0.00101786] \\ \hline
-%    tddpm\_mlp\_21613 & waterfront & [0 1] & [0.99717762 0.00282238] \\ \hline
-%    Real & zipcode & [98103 98038 98115 98052 98117] & [0.02828224 0.02735685 0.02672065 0.02654714 0.02631579] \\ \hline
-%    smote-enc\_21613 & zipcode & [98115 98038 98103 98052 98042] & [0.02863885 0.02854631 0.02748219 0.02674193 0.0259554 ] \\ \hline
-%    tddpm\_mlp\_21613 & zipcode & [98115 98023 98103 98052 98118] & [0.03025957 0.02998196 0.02901032 0.0285939  0.02799241] \\ \hline
-%\end{longtable}

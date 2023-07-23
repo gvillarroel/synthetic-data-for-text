@@ -33,10 +33,10 @@
 \usepackage{xcolor}
 \usepackage{array}
 \usepackage{graphicx}
-
-
-
-
+\usepackage{hyperref}
+\usepackage{etoolbox}
+\usepackage[style=ieee, natbib=true]{biblatex}
+\addbibresource{bibliografia.bib}
 
 \newcommand*{\fullref}[1]{\hyperref[{#1}]{\autoref*{#1} \nameref*{#1}}}
 \renewcommand\listoflistingscaption{Lista de códigos}
@@ -111,16 +111,13 @@ breaklines=true,xleftmargin=1.0cm,
 %\input{caps/discusion.tex}
 
 %\input{glosario.tex} % opcional
-\bibliographystyle{plain}
-\todo{completar la información de la bibliografía/referencias que se usa en el texto... al menos falta el año de publicación (o consulta en el caso de URLs)}
-\todo{esto es demasiada gente... colova Rohan Anil et al. PaLM 2.......}
-\bibliography{bibliografia}
+%\bibliographystyle{IEEEtran}
+%\bibliography{bibliografia}
 
+\printbibliography
 
-% opcional ...
 \begin{appendices}
 \input{caps/anexos.tex}
-
 \end{appendices}
 
 \end{document} 
