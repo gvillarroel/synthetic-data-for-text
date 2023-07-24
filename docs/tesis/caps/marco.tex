@@ -250,19 +250,14 @@ George Lucas
 \section{Metricas de evaluación}
 Es importante destacar que no todas estas métricas son aplicables a todos los tipos de datos y modelos, y que la selección de las métricas a utilizar debe ser cuidadosamente considerada en función de las necesidades y objetivos específicos de cada caso de estudio.
 A continuación presentan algunas de las posibles a considerar para medir la similitud, privacidad y utilidad en la evaluación de los conjuntos de datos sintéticos generados.
-
-\textbf{SDMetrics Score}: Resume en valores de 0 a 1 el promedio de varias metricas que son detalladas a posterior. Es posible encontrar la mención de metricas que se detallan en una sección posterior.
-
-\todo{Completar}
-\textbf{Correlación}: 
-
-\textbf{Reporte diagnóstico}:
-
-\textbf{Reporte de calidad}:
-
-\textbf{Privacidad}:
-
-\textbf{Propiedades Estadísticas}:
+\begin{itemize}
+\item \textbf{SDMetrics Score}: Este es un promedio de las métricas de 'Quality Report' y 'Diagnostic Report' que varían de 0 a 1. El 'Quality Report' se refiere a las formas de las columnas (Column Shapes) y las tendencias entre pares de columnas (Column Pair Trends). El 'Diagnostic Report' se refiere a la síntesis (Synthesis), cobertura (Coverage) y límites (Boundaries).
+\item \textbf{Reporte diagnóstico}: Se refiere a un conjunto de métricas que incluyen Síntesis, Cobertura y Límites. La síntesis verifica la singularidad de los datos sintéticos, la cobertura verifica si los datos sintéticos cubren todo el espectro de valores y los límites verifican si los datos sintéticos respetan los límites de los datos reales.
+\item \textbf{Reporte de calidad}: En este informe se revisan dos componentes, las formas de las columnas (Column Shapes) y las tendencias entre pares de columnas (Column Pair Trends). La forma de las columnas mide la capacidad de los datos sintéticos para capturar la distribución general de cada columna en los datos reales. Las tendencias entre pares de columnas describen cómo varían en relación entre sí.
+\item \textbf{Correlación}: En esta sección se utiliza la correlación de Pearson en columnas numéricas para generar una representación visual en un mapa de calor.
+\item \textbf{Privacidad}: Esta sección cubre dos métricas, Distancia al Registro más Cercano (DCR) y Relación de Distancia del Vecino más Cercano (NNDR). DCR cuantifica la distancia euclidiana entre cualquier registro sintético y su vecino real más cercano. NNDR mide la relación entre la distancia euclidiana al vecino real más cercano y al segundo vecino real más cercano de cualquier registro sintético.
+\item \textbf{Propiedades estadísticas}: Esta sección presenta un conjunto de propiedades estadísticas como el número de observaciones, elementos faltantes, media, mediana, moda, entre otros.
+\end{itemize}
 
 
 

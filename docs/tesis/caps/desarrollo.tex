@@ -6,7 +6,7 @@ En primer lugar, se examinan los recursos disponibles que forman la base de este
 
 El núcleo de este capítulo se centra en la explicación del desarrollo de un proceso de generación de datos sintéticos. Este proceso se basa en la metodología propuesta por Synthetic Data Vault (SDV) y se extiende para incluir etapas intermedias de almacenamiento de modelos y resultados de evaluación. Se proporciona una descripción detallada de cada paso del proceso, desde la creación de metadatos hasta la generación del conjunto de datos sintéticos.
 
-Para concluir, se abordan los métodos para la evaluación de los conjuntos de datos sintéticos generados. Esto incluye la descripción de cómo se obtienen y calculan las métricas, con un ejemplo de cómo calcular y visualizar el score promedio para una selección específica de modelos. Este capítulo prepara el terreno para un análisis profundo de los resultados obtenidos a través de esta metodología, que se presentará en los capítulos siguientes.
+Para concluir, se abordan los métodos para la evaluación de los conjuntos de datos sintéticos generados. Esto incluye la descripción de cómo se obtienen y calculan las métricas, con un ejemplo de cómo calcular y visualizar el \emph{score} promedio para una selección específica de modelos. Este capítulo prepara el terreno para un análisis profundo de los resultados obtenidos a través de esta metodología, que se presentará en los capítulos siguientes.
 
 \section{Recursos disponibles}
 \label{sec:recursos}
@@ -76,7 +76,7 @@ La base de datos de King County \cite{kaggle_house_2015} contiene notificación 
 \end{table}  
 
 
-\subsubsection{Economicos}
+\subsubsection{Económicos}
 Economicos.cl es un portal web chileno que se especializa en la publicación de anuncios clasificados en línea, enfocándose en las categorías de bienes raíces, vehículos, empleos, servicios y productos variados. 
 La base de datos se originó de un \emph{Web Scraping} ejecutado en 2020, y contiene 22.059 observaciones.
 
@@ -133,7 +133,7 @@ La base de datos se originó de un \emph{Web Scraping} ejecutado en 2020, y cont
 \label{subsec:computacion}
 Para efectuar los experimentos, se recurrió a un equipo informático con las especificaciones técnicas detalladas en la Tabla \ref{tabla-componentes-pc}. El procesador seleccionado fue un AMD Ryzen 9 7950X 16-Core Procesadores, complementado con cuatro módulos de 32 GB para sumar una memoria total de 128 GB DDR5. La tarjeta gráfica incorporada fue una NVIDIA GeForce RTX 4090, y el equipo contó con dos discos duros de 500 GB SSD. El uso de un sistema con estas características garantizó una ejecución eficaz de los modelos de generación de datos, asegurando la viabilidad de los experimentos. Cabe resaltar que la selección de los componentes del equipo se realizó de manera meticulosa para garantizar que los resultados obtenidos no se vieran afectados por una capacidad de hardware limitada.
 
-En lo que respecta al software, se empleó el sistema operativo Ubuntu 20.04.2 LTS y se utilizó el lenguaje de programación Python 3.10 para la implementación de los modelos de generación de datos. Se recurrió a diversas bibliotecas, incluyendo DVC, SDV y PyTorch, cuya lista completa está disponible en el \href{https://github.com/gvillarroel/synthetic-data-for-text/blob/main/freeze.txt}{repositorio en Github}. La elección de estas herramientas estuvo guiada por su compatibilidad con el modelo TabDDPM, el cual fue empleado en algunos de los experimentos.
+En lo que respecta al software, se empleó el sistema operativo Ubuntu 20.04.2 LTS y se utilizó el lenguaje de programación Python 3.10 para la implementación de los modelos de generación de datos. Se recurrió a diversas bibliotecas, incluyendo DVC, SDV y PyTorch, cuya lista completa está disponible en el \href{https://github.com/gvillarroel/synthetic-data-for-text/blob/main/freeze.txt}{repositorio en Github}. La elección de estas herramientas estuvo guiada por su compatibilidad con el modelo Tddpm, el cual fue empleado en algunos de los experimentos.
 
 
 \begin{table}[H]
@@ -179,7 +179,7 @@ El código fuente de los modelos destinados a la generación de datos, así como
 \label{subsec:procesamiento}
 En las siguientes secciones se detalla el flujo de procesamiento implementado para la generación de nuevos datos sintéticos. Este flujo se inspira en el propuesto por Synthetic Data Vault (SDV), incorporando algunas modificaciones para preservar etapas intermedias.
 
-SDV es un ecosistema de bibliotecas para la generación de datos sintéticos que facilita a los usuarios aprender de bases de datos unidimensionales, multidimensionales y de series temporales, para posteriormente generar nuevos datos sintéticos que mantengan las mismas propiedades estadísticas y el mismo formato que las bases de datos originales. Para conseguir esto, SDV emplea diversas técnicas, como modelos generativos y redes neuronales, con el fin de aprender la distribución subyacente de los datos y generar nuevos datos que sigan dicha distribición \cite{kotelnikov_overview_nodate, patki_synthetic_2016}.
+SDV es un ecosistema de bibliotecas para la generación de datos sintéticos que facilita a los usuarios aprender de bases de datos unidimensionales, multidimensionales y de series temporales, para posteriormente generar nuevos datos sintéticos que mantengan las mismas propiedades estadísticas y el mismo formato que las bases de datos originales. Para conseguir esto, SDV emplea diversas técnicas, como modelos generativos y redes neuronales, con el fin de aprender la distribución subyacente de los datos y generar nuevos datos que sigan dicha distribución \cite{kotelnikov_overview_nodate, patki_synthetic_2016}.
 
 A continuación, se explica el proceso de generación de datos sintéticos para una base de datos unidimensional utilizando la biblioteca Synthetic Data Vault (SDV), seguido de las modificaciones introducidas para expandir el proceso e incorporar nuevos modelos.
 
@@ -252,7 +252,7 @@ De esta forma, es posible automatizar el proceso de generación de datos sintét
 La clase \emph{Synthetic} es una implementación que permite configurar los modelos a utilizar en el proceso de generación de datos sintéticos. Esta clase encapsula los métodos comunes de los modelos, como \emph{load}, \emph{fit}, \emph{save} y \emph{sample}, lo que permite una configuración general de las entradas y la selección de modelos.
 
 
-En el ejemplo presentado en el Código \ref{code-economicos-synthetic}, se crea una instancia de la clase \emph{Synthetic} utilizando un pandas dataframe previamente preprocesado. Se especifican las columnas que se considerarán como categorías, las que se considerarán como texto y las que se excluirán del análisis. Además, se indica el directorio donde se almacenarán los archivos temporales, se seleccionan los modelos a utilizar, se establece el número de registros sintéticos deseados y se define una columna objetivo para realizar pruebas con aprendizaje automático y estratificar los conjuntos parciales de datos que se utilizarán. De esta manera, se configura de forma flexible el proceso de generación de datos sintéticos según las necesidades específicas del usuario.
+En el ejemplo presentado en el Código \ref{code-economicos-synthetic}, se crea una instancia de la clase \emph{Synthetic} utilizando un pandas dataframe previamente pre procesado. Se especifican las columnas que se considerarán como categorías, las que se considerarán como texto y las que se excluirán del análisis. Además, se indica el directorio donde se almacenarán los archivos temporales, se seleccionan los modelos a utilizar, se establece el número de registros sintéticos deseados y se define una columna objetiva para realizar pruebas con aprendizaje automático y estratificar los conjuntos parciales de datos que se utilizarán. De esta manera, se configura de forma flexible el proceso de generación de datos sintéticos según las necesidades específicas del usuario.
 
 \begin{listing}[H]
 \inputminted[
@@ -289,7 +289,7 @@ models & Listado de modelos a utilizar \\
 \hline
 n\_sample & Número de registros a generar \\
 \hline
-target\_column & Columna a utilizar como objetivo para modelos de machine learning en las evaluaciones y separación cuando se deba estratificar los campos. \\
+target\_column & Columna a utilizar como objetivo para modelos de \emph{machine learning} en las evaluaciones y separación cuando se deba estratificar los campos. \\
 \hline
 \end{tabular}
 \end{table}
@@ -460,12 +460,12 @@ En la Tabla \ref{metricas-categoricas} se muestran los datos calculados para cam
     \end{tabular}
 \end{table}
 
-En el Código \ref{codigo-show-score}, se muestra cómo se calcula y se muestra el Score promedio para una selección específica de modelos. El código utiliza la función "sort\_values" para ordenar los resultados en orden descendente según el puntaje. Luego, se filtran los resultados para incluir solo los modelos seleccionados y las columnas que muestran el puntaje y la Distancia al registro más cercano (DCR) en los tres umbrales \emph{Synthetic vs Train} (ST), \emph{Synthetic vs Hold} (SH) y \emph{Train vs Hold} TH.
+En el Código \ref{codigo-show-score}, se muestra cómo se calcula y se muestra el puntaje promedio para una selección específica de modelos. El código utiliza la función "sort\_values" para ordenar los resultados en orden descendente según el puntaje. Luego, se filtran los resultados para incluir solo los modelos seleccionados y las columnas que muestran el puntaje y la Distancia al registro más cercano (DCR) en los tres umbrales \emph{Synthetic vs Train} (ST), \emph{Synthetic vs Hold} (SH) y \emph{Train vs Hold} TH.
 \begin{listing}[H]
     \begin{minted}[linenos=true,frame=lines,framesep=2mm,baselinestretch=1.2]{python}
 avg = syn.scores[syn.scores["type"] == "avg"]
 avg.sort_values("score", ascending=False).loc[ ["tddpm_mlp","smote-enc","gaussiancopula","tvae","gaussiancopula", "copulagan","ctgan"], ["score", "DCR ST 5th", "DCR SH 5th", "DCR TH 5th"]]
     \end{minted}
-\caption{Mostrando Scores Promedios Calculados}
+\caption{Mostrando Puntajes Promedios Calculados}
 \label{codigo-show-score}
 \end{listing}
