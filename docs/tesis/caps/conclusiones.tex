@@ -1,7 +1,7 @@
 \chapter{Conclusiones y discusión}
+\label{chap:conclusion}
 Este capítulo resume y discute los hallazgos clave derivados de nuestro estudio sobre la generación de conjuntos de datos sintéticos estructurados, incluyendo textos. Se centra en la evaluación de diferentes modelos generativos y el análisis de métricas relevantes para la calidad de los datos. Además, se reflexiona sobre las implicaciones de la utilidad frente a la privacidad en los datos sintéticos, y se destaca el valor del modelo Tddpm para la preservación de la privacidad. Finalmente, se identifican limitaciones y se proponen caminos para investigaciones futuras, especialmente en lo que respecta a la creciente importancia de la generación de texto y la evaluación de la privacidad en dicho contexto.
 
-\label{chap:conclusion}
 \section{Conclusiones}
 \label{sec:conclusion}
 El objetivo principal de este estudio fue desarrollar un mecanismo para generar conjuntos de datos sintéticos estructurados, incluyendo textos, y comparar estos datos generados con sus contrapartes originales. Para lograr esto, se elaboró código y se examinaron los resultados producidos por varios enfoques, incluyendo \textbf{Tddpm}, \textbf{Smote}, \textbf{Ctgan}, \textbf{Tablepreset}, \textbf{Copulagan}, \textbf{Gaussiancopula} y \textbf{Tvae} para datos tabulares. Cada uno de estos modelos ha mostrado un grado de éxito notable en términos de distribución, correlación y cobertura. En lo que respecta a la generación de texto, se empleó el modelo \textbf{mt5}, que es un derivado de la serie de modelos \textbf{T5} y fue \emph{fine-tuned} para el conjunto original. Este modelo ha demostrado su capacidad para producir textos coherentes basados en las entradas proporcionadas, aunque decepcionante en su capacidad de diversidad de los textos generados. Si se observa el anexo \ref{ejemplo-10-aleatoreos-a} se puede notar que existen inicios de texto repetidos "Piso de madera en", "Departamento de 2 piso" son dos frecuentes inicios. Lo anterior no invalida la generación.
@@ -12,8 +12,6 @@ Además, se presentaron comparativas de métricas para facilitar la selección d
 En lo referente a la privacidad, se exploró la relación existente entre utilidad representada por \emph{SDMetric Score} y privacidad representada por la distancia al registro más cercano (\textbf{DCR}). Se observó que a medida que el conjunto sintético se asemejaba más al original, mayor SDMetric Score, las métricas de privacidad disminuían, como se reflejaba en la disminución DCR y la relación entre el registro más cercano y el segundo más cercano (\textbf{NNDR}). Los modelos que tenían una mayor distancia generalmente rendían peor, y esto no se limitaba únicamente a la calidad del modelo. Al comparar los dos mejores modelos, \textbf{Tddpm} y \textbf{Smote}, se encontró que Tddpm superaba a Smote en términos de mayores distancias y una mayor razón en la distancia del primer al segundo registro, lo que proporcionaba una mayor protección al conjunto original.
 
 Basándonos en nuestras observaciones, si se considera que la distancia al percentil 5 proporciona una salvaguarda suficiente para la privacidad, recomendamos el uso del modelo \textbf{Tddpm}. Sin embargo, esta recomendación está sujeta a revisión a medida que se desarrollen y evalúen más modelos. Adicionalmente, es importante realizar un cálculo particular para cada nuevo conjunto de datos, ya que, como se observó, la medida cambiará en función de cuán bien aprenda el modelo y las características de los datos, como la cantidad de nulos o el número de variables categóricas, por ejemplo.
-
-
 
 En resumen, nuestro estudio contribuye al creciente cuerpo de literatura en el campo de la generación de datos sintéticos y ofrece una base sólida para futuras investigaciones.
 
@@ -43,3 +41,93 @@ Muchos de los párrafos de este trabajo fueron analizados por ChatGPT, corregido
 Los modelos de generación de texto están en pleno auge. Recientemente han emergido modelos como \textbf{GPT-4} \cite{openai_gpt-4_2023}, \textbf{Llama} \cite{noauthor_llama_nodate}, \textbf{Palm2} \cite{anil_palm_2023} y \textbf{Falcon} \cite{noauthor_falcon_nodate}, entre muchos otros que se pueden ver en el \href{https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard}{HuggingFace Leaderboard LLM} \cite{noauthor_open_nodate}. El modelo \textbf{Chinchilla} \cite{hoffmann_training_2022} ha destacado la importancia de la calidad de los datos de entrada para la eficacia de estos modelos. Sería relevante llevar a cabo nuevos estudios con estos y otros modelos emergentes.
 
 En relación con las métricas, tal como se mencionó en la conclusión, algunas de ellas no se calcularon en este trabajo debido a restricciones de tiempo. Además, el estudio de la privacidad en la generación de texto es un área que aún no ha sido ampliamente explorada. Determinar qué métricas son relevantes en este aspecto podría ser tan importante como la evaluación de la eficacia de los nuevos modelos.
+
+\newpage
+\section{Evaluación de objetivos y logros}
+En esta sección, confrontaremos los objetivos propuestos y los resultados alcanzados en nuestro estudio. Nuestro reto inicial radicaba en concebir un mecanismo para la creación de conjuntos de datos sintéticos con contenido textual y su comparación con los datos originales. A continuación, analizaremos la correspondencia entre nuestros descubrimientos y dichos objetivos, permitiéndonos estimar el éxito de nuestra investigación, identificar potenciales áreas de mejora y detectar oportunidades para futuros estudios.
+
+\begin{tcolorbox}[colback=white,colframe=black!50!white,title=Objetivo especifico 1: Modelos generativos]
+\textbf{Utilización de modelos generativos} capaces de producir \textbf{nuevos conjuntos de datos sintéticos} \textbf{a partir de datos originales} que \textbf{contienen texto}.
+\end{tcolorbox}
+Este objetivo engloba conjuntos de datos numéricos y categóricos como fundamentales, añadiendo el texto como elemento adicional. Por ende, todos los aspectos deben ser evaluados en relación a estos tres conjuntos de datos.
+\\
+\\
+\textbf{Pregunta}: ¿Fueron creados nuevos conjuntos de datos sintéticos?. \\
+\textbf{Respuesta}: Sí, cada técnica y modelo empleado generó un conjunto de datos sintéticos. \textcolor{green}{\ding{51}}
+\\
+\\
+\textbf{Pregunta}: ¿Fueron creados nuevos conjuntos de datos sintéticos que incluyen \textbf{texto}?. \\
+\textbf{Respuesta}: Sí, se obtuvieron descripciones de propiedades. Este procedimiento puede ser replicado para cualquier otro campo de texto. \textcolor{green}{\ding{51}}
+\\
+\\
+\textbf{Pregunta}: ¿Se empleó algún modelo generativo?. \\
+\textbf{Respuesta}: Sí, se utilizaron Tddpm y ctgan, entre otros, para campos numéricos y categóricos. \textcolor{green}{\ding{51}}\\
+\textbf{Nota}: Aunque se incluye SMOTE para comparación, SMOTE no es un modelo generativo. \textcolor{orange}{\faExclamationTriangle}
+\\
+\\
+\textbf{Pregunta}: ¿Se empleó algún modelo generativo para \textbf{texto}?. \\
+\textbf{Respuesta}: Sí, se utilizó mT5, un modelo multilenguaje derivado de la familia T5 de Google, que es un modelo generativo. \textcolor{green}{\ding{51}} \\
+\textbf{Nota}: Aunque mT5 es parte de la familia T5, no es el último modelo lanzado. A finales de 2022, se liberó Flan-T5, sin embargo, no se recomienda su uso, ya que su \emph{embedding} no maneja bien caracteres del español. Es aconsejable considerar la evaluación de modelos más nuevos, como Falcon o Llama. \textcolor{orange}{\faExclamationTriangle}
+\\
+\\
+\textbf{Pregunta}: ¿Se emplearon los conjuntos de datos originales?. \\
+\textbf{Respuesta}: Sí, todos los modelos o técnicas utilizadas se basaron en un conjunto de datos original para imitar las distribuciones o llevar a cabo el entrenamiento de los modelos. \textcolor{green}{\ding{51}}
+\\
+\\
+\textbf{Pregunta}: ¿Se emplearon los conjuntos de datos originales para la generación de \textbf{texto}?. \\
+\textbf{Respuesta}: Sí, la descripción en los conjuntos originales y otras columnas se emplearon en el entrenamiento, luego, los datos sintéticos se usaron para generar textos sintéticos. \textcolor{green}{\ding{51}}
+
+Podemos concluir que el primer objetivo específico se cumplió de manera satisfactoria. \textcolor{green}{\ding{51}} \textcolor{green}{\ding{51}}
+\newpage
+\begin{tcolorbox}[colback=white,colframe=black!50!white,title=Objetivo especifico 2: Evaluación y comparación]
+\textbf{Evaluar} y \textbf{comparar} las características de los \textbf{conjuntos de datos sintéticos y originales} en tres aspectos: \textbf{propiedades estadísticas, nivel de privacidad, y sus distribuciones}.
+\end{tcolorbox}
+Procedemos a plantear las preguntas para evaluar el cumplimiento del segundo objetivo específico.
+\\
+\\
+\textbf{Pregunta}: ¿Se evaluaron las propiedades estadísticas de los conjuntos originales y sintéticos?. \\
+\textbf{Respuesta}: De manera parcial, se analizaron numerosas propiedades y se efectuó una comparación. \textcolor{orange}{\faExclamationTriangle} \\
+\textbf{Nota}: Aunque se presentaron propiedades estadísticas en el marco, algunas no fueron finalmente comparadas, como por ejemplo, la Desviación Mediana Absoluta Normalizada. A su vez, se incluyeron técnicas que no se consideraron en el objetivo original. \textcolor{orange}{\faExclamationTriangle}
+\\
+\\
+\textbf{Pregunta}: ¿Se evaluaron las propiedades estadísticas de los conjuntos de \textbf{texto} originales y sintéticos?. \\
+\textbf{Respuesta}: No, se pudieron considerar elementos como frecuencia, moda, que en textos como los títulos de publicaciones o distribuciones pueden no tener sentido. Sin embargo, podrían ser útiles algunas técnicas como TF-IDF o el análisis de N-GRAMAS. \textcolor{red}{\ding{55}} \\
+\textbf{Nota}: Técnicas como TF-IDF y cross-validación, entre otras, no se incluyeron debido a la priorización y limitaciones de tiempo. Se recomienda complementar este trabajo en estos aspectos en futuros estudios. \textcolor{orange}{\faExclamationTriangle}
+\\
+\\
+\textbf{Pregunta}: ¿Se evaluó la privacidad de los conjuntos originales y sintéticos?. \\
+\textbf{Respuesta}: Sí, se utilizó la métrica DCR y NNDR como principales y se interpretó cada valor en percentiles específicos. \textcolor{green}{\ding{51}} \\
+\textbf{Nota}: Se sugiere que futuros trabajos profundicen en la evaluación de privacidad, facilitando la decisión del delta mínimo esperado para el percentil 5. Aunque el presente trabajo ilustra con ejemplos el significado de la distancia medida, una forma de cálculo de la distancia mínima deseada representaría una mejora sustancial. \textcolor{orange}{\faExclamationTriangle}
+\\
+\\
+\textbf{Pregunta}: ¿Se evaluó la privacidad de los conjuntos de \textbf{textos} originales y sintéticos?. \\
+\textbf{Respuesta}: No, tampoco se encontró literatura relevante al respecto. \\
+\textbf{Nota}: La privacidad en textos sintéticos podría ser un campo de investigación relevante. \textcolor{orange}{\faExclamationTriangle}
+\\
+\\
+\textbf{Pregunta}: ¿Se evaluó la distribución de los conjuntos originales y sintéticos?. \\
+\textbf{Respuesta}: Sí, \textbf{Column Shape} es una de las métricas más adecuadas. \textcolor{green}{\ding{51}}
+\\
+\\
+\textbf{Pregunta}: ¿Se evaluó la distribución de los conjuntos de \textbf{textos} originales y sintéticos?. \\
+\textbf{Respuesta}: No, se podría haber empleado TF-IDF o el análisis de frecuencia de palabras. \textcolor{red}{\ding{55}}
+
+Podemos concluir que el segundo objetivo específico se alcanzó de manera parcial, identificándose múltiples aspectos susceptibles de ser investigados y mejorados en el futuro. \textcolor{green}{\ding{51}} \textcolor{orange}{\faExclamationTriangle}
+\newpage
+    
+
+\newpage
+\begin{tcolorbox}[colback=white,colframe=black!50!white,title=Objetivo general]
+El objetivo general de este trabajo es establecer un mecanismo para la generación de conjuntos de datos sintéticos estructurados, los cuales incluyen texto, y proceder a compararlos con sus equivalentes originales.
+\end{tcolorbox}
+Después de evaluar cada uno de los objetivos de manera independiente, se puede concluir que el objetivo inicial se logró parcialmente: se tuvo un buen desempeño en la generación, pero quedaron aspectos pendientes en la evaluación.
+
+Este trabajo brinda certidumbre sobre la viabilidad técnica del enfoque empleado, pero deja abiertas las siguientes cuestiones para futuras investigaciones:
+
+\begin{enumerate}
+    \item ¿Cómo se puede evaluar la privacidad en textos?
+    \item ¿Cómo se puede asegurar la variabilidad en los textos generados para evitar repeticiones frecuentes?
+    \item ¿Es posible reducir la lista de propiedades y métricas calculadas en este estudio, manteniendo al mismo tiempo la capacidad de evaluación?
+    \item ¿Cómo se pueden incorporar otros tipos de datos, como arreglos, estructuras anidadas o series de tiempo?
+    \item ¿Un modelo más poderoso podría generar una mayor variabilidad?
+\end{enumerate}

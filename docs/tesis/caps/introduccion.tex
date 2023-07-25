@@ -11,7 +11,7 @@ Según el libro \emph{Practical synthetic data generation: balancing privacy and
 
 Para \textbf{Equifax}, ambos beneficios son valiosos, aunque inicialmente la eficiencia en la disponibilidad de datos tiene mayor peso. Como se verá posteriormente, la empresa ejerce un control total sobre el acceso a la información y los datos, ya que es necesario proteger su confidencialidad.
 
-El objetivo general de este trabajo es diseñar un mecanismo para generar conjuntos de datos sintéticos estructurados, que contengan textos, y compararlos con sus contrapartes originales utilizando \emph{deep learning}.
+El objetivo general de este trabajo es diseñar un mecanismo para generar conjuntos de datos sintéticos estructurados, que contengan textos, y compararlos con sus contrapartes originales utilizando nuevas tecnicas.
 
 \section{Estructura del documento}
 En este documento se presenta un estudio detallado del desarrollo de un mecanismo para generar conjuntos de datos sintéticos estructurados que incluyen textos, y se comparan con sus contrapartes originales utilizando \emph{deep learning}.
@@ -26,7 +26,6 @@ En el capítulo 4 se presentarán los resultados de la evaluación comparativa e
 
 Finalmente, en el capítulo 5 se presentarán las conclusiones y las posibles áreas de mejora del trabajo.
 
-\newpage
 \section{Equifax: contexto y limitaciones}
 
 \textbf{Equifax} es un buró de crédito multinacional, que en conjunto a Transunion y Experian componen los tres más grandes a nivel mundial. La compañía posee equipos de desarrollo en Estados Unidos, India, Irlanda y Chile. Asimismo está operativa en más de 24 países. El negocio principal de Equifax es la información/conocimiento extraído de la data recolectada, la que incluye información crediticia, servicios básicos, autos, mercadotecnia, Twitter, revistas, informaciones demográficas entre otros. El principal desafío tecnológico de la compañía es resguardar la privacidad. El segundo, realizar toda clase de predicciones relevantes para el mercado con los datos acumulados. Los datos son uno de los mayores, si no el mayor activo de la compañía.
@@ -38,7 +37,6 @@ La propuesta actual se enmarca en la búsqueda de un método alternativo en la g
 Sobre la regulación y acceso directo a información personal legible, no enmascarada en Equifax. Esta se encuentra regulada y solo disponibles para proyectos categorizados como Protegidos. Estos proyectos están administrados por un equipo especializado en infraestructura, encargado de la seguridad y herramientas ofrecidas para dichos espacios de trabajo. Los permisos de acceso son supervisados y revisados periodicamente.
 
 Equifax como AI-First Company, está en una evolución en búsqueda de ser precursora en inteligencia artificial, utilizando los datos almacenados durante más de un siglo y su asociación con Google, principal proveedor de servicios en la nube. El objetivo del año 2022, es poseer capacidades de entrenar modelos de Deep Learning usando las plataformas analíticas actuales administradas por Ignite, el producto seleccionado y está en proceso de implementación es Vertex AI. Equifax está en proceso de evaluación de empresas que generen data sintética con las condiciones que la organización requiere. Uno de los evaluados es Tonic IA \url{https://www.tonic.ai/}. Esto deja ver la relevancia que los datos sintéticos en los objetivos de Equifax a mediano plazo.
-\newpage
 
 \section{Objetivo}
 
@@ -49,7 +47,7 @@ El objetivo general de este trabajo es establecer un mecanismo para la generaci�
 \textbf{Objetivos Específicos:}
 \begin{enumerate}
     \item Utilización de modelos generativos capaces de producir nuevos conjuntos de datos sintéticos a partir de datos originales que contienen texto.
-    \item Evaluar y comparar las características de los conjuntos de datos sintéticos y originales en dos aspectos: propiedades estadísticas y nivel de privacidad, y sus distribuciones.
+    \item Evaluar y comparar las características de los conjuntos de datos sintéticos y originales en tres aspectos: propiedades estadísticas, nivel de privacidad, y sus distribuciones.
 \end{enumerate}
 
 \section{Estructura del documento}

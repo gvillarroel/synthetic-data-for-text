@@ -19,3 +19,4 @@ transformers
 SentencePiece
 tensorboard
 torch>=2
+pylatexenc

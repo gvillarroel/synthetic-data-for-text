@@ -68,4 +68,25 @@ Por favor, refiérase a estos anexos para una comprensión más completa y detal
 \label{propiedades-estadisticas-economicos-B}
 \input{datasets/economicos-b-3/stats.tex}
 
+\section{Ejemplos de código con fines de reproducibilidad}
+\label{anexo:reproducibilidad}
 
+En el Código \ref{codigo-show-score}, se muestra cómo se calcula y se muestra el puntaje promedio para una selección específica de modelos. El código utiliza la función "sort\_values" para ordenar los resultados en orden descendente según el puntaje. Luego, se filtran los resultados para incluir solo los modelos seleccionados y las columnas que muestran el puntaje y la Distancia al registro más cercano (DCR) en los tres umbrales \emph{Synthetic vs Train} (ST), \emph{Synthetic vs Hold} (SH) y \emph{Train vs Hold} TH.
+\begin{listing}[H]
+    \begin{minted}[linenos=true,frame=lines,framesep=2mm,baselinestretch=1.2]{python}
+avg = syn.scores[syn.scores["type"] == "avg"]
+avg.sort_values("score", ascending=False).loc[ ["tddpm_mlp","smote-enc","gaussiancopula","tvae","gaussiancopula", "copulagan","ctgan"], ["score", "DCR ST 5th", "DCR SH 5th", "DCR TH 5th"]]
+    \end{minted}
+\caption{Mostrando Puntajes Promedios Calculados}
+\label{codigo-show-score}
+\end{listing}
+
+En el ejemplo presentado en el Código \ref{code-economicos-synthetic}, se crea una instancia de la clase \emph{Synthetic} utilizando un pandas dataframe previamente pre procesado. Se especifican las columnas que se considerarán como categorías, las que se considerarán como texto y las que se excluirán del análisis. Además, se indica el directorio donde se almacenarán los archivos temporales, se seleccionan los modelos a utilizar, se establece el número de registros sintéticos deseados y se define una columna objetiva para realizar pruebas con aprendizaje automático y estratificar los conjuntos parciales de datos que se utilizarán. De esta manera, se configura de forma flexible el proceso de generación de datos sintéticos según las necesidades específicas del usuario.
+
+\begin{listing}[H]
+\inputminted[
+    firstline=45, lastline=54
+    ]{python}{../../notebooks/economicos_train.py}
+\caption{Instanciando clase Synthetic}
+\label{code-economicos-synthetic}
+\end{listing}

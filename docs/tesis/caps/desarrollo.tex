@@ -240,17 +240,8 @@ De esta forma, es posible automatizar el proceso de generación de datos sintét
 
 La clase \emph{Synthetic} es una implementación que permite configurar los modelos a utilizar en el proceso de generación de datos sintéticos. Esta clase encapsula los métodos comunes de los modelos, como \emph{load}, \emph{fit}, \emph{save} y \emph{sample}, lo que permite una configuración general de las entradas y la selección de modelos.
 
-
-En el ejemplo presentado en el Código \ref{code-economicos-synthetic}, se crea una instancia de la clase \emph{Synthetic} utilizando un pandas dataframe previamente pre procesado. Se especifican las columnas que se considerarán como categorías, las que se considerarán como texto y las que se excluirán del análisis. Además, se indica el directorio donde se almacenarán los archivos temporales, se seleccionan los modelos a utilizar, se establece el número de registros sintéticos deseados y se define una columna objetiva para realizar pruebas con aprendizaje automático y estratificar los conjuntos parciales de datos que se utilizarán. De esta manera, se configura de forma flexible el proceso de generación de datos sintéticos según las necesidades específicas del usuario.
-
-\begin{listing}[H]
-\inputminted[
-    firstline=45, lastline=54
-    ]{python}{../../notebooks/economicos_train.py}
-\caption{Instanciando clase Synthetic}
-\label{code-economicos-synthetic}
-\end{listing}
-
+Para ver como un ejemplo del uso, diríjase a Anexo \ref{anexo:reproducibilidad}.
+\newpage
 La Tabla \ref{synthetic-input} presenta las opciones para la instancia de la clase \emph{Synthetic}:
 
 \begin{table}[H]
@@ -361,15 +352,7 @@ Contactanos al telefono Kazona 569 56031154
 \section{Obtención de Métricas}
 \label{subsec:metricas}
 
-Se han automatizado la mayoría de las métricas para evaluar los conjuntos de datos sintéticos mediante el módulo \emph{metrics}. Estas métricas se aplican a los tres conjuntos de datos para su evaluación, lo que permite calcular estadísticas y comparativas para el conjunto de datos real utilizado para el entrenamiento (train dataset), el conjunto de datos reservado para la evaluación (hold) y el conjunto de datos sintético generado por los diferentes modelos (synthetic). Se pueden recolectar ejecutando el ejemplo de código proporcionado en Código \ref{code-economicos-metrics}.
-
-\begin{listing}[H]
-\inputminted[
-    firstline=55, lastline=55
-    ]{python}{../../notebooks/economicos_run-a.py}
-\caption{Obtención de métricas en economicos\_run-a.py}
-\label{code-economicos-metrics}
-\end{listing}
+Se han automatizado la mayoría de las métricas para evaluar los conjuntos de datos sintéticos mediante el módulo \emph{metrics}. Estas métricas se aplican a los tres conjuntos de datos para su evaluación, lo que permite calcular estadísticas y comparativas para el conjunto de datos real utilizado para el entrenamiento (train dataset), el conjunto de datos reservado para la evaluación (hold) y el conjunto de datos sintético generado por los diferentes modelos (synthetic). 
 
 En la Tabla \ref{metricas-numericas} se muestra las metricas recolectadas para campos numericos.
 
@@ -449,12 +432,4 @@ En la Tabla \ref{metricas-categoricas} se muestran los datos calculados para cam
     \end{tabular}
 \end{table}
 
-En el Código \ref{codigo-show-score}, se muestra cómo se calcula y se muestra el puntaje promedio para una selección específica de modelos. El código utiliza la función "sort\_values" para ordenar los resultados en orden descendente según el puntaje. Luego, se filtran los resultados para incluir solo los modelos seleccionados y las columnas que muestran el puntaje y la Distancia al registro más cercano (DCR) en los tres umbrales \emph{Synthetic vs Train} (ST), \emph{Synthetic vs Hold} (SH) y \emph{Train vs Hold} TH.
-\begin{listing}[H]
-    \begin{minted}[linenos=true,frame=lines,framesep=2mm,baselinestretch=1.2]{python}
-avg = syn.scores[syn.scores["type"] == "avg"]
-avg.sort_values("score", ascending=False).loc[ ["tddpm_mlp","smote-enc","gaussiancopula","tvae","gaussiancopula", "copulagan","ctgan"], ["score", "DCR ST 5th", "DCR SH 5th", "DCR TH 5th"]]
-    \end{minted}
-\caption{Mostrando Puntajes Promedios Calculados}
-\label{codigo-show-score}
-\end{listing}
+Para ver como poder obtener estas métricas, diríjase a Anexo \ref{anexo:reproducibilidad}.

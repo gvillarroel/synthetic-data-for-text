@@ -33,7 +33,6 @@ La Tabla \ref{tabla-tipo-datos} resume la lista que se encuentra en \emph{Practi
     \end{tabular}
 \end{table}
 
-\newpage
 \section{Privacidad de Datos}
 La protección de la información es un aspecto fundamental en la generación de datos sintéticos. Aunque este aspecto puede no ser crucial cuando los datos corresponden a temas como recetas o automóviles, resulta esencial cuando se trata de información relacionada con individuos \cite{bruce_practical_2020}. Por esta razón, el resguardo de la información es un tema de importancia para entidades como Equifax, que gestionan una gran cantidad de conjuntos de datos con contenido personal.
 
@@ -64,7 +63,6 @@ Para identificar qué campos de datos son significativos desde el punto de vista
     \end{tabular}
 \end{table}
 
-\newpage
 \subsection{Tipos de riesgos de divulgación}
 Los tipos de divulgación definidos en \emph{Practical Synthetic Data Generation} \cite{bruce_practical_2020} están resumidos en la Tabla \ref{relevantes-definiciones}.
 
@@ -98,7 +96,6 @@ Adicionalmente se deben establecer dos conceptos relevantes ante el análisis de
     \item En términos prácticos, normalmente los datos sintéticos buscan tener cierta permeabilidad con respecto a la \textbf{Divulgación Inferencial}, ya que se quiere que estadísticamente sean similares. Además, se busca proteger la identidad de los individuos, pero esta no es la única condición, también se busca proteger aquellos atributos que pueden ser sensibles, como las enfermedades. A todo este conjunto se le denomina \textbf{Revelación de identidad significativa}. Es particularmente riesgoso por la posibilidad de discriminación hacia ciertos grupos que cumplen con los atributos criterio.
     \item Los mismos atributos pueden tener más relevancia para ciertos grupos de la población que para otros. El ejemplo que se indica en \cite{el_emam_practical_2020} es que, debido a que el número de hijos igual a 2 es menos frecuente en una etnia que en otra (40\% en la primera y 10\% en la segunda), ese dato es más relevante en la segunda. Esto se debe a que es un factor que filtra mejor y, por lo tanto, puede permitir un mejor conocimiento de ese grupo específico. A esto se le denomina \textbf{Definición de información ganada}.
 \end{enumerate}
-\newpage
 
 \subsection{Regulación de datos sintéticos}
 Debido a que los datos sintéticos son basados en datos reales, pueden ser afectos a las regulaciones de sobre protección de datos \cite{bruce_practical_2020}. Los nuevos datos podrían ser afectos por:
@@ -108,8 +105,6 @@ Debido a que los datos sintéticos son basados en datos reales, pueden ser afect
     \item \href{http://www.eolusinc.com/pdf/hipaa.pdf}{Health insurance portability and accountability act of 1996} \cite{act_health_1996}
 \end{enumerate}
 
-
-\newpage
 \section{Generación de Datos Sintéticos}
 
 Los datos sintéticos, aunque no son datos reales, se generan con la intención de preservar ciertas propiedades de los datos originales. La utilidad de los datos sintéticos se mide por su capacidad para servir como un sustituto efectivo de los datos originales \cite{bruce_practical_2020}. Basándose en el uso de los datos originales, los datos sintéticos se pueden clasificar en tres categorías: aquellos que se basan en datos reales, los que no se basan en datos reales, y los híbridos.
@@ -125,7 +120,6 @@ En la Tabla \ref{tipo-de-datos}, se revisaron los datos estructurados. Si bien c
 Entre las estructuras más comunes se encuentran las matrices bidimensionales (datos tabulares) y los arreglos, que permiten matrices de muchas dimensiones e incluso estructuras complejas que pueden mezclar todas las estructuras previas.
 
 Debido al objetivo, se detallan solo los modelos que permiten abordar la generación de datos tabulares y texto basados en datos reales.
-\newpage
 \subsection{Generación de datos tabulares}
 En la Tabla \ref{tab-sota-tab}, se resumen las últimas publicaciones sobre generación de datos tabulares, indicando la fecha de publicación y si se puede acceder al código fuente o no, a febrero de 2023.
 
@@ -168,7 +162,7 @@ En la Tabla \ref{tab-sota-tab}, se resumen las últimas publicaciones sobre gene
     \end{tabular}
 \end{table}
 
-\newpage
+
 \subsection{Generación de texto en base de datos tabulares}
 
 En la Tabla \ref{tab-sota-text}, se listan las publicaciones en la generación de texto a partir de datos estructurados.
@@ -201,7 +195,7 @@ El estado del arte en la generación de texto a partir de datos tabulares es Tab
 
 La diferencia entre \emph{Table-To-Text} y \emph{Data-To-Text} radica en el formato de información de entrada. en \emph{Table-To-Text} es una tabla con multiples filas y en \emph{Data-To-Text} corresponde a un solo objeto con sus propiedades. A continuación ejemplos de entradas de los modelos.
 
-\newpage
+
 En los siguientes ejemplos, se utilizará la Tabla \ref{tabla-ejemplo-inputs} para ilustrar cómo se puede utilizar para generar texto utilizando los modelos de \emph{fine-tuning} mencionados anteriormente. Esta tabla representa información sobre películas, incluyendo el nombre de la película, el director, el año de lanzamiento y el género, y se utilizará para generar preguntas y respuestas a partir de la información proporcionada.
 \begin{table}[H]
 	\centering
@@ -231,7 +225,7 @@ Star Wars: Una Nueva Esperanza | George Lucas        | 1977              | Cienc
 George Lucas
 \end{tcolorbox}
 
-\newpage
+
 En cambio, el modelo \emph{Text-to-text pre-training for data-to-text tasks} \cite{kale_text--text_2020} utiliza una entrada diferente, que consiste en una serie de tuplas que representan las propiedades de la entidad y sus valores correspondientes. Se espera que el modelo identifique la tupla relevante y genere una pregunta y respuesta correspondientes. Una vez generada la pregunta y respuesta, se puede utilizar el modelo de fine-tuning correspondiente para generar texto a partir de ellas. En conclusión, la generación de texto a partir de datos tabulares implica una conversión adecuada de la información de entrada en un formato apropiado para cada modelo, la identificación de la pregunta o tarea relevante y la utilización del modelo correspondiente para generar el texto resultante.
 
 \begin{tcolorbox}[colback=white,colframe=black!50!white,title=Input]
@@ -246,7 +240,7 @@ En cambio, el modelo \emph{Text-to-text pre-training for data-to-text tasks} \ci
 George Lucas
 \end{tcolorbox}
 
-\newpage
+
 \section{Metricas de evaluación}
 Es importante destacar que no todas estas métricas son aplicables a todos los tipos de datos y modelos, y que la selección de las métricas a utilizar debe ser cuidadosamente considerada en función de las necesidades y objetivos específicos de cada caso de estudio.
 A continuación presentan algunas de las posibles a considerar para medir la similitud, privacidad y utilidad en la evaluación de los conjuntos de datos sintéticos generados.
@@ -261,7 +255,7 @@ A continuación presentan algunas de las posibles a considerar para medir la sim
 
 
 
-\newpage
+
 \subsection{SDMetrics Score}
 En la Tablas incluidas en la sección \emph{SDMetrics Score} se expresa en su última columna un promedio de \emph{Quality Report} de SDMetric. Adicionalmente se incluyen las metricas calculadas en \emph{Diagnostic Report}. Todas las metricas expresadas en este apartado van del 0 al 1, ya que las métricas promediadas van en este rango tambien. Detalles de cada metricas se podrán encontrar en las siguientes subsecciones \ref{Diagnostic Report} y \ref{Quality Report}.
 \[
@@ -287,9 +281,9 @@ Por otro lado, el \emph{Diagnostic Report} mide la síntesis (\emph{Synthesis}),
     \end{tabular}
 \end{table}
 
-\newpage
 
-\newpage
+
+
 \subsection{Reporte diagnóstico}
 \label{Diagnostic Report}
 La evaluación se lleva a cabo mediante una serie de métricas que se agrupan en: \emph{Synthesis}, \emph{Coverage}, y \emph{Boundaries}.
@@ -304,7 +298,7 @@ La métrica \emph{RangeCoverage} se emplea para determinar si una columna sinté
 
 La métrica \emph{Boundaries} se emplea para evaluar si una columna sintética respeta los valores mínimos y máximos de la columna real, devolviendo el porcentaje de filas sintéticas que se mantienen dentro de los límites reales. Esta métrica se aplica a los datos numéricos, transformando los valores de fecha y hora en valores numéricos, e ignorando los valores ausentes. Un valor de 0.9 en esta métrica significa que el 10\% de los registros no respeta los límites de los datos reales.
 
-\newpage
+
 
 
 \subsection{Reporte de calidad}
@@ -346,7 +340,7 @@ La Distancia al Registro más Cercano (DCR, por sus siglas en inglés) se emplea
 Relación de Distancia del Vecino más Cercano (NNDR, por sus siglas en inglés). La NNDR mide la relación entre la distancia euclidiana para el vecino real más cercano y el segundo vecino real más cercano a cualquier registro sintético correspondiente. NNDR es un concepto comúnmente utilizado en el área de visión por computadora para el emparejamiento de descriptores de imagen locales. Platzer \cite{noauthor_virtual_2022} introduce esta idea para evaluar la privacidad de los datos sintéticos. Esta relación está dentro del intervalo [0, 1]. Valores más altos indican una mejor privacidad. Los valores bajos de NNDR entre datos sintéticos y reales pueden revelar información sensible del registro de datos reales más cercano. La Fig. 6 ilustra el caso. Tenga en cuenta que también se calcula aquí el percentil 5 \cite{zhao_ctab-gan_2021}.
 
 
-\subsection{Propiedades estadísticas}
+\subsection{Propiedades estadísticas y tecnicas de analizis}
 
 \begin{longtable}{|m{7em}|m{5em}|m{20em}|}
     \caption{Listado de conjunto estadísticos} 
