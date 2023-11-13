@@ -7,39 +7,39 @@
 \hline
  \rowcolor[gray]{0.8}
 Variable/Modelo & Real & tddpm\_mlp & smote-enc & ctgan \\
-\hline top5 & [2. 1. 3. 4. 5.] & [2. 1. 3. 4. 5.] & [2. 1. 3. 4. 5.] & [2. 4. 3. 1. 5.] \\
-\hline top5\_freq & [7511 5440 4486 2665 1084] & [9598 6648 5642 3516 1321] & [9392 6727 5599 3328 1353] & [6292 5166 5081 4484 2481] \\
-\hline top5\_prob & [0.34049594 0.24661136 0.20336371 0.12081237 0.04914094] & [0.34808153 0.24109669 0.20461304 0.12751142 0.04790745] & [0.34061072 0.2439617  0.2030536  0.12069341 0.04906796] & [0.22818597 0.1873504  0.18426779 0.16261696 0.08997606] \\
+\hline top5 & [2. 1. 3. 4. 5.] & [2. 1. 3. 4. 5.] & [2. 1. 3. 4. 5.] & [2. 3. 1. 5. 4.] \\
+\hline top5\_freq & [7511 5440 4486 2665 1084] & [9585 6577 5827 3385 1307] & [9555 6676 5644 3294 1347] & [11808  4365  4171  2493  2232] \\
+\hline top5\_prob & [0.34049594 0.24661136 0.20336371 0.12081237 0.04914094] & [0.34761007 0.2385218  0.21132226 0.12276057 0.04739972] & [0.34652209 0.24211213 0.20468557 0.11946036 0.04885037] & [0.42822949 0.1583013  0.15126569 0.09041126 0.08094582] \\
 \hline nobs & 22059 & 27574 & 27574 & 27574 \\
 \hline missing & 0.000 & 0.000 & 0.000 & 0.000 \\
-\hline mean & 2.604 & 2.536 & \bfseries 2.594 & \cellcolor[rgb]{0.9, 0.54, 0.52} 3.800 \\
-\hline std\_err & 0.025 & \bfseries 0.018 & 0.010 & \cellcolor[rgb]{0.9, 0.54, 0.52} 0.048 \\
-\hline upper\_ci & 2.652 & 2.571 & \bfseries 2.614 & \cellcolor[rgb]{0.9, 0.54, 0.52} 3.894 \\
-\hline lower\_ci & 2.556 & 2.500 & \bfseries 2.573 & \cellcolor[rgb]{0.9, 0.54, 0.52} 3.707 \\
-\hline std & 3.655 & \bfseries 2.994 & 1.732 & \cellcolor[rgb]{0.9, 0.54, 0.52} 7.906 \\
+\hline mean & 2.604 & 2.528 & \bfseries 2.566 & \cellcolor[rgb]{0.9, 0.54, 0.52} 3.328 \\
+\hline std\_err & 0.025 & 0.009 & \bfseries 0.010 & \cellcolor[rgb]{0.9, 0.54, 0.52} 0.046 \\
+\hline upper\_ci & 2.652 & 2.546 & \bfseries 2.586 & \cellcolor[rgb]{0.9, 0.54, 0.52} 3.417 \\
+\hline lower\_ci & 2.556 & 2.510 & \bfseries 2.546 & \cellcolor[rgb]{0.9, 0.54, 0.52} 3.238 \\
+\hline std & 3.655 & 1.491 & \bfseries 1.684 & \cellcolor[rgb]{0.9, 0.54, 0.52} 7.585 \\
 \hline iqr & 1.000 & \bfseries 1.000 & \bfseries 1.000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 2.000 \\
 \hline iqr\_normal & 0.741 & \bfseries 0.741 & \bfseries 0.741 & \cellcolor[rgb]{0.9, 0.54, 0.52} 1.483 \\
-\hline mad & 1.203 & 1.113 & \bfseries 1.182 & \cellcolor[rgb]{0.9, 0.54, 0.52} 2.027 \\
-\hline mad\_normal & 1.507 & 1.396 & \bfseries 1.482 & \cellcolor[rgb]{0.9, 0.54, 0.52} 2.541 \\
-\hline coef\_var & 1.404 & \bfseries 1.181 & \cellcolor[rgb]{0.9, 0.54, 0.52} 0.668 & 2.080 \\
-\hline range & 435.000 & \bfseries 435.000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 56.000 & \bfseries 435.000 \\
-\hline max & 436.000 & \bfseries 436.000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 57.000 & \bfseries 436.000 \\
+\hline mad & 1.203 & 1.096 & \bfseries 1.151 & \cellcolor[rgb]{0.9, 0.54, 0.52} 1.945 \\
+\hline mad\_normal & 1.507 & 1.374 & \bfseries 1.442 & \cellcolor[rgb]{0.9, 0.54, 0.52} 2.438 \\
+\hline coef\_var & 1.404 & 0.590 & \bfseries 0.656 & \cellcolor[rgb]{0.9, 0.54, 0.52} 2.279 \\
+\hline range & 435.000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 40.000 & 56.000 & \bfseries 435.000 \\
+\hline max & 436.000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 41.000 & 57.000 & \bfseries 436.000 \\
 \hline min & 1.000 & 1.000 & 1.000 & 1.000 \\
-\hline skew & 82.448 & \bfseries 110.482 & \cellcolor[rgb]{0.9, 0.54, 0.52} 4.947 & 40.004 \\
-\hline kurtosis & 9252 & \bfseries 15945 & \cellcolor[rgb]{0.9, 0.54, 0.52} 81 & 2032 \\
-\hline jarque\_bera & 7.86518e+10 & \cellcolor[rgb]{0.9, 0.54, 0.52} 2.92041e+11 & 7.14925e+06 & \bfseries 4.73892e+09 \\
+\hline skew & 82.448 & \cellcolor[rgb]{0.9, 0.54, 0.52} 3.833 & 5.717 & \bfseries 39.584 \\
+\hline kurtosis & 9252 & \cellcolor[rgb]{0.9, 0.54, 0.52} 64 & 116 & \bfseries 2046 \\
+\hline jarque\_bera & 7.86518e+10 & \cellcolor[rgb]{0.9, 0.54, 0.52} 4.38356e+06 & 1.49493e+07 & \bfseries 4.80469e+09 \\
 \hline jarque\_bera\_pval & 0.000 & 0.000 & 0.000 & 0.000 \\
 \hline mode & 2.000 & 2.000 & 2.000 & 2.000 \\
-\hline mode\_freq & 0.340 & 0.348 & \bfseries 0.341 & \cellcolor[rgb]{0.9, 0.54, 0.52} 0.228 \\
-\hline median & 2.000 & \bfseries 2.000 & \bfseries 2.000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 3.000 \\
+\hline mode\_freq & 0.340 & 0.348 & \bfseries 0.347 & \cellcolor[rgb]{0.9, 0.54, 0.52} 0.428 \\
+\hline median & 2.000 & 2.000 & 2.000 & 2.000 \\
 \hline 0.1\% & 1.000 & 1.000 & 1.000 & 1.000 \\
 \hline 1.0\% & 1.000 & 1.000 & 1.000 & 1.000 \\
 \hline 5.0\% & 1.000 & 1.000 & 1.000 & 1.000 \\
 \hline 25.0\% & 2.000 & 2.000 & 2.000 & 2.000 \\
 \hline 75.0\% & 3.000 & \bfseries 3.000 & \bfseries 3.000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 4.000 \\
 \hline 95.0\% & 5.000 & \bfseries 5.000 & \bfseries 5.000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 8.000 \\
-\hline 99.0\% & 8.000 & 7.000 & \bfseries 8.000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 14.000 \\
-\hline 99.9\% & 17.942 & 13.000 & \bfseries 17.000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 57.000 \\
+\hline 99.0\% & 8.000 & 7.000 & \bfseries 8.000 & \cellcolor[rgb]{0.9, 0.54, 0.52} 15.000 \\
+\hline 99.9\% & 17.942 & 12.427 & \bfseries 16.427 & \cellcolor[rgb]{0.9, 0.54, 0.52} 57.000 \\
 \hline
 \end{tabular}
 \end{table}

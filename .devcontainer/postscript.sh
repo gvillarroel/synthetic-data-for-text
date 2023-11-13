@@ -24,5 +24,6 @@ pip install  git+https://github.com/huggingface/peft.git -y
 apt-get install texlive-fonts-extra -y
 apt-get install -y texlive-bibtex-extra biber
 
+pip install dvc
 
 #(cd notebooks & ln -s ../syntheticml .)

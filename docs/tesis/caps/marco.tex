@@ -310,7 +310,6 @@ El primero, \emph{Column Shapes}, mide la capacidad de los datos sintéticos par
 
 El \emph{KSComplement} utiliza la estadística de Kolmogorov-Smirnov para calcular la similitud entre las columnas reales y sintéticas. En particular, se convierte la distribución numérica en su función de distribución acumulativa, CDF por sus siglas en ingles de \emph{Cumulative distribution function}, y la estadística de KS es la diferencia máxima entre las dos CDFs. En SDMetrics, se invierte la estadística: \emph{KSComplement} devuelve $1 - (\text{estadística de KS})$ para que una puntuación más alta signifique una mayor calidad. En la Figura \ref{sdmetric_cdf} se puede observar una representación grafica del calculo.
 
-
 \begin{figure}[H] 
     \centering
     \includegraphics[width=.7\textwidth]{imagenes/SDMetrics/KSComplement_Description.png} 
@@ -323,6 +322,10 @@ El \emph{KSComplement} utiliza la estadística de Kolmogorov-Smirnov para calcul
 \delta(R,S) = 2 \sum_{\omega \in \Omega} |R_\omega - S_\omega|
 \]
 Aquí, $\omega$ representa todas las posibles categorías en una columna, $\Omega$. Por otro lado, $R$ y $S$ hacen referencia a las frecuencias reales y sintéticas para dichas categorías, respectivamente. \emph{TVComplement} retorna $1 - \text{TVD}$ de modo que una puntuación más alta denote una calidad superior.
+
+
+El segundo componente, \emph{Column Pair Trends}, evalúa la capacidad de los datos sintéticos para replicar las correlaciones y tendencias entre cada par de columnas en los datos reales. Esta métrica se basa en la forma de las columnas individuales, las correlaciones entre cada par de columnas y la cardinalidad entre las tablas. Utiliza la métrica \emph{CorrelationSimilarity} para medir la correlación entre pares de columnas numéricas y calcular la similitud entre los datos reales y sintéticos. La métrica \emph{CorrelationSimilarity} soporta tanto los coeficientes de correlación de Pearson como de Spearman, proporcionando una evaluación flexible de las relaciones entre los datos.
+
 
 \emph{CorrelationSimilarity} es una métrica únicamente aplicable a variables numéricas; las fechas son transformadas a números para este fin. Esta métrica calcula la correlación utilizando los coeficientes de Pearson y Spearman. El score se obtiene mediante la siguiente fórmula, donde $S_{A,B}$ representa la correlación del conjunto sintético y $R_{A,B}$ la correlación del conjunto real.
 \[
@@ -339,8 +342,7 @@ La Distancia al Registro más Cercano (DCR, por sus siglas en inglés) se emplea
 
 Relación de Distancia del Vecino más Cercano (NNDR, por sus siglas en inglés). La NNDR mide la relación entre la distancia euclidiana para el vecino real más cercano y el segundo vecino real más cercano a cualquier registro sintético correspondiente. NNDR es un concepto comúnmente utilizado en el área de visión por computadora para el emparejamiento de descriptores de imagen locales. Platzer \cite{noauthor_virtual_2022} introduce esta idea para evaluar la privacidad de los datos sintéticos. Esta relación está dentro del intervalo [0, 1]. Valores más altos indican una mejor privacidad. Los valores bajos de NNDR entre datos sintéticos y reales pueden revelar información sensible del registro de datos reales más cercano. La Fig. 6 ilustra el caso. Tenga en cuenta que también se calcula aquí el percentil 5 \cite{zhao_ctab-gan_2021}.
 
-
-\subsection{Propiedades estadísticas y tecnicas de analizis}
+\subsection{Propiedades estadísticas y tecnicas de análisis}
 
 \begin{longtable}{|m{7em}|m{5em}|m{20em}|}
     \caption{Listado de conjunto estadísticos} 

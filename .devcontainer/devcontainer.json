@@ -10,7 +10,7 @@
     "mathematic.vscode-latex",
     "maltehei.latex-citations",
     "James-Yu.latex-workshop",
-    "valentjn.vscode-ltex"
+    "valentjn.vscode-ltex",
     "yzhang.markdown-all-in-one",
     "ms-python.python",
     "ms-azuretools.vscode-docker",
@@ -19,7 +19,39 @@
   "postCreateCommand": "bash ./.devcontainer/postscript.sh",
   "runArgs": ["--gpus", "all"],
   "settings": {
-    "terminal.integrated.shell.linux": "/bin/bash"
+    "terminal.integrated.shell.linux": "/bin/bash",
+    "latex-workshop.latex.recipes": [
+      {
+        "name": "latexmk",
+        "tools": [
+          "latexmk"
+        ]
+      }
+    ],
+    "latex-workshop.latex.tools": [
+      {
+        "name": "latexmk",
+        "command": "latexmk",
+        "args": [
+          "-pdf",
+          "-interaction=nonstopmode",
+          "-synctex=1",
+          "-shell-escape",
+          "%DOC%"
+        ]
+      },
+      {
+        "name": "pdflatex",
+        "command": "pdflatex",
+        "args": [
+          "-shell-escape",
+          "-synctex=1",
+          "-interaction=nonstopmode",
+          "-file-line-error",
+          "%DOC%"
+        ]
+      }
+    ]
   },
   "features": {
     "ghcr.io/devcontainers/features/python:1": {"version": "3.10"}

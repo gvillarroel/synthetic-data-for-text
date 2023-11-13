@@ -62,6 +62,7 @@ En el caso de la variable \emph{sqft\_lot15}, la distribución generada por el m
 \label{privacidad-kingcounty}
 Al analizar los registros más cercanos entre los conjuntos de datos reales utilizados para el entrenamiento, los generados por los modelos, y el conjunto de datos reales almacenados, encontramos que las distancias entre ellos se presentan en las siguientes tablas. Es importante destacar que la distancia mínima para el modelo Tddpm es de 0.0134, indicando que cada registro tiene al menos esa distancia respecto al conjunto real. La determinación del epsilon requerido para asegurar la privacidad de los datos depende del análisis específico de los datos a proteger y sus probabilidades asociadas. Sin embargo, si el objetivo es proteger el 95\% de los datos, el modelo Tddpm alcanza una distancia de 0.0579, mientras que el modelo Smote tiene una distancia de 0.00704.
 
+Se presentan a continuación tablas comparativas que incluyen tres conjuntos de datos: el conjunto sintético frente al utilizado para el entrenamiento (denominado ST, por Synthetic-Train), la comparación del conjunto sintético con el conjunto de reserva, no utilizado en el entrenamiento (SH, Synthetic-Hold), y la comparación entre el conjunto de entrenamiento y el conjunto de reserva (TH, Train-Hold). Cabe destacar que tanto el conjunto de entrenamiento como el de reserva son conjuntos reales.
 
 \input{datasets/kingcounty-a/tables/table-dcr-king county-a-5th.tex}
 \input{datasets/kingcounty-a/tables/table-dcr-king county-a-1th.tex}

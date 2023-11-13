@@ -1,0 +1,64 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{p}{\PYGZob{}}
+\PYG{+w}{  }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}SyntheticData\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{  }\PYG{n+nt}{\PYGZdq{}image\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}nvidia/cuda:12.1.0\PYGZhy{}devel\PYGZhy{}ubuntu22.04\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{  }\PYG{n+nt}{\PYGZdq{}extensions\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{    }\PYG{l+s+s2}{\PYGZdq{}jebbs.plantuml\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{    }\PYG{l+s+s2}{\PYGZdq{}ms\PYGZhy{}toolsai.jupyter\PYGZhy{}keymap\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{    }\PYG{l+s+s2}{\PYGZdq{}MS\PYGZhy{}CEINTL.vscode\PYGZhy{}language\PYGZhy{}pack\PYGZhy{}es\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{    }\PYG{l+s+s2}{\PYGZdq{}SimonSiefke.svg\PYGZhy{}preview\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{    }\PYG{l+s+s2}{\PYGZdq{}adamvoss.vscode\PYGZhy{}languagetool\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{    }\PYG{l+s+s2}{\PYGZdq{}mathematic.vscode\PYGZhy{}latex\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{    }\PYG{l+s+s2}{\PYGZdq{}maltehei.latex\PYGZhy{}citations\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{    }\PYG{l+s+s2}{\PYGZdq{}James\PYGZhy{}Yu.latex\PYGZhy{}workshop\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{    }\PYG{l+s+s2}{\PYGZdq{}valentjn.vscode\PYGZhy{}ltex\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{    }\PYG{l+s+s2}{\PYGZdq{}yzhang.markdown\PYGZhy{}all\PYGZhy{}in\PYGZhy{}one\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{    }\PYG{l+s+s2}{\PYGZdq{}ms\PYGZhy{}python.python\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{    }\PYG{l+s+s2}{\PYGZdq{}ms\PYGZhy{}azuretools.vscode\PYGZhy{}docker\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{    }\PYG{l+s+s2}{\PYGZdq{}ms\PYGZhy{}toolsai.jupyter\PYGZdq{}}
+\PYG{+w}{  }\PYG{p}{],}
+\PYG{+w}{  }\PYG{n+nt}{\PYGZdq{}postCreateCommand\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}bash ./.devcontainer/postscript.sh\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{  }\PYG{n+nt}{\PYGZdq{}runArgs\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}\PYGZhy{}gpus\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}all\PYGZdq{}}\PYG{p}{],}
+\PYG{+w}{  }\PYG{n+nt}{\PYGZdq{}settings\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}terminal.integrated.shell.linux\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}/bin/bash\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}latex\PYGZhy{}workshop.latex.recipes\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{      }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}latexmk\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nt}{\PYGZdq{}tools\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{          }\PYG{l+s+s2}{\PYGZdq{}latexmk\PYGZdq{}}
+\PYG{+w}{        }\PYG{p}{]}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{],}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}latex\PYGZhy{}workshop.latex.tools\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{      }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}latexmk\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nt}{\PYGZdq{}command\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}latexmk\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nt}{\PYGZdq{}args\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{          }\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}pdf\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}interaction=nonstopmode\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}synctex=1\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}shell\PYGZhy{}escape\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{l+s+s2}{\PYGZdq{}\PYGZpc{}DOC\PYGZpc{}\PYGZdq{}}
+\PYG{+w}{        }\PYG{p}{]}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{      }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}pdflatex\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nt}{\PYGZdq{}command\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}pdflatex\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nt}{\PYGZdq{}args\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{          }\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}shell\PYGZhy{}escape\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}synctex=1\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}interaction=nonstopmode\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{l+s+s2}{\PYGZdq{}\PYGZhy{}file\PYGZhy{}line\PYGZhy{}error\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{          }\PYG{l+s+s2}{\PYGZdq{}\PYGZpc{}DOC\PYGZpc{}\PYGZdq{}}
+\PYG{+w}{        }\PYG{p}{]}
+\PYG{+w}{      }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{]}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{  }\PYG{n+nt}{\PYGZdq{}features\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n+nt}{\PYGZdq{}ghcr.io/devcontainers/features/python:1\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}\PYG{n+nt}{\PYGZdq{}version\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}3.10\PYGZdq{}}\PYG{p}{\PYGZcb{}}
+\PYG{+w}{  }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{  }\PYG{n+nt}{\PYGZdq{}mounts\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[}
+\PYG{+w}{    }\PYG{l+s+s2}{\PYGZdq{}source=\PYGZdl{}\PYGZob{}localEnv:HOME\PYGZcb{}/models,target=/models,type=bind\PYGZdq{}}
+\PYG{+w}{  }\PYG{p}{]}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

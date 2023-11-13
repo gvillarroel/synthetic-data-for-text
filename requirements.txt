@@ -20,3 +20,6 @@ SentencePiece
 tensorboard
 torch>=2
 pylatexenc
+Pygments
+datasets
+peft

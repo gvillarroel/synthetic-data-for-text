@@ -251,7 +251,7 @@
 			\if\@tesis\@empty\else
 				\\\bigskip
 			\fi
-			 MEMORIA PARA OPTAR AL TÍTULO DE\\\MakeUppercase\@memoria
+			TESIS PARA OPTAR AL GRADO DE\\\MakeUppercase\@memoria
 		\fi
 
 		\vspace{1cm}
