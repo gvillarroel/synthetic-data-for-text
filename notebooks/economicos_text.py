@@ -62,7 +62,11 @@ def tokenize_function(examples):
     tokenized_inputs["labels"] = labels
     return tokenized_inputs
 
-processed_datasets = train_test_split.map(tokenize_function, batched=True,remove_columns=train_test_split["train"].column_names)
+processed_datasets = train_test_split.map(
+    tokenize_function, 
+    batched=True,
+    remove_columns=train_test_split["train"].column_names,
+    cache_file_names={k:f"./cache_{VERSION}_{k}" for k in ["train", "test"]})
 
 tokenized_train_dataset = processed_datasets["train"]
 tokenized_eval_dataset = processed_datasets["test"]
@@ -82,10 +86,9 @@ peft_config = LoraConfig(
  task_type=TaskType.SEQ_2_SEQ_LM
 )
 model = get_peft_model(model, peft_config)
+#model.load_adapter("./results/checkpoint-245642")
 model.print_trainable_parameters()
-#
-#
-#
+
 #from trl import SFTTrainer
 #from trl.trainer import ConstantLengthDataset
 #
@@ -102,8 +105,8 @@ model.print_trainable_parameters()
 
 # Configuración de los argumentos de entrenamiento
 training_args =  Seq2SeqTrainingArguments(
-    output_dir="./results",
-    num_train_epochs=5,
+    output_dir=f"./checkpoints",
+    num_train_epochs=2,
     per_device_train_batch_size=2,
     per_device_eval_batch_size=2,
     warmup_steps=500,
@@ -113,7 +116,8 @@ training_args =  Seq2SeqTrainingArguments(
     evaluation_strategy="epoch",
     save_strategy="epoch",
     save_total_limit=2,
-    load_best_model_at_end=True
+    load_best_model_at_end=True,
+    resume_from_checkpoint="./results/checkpoint-245642"
 )
 
 # Crear el objeto Trainer
@@ -124,10 +128,10 @@ trainer = Seq2SeqTrainer(
     eval_dataset=tokenized_eval_dataset
 )
 
-# Entrenamiento
-trainer.train()
+# Entrenamiento3
+trainer.train(resume_from_checkpoint="./results/checkpoint-245642")
 
-trainer.evaluate()
+#trainer.evaluate()
 
 # Guardar el modelo ajustado
 model.save_pretrained(f"./{MODEL_NAME}_{VERSION}")

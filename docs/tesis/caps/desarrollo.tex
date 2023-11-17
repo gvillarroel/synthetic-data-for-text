@@ -347,6 +347,17 @@ No paga contribuciones\\
 Contactanos al telefono Kazona 569 56031154
 \end{tcolorbox}
 
+\section{Privacidad y sus metricas}
+Se exponen las métricas de Distancia al Registro más Cercano (DCR) y Relación de Distancia del Vecino más Cercano (NNDR), ambas para el absoluto, percentil 1 y percentil 5. Para mostrar que tan cerca están los elementos más cercanos. Adicionalmente mostrando algunos ejemplos de cada sección, así con datos se puede observar que diferencias se pueden apreciar para esas distancias.
+
+Es cierto que existen metricas y tecnicas mencionadas en el marco teorico. Estas no figuran, primero por razones practicas, ya que los metodos establecidos para comprobar la privacidad por SDMetrics y el modelo de diffusión son las anteriores descritas y no otras las usadas y en segunda instancia por el objetivo de las tecnicas de privacidad diferencial \emph{(Differential Privacy)} y k-\emph{anonymity}.
+
+Los conjuntos generados son del tamaño original o mayores. Esto disminuye las posibilidades de que elementos pequeños
+
+
+DCR cuantifica la distancia euclidiana entre cualquier registro sintético y su vecino real más cercano. NNDR mide la relación entre la distancia euclidiana al vecino real más cercano y al segundo vecino real más cercano de cualquier registro sintético.
+
+
 \section{Obtención de Métricas}
 \label{subsec:metricas}
 
@@ -441,19 +452,27 @@ En esta sección, se presenta una evaluación directa y técnica del tiempo de e
 \begin{tabular}{|l|c|p{5cm}|}
 \hline
 \rowcolor[gray]{0.8}
-\textbf{Script} & \textbf{Tiempo de Ejecución Aproximado} & \textbf{Observaciones} \\
+\textbf{Script} & \textbf{Tiempo Aprox} & \textbf{Observaciones} \\
+\hline
+kingcounty\_run.py & 6h & Se ejecutó 3 veces con parametros a-1, a-2, a-3, vram usada 4GB  \\
+\hline
+economicos\_run-a.py & 9h & Se ejecutó 3 veces con parametros a-1, a-2, a-3, vram usada 4GB  \\
 \hline
 economicos\_run-b.py & 9h & Se ejecutó 3 veces con parametros b-1, b-2, b-3, vram usada 6GB  \\
 \hline
-Script 2 & Y & Detalles si es necesario \\
-Script 3 & Z & Detalles si es necesario \\
-...      & ... & ... \\
+economicos\_text.py & 15h & con parametro a-1, vram usada 23GB  \\
+\hline
+economicos\_text.py & 50h & con parametro b-1, vram usada 23GB  \\
+\hline
+economicos\_text\_gen.py & 10h & con parametro a-1, vram usada 23GB  \\
+\hline
+economicos\_text\_gen.py & 20h & con parametro b-1, vram usada 23GB  \\
 \hline
 \end{tabular}
 \caption{Tiempo de ejecución para cada técnica evaluada}
 \label{table:tiempo-ejecucion}
 \end{table}
 
-\textit{Nota: Los tiempos de ejecución fueron medidos utilizando [especificar hardware/software si es relevante].}
+\textit{Nota: Los tiempos de ejecución fueron medidos utilizando el software y hardware mencionados en \ref{subsec:computacion}.}
 
 Esta evaluación proporciona una referencia directa sobre la eficiencia en tiempo de cada técnica, ofreciendo una perspectiva crucial para su aplicabilidad en diferentes escenarios.

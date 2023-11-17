@@ -97,6 +97,38 @@ Adicionalmente se deben establecer dos conceptos relevantes ante el análisis de
     \item Los mismos atributos pueden tener más relevancia para ciertos grupos de la población que para otros. El ejemplo que se indica en \cite{el_emam_practical_2020} es que, debido a que el número de hijos igual a 2 es menos frecuente en una etnia que en otra (40\% en la primera y 10\% en la segunda), ese dato es más relevante en la segunda. Esto se debe a que es un factor que filtra mejor y, por lo tanto, puede permitir un mejor conocimiento de ese grupo específico. A esto se le denomina \textbf{Definición de información ganada}.
 \end{enumerate}
 
+\subsection{Privacidad Diferencial}
+La privacidad diferencial (\emph{Differential Privacy}) se ha establecido como un marco matemático robusto para garantizar la privacidad en el análisis de datos. Se define formalmente como sigue \cite{dwork_differential_2006}:
+
+\textbf{Definición (Privacidad Diferencial):} Sea $\varepsilon > 0$ un parámetro pequeño. Un mecanismo aleatorio $K: D \rightarrow R$ (donde $D$ es el dominio de los conjuntos de datos y $R$ es el rango de posibles respuestas) proporciona \textit{privacidad diferencial $\varepsilon$} si para todos los conjuntos de datos $D, D' \in D$ que difieren en a lo más un elemento, y para todo conjunto $S \subseteq R$, se cumple que:
+\begin{equation}
+    \Pr[K(D) \in S] \leq \exp(\varepsilon) \times \Pr[K(D') \in S]
+\end{equation}
+
+
+La privacidad diferencial garantiza que la inclusión o exclusión de un único individuo en el conjunto de datos no altera significativamente la probabilidad de cualquier resultado específico. Esto se logra mediante el mecanismo de ruido $K$, que introduce una incertidumbre calculada en los resultados, protegiendo así la información individual.
+
+\subsection{k-Anonimato}
+
+El \textit{k-Anonimato} \cite{jajodia_k-anonymity_2021} es una propiedad de privacidad en el análisis de datos que se enfoca en proteger la identidad de los individuos en un conjunto de datos. Formalmente, un conjunto de datos se considera k-anónimo si cada registro es indistinguible de al menos \( k-1 \) otros registros respecto a ciertos atributos identificativos. Esto se logra mediante la técnica de generalización y supresión de datos.
+
+Para calcular el k-Anonimato de un conjunto de datos, se siguen los siguientes pasos:
+
+\begin{enumerate}
+    \item \textbf{Identificar Atributos Identificativos:} Seleccionar los atributos en el conjunto de datos que pueden ser utilizados para identificar a los individuos, conocidos como identificadores cuasi-únicos (QID).
+    \item \textbf{Aplicar Generalización y/o Supresión:} Generalizar o suprimir los QID para que cada combinación de valores de QID en el conjunto de datos se asocie con al menos \( k \) individuos.
+    \item \textbf{Verificar la Indistinguibilidad:} Asegurarse de que cada registro en el conjunto de datos sea indistinguible de al menos \( k-1 \) otros registros respecto a los QID.
+\end{enumerate}
+
+Para demostrar que un conjunto de datos es k-anónimo, se debe mostrar que para cada registro, hay al menos \( k-1 \) registros adicionales que comparten los mismos valores de QID. Matemáticamente, para un conjunto de datos \( D \) y un conjunto de QID \( Q \), se debe cumplir que:
+
+\begin{equation}
+    \forall x \in D, |\{ y \in D \mid Q(x) = Q(y) \}| \geq k
+\end{equation}
+
+Donde \( Q(x) \) representa el conjunto de valores de QID para el registro \( x \).
+
+
 \subsection{Regulación de datos sintéticos}
 Debido a que los datos sintéticos son basados en datos reales, pueden ser afectos a las regulaciones de sobre protección de datos \cite{bruce_practical_2020}. Los nuevos datos podrían ser afectos por:
 \begin{enumerate}

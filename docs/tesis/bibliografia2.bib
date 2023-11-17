@@ -1,4 +1,117 @@
 
+@software{gvillarroel_data_2022,
+	title = {Data Sintética Privada, Generación Vía Modelo Deep Learning},
+	url = {https://github.com/gvillarroel/synthetic-data-for-text},
+	author = {gvillarroel},
+	urldate = {2023-07-03},
+	date = {2022-10-18},
+	note = {original-date: 2022-04-20T23:08:36Z},
+}
+
+@software{noauthor_virtual_2022,
+	title = {Virtual Data Lab ({VDL})},
+	rights = {{GPL}-3.0},
+	url = {https://github.com/mostly-ai/virtualdatalab},
+	abstract = {Benchmarking synthetic data generators for sequential data in terms of accuracy and privacy.},
+	publisher = {{MOSTLY} {AI}},
+	urldate = {2023-07-02},
+	date = {2022-11-14},
+	note = {original-date: 2020-07-08T16:46:38Z},
+	keywords = {privacy, sequential-data, synthetic-data},
+}
+
+@online{noauthor_synthetic_nodate,
+	title = {Synthetic Data Metrics},
+	url = {https://docs.sdv.dev/sdmetrics/},
+	urldate = {2023-06-17},
+	langid = {english},
+	file = {Snapshot:/home/gvillarroel/Zotero/storage/89K2X3WF/sdmetrics.html:text/html},
+}
+
+@online{noauthor_open_nodate,
+	title = {Open {LLM} Leaderboard - a Hugging Face Space by {HuggingFaceH}4},
+	url = {https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard},
+	abstract = {Discover amazing {ML} apps made by the community},
+	urldate = {2023-06-24},
+	file = {Snapshot:/home/gvillarroel/Zotero/storage/M4UKV355/open_llm_leaderboard.html:text/html},
+}
+
+@online{noauthor_falcon_nodate,
+	title = {Falcon {LLM}},
+	url = {https://falconllm.tii.ae/},
+	abstract = {Falcon {LLM}, a foundational large language model ({LLM}) with 40 billion parameters},
+	urldate = {2023-06-21},
+	langid = {english},
+	file = {Snapshot:/home/gvillarroel/Zotero/storage/6ACEFZ33/falconllm.tii.ae.html:text/html},
+}
+
+@misc{hoffmann_training_2022,
+	title = {Training Compute-Optimal Large Language Models},
+	url = {http://arxiv.org/abs/2203.15556},
+	doi = {10.48550/arXiv.2203.15556},
+	abstract = {We investigate the optimal model size and number of tokens for training a transformer language model under a given compute budget. We find that current large language models are significantly undertrained, a consequence of the recent focus on scaling language models whilst keeping the amount of training data constant. By training over 400 language models ranging from 70 million to over 16 billion parameters on 5 to 500 billion tokens, we find that for compute-optimal training, the model size and the number of training tokens should be scaled equally: for every doubling of model size the number of training tokens should also be doubled. We test this hypothesis by training a predicted compute-optimal model, Chinchilla, that uses the same compute budget as Gopher but with 70B parameters and 4\${\textbackslash}times\$ more more data. Chinchilla uniformly and significantly outperforms Gopher (280B), {GPT}-3 (175B), Jurassic-1 (178B), and Megatron-Turing {NLG} (530B) on a large range of downstream evaluation tasks. This also means that Chinchilla uses substantially less compute for fine-tuning and inference, greatly facilitating downstream usage. As a highlight, Chinchilla reaches a state-of-the-art average accuracy of 67.5\% on the {MMLU} benchmark, greater than a 7\% improvement over Gopher.},
+	number = {{arXiv}:2203.15556},
+	publisher = {{arXiv}},
+	author = {Hoffmann, Jordan and Borgeaud, Sebastian and Mensch, Arthur and Buchatskaya, Elena and Cai, Trevor and Rutherford, Eliza and Casas, Diego de Las and Hendricks, Lisa Anne and Welbl, Johannes and Clark, Aidan and Hennigan, Tom and Noland, Eric and Millican, Katie and Driessche, George van den and Damoc, Bogdan and Guy, Aurelia and Osindero, Simon and Simonyan, Karen and Elsen, Erich and Rae, Jack W. and Vinyals, Oriol and Sifre, Laurent},
+	urldate = {2023-06-21},
+	date = {2022-03-29},
+	eprinttype = {arxiv},
+	eprint = {2203.15556 [cs]},
+	keywords = {Computer Science - Computation and Language, Computer Science - Machine Learning},
+	file = {arXiv Fulltext PDF:/home/gvillarroel/Zotero/storage/6NFECU9G/Hoffmann et al. - 2022 - Training Compute-Optimal Large Language Models.pdf:application/pdf;arXiv.org Snapshot:/home/gvillarroel/Zotero/storage/N92JDD82/2203.html:text/html},
+}
+
+@online{noauthor_llama_nodate,
+	title = {{LLaMA}: Open and Efficient Foundation Language Models - Meta Research},
+	url = {https://research.facebook.com/publications/llama-open-and-efficient-foundation-language-models/},
+	shorttitle = {{LLaMA}},
+	abstract = {We introduce {LLaMA}, a collection of foundation language models ranging from 7B to 65B parameters. We train our models on trillions of tokens, and show that it is possible to...},
+	titleaddon = {Meta Research},
+	urldate = {2023-06-21},
+	langid = {spanish},
+	file = {Snapshot:/home/gvillarroel/Zotero/storage/T5LBXCS2/llama-open-and-efficient-foundation-language-models.html:text/html},
+}
+
+@misc{anil_palm_2023,
+	title = {{PaLM} 2 Technical Report},
+	url = {http://arxiv.org/abs/2305.10403},
+	doi = {10.48550/arXiv.2305.10403},
+	abstract = {We introduce {PaLM} 2, a new state-of-the-art language model that has better multilingual and reasoning capabilities and is more compute-efficient than its predecessor {PaLM}. {PaLM} 2 is a Transformer-based model trained using a mixture of objectives. Through extensive evaluations on English and multilingual language, and reasoning tasks, we demonstrate that {PaLM} 2 has significantly improved quality on downstream tasks across different model sizes, while simultaneously exhibiting faster and more efficient inference compared to {PaLM}. This improved efficiency enables broader deployment while also allowing the model to respond faster, for a more natural pace of interaction. {PaLM} 2 demonstrates robust reasoning capabilities exemplified by large improvements over {PaLM} on {BIG}-Bench and other reasoning tasks. {PaLM} 2 exhibits stable performance on a suite of responsible {AI} evaluations, and enables inference-time control over toxicity without additional overhead or impact on other capabilities. Overall, {PaLM} 2 achieves state-of-the-art performance across a diverse set of tasks and capabilities. When discussing the {PaLM} 2 family, it is important to distinguish between pre-trained models (of various sizes), fine-tuned variants of these models, and the user-facing products that use these models. In particular, user-facing products typically include additional pre- and post-processing steps. Additionally, the underlying models may evolve over time. Therefore, one should not expect the performance of user-facing products to exactly match the results reported in this report.},
+	number = {{arXiv}:2305.10403},
+	publisher = {{arXiv}},
+	author = {Anil, Rohan and Dai, Andrew M. and Firat, Orhan and Johnson, Melvin and Lepikhin, Dmitry and Passos, Alexandre and Shakeri, Siamak and Taropa, Emanuel and Bailey, Paige and Chen, Zhifeng and Chu, Eric and Clark, Jonathan H. and Shafey, Laurent El and Huang, Yanping and Meier-Hellstern, Kathy and Mishra, Gaurav and Moreira, Erica and Omernick, Mark and Robinson, Kevin and Ruder, Sebastian and Tay, Yi and Xiao, Kefan and Xu, Yuanzhong and Zhang, Yujing and Abrego, Gustavo Hernandez and Ahn, Junwhan and Austin, Jacob and Barham, Paul and Botha, Jan and Bradbury, James and Brahma, Siddhartha and Brooks, Kevin and Catasta, Michele and Cheng, Yong and Cherry, Colin and Choquette-Choo, Christopher A. and Chowdhery, Aakanksha and Crepy, Clément and Dave, Shachi and Dehghani, Mostafa and Dev, Sunipa and Devlin, Jacob and Díaz, Mark and Du, Nan and Dyer, Ethan and Feinberg, Vlad and Feng, Fangxiaoyu and Fienber, Vlad and Freitag, Markus and Garcia, Xavier and Gehrmann, Sebastian and Gonzalez, Lucas and Gur-Ari, Guy and Hand, Steven and Hashemi, Hadi and Hou, Le and Howland, Joshua and Hu, Andrea and Hui, Jeffrey and Hurwitz, Jeremy and Isard, Michael and Ittycheriah, Abe and Jagielski, Matthew and Jia, Wenhao and Kenealy, Kathleen and Krikun, Maxim and Kudugunta, Sneha and Lan, Chang and Lee, Katherine and Lee, Benjamin and Li, Eric and Li, Music and Li, Wei and Li, {YaGuang} and Li, Jian and Lim, Hyeontaek and Lin, Hanzhao and Liu, Zhongtao and Liu, Frederick and Maggioni, Marcello and Mahendru, Aroma and Maynez, Joshua and Misra, Vedant and Moussalem, Maysam and Nado, Zachary and Nham, John and Ni, Eric and Nystrom, Andrew and Parrish, Alicia and Pellat, Marie and Polacek, Martin and Polozov, Alex and Pope, Reiner and Qiao, Siyuan and Reif, Emily and Richter, Bryan and Riley, Parker and Ros, Alex Castro and Roy, Aurko and Saeta, Brennan and Samuel, Rajkumar and Shelby, Renee and Slone, Ambrose and Smilkov, Daniel and So, David R. and Sohn, Daniel and Tokumine, Simon and Valter, Dasha and Vasudevan, Vijay and Vodrahalli, Kiran and Wang, Xuezhi and Wang, Pidong and Wang, Zirui and Wang, Tao and Wieting, John and Wu, Yuhuai and Xu, Kelvin and Xu, Yunhan and Xue, Linting and Yin, Pengcheng and Yu, Jiahui and Zhang, Qiao and Zheng, Steven and Zheng, Ce and Zhou, Weikang and Zhou, Denny and Petrov, Slav and Wu, Yonghui},
+	urldate = {2023-06-21},
+	date = {2023-05-17},
+	eprinttype = {arxiv},
+	eprint = {2305.10403 [cs]},
+	keywords = {Computer Science - Computation and Language, Computer Science - Artificial Intelligence},
+	file = {arXiv Fulltext PDF:/home/gvillarroel/Zotero/storage/AZRWWQUG/Anil et al. - 2023 - PaLM 2 Technical Report.pdf:application/pdf;arXiv.org Snapshot:/home/gvillarroel/Zotero/storage/YDGVZ9HH/2305.html:text/html},
+}
+
+@misc{openai_gpt-4_2023,
+	title = {{GPT}-4 Technical Report},
+	url = {http://arxiv.org/abs/2303.08774},
+	doi = {10.48550/arXiv.2303.08774},
+	abstract = {We report the development of {GPT}-4, a large-scale, multimodal model which can accept image and text inputs and produce text outputs. While less capable than humans in many real-world scenarios, {GPT}-4 exhibits human-level performance on various professional and academic benchmarks, including passing a simulated bar exam with a score around the top 10\% of test takers. {GPT}-4 is a Transformer-based model pre-trained to predict the next token in a document. The post-training alignment process results in improved performance on measures of factuality and adherence to desired behavior. A core component of this project was developing infrastructure and optimization methods that behave predictably across a wide range of scales. This allowed us to accurately predict some aspects of {GPT}-4's performance based on models trained with no more than 1/1,000th the compute of {GPT}-4.},
+	number = {{arXiv}:2303.08774},
+	publisher = {{arXiv}},
+	author = {{OpenAI}},
+	urldate = {2023-06-21},
+	date = {2023-03-27},
+	eprinttype = {arxiv},
+	eprint = {2303.08774 [cs]},
+	keywords = {Computer Science - Computation and Language, Computer Science - Artificial Intelligence},
+	file = {arXiv Fulltext PDF:/home/gvillarroel/Zotero/storage/N7UH45AM/OpenAI - 2023 - GPT-4 Technical Report.pdf:application/pdf;arXiv.org Snapshot:/home/gvillarroel/Zotero/storage/PW59VXW8/2303.html:text/html},
+}
+
+@article{zhao_ctab-gan_2022,
+	title = {{CTAB}-{GAN}+: Enhancing Tabular Data Synthesis},
+	url = {https://arxiv.org/abs/2204.00401},
+	journaltitle = {{arXiv} preprint {arXiv}:2204.00401},
+	author = {Zhao, Zilong and Kunar, Aditya and Birke, Robert and Chen, Lydia Y},
+	date = {2022},
+}
+
 @online{kotelnikov_overview_nodate,
 	title = {Overview — {SDV} 0.18.0 documentation},
 	url = {https://sdv.dev/SDV/},
@@ -84,14 +197,6 @@
 	title = {{TabDDPM}: Modelling Tabular Data with Diffusion Models},
 	journaltitle = {{arXiv} preprint {arXiv}:2209.15421},
 	author = {Kotelnikov, Akim and Baranchuk, Dmitry and Rubachev, Ivan and Babenko, Artem},
-	date = {2022},
-}
-
-@article{zhao_ctab-gan_2022,
-	title = {{CTAB}-{GAN}+: Enhancing Tabular Data Synthesis},
-	url = {https://arxiv.org/abs/2204.00401},
-	journaltitle = {{arXiv} preprint {arXiv}:2204.00401},
-	author = {Zhao, Zilong and Kunar, Aditya and Birke, Robert and Chen, Lydia Y},
 	date = {2022},
 }
 
@@ -393,102 +498,6 @@
 	file = {Snapshot:/home/gvillarroel/Zotero/storage/YM8XEWL7/ibm-demonstrates-groundbreaking-artificial-intelligence-research-using-foundational-models-and-.html:text/html},
 }
 
-@online{noauthor_synthetic_nodate,
-	title = {Synthetic Data Metrics},
-	url = {https://docs.sdv.dev/sdmetrics/},
-	urldate = {2023-06-17},
-	langid = {english},
-	file = {Snapshot:/home/gvillarroel/Zotero/storage/89K2X3WF/sdmetrics.html:text/html},
-}
-
-@misc{openai_gpt-4_2023,
-	title = {{GPT}-4 Technical Report},
-	url = {http://arxiv.org/abs/2303.08774},
-	doi = {10.48550/arXiv.2303.08774},
-	abstract = {We report the development of {GPT}-4, a large-scale, multimodal model which can accept image and text inputs and produce text outputs. While less capable than humans in many real-world scenarios, {GPT}-4 exhibits human-level performance on various professional and academic benchmarks, including passing a simulated bar exam with a score around the top 10\% of test takers. {GPT}-4 is a Transformer-based model pre-trained to predict the next token in a document. The post-training alignment process results in improved performance on measures of factuality and adherence to desired behavior. A core component of this project was developing infrastructure and optimization methods that behave predictably across a wide range of scales. This allowed us to accurately predict some aspects of {GPT}-4's performance based on models trained with no more than 1/1,000th the compute of {GPT}-4.},
-	number = {{arXiv}:2303.08774},
-	publisher = {{arXiv}},
-	author = {{OpenAI}},
-	urldate = {2023-06-21},
-	date = {2023-03-27},
-	eprinttype = {arxiv},
-	eprint = {2303.08774 [cs]},
-	keywords = {Computer Science - Computation and Language, Computer Science - Artificial Intelligence},
-	file = {arXiv Fulltext PDF:/home/gvillarroel/Zotero/storage/N7UH45AM/OpenAI - 2023 - GPT-4 Technical Report.pdf:application/pdf;arXiv.org Snapshot:/home/gvillarroel/Zotero/storage/PW59VXW8/2303.html:text/html},
-}
-
-@misc{anil_palm_2023,
-	title = {{PaLM} 2 Technical Report},
-	url = {http://arxiv.org/abs/2305.10403},
-	doi = {10.48550/arXiv.2305.10403},
-	abstract = {We introduce {PaLM} 2, a new state-of-the-art language model that has better multilingual and reasoning capabilities and is more compute-efficient than its predecessor {PaLM}. {PaLM} 2 is a Transformer-based model trained using a mixture of objectives. Through extensive evaluations on English and multilingual language, and reasoning tasks, we demonstrate that {PaLM} 2 has significantly improved quality on downstream tasks across different model sizes, while simultaneously exhibiting faster and more efficient inference compared to {PaLM}. This improved efficiency enables broader deployment while also allowing the model to respond faster, for a more natural pace of interaction. {PaLM} 2 demonstrates robust reasoning capabilities exemplified by large improvements over {PaLM} on {BIG}-Bench and other reasoning tasks. {PaLM} 2 exhibits stable performance on a suite of responsible {AI} evaluations, and enables inference-time control over toxicity without additional overhead or impact on other capabilities. Overall, {PaLM} 2 achieves state-of-the-art performance across a diverse set of tasks and capabilities. When discussing the {PaLM} 2 family, it is important to distinguish between pre-trained models (of various sizes), fine-tuned variants of these models, and the user-facing products that use these models. In particular, user-facing products typically include additional pre- and post-processing steps. Additionally, the underlying models may evolve over time. Therefore, one should not expect the performance of user-facing products to exactly match the results reported in this report.},
-	number = {{arXiv}:2305.10403},
-	publisher = {{arXiv}},
-	author = {Anil, Rohan and Dai, Andrew M. and Firat, Orhan and Johnson, Melvin and Lepikhin, Dmitry and Passos, Alexandre and Shakeri, Siamak and Taropa, Emanuel and Bailey, Paige and Chen, Zhifeng and Chu, Eric and Clark, Jonathan H. and Shafey, Laurent El and Huang, Yanping and Meier-Hellstern, Kathy and Mishra, Gaurav and Moreira, Erica and Omernick, Mark and Robinson, Kevin and Ruder, Sebastian and Tay, Yi and Xiao, Kefan and Xu, Yuanzhong and Zhang, Yujing and Abrego, Gustavo Hernandez and Ahn, Junwhan and Austin, Jacob and Barham, Paul and Botha, Jan and Bradbury, James and Brahma, Siddhartha and Brooks, Kevin and Catasta, Michele and Cheng, Yong and Cherry, Colin and Choquette-Choo, Christopher A. and Chowdhery, Aakanksha and Crepy, Clément and Dave, Shachi and Dehghani, Mostafa and Dev, Sunipa and Devlin, Jacob and Díaz, Mark and Du, Nan and Dyer, Ethan and Feinberg, Vlad and Feng, Fangxiaoyu and Fienber, Vlad and Freitag, Markus and Garcia, Xavier and Gehrmann, Sebastian and Gonzalez, Lucas and Gur-Ari, Guy and Hand, Steven and Hashemi, Hadi and Hou, Le and Howland, Joshua and Hu, Andrea and Hui, Jeffrey and Hurwitz, Jeremy and Isard, Michael and Ittycheriah, Abe and Jagielski, Matthew and Jia, Wenhao and Kenealy, Kathleen and Krikun, Maxim and Kudugunta, Sneha and Lan, Chang and Lee, Katherine and Lee, Benjamin and Li, Eric and Li, Music and Li, Wei and Li, {YaGuang} and Li, Jian and Lim, Hyeontaek and Lin, Hanzhao and Liu, Zhongtao and Liu, Frederick and Maggioni, Marcello and Mahendru, Aroma and Maynez, Joshua and Misra, Vedant and Moussalem, Maysam and Nado, Zachary and Nham, John and Ni, Eric and Nystrom, Andrew and Parrish, Alicia and Pellat, Marie and Polacek, Martin and Polozov, Alex and Pope, Reiner and Qiao, Siyuan and Reif, Emily and Richter, Bryan and Riley, Parker and Ros, Alex Castro and Roy, Aurko and Saeta, Brennan and Samuel, Rajkumar and Shelby, Renee and Slone, Ambrose and Smilkov, Daniel and So, David R. and Sohn, Daniel and Tokumine, Simon and Valter, Dasha and Vasudevan, Vijay and Vodrahalli, Kiran and Wang, Xuezhi and Wang, Pidong and Wang, Zirui and Wang, Tao and Wieting, John and Wu, Yuhuai and Xu, Kelvin and Xu, Yunhan and Xue, Linting and Yin, Pengcheng and Yu, Jiahui and Zhang, Qiao and Zheng, Steven and Zheng, Ce and Zhou, Weikang and Zhou, Denny and Petrov, Slav and Wu, Yonghui},
-	urldate = {2023-06-21},
-	date = {2023-05-17},
-	eprinttype = {arxiv},
-	eprint = {2305.10403 [cs]},
-	keywords = {Computer Science - Computation and Language, Computer Science - Artificial Intelligence},
-	file = {arXiv Fulltext PDF:/home/gvillarroel/Zotero/storage/AZRWWQUG/Anil et al. - 2023 - PaLM 2 Technical Report.pdf:application/pdf;arXiv.org Snapshot:/home/gvillarroel/Zotero/storage/YDGVZ9HH/2305.html:text/html},
-}
-
-@online{noauthor_llama_nodate,
-	title = {{LLaMA}: Open and Efficient Foundation Language Models - Meta Research},
-	url = {https://research.facebook.com/publications/llama-open-and-efficient-foundation-language-models/},
-	shorttitle = {{LLaMA}},
-	abstract = {We introduce {LLaMA}, a collection of foundation language models ranging from 7B to 65B parameters. We train our models on trillions of tokens, and show that it is possible to...},
-	titleaddon = {Meta Research},
-	urldate = {2023-06-21},
-	langid = {spanish},
-	file = {Snapshot:/home/gvillarroel/Zotero/storage/T5LBXCS2/llama-open-and-efficient-foundation-language-models.html:text/html},
-}
-
-@misc{hoffmann_training_2022,
-	title = {Training Compute-Optimal Large Language Models},
-	url = {http://arxiv.org/abs/2203.15556},
-	doi = {10.48550/arXiv.2203.15556},
-	abstract = {We investigate the optimal model size and number of tokens for training a transformer language model under a given compute budget. We find that current large language models are significantly undertrained, a consequence of the recent focus on scaling language models whilst keeping the amount of training data constant. By training over 400 language models ranging from 70 million to over 16 billion parameters on 5 to 500 billion tokens, we find that for compute-optimal training, the model size and the number of training tokens should be scaled equally: for every doubling of model size the number of training tokens should also be doubled. We test this hypothesis by training a predicted compute-optimal model, Chinchilla, that uses the same compute budget as Gopher but with 70B parameters and 4\${\textbackslash}times\$ more more data. Chinchilla uniformly and significantly outperforms Gopher (280B), {GPT}-3 (175B), Jurassic-1 (178B), and Megatron-Turing {NLG} (530B) on a large range of downstream evaluation tasks. This also means that Chinchilla uses substantially less compute for fine-tuning and inference, greatly facilitating downstream usage. As a highlight, Chinchilla reaches a state-of-the-art average accuracy of 67.5\% on the {MMLU} benchmark, greater than a 7\% improvement over Gopher.},
-	number = {{arXiv}:2203.15556},
-	publisher = {{arXiv}},
-	author = {Hoffmann, Jordan and Borgeaud, Sebastian and Mensch, Arthur and Buchatskaya, Elena and Cai, Trevor and Rutherford, Eliza and Casas, Diego de Las and Hendricks, Lisa Anne and Welbl, Johannes and Clark, Aidan and Hennigan, Tom and Noland, Eric and Millican, Katie and Driessche, George van den and Damoc, Bogdan and Guy, Aurelia and Osindero, Simon and Simonyan, Karen and Elsen, Erich and Rae, Jack W. and Vinyals, Oriol and Sifre, Laurent},
-	urldate = {2023-06-21},
-	date = {2022-03-29},
-	eprinttype = {arxiv},
-	eprint = {2203.15556 [cs]},
-	keywords = {Computer Science - Computation and Language, Computer Science - Machine Learning},
-	file = {arXiv Fulltext PDF:/home/gvillarroel/Zotero/storage/6NFECU9G/Hoffmann et al. - 2022 - Training Compute-Optimal Large Language Models.pdf:application/pdf;arXiv.org Snapshot:/home/gvillarroel/Zotero/storage/N92JDD82/2203.html:text/html},
-}
-
-@online{noauthor_falcon_nodate,
-	title = {Falcon {LLM}},
-	url = {https://falconllm.tii.ae/},
-	abstract = {Falcon {LLM}, a foundational large language model ({LLM}) with 40 billion parameters},
-	urldate = {2023-06-21},
-	langid = {english},
-	file = {Snapshot:/home/gvillarroel/Zotero/storage/6ACEFZ33/falconllm.tii.ae.html:text/html},
-}
-
-@online{noauthor_open_nodate,
-	title = {Open {LLM} Leaderboard - a Hugging Face Space by {HuggingFaceH}4},
-	url = {https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard},
-	abstract = {Discover amazing {ML} apps made by the community},
-	urldate = {2023-06-24},
-	file = {Snapshot:/home/gvillarroel/Zotero/storage/M4UKV355/open_llm_leaderboard.html:text/html},
-}
-
-@software{noauthor_virtual_2022,
-	title = {Virtual Data Lab ({VDL})},
-	rights = {{GPL}-3.0},
-	url = {https://github.com/mostly-ai/virtualdatalab},
-	abstract = {Benchmarking synthetic data generators for sequential data in terms of accuracy and privacy.},
-	publisher = {{MOSTLY} {AI}},
-	urldate = {2023-07-02},
-	date = {2022-11-14},
-	note = {original-date: 2020-07-08T16:46:38Z},
-	keywords = {privacy, sequential-data, synthetic-data},
-}
-
 @incollection{jajodia_k-anonymity_2021,
 	location = {Berlin, Heidelberg},
 	title = {k-Anonymity},
@@ -504,4 +513,11 @@
 	langid = {english},
 	doi = {10.1007/978-3-642-27739-9_754-2},
 	file = {De Capitani Di Vimercati y Samarati - 2021 - k-Anonymity.pdf:/home/gvillarroel/Zotero/storage/C2HGMMQX/De Capitani Di Vimercati y Samarati - 2021 - k-Anonymity.pdf:application/pdf},
+}
+
+@article{biryukov_data_nodate,
+	title = {Data Encryption Standard ({DES})},
+	author = {Biryukov, Alex and Cannière, Christophe De and Limpertsberg, Campus},
+	langid = {english},
+	file = {Biryukov et al. - Data Encryption Standard (DES).pdf:/home/gvillarroel/Zotero/storage/YHCUI9IK/Biryukov et al. - Data Encryption Standard (DES).pdf:application/pdf},
 }
