@@ -64,15 +64,16 @@ Al analizar los registros más cercanos entre los conjuntos de datos reales util
 
 Se presentan a continuación tablas comparativas que incluyen tres conjuntos de datos: el conjunto sintético frente al utilizado para el entrenamiento (denominado ST, por Synthetic-Train), la comparación del conjunto sintético con el conjunto de reserva, no utilizado en el entrenamiento (SH, Synthetic-Hold), y la comparación entre el conjunto de entrenamiento y el conjunto de reserva (TH, Train-Hold). Cabe destacar que tanto el conjunto de entrenamiento como el de reserva son conjuntos reales.
 
-\input{datasets/kingcounty-a/tables/table-dcr-king county-a-5th.tex}
-\input{datasets/kingcounty-a/tables/table-dcr-king county-a-1th.tex}
-\input{datasets/kingcounty-a/tables/table-dcr-king county-a-min.tex}
-\newpage
-Al analizar los ratios entre la distancia al primer vecino más cercano y la distancia al segundo para el modelo Tddpm, se evidencia que para el percentil 5, la distancia al vecino más cercano es solo 2/3 de la distancia al segundo más cercano. Sin embargo, para el percentil 1, esta distancia se reduce a la mitad. En contraposición, para el modelo Smote, en el percentil 5, la distancia al vecino más cercano es solo un 20\% de la distancia al segundo más cercano, y disminuye rápidamente a un 6\% para el percentil 1.
-
 \input{datasets/kingcounty-a/tables/table-nndr-king county-a-5th.tex}
 \input{datasets/kingcounty-a/tables/table-nndr-king county-a-1th.tex}
 \input{datasets/kingcounty-a/tables/table-nndr-king county-a-min.tex}
+
+\newpage
+Al analizar los ratios entre la distancia al primer vecino más cercano y la distancia al segundo para el modelo Tddpm, se evidencia que para el percentil 5, la distancia al vecino más cercano es solo 2/3 de la distancia al segundo más cercano. Sin embargo, para el percentil 1, esta distancia se reduce a la mitad. En contraposición, para el modelo Smote, en el percentil 5, la distancia al vecino más cercano es solo un 20\% de la distancia al segundo más cercano, y disminuye rápidamente a un 6\% para el percentil 1.
+
+\input{datasets/kingcounty-a/tables/table-dcr-king county-a-5th.tex}
+\input{datasets/kingcounty-a/tables/table-dcr-king county-a-1th.tex}
+\input{datasets/kingcounty-a/tables/table-dcr-king county-a-min.tex}
 
 \newpage
 En la Figura \ref{frecuency-top2-privacy} solo se consideran los modelos Tddpm y Smote para su comparación. En ambos casos, existe una distancia mayor a cero. Sin embargo, esta distancia es mayor en el caso de Tddpm, lo que sugiere que este conjunto puede ser considerado superior en términos de privacidad.
@@ -162,7 +163,7 @@ df_converted["publication_date"] = dtime.apply(lambda x: (x - basedate).days)
 \label{ds-conjunto-a}
 Para el conjunto A, como se muestra en la Tabla \ref{table-score-economicos-a}, Tddpm es un punto superior a Smote y ambos superan en más de 10 puntos al siguiente modelo. Sin embargo, un punto crucial es que Smote tiene una cobertura (\emph{Coverage}) que es 12 puntos inferior a Tddpm.
 
-\input{datasets/economicos-a/tables/table-score-economicos-a-5th.tex}
+\input{datasets/economicos-a/tables/table-score-economicos-a.tex}
 
 \newpage
 \subsection{Correlación - Conjunto A}
@@ -252,7 +253,7 @@ En esta sección, se proporciona un resumen de los hallazgos más significativos
 \label{ds-conjunto-b}
 Iniciaría contrastando los resultados entre ambos conjuntos para el modelo Tddpm La Tabla \ref{table-score-economicos-b} muestra mejores \emph{Score}, \emph{Coverage}, \emph{Column Shape} y \emph{Column Pair Trends} comparadas con la Tabla \ref{table-score-economicos-a}. Puede deverse que al ser una cantidad de datos mayor, pudo tener más tiempo de aprender la distribución. Mejoria no notoria en los demás modelos, lo que podría indicar una mayor capacidad de Tddpm. Se puede ver que la cobertura es el indicador más bajo, solo alcanzando el 87\% en el mejor de los casos.
 
-\input{datasets/economicos-b/tables/table-score-economicos-b-5th.tex}
+\input{datasets/economicos-b/tables/table-score-economicos-b.tex}
 
 \newpage
 \subsection{Correlación - Conjunto B}

@@ -52,7 +52,7 @@ print("="*30)
 
 data["description"] = list(map(mapper, tqdm(pipe(
         ds,
-         batch_size=70,
+         batch_size=50,
         max_length=500,
         min_length=150,
         temperature=1,

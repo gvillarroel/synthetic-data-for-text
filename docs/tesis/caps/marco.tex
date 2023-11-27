@@ -5,7 +5,7 @@ Este capítulo establece las bases teóricas de nuestra investigación, proporci
 \label{tipo-de-datos}
 Los tipos de datos tienen diversas implicaciones en su generación, como su representación, almacenamiento y procesamiento. Los datos estructurados se presentan en la Tabla \ref{tabla-tipo-datos}.
 
-En 2012, IDC estimó que para 2020, más del 95\% de los datos serían no estructurados \cite{gantz_digital_2012}. En un análisis posterior, Kiran Adnan y Rehan Akbar \cite{adnan_analytical_2019} encontraron que el texto es el tipo de dato no estructurado que más rápido crece en las publicaciones, seguido por la imagen, el video y finalmente el audio.
+En 2012, la Corporación de Datos Internacional, IDC por su sigla en ingles, estimó que para 2020, más del 95\% de los datos serían no estructurados \cite{gantz_digital_2012}. En un análisis posterior, Kiran Adnan y Rehan Akbar \cite{adnan_analytical_2019} encontraron que el texto es el tipo de dato no estructurado que más rápido crece en las publicaciones, seguido por la imagen, el video y finalmente el audio.
 
 La Tabla \ref{tabla-tipo-datos} resume la lista que se encuentra en \emph{Practical Statistics for Data Scientists} \cite{bruce_practical_2020}.
 
@@ -128,6 +128,23 @@ Para demostrar que un conjunto de datos es k-anónimo, se debe mostrar que para 
 
 Donde \( Q(x) \) representa el conjunto de valores de QID para el registro \( x \).
 
+\subsection{Distancia al registro más cercano (DCR)}
+
+La \emph{Distance to Closest Record} (DCR), o en español "Distancia al Registro más Cercano", es una métrica utilizada para medir la distancia euclidiana entre cualquier registro sintético y su vecino real más cercano. El propósito principal de la DCR es evaluar el riesgo de violación de la privacidad en conjuntos de datos que incluyen registros sintéticos. En este contexto, un registro sintético es una entidad de datos generada artificialmente que pretende ser indistinguible de un registro real.
+
+La importancia de la DCR radica en su capacidad para cuantificar qué tan similares son los registros sintéticos a los reales. Cuanto mayor es la DCR, se considera que hay un menor riesgo de que los registros sintéticos puedan ser asociados directamente con sus contrapartes reales, lo que disminuye el riesgo de una brecha de privacidad. Esto es crucial en aplicaciones donde la privacidad de los datos es una preocupación significativa, como en el análisis de datos de salud o financiero.
+
+Adicionalmente, para proporcionar una estimación más robusta del riesgo de privacidad, se calcula el percentil 5 de esta métrica como se propone en \cite{zhao_ctab-gan_2021}. Según su estudio, el uso del percentil 5 ayuda a entender mejor la distribución de las distancias y a identificar si una proporción significativa de registros sintéticos está demasiado cerca de los registros reales, lo que podría indicar un riesgo de privacidad elevado. Este enfoque estadístico ofrece una perspectiva más completa sobre la efectividad de los registros sintéticos para preservar la privacidad en comparación con un análisis que solo considera el promedio o la mediana de las distancias.
+
+\subsection{Ratio de distancia entre los vecinos más cercanos (NNDR)}
+El Ratio de distancia entre los vecinos más cercanos, NNDR por sus siglas en ingles, \emph{Nearest Neighbour Distance Ratio}, es una métrica utilizada para evaluar la relación entre la distancia euclidiana al vecino real más cercano y el segundo vecino más cercano. NNDR ha sido adaptado para evaluar la privacidad de los datos sintéticos en \cite{zhao_ctab-gan_2021}.
+
+En el contexto de la privacidad de datos sintéticos, el NNDR proporciona una medida de cuán distinto es un registro sintético de sus dos vecinos reales más cercanos. Se calcula como el cociente de la distancia al vecino más cercano sobre la distancia al segundo vecino más cercano. Este ratio varía entre 0 y 1, donde valores más altos indican una mejor privacidad. Es decir, un valor alto de NNDR sugiere que el registro sintético está relativamente más alejado de su vecino real más cercano en comparación con el segundo vecino más cercano, reduciendo así el riesgo de identificación de los datos reales.
+
+Por otro lado, valores bajos de NNDR entre los datos sintéticos y reales pueden indicar que los registros sintéticos están demasiado cerca de sus contrapartes reales, lo que podría resultar en la revelación de información sensible del registro real más cercano. Esta métrica es particularmente útil para identificar si los datos sintéticos podrían comprometer la privacidad de los datos reales.
+
+Similar a otras métricas en el ámbito de la privacidad de datos, el percentil 5 del NNDR también se calcula para proporcionar una estimación más robusta del riesgo según \cite{zhao_ctab-gan_2021}. Este cálculo ayuda a entender la distribución de los valores de NNDR y a identificar si una proporción significativa de registros sintéticos presenta un riesgo elevado de privacidad. En resumen, el NNDR es una herramienta valiosa para evaluar la eficacia de los datos sintéticos en la preservación de la privacidad en conjuntos de datos.
+
 
 \subsection{Regulación de datos sintéticos}
 Debido a que los datos sintéticos son basados en datos reales, pueden ser afectos a las regulaciones de sobre protección de datos \cite{bruce_practical_2020}. Los nuevos datos podrían ser afectos por:
@@ -153,6 +170,7 @@ Entre las estructuras más comunes se encuentran las matrices bidimensionales (d
 
 Debido al objetivo, se detallan solo los modelos que permiten abordar la generación de datos tabulares y texto basados en datos reales.
 \subsection{Generación de datos tabulares}
+\label{gen-data-tab}
 En la Tabla \ref{tab-sota-tab}, se resumen las últimas publicaciones sobre generación de datos tabulares, indicando la fecha de publicación y si se puede acceder al código fuente o no, a febrero de 2023.
 
 \begin{table}[H]
@@ -277,8 +295,8 @@ George Lucas
 Es importante destacar que no todas estas métricas son aplicables a todos los tipos de datos y modelos, y que la selección de las métricas a utilizar debe ser cuidadosamente considerada en función de las necesidades y objetivos específicos de cada caso de estudio.
 A continuación presentan algunas de las posibles a considerar para medir la similitud, privacidad y utilidad en la evaluación de los conjuntos de datos sintéticos generados.
 \begin{itemize}
-\item \textbf{SDMetrics Score}: Este es un promedio de las métricas de 'Quality Report' y 'Diagnostic Report' que varían de 0 a 1. El 'Quality Report' se refiere a las formas de las columnas (Column Shapes) y las tendencias entre pares de columnas (Column Pair Trends). El 'Diagnostic Report' se refiere a la síntesis (Synthesis), cobertura (Coverage) y límites (Boundaries).
-\item \textbf{Reporte diagnóstico}: Se refiere a un conjunto de métricas que incluyen Síntesis, Cobertura y Límites. La síntesis verifica la singularidad de los datos sintéticos, la cobertura verifica si los datos sintéticos cubren todo el espectro de valores y los límites verifican si los datos sintéticos respetan los límites de los datos reales.
+\item \textbf{SDMetrics Score}: Este es un promedio de las métricas de \emph{Quality Report} y \emph{Diagnostic Report} que varían de 0 a 1. El \emph{Quality Report} se refiere a las formas de las columnas (Column Shapes) y las tendencias entre pares de columnas (Column Pair Trends). El \emph{Diagnostic Report} se refiere a la síntesis (Synthesis), cobertura (Coverage) y límites (Boundaries).
+\item \textbf{Reporte diagnóstico}: Se refiere a un conjunto de métricas que incluyen Síntesis, Cobertura y Límites. La síntesis verifica la singularidad de los datos sintéticos, es decir, que sean en su combinación un elemento nuevo, la cobertura verifica si los datos sintéticos cubren todo el espectro de valores y los límites verifican si los datos sintéticos respetan los límites de los datos reales.
 \item \textbf{Reporte de calidad}: En este informe se revisan dos componentes, las formas de las columnas (Column Shapes) y las tendencias entre pares de columnas (Column Pair Trends). La forma de las columnas mide la capacidad de los datos sintéticos para capturar la distribución general de cada columna en los datos reales. Las tendencias entre pares de columnas describen cómo varían en relación entre sí.
 \item \textbf{Correlación}: En esta sección se utiliza la correlación de Pearson en columnas numéricas para generar una representación visual en un mapa de calor.
 \item \textbf{Privacidad}: Esta sección cubre dos métricas, Distancia al Registro más Cercano (DCR) y Relación de Distancia del Vecino más Cercano (NNDR). DCR cuantifica la distancia euclidiana entre cualquier registro sintético y su vecino real más cercano. NNDR mide la relación entre la distancia euclidiana al vecino real más cercano y al segundo vecino real más cercano de cualquier registro sintético.
@@ -320,7 +338,7 @@ Por otro lado, el \emph{Diagnostic Report} mide la síntesis (\emph{Synthesis}),
 \label{Diagnostic Report}
 La evaluación se lleva a cabo mediante una serie de métricas que se agrupan en: \emph{Synthesis}, \emph{Coverage}, y \emph{Boundaries}.
 
-\emph{Synthesis} emplea \emph{NewRowSynthesis} en SDMetrics, la cual verifica la singularidad de los datos sintéticos, esto es, si los datos sintéticos copian filas completas de los datos reales o si son capaces de generar nuevas filas únicas. Para su cálculo, en primer lugar, se obtiene un conjunto único de filas tanto para los datos reales como para los sintéticos. Posteriormente, se calcula el número de filas únicas que se encuentran en los datos sintéticos pero no en los reales. Finalmente, este número se divide por el número total de filas únicas en los datos sintéticos para obtener la probabilidad de generar una nueva fila única. En lo que respecta a la puntuación, un valor de 1.0 indica que todos los datos sintéticos y reales son idénticos, mientras que un valor de 0.0 señala que todos los datos sintéticos y reales son completamente diferentes.
+\emph{Synthesis} emplea \emph{NewRowSynthesis} en SDMetrics, la cual verifica la singularidad de los datos sintéticos, esto es, si los datos sintéticos copian filas completas de los datos reales o si son capaces de generar nuevas filas únicas. Para su cálculo, en primer lugar, se obtiene un conjunto único de filas tanto para los datos reales como para los sintéticos. Posteriormente, se calcula el número de filas únicas que se encuentran en los datos sintéticos pero no en los reales. Finalmente, este número se divide por el número total de filas únicas en los datos sintéticos para obtener la probabilidad de generar una nueva fila única. En lo que respecta a la puntuación, un valor de 1.0 indica que todos los datos sintéticos y reales son únicos, mientras que un valor de 0.0 señala que todos los datos sintéticos y reales pueden compartir recursos. un valor de 1.0 es el mejor resultado para esta metrica.
 
 La métrica \emph{RangeCoverage} se emplea para determinar si una columna sintética cubre todo el espectro de valores presentes en una columna real. Esta métrica es compatible con datos numéricos continuos y de tiempo/fecha, los cuales se transforman en valores numéricos. Los valores vacíos son ignorados por esta métrica. El cálculo de la puntuación se realiza de acuerdo con la siguiente fórmula, donde \(r\) y \(s\) representan las columnas real y sintética respectivamente:
 
@@ -370,12 +388,13 @@ En esta sección, se emplea la métrica de correlación de Pearson en las column
 
 
 \subsection{Privacidad}
+\todo{Reformular, figura 6 no aparece}
 La Distancia al Registro más Cercano (DCR, por sus siglas en inglés) se emplea para cuantificar la distancia euclidiana entre cualquier registro sintético y su vecino real más próximo. Idealmente, a medida que la DCR se incrementa, el riesgo de violación de la privacidad disminuye. Adicionalmente, se estima el percentil 5 de esta métrica para proporcionar una medición robusta del riesgo de privacidad \cite{zhao_ctab-gan_2021}.
 
 Relación de Distancia del Vecino más Cercano (NNDR, por sus siglas en inglés). La NNDR mide la relación entre la distancia euclidiana para el vecino real más cercano y el segundo vecino real más cercano a cualquier registro sintético correspondiente. NNDR es un concepto comúnmente utilizado en el área de visión por computadora para el emparejamiento de descriptores de imagen locales. Platzer \cite{noauthor_virtual_2022} introduce esta idea para evaluar la privacidad de los datos sintéticos. Esta relación está dentro del intervalo [0, 1]. Valores más altos indican una mejor privacidad. Los valores bajos de NNDR entre datos sintéticos y reales pueden revelar información sensible del registro de datos reales más cercano. La Fig. 6 ilustra el caso. Tenga en cuenta que también se calcula aquí el percentil 5 \cite{zhao_ctab-gan_2021}.
 
 \subsection{Propiedades estadísticas y tecnicas de análisis}
-
+En la Tabla \ref{tab-stats} se lista algunas de las propiedades estadisticas para conjuntos de valores.
 \begin{longtable}{|m{7em}|m{5em}|m{20em}|}
     \caption{Listado de conjunto estadísticos} 
     \label{tab-stats} \\

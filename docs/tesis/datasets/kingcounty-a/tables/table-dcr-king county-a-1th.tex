@@ -1,19 +1,19 @@
 \begin{table}[H]
 \centering
 \fontsize{10}{14}\selectfont
-\caption{Proporción entre el más cercano y el segundo más cercano, percentil 1, datos king county}
-\label{table-dcr-king county-a}
-\begin{tabular}{|l|l|r|r|r|r|r|r|r|}
+\caption{Distancia de registros más cercanos entre conjuntos Sinteticos, percentil 1, King county}
+\label{table-dcr-king county-a-1th}
+\begin{tabular}{|l|l|r|r|r|r|}
 \hline
 \rowcolor[gray]{0.8}
-Modelo & NNDR ST & NNDR SH & NNDR TH & \textbf{Score} \\
-\hline tddpm\_mlp & 4.49e-01±7.33e-03 & 4.49e-01±7.70e-03 & 7.98e-02±0.00e+00 & 9.52e-01±2.36e-03 \\
-\hline smote-enc & \cellcolor[rgb]{0.9, 0.54, 0.52} 6.74e-02±4.35e-03 & \cellcolor[rgb]{0.9, 0.54, 0.52} 1.88e-01±1.05e-02 & 7.98e-02±0.00e+00 & \bfseries 9.53e-01±2.45e-04 \\
-\hline ctgan & 7.14e-01±7.52e-03 & 7.19e-01±7.48e-03 & 7.98e-02±0.00e+00 & 8.24e-01±2.02e-02 \\
-\hline tablepreset & 7.20e-01±1.11e-16 & 7.19e-01±1.11e-16 & 7.98e-02±0.00e+00 & 8.37e-01±7.85e-17 \\
-\hline copulagan & \bfseries 7.56e-01±7.65e-03 & \bfseries 7.47e-01±2.64e-03 & 7.98e-02±0.00e+00 & 7.89e-01±2.92e-03 \\
-\hline gaussiancopula & 6.48e-01±7.85e-17 & 6.43e-01±7.85e-17 & 7.98e-02±0.00e+00 & 7.88e-01±0.00e+00 \\
-\hline tvae & 6.06e-01±1.27e-02 & 5.87e-01±4.93e-03 & 7.98e-02±0.00e+00 & \cellcolor[rgb]{0.9, 0.54, 0.52} 7.38e-01±1.18e-02 \\
+Modelo & DCR ST & DCR SH & DCR TH & \textbf{Score} \\
+\hline tddpm\_mlp & 4.00e-02±5.96e-04 & 5.19e-02±8.09e-04 & \bfseries \cellcolor[rgb]{0.9, 0.54, 0.52} 7.94e-03±0.00e+00 & \bfseries 9.58e-01±1.35e-03 \\
+\hline smote-enc & \cellcolor[rgb]{0.9, 0.54, 0.52} 1.94e-03±6.88e-05 & \cellcolor[rgb]{0.9, 0.54, 0.52} 1.50e-02±2.48e-04 & \bfseries \cellcolor[rgb]{0.9, 0.54, 0.52} 7.94e-03±0.00e+00 & 9.53e-01±5.05e-05 \\
+\hline ctgan & 1.72e-01±2.57e-03 & 1.93e-01±3.65e-03 & \bfseries \cellcolor[rgb]{0.9, 0.54, 0.52} 7.94e-03±0.00e+00 & 8.12e-01±7.96e-03 \\
+\hline tablepreset & 1.39e-01±1.60e-17 & 1.58e-01±0.00e+00 & \bfseries \cellcolor[rgb]{0.9, 0.54, 0.52} 7.94e-03±0.00e+00 & 8.38e-01±9.06e-17 \\
+\hline copulagan & \bfseries 3.25e-01±9.19e-03 & \bfseries 3.58e-01±1.12e-02 & \bfseries \cellcolor[rgb]{0.9, 0.54, 0.52} 7.94e-03±0.00e+00 & 7.94e-01±5.71e-03 \\
+\hline gaussiancopula & 2.11e-01±1.60e-17 & 2.48e-01±1.60e-17 & \bfseries \cellcolor[rgb]{0.9, 0.54, 0.52} 7.94e-03±0.00e+00 & 7.89e-01±1.57e-16 \\
+\hline tvae & 6.13e-02±5.17e-04 & 7.29e-02±5.38e-04 & \bfseries \cellcolor[rgb]{0.9, 0.54, 0.52} 7.94e-03±0.00e+00 & \cellcolor[rgb]{0.9, 0.54, 0.52} 7.30e-01±1.75e-02 \\
 \hline
 \end{tabular}
 \end{table}

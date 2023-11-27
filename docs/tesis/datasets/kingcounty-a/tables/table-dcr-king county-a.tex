@@ -1,0 +1,18 @@
+\begin{table}[H]
+\centering
+\caption{Distancia de registros más cercanos entre conjuntos Sinteticos, \emph{Train} y \emph{Hold}}
+\label{table-dcr-king county-a}
+\begin{tabular}{|l|l|r|r|r|r|r|r|r|}
+\hline
+\rowcolor[gray]{0.8}
+Modelo & DCR ST & DCR SH & DCR TH & NNDR ST & NNDR SH & NNDR TH & \textbf{Score} \\
+\hline tddpm\_mlp & 0.057 & 0.075 & \bfseries 0.036 & 0.613 & 0.601 & \bfseries 0.376 & \bfseries 0.960 \\
+\hline smote-enc & \cellcolor[rgb]{0.9, 0.54, 0.52} 0.008 & \cellcolor[rgb]{0.9, 0.54, 0.52} 0.038 & \bfseries 0.036 & 0.202 & 0.418 & \bfseries 0.376 & 0.953 \\
+\hline tablepreset & 0.178 & 0.197 & \bfseries 0.036 & \bfseries 0.829 & 0.813 & \bfseries 0.376 & 0.838 \\
+\hline ctgan & 0.219 & 0.244 & \bfseries 0.036 & 0.813 & \bfseries 0.821 & \bfseries 0.376 & 0.823 \\
+\hline copulagan & \bfseries 0.356 & \bfseries 0.392 & \bfseries 0.036 & 0.824 & 0.818 & \bfseries 0.376 & 0.798 \\
+\hline gaussiancopula & 0.269 & 0.312 & \bfseries 0.036 & 0.761 & 0.759 & \bfseries 0.376 & 0.789 \\
+\hline tvae & 0.080 & 0.096 & \bfseries 0.036 & 0.736 & 0.692 & \bfseries 0.376 & 0.751 \\
+\hline
+\end{tabular}
+\end{table}
