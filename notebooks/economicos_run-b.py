@@ -290,7 +290,7 @@ if __name__ == '__main__':
             pair_tex.write(f'\input{{{relative_path}/pairwise/{model_name}.tex}}\n')                
         print(f"{base_path}/pairwise/pairwise-{DATASET_NAME.lower()}-{DATASET_VERSION.lower()}-{model_name}.svg")
         if "description" in model_data.columns:
-            c_3 = pd.DataFrame(index=range(10), data={"description": model_data.sample(10)["description"].to_list() })
+            c_3 = pd.DataFrame(index=range(5), data={"description": model_data.sample(5)["description"].to_list() })
                 #c_3["description"] = model_data.sample(10)["description"].apply(unicode_to_latex) 
                 #.format(escape="latex")\
             current_sample_wtext = c_3.style\
@@ -440,7 +440,7 @@ if __name__ == '__main__':
             dfs.append(
                 current_data.assign(model=model).assign(level=i)
             )
-            c_1 = current_data.drop(columns=[c for c in current_data.columns if c in syn.text_columns]).copy()
+            c_1 = current_data.drop(columns=[c for c in current_data.columns if c in syn.text_columns or c == "input_text"]).copy()
             c_1 = c_1.set_index(["Variable/Distancia"]).T.sort_index()
             percentil = "minimo" if i == "min" else f"percentil {i[0]}"
             #.format(escape="latex", subset=[c for c in c_1.columns if c in syn.text_columns])\

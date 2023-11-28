@@ -388,10 +388,17 @@ En esta sección, se emplea la métrica de correlación de Pearson en las column
 
 
 \subsection{Privacidad}
-\todo{Reformular, figura 6 no aparece}
-La Distancia al Registro más Cercano (DCR, por sus siglas en inglés) se emplea para cuantificar la distancia euclidiana entre cualquier registro sintético y su vecino real más próximo. Idealmente, a medida que la DCR se incrementa, el riesgo de violación de la privacidad disminuye. Adicionalmente, se estima el percentil 5 de esta métrica para proporcionar una medición robusta del riesgo de privacidad \cite{zhao_ctab-gan_2021}.
+Para la evaluación del conjunto sintetico, se opta por uso de la Distancia al Registro más Cercano (DCR) y el Ratio de Distancia entre los Vecinos más Cercanos (NNDR) usadas en \cite{zhao_ctab-gan_2021} por las siguientes razones.
 
-Relación de Distancia del Vecino más Cercano (NNDR, por sus siglas en inglés). La NNDR mide la relación entre la distancia euclidiana para el vecino real más cercano y el segundo vecino real más cercano a cualquier registro sintético correspondiente. NNDR es un concepto comúnmente utilizado en el área de visión por computadora para el emparejamiento de descriptores de imagen locales. Platzer \cite{noauthor_virtual_2022} introduce esta idea para evaluar la privacidad de los datos sintéticos. Esta relación está dentro del intervalo [0, 1]. Valores más altos indican una mejor privacidad. Los valores bajos de NNDR entre datos sintéticos y reales pueden revelar información sensible del registro de datos reales más cercano. La Fig. 6 ilustra el caso. Tenga en cuenta que también se calcula aquí el percentil 5 \cite{zhao_ctab-gan_2021}.
+\textbf{Medición del Riesgo de Revelación de Identidad}: La DCR mide la distancia euclidiana entre un registro sintético y su vecino real más cercano. Al evaluar esta distancia, se puede determinar cuán similares son los registros sintéticos a los datos reales. Una mayor distancia (DCR alta) sugiere una menor probabilidad de que los registros sintéticos puedan ser asociados directamente con sus contrapartes reales, disminuyendo así el riesgo de violación de la privacidad.
+
+\textbf{Evaluación de la Diferenciación entre Registros Sintéticos y Reales}: El NNDR proporciona una medida de cuán distinto es un registro sintético de sus dos vecinos reales más cercanos. Un valor alto de NNDR indica que el registro sintético está relativamente más alejado de su vecino real más cercano en comparación con el segundo vecino más cercano, lo que implica una mejor protección de la privacidad. Esto ayuda a garantizar que los registros sintéticos no comprometan la privacidad de los datos reales.
+
+Mientras que la privacidad diferencial se centra en introducir ruido para proteger la privacidad ante una función K con un ruido $\varepsilon$, que en el momento de generación de datos sinteticos K se desconoce, con DCR puede tener referencia a cuanto es la separación entre los datos reales y los generados sinteticos. DCR podrá dar una noción a la distancia entre el conjunto generado y el real, pudiendo hacer un simil al ruido postulado por \emph{Differential Privacy}.
+
+k-anonimato se enfoca en la indistinguibilidad, a travez de la protección de los atributos especificos que puedan ser identificativos. Esto puede variar de un conjunto a otro. En un conjunto podría ser Nombre y fecha de nacimiento y en otro fecha de nacimiento y zipcode. Para abordar esta estrategia, se debería realizar supuestos de cuales conjuntos se definirán como indentificadores cuasiúnicos.
+
+En resumen, la combinación de DCR y NNDR proporciona una evaluación objetiva, integral y robusta de la privacidad en la generación de datos sintéticos, asegurando que se minimicen los riesgos de revelación de información sensible, al mismo tiempo que se mantiene la utilidad y calidad de los datos sintéticos generados sin requerir de supuestos o juicios sobre el conjunto de datos en si.
 
 \subsection{Propiedades estadísticas y tecnicas de análisis}
 En la Tabla \ref{tab-stats} se lista algunas de las propiedades estadisticas para conjuntos de valores.
