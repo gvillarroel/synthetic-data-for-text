@@ -386,20 +386,6 @@ score = 1 - \frac{|S_{A,B} - R_{A.B}|}{2}
 \subsection{Correlación}
 En esta sección, se emplea la métrica de correlación de Pearson en las columnas numéricas, transformando las fechas en números e ignorando los valores ausentes, con el propósito de generar una representación visual en un mapa de calor para su análisis.
 
-
-\subsection{Privacidad}
-Para la evaluación del conjunto sintetico, se opta por uso de la Distancia al Registro más Cercano (DCR) y el Ratio de Distancia entre los Vecinos más Cercanos (NNDR) usadas en \cite{zhao_ctab-gan_2021} por las siguientes razones.
-
-\textbf{Medición del Riesgo de Revelación de Identidad}: La DCR mide la distancia euclidiana entre un registro sintético y su vecino real más cercano. Al evaluar esta distancia, se puede determinar cuán similares son los registros sintéticos a los datos reales. Una mayor distancia (DCR alta) sugiere una menor probabilidad de que los registros sintéticos puedan ser asociados directamente con sus contrapartes reales, disminuyendo así el riesgo de violación de la privacidad.
-
-\textbf{Evaluación de la Diferenciación entre Registros Sintéticos y Reales}: El NNDR proporciona una medida de cuán distinto es un registro sintético de sus dos vecinos reales más cercanos. Un valor alto de NNDR indica que el registro sintético está relativamente más alejado de su vecino real más cercano en comparación con el segundo vecino más cercano, lo que implica una mejor protección de la privacidad. Esto ayuda a garantizar que los registros sintéticos no comprometan la privacidad de los datos reales.
-
-Mientras que la privacidad diferencial se centra en introducir ruido para proteger la privacidad ante una función K con un ruido $\varepsilon$, que en el momento de generación de datos sinteticos K se desconoce, con DCR puede tener referencia a cuanto es la separación entre los datos reales y los generados sinteticos. DCR podrá dar una noción a la distancia entre el conjunto generado y el real, pudiendo hacer un simil al ruido postulado por \emph{Differential Privacy}.
-
-k-anonimato se enfoca en la indistinguibilidad, a travez de la protección de los atributos especificos que puedan ser identificativos. Esto puede variar de un conjunto a otro. En un conjunto podría ser Nombre y fecha de nacimiento y en otro fecha de nacimiento y zipcode. Para abordar esta estrategia, se debería realizar supuestos de cuales conjuntos se definirán como indentificadores cuasiúnicos.
-
-En resumen, la combinación de DCR y NNDR proporciona una evaluación objetiva, integral y robusta de la privacidad en la generación de datos sintéticos, asegurando que se minimicen los riesgos de revelación de información sensible, al mismo tiempo que se mantiene la utilidad y calidad de los datos sintéticos generados sin requerir de supuestos o juicios sobre el conjunto de datos en si.
-
 \subsection{Propiedades estadísticas y tecnicas de análisis}
 En la Tabla \ref{tab-stats} se lista algunas de las propiedades estadisticas para conjuntos de valores.
 \begin{longtable}{|m{7em}|m{5em}|m{20em}|}

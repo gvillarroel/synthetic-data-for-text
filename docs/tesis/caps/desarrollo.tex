@@ -347,15 +347,18 @@ No paga contribuciones\\
 Contactanos al telefono Kazona 569 56031154
 \end{tcolorbox}
 
-\section{Privacidad y sus metricas}
-Se exponen las métricas de Distancia al Registro más Cercano (DCR) y Relación de Distancia del Vecino más Cercano (NNDR), ambas para el absoluto, percentil 1 y percentil 5. Para mostrar que tan cerca están los elementos más cercanos. Adicionalmente mostrando algunos ejemplos de cada sección, así con datos se puede observar que diferencias se pueden apreciar para esas distancias.
+\section{Privacidad y sus Métricas de Evaluación}
+La evaluación del conjunto de datos sintéticos se enfoca en dos métricas clave: la Distancia al Registro más Cercano (DCR) y el Ratio de Distancia entre los Vecinos más Cercanos (NNDR), como se describe en los estudios de Zhao et al. \cite{zhao_ctab-gan_2021} y Kunar et al. \cite{kunar_effective_nodate}. Estas métricas se prefieren sobre otras, incluyendo la privacidad diferencial, por varias razones convincentes.
 
-Es cierto que existen metricas y tecnicas mencionadas en el marco teorico. Estas no figuran, primero por razones practicas, ya que los metodos establecidos para comprobar la privacidad por SDMetrics y el modelo de diffusión son las anteriores descritas y no otras las usadas y en segunda instancia por el objetivo de las tecnicas de privacidad diferencial \emph{(Differential Privacy)} y k-\emph{anonymity}.
+\textbf{Medición del Riesgo de Revelación de Identidad:} DCR evalúa la distancia euclidiana entre un registro sintético y su vecino más cercano en el conjunto de datos reales. Esta medición permite determinar el grado de similitud entre los datos sintéticos y los reales. Un valor elevado de DCR indica una baja probabilidad de asociación directa entre los registros sintéticos y sus contrapartes reales, reduciendo así el riesgo de comprometer la privacidad. La claridad y la facilidad de interpretación de la DCR la hacen particularmente valiosa para esta evaluación.
 
-Los conjuntos generados son del tamaño original o mayores. Esto disminuye las posibilidades de que elementos pequeños
+\textbf{Evaluación de la Diferenciación entre Registros Sintéticos y Reales:} Por otro lado, NNDR mide la distinción de un registro sintético respecto a sus dos vecinos reales más próximos. Un NNDR alto sugiere que el registro sintético se distancia significativamente de su vecino real más cercano, en comparación con el segundo vecino, lo que indica una protección de privacidad reforzada. Esta métrica asegura que los registros sintéticos no comprometan la privacidad de los datos originales.
 
+A diferencia de la privacidad diferencial, que se centra en la introducción de ruido según una función K con un parámetro de ruido $\varepsilon$ (desconocido durante la generación de datos sintéticos), la DCR ofrece una cuantificación directa de la separación entre los conjuntos de datos real y sintético. Esta separación puede interpretarse como un análogo al concepto de ruido en la privacidad diferencial.
 
-DCR cuantifica la distancia euclidiana entre cualquier registro sintético y su vecino real más cercano. NNDR mide la relación entre la distancia euclidiana al vecino real más cercano y al segundo vecino real más cercano de cualquier registro sintético.
+En cuanto al k-anonimato, este se enfoca en la indistinguibilidad mediante la protección de atributos específicos potencialmente identificativos, variando según el conjunto de datos. Por ejemplo, en un conjunto, los atributos relevantes podrían ser el nombre y la fecha de nacimiento, mientras que en otro podrían ser la fecha de nacimiento y el código postal. Para aplicar el k-anonimato de manera efectiva, es necesario identificar y tratar estos identificadores cuasiúnicos de manera específica para cada conjunto.
+
+En conclusión, la combinación de DCR y NNDR ofrece una metodología objetiva, integral y robusta para evaluar la privacidad en la generación de datos sintéticos. Estas métricas facilitan la minimización de los riesgos de revelación de información sensible, manteniendo al mismo tiempo la utilidad y calidad de los datos sintéticos, sin depender de supuestos previos o juicios subjetivos sobre el conjunto de datos.
 
 
 \section{Obtención de Métricas}

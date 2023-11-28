@@ -34,7 +34,7 @@ En la evaluación mediante SDMetrics y en la comparación visual a través de la
 
 \subsection{Reporte diagnóstico}
 \label{diagnostico-kingcounty}
-La Tabla \ref{table-coverage-king county-a} evidencia la superioridad del modelo Tddpm en términos de cobertura de valores distintos, aunque hay casos donde ningún modelo alcanza una cobertura completa. Un caso notable es la variable \emph{bedrooms}, en la que Tddpm solo logra un 71.8\% de cobertura, pero aún así supera al modelo Smote, que apenas alcanza el 51\% para la misma variable.
+La Tabla \ref{table-coverage-king county-a} evidencia la superioridad del modelo Tddpm en términos de cobertura de valores distintos, aunque hay casos donde ningún modelo alcanza una cobertura completa. Un caso notable es la variable \emph{bedrooms}, en la que Tddpm solo logra un 69.2\% de cobertura, pero aún así supera al modelo Smote, que apenas alcanza el 56.4\% para la misma variable.
 
 \input{datasets/kingcounty-a/tables/table-coverage-king county-a.tex}
 \newpage
@@ -60,20 +60,23 @@ En el caso de la variable \emph{sqft\_lot15}, la distribución generada por el m
 \newpage
 \subsection{Privacidad}
 \label{privacidad-kingcounty}
-Al analizar los registros más cercanos entre los conjuntos de datos reales utilizados para el entrenamiento, los generados por los modelos, y el conjunto de datos reales almacenados, encontramos que las distancias entre ellos se presentan en las siguientes tablas. Es importante destacar que la distancia mínima para el modelo Tddpm es de 0.0134, indicando que cada registro tiene al menos esa distancia respecto al conjunto real. La determinación del epsilon requerido para asegurar la privacidad de los datos depende del análisis específico de los datos a proteger y sus probabilidades asociadas. Sin embargo, si el objetivo es proteger el 95\% de los datos, el modelo Tddpm alcanza una distancia de 0.0579, mientras que el modelo Smote tiene una distancia de 0.00704.
+Al analizar los registros más cercanos entre los conjuntos de datos reales utilizados para el entrenamiento, los generados por los modelos, y el conjunto de datos reales almacenados, encontramos que las distancias entre ellos se presentan en las siguientes tablas. Es importante destacar que la distancia mínima para el modelo Tddpm es de 0.0123, indicando que cada registro tiene al menos esa distancia respecto al conjunto real. Esto asegura que ningún registro del conjunto sintetico es identico a uno real.
 
 Se presentan a continuación tablas comparativas que incluyen tres conjuntos de datos: el conjunto sintético frente al utilizado para el entrenamiento (denominado ST, por Synthetic-Train), la comparación del conjunto sintético con el conjunto de reserva, no utilizado en el entrenamiento (SH, Synthetic-Hold), y la comparación entre el conjunto de entrenamiento y el conjunto de reserva (TH, Train-Hold). Cabe destacar que tanto el conjunto de entrenamiento como el de reserva son conjuntos reales.
+
+\input{datasets/kingcounty-a/tables/table-dcr-king county-a-5th.tex}
+\input{datasets/kingcounty-a/tables/table-dcr-king county-a-1th.tex}
+\input{datasets/kingcounty-a/tables/table-dcr-king county-a-min.tex}
+
+
+\newpage
+Al analizar los ratios entre la distancia al primer vecino más cercano y la distancia al segundo para el modelo Tddpm, se evidencia que para el percentil 5, la distancia al vecino más cercano es solo 2/3 de la distancia al segundo más cercano. Sin embargo, para el percentil 1, esta distancia se reduce a la mitad. En contraposición, para el modelo Smote, en el percentil 5, la distancia al vecino más cercano es solo un 20\% de la distancia al segundo más cercano, y disminuye rápidamente a un 6\% para el percentil 1.
+
 
 \input{datasets/kingcounty-a/tables/table-nndr-king county-a-5th.tex}
 \input{datasets/kingcounty-a/tables/table-nndr-king county-a-1th.tex}
 \input{datasets/kingcounty-a/tables/table-nndr-king county-a-min.tex}
 
-\newpage
-Al analizar los ratios entre la distancia al primer vecino más cercano y la distancia al segundo para el modelo Tddpm, se evidencia que para el percentil 5, la distancia al vecino más cercano es solo 2/3 de la distancia al segundo más cercano. Sin embargo, para el percentil 1, esta distancia se reduce a la mitad. En contraposición, para el modelo Smote, en el percentil 5, la distancia al vecino más cercano es solo un 20\% de la distancia al segundo más cercano, y disminuye rápidamente a un 6\% para el percentil 1.
-
-\input{datasets/kingcounty-a/tables/table-dcr-king county-a-5th.tex}
-\input{datasets/kingcounty-a/tables/table-dcr-king county-a-1th.tex}
-\input{datasets/kingcounty-a/tables/table-dcr-king county-a-min.tex}
 
 \newpage
 En la Figura \ref{frecuency-top2-privacy} solo se consideran los modelos Tddpm y Smote para su comparación. En ambos casos, existe una distancia mayor a cero. Sin embargo, esta distancia es mayor en el caso de Tddpm, lo que sugiere que este conjunto puede ser considerado superior en términos de privacidad.
@@ -85,8 +88,7 @@ En la Figura \ref{frecuency-top2-privacy} solo se consideran los modelos Tddpm y
 \label{ejemplos-kingcounty}
 Las Tablas \ref{table-example-king county-a-1-smote-enc-min} y \ref{table-example-king county-a-1-tddpm_mlp-min} presentan un ejemplo de la mínima distancia en los modelos Smote y Tddpm, respectivamente. Los nombres de las columnas representan la distancia de Minkowski al registro Sintético, indicado de esta manera en la columna correspondiente. Las celdas coloreadas en rojo señalan que el valor de la característica para una propiedad específica es idéntico al valor correspondiente de la propiedad de referencia. Así, la tabla proporciona una comparación detallada de las propiedades que son similares en términos de las características seleccionadas.
 
-En la Tabla \ref{table-example-king county-a-1-smote-enc-min}, se puede observar claramente que, excepto por las variables de precio y fecha en el segundo registro más cercano, son idénticas a las del original. Esto significa que ese registro fue transferido en su totalidad al conjunto sintético. 
-
+En la Tabla \ref{table-example-king county-a-1-smote-enc-min}, se puede observar claramente que, excepto por la variable fecha en el primer registro más cercano, son idénticas a las del original. Esto significa que ese registro fue casi transferido en su totalidad al conjunto sintético. 
 
 \input{datasets/kingcounty-a-1/tables/table-example-king county-a-1-smote-enc-min.tex}
 \newpage
@@ -227,7 +229,7 @@ El listado completo de las propiedades estadísticas se encuentra en el Anexo \r
 En esta sección, se proporciona un resumen de los hallazgos más significativos tras el análisis de los resultados obtenidos de los modelos Tddpm y Smote en el Conjunto A.
 \begin{enumerate}
 
-    \item En el conjunto A, Tddpm supera a Smote y al resto de los modelos en el \emph{SDMetrics Score}, aunque Smote tiene una cobertura que es 12 puntos inferiores a Tddpm (Sección \ref{ds-conjunto-a}).
+    \item En el conjunto A, Tddpm supera a Smote y al resto de los modelos en el \emph{SDMetrics Score}, aunque Smote tiene una cobertura que es más de 10 puntos inferiores a Tddpm (Sección \ref{ds-conjunto-a}).
     
     \item A pesar de las puntuaciones generales, la visualización de correlaciones muestra que Tddpm presenta una mayor similitud en las variables \emph{rooms} y \emph{bathrooms} en comparación con Smote (Sección \ref{correlacion-conjunto-a}).
     
@@ -239,7 +241,7 @@ En esta sección, se proporciona un resumen de los hallazgos más significativos
     
     \item El estudio demuestra que cuando el DCR (Distancia de Copia de Registro) es igual a 0, el registro se ha copiado directamente del conjunto de datos real (Sección \ref{ejemplos-conjunto-a}).
     
-    \item El análisis muestra que incluso con el percentil 1, las diferencias pueden ser significativas. En este caso, las variables \emph{m\_size} (metros cuadrados) y \emph{\_price} (precio) cambian, así como la variable \emph{county} (condado) en el segundo registro más cercano (Sección \ref{privacidad-conjunto-a}).
+    \item El análisis muestra que incluso con el percentil 1, las diferencias pueden ser significativas. En este caso, las variables \emph{m\_size} (metros cuadrados) y \emph{\_price} (precio) cambian, así como la variable \emph{county} (condado) en el segundo registro más cercano (Sección \ref{ejemplos-conjunto-a}).
     
     \item Se observa la coherencia de simulación en algunos registros. Por ejemplo, cuando el sistema genera un número de teléfono, este parece coherente. También menciona estar cerca de un metro, detalle que podría estar presente en una publicación real, aunque el metro indicado no exista (Sección \ref{ejemplos-conjunto-a}).
     
@@ -251,7 +253,7 @@ En esta sección, se proporciona un resumen de los hallazgos más significativos
 \newpage
 \subsection{SDMetrics Score - Conjunto B}
 \label{ds-conjunto-b}
-Iniciaría contrastando los resultados entre ambos conjuntos para el modelo Tddpm La Tabla \ref{table-score-economicos-b} muestra mejores \emph{Score}, \emph{Coverage}, \emph{Column Shape} y \emph{Column Pair Trends} comparadas con la Tabla \ref{table-score-economicos-a}. Puede deverse que al ser una cantidad de datos mayor, pudo tener más tiempo de aprender la distribución. Mejoria no notoria en los demás modelos, lo que podría indicar una mayor capacidad de Tddpm. Se puede ver que la cobertura es el indicador más bajo, solo alcanzando el 87\% en el mejor de los casos.
+Iniciaría contrastando los resultados entre ambos conjuntos para el modelo Tddpm La Tabla \ref{table-score-economicos-b} muestra mejores \emph{Score}, \emph{Coverage}, \emph{Column Shape} y \emph{Column Pair Trends} comparadas con la Tabla \ref{table-score-economicos-a}. Puede deverse que al ser una cantidad de datos mayor, pudo tener más tiempo de aprender la distribución. Mejoria no notoria en los demás modelos, lo que podría indicar una mayor capacidad de Tddpm. Se puede ver que la cobertura es el indicador más bajo, solo alcanzando el 81\% en el mejor de los casos.
 
 \input{datasets/economicos-b/tables/table-score-economicos-b.tex}
 
@@ -266,21 +268,21 @@ Los modelos Smote y Tddpm, al ser comparados con el conjunto original, presentan
 \newpage
 \subsection{Reporte diagnóstico - Conjunto B}
 \label{diagnostico-conjunto-b}
-La cobertura es notablemente baja en las variables \emph{rooms} y \emph{m\_size} en Smote, y en \emph{bathrooms} y \emph{rooms} en el caso de Tddpm. En general, el modelo Tddpm es ligeramente superior a Smote.
+La cobertura es notablemente baja en las variables \emph{m\_built} y \emph{m\_size} en Smote, y en \emph{bathrooms} y \emph{rooms} en el caso de Tddpm. En general, el modelo Tddpm es ligeramente superior a Smote.
 
 \input{datasets/economicos-b/tables/table-coverage-economicos-b.tex}
 
 \newpage
 \subsection{Reporte de calidad - Conjunto B}
 \label{calidad-conjunto-b}
-Ambos modelos presentan buenas métricas, superando el 91\% en términos de distribución y forma. Sin embargo, se observan excepciones en los casos de \emph{m\_built} (85\%) y \emph{m\_size} (55\%).
+Ambos modelos presentan buenas métricas, superando el 92\% en términos de distribución y forma. Sin embargo.
 \input{datasets/economicos-b/tables/table-shape-economicos-b.tex}
 
 \newpage
 \subsection{Privacidad - Conjunto B}
 \label{privacidad-conjunto-b}
-Las distancias mínimas para los percentiles 5 y 1 son varias magnitudes menores en el Conjunto B que en el Conjunto A, pasando de $\times 10^{-9}$ en el Conjunto A a $\times 10^{-15}$ en el Conjunto B, como se puede ver al comparar la Tabla \ref{table-dcr-economicos-b-5th} con la Tabla \ref{table-dcr-economicos-a-5th}. Se puede afirmar que el 95\% de los registros tiene al menos una distancia de $9.12 \times 10^{-15}$.
-
+Se puede afirmar que el 95\% de los registros tiene al menos una distancia de $4.29 \times 10^{-9}$.
+ 
 \input{datasets/economicos-b/tables/table-dcr-economicos-b-5th.tex}
 \input{datasets/economicos-b/tables/table-dcr-economicos-b-1th.tex}
 \input{datasets/economicos-b/tables/table-dcr-economicos-b-min.tex}
