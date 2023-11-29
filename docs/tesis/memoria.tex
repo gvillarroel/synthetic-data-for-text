@@ -13,7 +13,7 @@
 \guia{Andres Abeliuk}
 \carrera{Magíster en Tecnologías de la Información}
 \memoria{Magíster en Tecnologías de la Información}
-\comision{Federico Olmedo B, Matías Toro I, Carlos Buil}
+\comision{Federico Olmedo B., Matías Toro I., Carlos Buil}
 
 \usepackage{lipsum}
 \usepackage{titlesec}
@@ -37,6 +37,7 @@
 \usepackage{etoolbox}
 \usepackage{pifont}
 \usepackage{fontawesome}
+\usepackage{appendix}
 \usepackage[style=ieee, natbib=true]{biblatex}
 \addbibresource{bibliografia.bib}
 
@@ -119,6 +120,7 @@ breaklines=true, xleftmargin=1.0cm,
 \printbibliography
 
 \begin{appendices}
+\renewcommand{\appendixname}{Anexos}
 \input{caps/anexos.tex}
 \end{appendices}
 
